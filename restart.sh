@@ -9,3 +9,5 @@ sudo apt update;
 sudo apt install brave-browser-beta;
 
 chsh -s $(which zsh)
+sudo apt update
+sudo apt upgrade
