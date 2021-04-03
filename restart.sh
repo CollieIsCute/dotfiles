@@ -1,4 +1,4 @@
-sudo apt-get install build-essential tmux htop zsh git make g++;
+sudo apt-get install build-essential tmux htop zsh git make g++ clang-format -y;
 
 #for brave-browser
 sudo apt install apt-transport-https curl gnupg;
