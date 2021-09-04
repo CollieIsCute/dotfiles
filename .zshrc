@@ -105,7 +105,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias bat="batcat --pager='bat'"
+alias bat="bat --pager='never'"
 alias gaa="make clean &>/dev/null; git add --all"
 alias gc="git commit -m"
 alias gp="git push"
