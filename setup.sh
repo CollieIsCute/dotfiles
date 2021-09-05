@@ -1,12 +1,35 @@
-sudo apt-get install build-essential tmux htop zsh git make g++ clang-format -y;
+#!bash
+echo start setup.sh
 
-#for brave-browser
-sudo apt install apt-transport-https curl gnupg;
-curl -s https://brave-browser-apt-beta.s3.brave.com/brave-core-nightly.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-prerelease.gpg add -;
-echo "deb [arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-beta.list;
-sudo apt update;
-sudo apt install brave-browser-beta;
+echo "installing git and base-devel..."
+# install git
+sudo pacman -S --needed base-devel
+sudo pacman -S git
 
-chsh -s $(which zsh)
-sudo apt update
-sudo apt upgrade
+echo "install paru"
+# install paru
+git clone https://aur.archlinux.org/paru.git ~/paru
+cd ~/paru
+makepkg -si
+
+echo "install zsh and oh-my-zsh"
+# setup zsh shell
+sudo pacman -S zsh
+git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+rm ~/.zshrc
+ln -s ~/syncfolder/Setup-For-Linux/.zshrc ~/.zshrc
+ln ~/syncfolder/Setup-For-Linux/agnosterzak.zsh-theme ~/.oh-my-zsh/themes/agnosterzak.zsh-theme  
+
+echo "install others"
+# install others
+sudo pacman -S tmux make ibus ibus-chewing pulseaudio pamixer vim
+
+echo other settings
+# tmux setup and audio setting
+ln -s ~/syncfolder/Setup-For-Linux/.tmux.conf ~/.tmux.conf
+pulseaudio --start
+
+# setup default shell
+echo change shell to tmux
+chsh -s $(which tmux)
+paru
