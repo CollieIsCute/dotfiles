@@ -22,12 +22,13 @@ ln ~/syncfolder/Setup-For-Linux/agnosterzak.zsh-theme ~/.oh-my-zsh/themes/agnost
 
 echo "install others"
 # install others
-sudo pacman -S tmux make ibus ibus-chewing pulseaudio pamixer vim
+sudo pacman -S tmux make ibus ibus-chewing pulseaudio pamixer vim blueman
 
 echo other settings
 # tmux setup and audio setting
 ln -s ~/syncfolder/Setup-For-Linux/.tmux.conf ~/.tmux.conf
 pulseaudio --start
+systemctl enable bluetooth.service
 
 # setup default shell
 echo change shell to tmux
