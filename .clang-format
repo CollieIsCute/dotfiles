@@ -59,7 +59,7 @@ BraceWrapping:
   # union定義後面
   AfterUnion:	false
   # catch之前
-  BeforeCatch:	true
+  BeforeCatch:	false
   # else之前
   BeforeElse:	true
   # 縮進大括號
@@ -76,7 +76,7 @@ BreakBeforeTernaryOperators:	true
 # 在構造函數的初始化列表的逗號前換行
 BreakConstructorInitializersBeforeComma:	false
 # 每行字符的限制，0表示沒有限制
-ColumnLimit:	200
+ColumnLimit:	150
 # 描述具有特殊意義的注釋的正則表達式，它不應該被分割為多行或以其它方式改變
 CommentPragmas:	'^ IWYU pragma:'
 # 構造函數的初始化列表要麼都在同一行，要麼都各自一行
@@ -155,15 +155,15 @@ SpaceInEmptyParentheses: false
 # 在尾隨的評論前添加的空格數(只適用於//)
 SpacesBeforeTrailingComments:	2
 # 在尖括號的<後和>前添加空格
-SpacesInAngles:	true
+SpacesInAngles:	false
 # 在容器(ObjC和JavaScript的數組和字典等)字面量中添加空格
 SpacesInContainerLiterals:	true
 # 在C風格類型轉換的括號中添加空格
-SpacesInCStyleCastParentheses:	true
+SpacesInCStyleCastParentheses:	false
 # 在圓括號的(後和)前添加空格
-SpacesInParentheses:	true
+SpacesInParentheses:	false
 # 在方括號的[後和]前添加空格，lamda表達式和未指明大小的數組的聲明不受影響
-SpacesInSquareBrackets:	true
+SpacesInSquareBrackets:	false
 # 標準: Cpp03, Cpp11, Auto
 Standard:	Cpp11
 # tab寬度
