@@ -76,7 +76,7 @@ BreakBeforeTernaryOperators:	true
 # 在構造函數的初始化列表的逗號前換行
 BreakConstructorInitializersBeforeComma:	false
 # 每行字符的限制，0表示沒有限制
-ColumnLimit:	150
+ColumnLimit:	100
 # 描述具有特殊意義的注釋的正則表達式，它不應該被分割為多行或以其它方式改變
 CommentPragmas:	'^ IWYU pragma:'
 # 構造函數的初始化列表要麼都在同一行，要麼都各自一行
@@ -129,7 +129,7 @@ ObjCSpaceBeforeProtocolList:	true
 # 在call(後對函數調用換行的penalty
 PenaltyBreakBeforeFirstCallParameter:	19
 # 在一個注釋中引入換行的penalty
-PenaltyBreakComment:	300
+PenaltyBreakComment:	80
 # 第一次在<<前換行的penalty
 PenaltyBreakFirstLessLess:	120
 # 在一個字符串字面量中引入換行的penalty

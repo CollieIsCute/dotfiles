@@ -93,7 +93,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
-antigen bundle zsh-users/zsh-autosuggestions
 plugins=( 
 	# other plugins...
 	zsh-autosuggestions
@@ -112,7 +111,6 @@ alias gp="git push"
 alias la="ls -a"
 alias lal="ls -al"
 alias ll="ls -l"
-alias pi="sshpass -p 'graduateproject' ssh pi@140.117.178.124 -p 1357"
 alias sdn="shutdown now"
 alias tosync="cd ~/syncfolder/"
 alias tg="~/Downloads/Telegram/Telegram & &>/dev/null"
