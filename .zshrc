@@ -115,3 +115,4 @@ alias sdn="shutdown now"
 alias tosync="cd ~/syncfolder/"
 alias tg="~/Downloads/Telegram/Telegram & &>/dev/null"
 alias wo="xdg-open"
+alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
