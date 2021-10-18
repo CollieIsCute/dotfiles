@@ -7,3 +7,5 @@ cp ./agnosterzak.zsh-theme ~/.oh-my-zsh/themes/
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 # install you-should-use
 git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $ZSH_CUSTOM/plugins/you-should-use
+# set .zshrc
+ln -s ./.zshrc ~/
