@@ -8,4 +8,4 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 # install you-should-use
 git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $ZSH_CUSTOM/plugins/you-should-use
 # set .zshrc
-ln -s ./.zshrc ~/
+ln -sf `pwd -P`/.zshrc ~/.zshrc
