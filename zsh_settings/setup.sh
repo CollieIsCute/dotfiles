@@ -9,3 +9,5 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $ZSH_CUSTOM/plugins/you-should-use
 # set .zshrc
 ln -sf `pwd -P`/.zshrc ~/.zshrc
+# set .tmux.conf
+ln -sf `pwd -P`/.tmux.conf ~/.tmux.conf
