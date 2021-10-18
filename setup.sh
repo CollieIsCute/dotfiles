@@ -12,13 +12,11 @@ git clone https://aur.archlinux.org/paru.git ~/paru
 cd ~/paru
 makepkg -si
 
-echo "install zsh and oh-my-zsh"
+echo "install zsh setup zsh environment"
 # setup zsh shell
-sudo pacman -S zsh
-git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-rm ~/.zshrc
-ln -s ~/syncfolder/Setup-For-Linux/.zshrc ~/.zshrc
-ln ~/syncfolder/Setup-For-Linux/agnosterzak.zsh-theme ~/.oh-my-zsh/themes/agnosterzak.zsh-theme  
+paru zsh
+cd zsh_settings
+./setup.sh
 
 echo "install others"
 # install others
