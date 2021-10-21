@@ -63,109 +63,6 @@ prompt_end() {
   CURRENT_BG=''
 }
 
-### Prompt components
-# Each component will draw itself, and hide itself if no information needs to be shown
-
-# Context: user@hostname (who am I and where am I)
-prompt_context() {
-  if [[ -n "$SSH_CLIENT" ]]; then
-    prompt_segment magenta white "%{$fg_bold[white]%(!.%{%F{white}%}.)%}$USER@%m%{$fg_no_bold[white]%}"
-  else
-    prompt_segment yellow magenta "%{$fg_bold[magenta]%(!.%{%F{magenta}%}.)%}@$USER%{$fg_no_bold[magenta]%}"
-  fi
-}
-
-# Battery Level
-prompt_battery() {
-  HEART='♥ '
-
-  if [[ $(uname) == "Darwin" ]] ; then
-
-    function battery_is_charging() {
-      [ $(ioreg -rc AppleSmartBattery | grep -c '^.*"ExternalConnected"\ =\ No') -eq 1 ]
-    }
-
-    function battery_pct() {
-      local smart_battery_status="$(ioreg -rc "AppleSmartBattery")"
-      typeset -F maxcapacity=$(echo $smart_battery_status | grep '^.*"MaxCapacity"\ =\ ' | sed -e 's/^.*"MaxCapacity"\ =\ //')
-      typeset -F currentcapacity=$(echo $smart_battery_status | grep '^.*"CurrentCapacity"\ =\ ' | sed -e 's/^.*CurrentCapacity"\ =\ //')
-      integer i=$(((currentcapacity/maxcapacity) * 10))
-      echo $i
-    }
-
-    function battery_pct_remaining() {
-      if battery_is_charging ; then
-        battery_pct
-      else
-        echo "External Power"
-      fi
-    }
-
-    function battery_time_remaining() {
-      local smart_battery_status="$(ioreg -rc "AppleSmartBattery")"
-      if [[ $(echo $smart_battery_status | grep -c '^.*"ExternalConnected"\ =\ No') -eq 1 ]] ; then
-        timeremaining=$(echo $smart_battery_status | grep '^.*"AvgTimeToEmpty"\ =\ ' | sed -e 's/^.*"AvgTimeToEmpty"\ =\ //')
-        if [ $timeremaining -gt 720 ] ; then
-          echo "::"
-        else
-          echo "~$((timeremaining / 60)):$((timeremaining % 60))"
-        fi
-      fi
-    }
-
-    b=$(battery_pct_remaining)
-    if [[ $(ioreg -rc AppleSmartBattery | grep -c '^.*"ExternalConnected"\ =\ No') -eq 1 ]] ; then
-      if [ $b -gt 50 ] ; then
-        prompt_segment green white
-      elif [ $b -gt 20 ] ; then
-        prompt_segment yellow white
-      else
-        prompt_segment red white
-      fi
-      echo -n "%{$fg_bold[white]%}$HEART$(battery_pct_remaining)%%%{$fg_no_bold[white]%}"
-    fi
-  fi
-
-  if [[ $(uname) == "Linux" && -d /sys/module/battery ]] ; then
-
-    function battery_is_charging() {
-      ! [[ $(acpi 2&>/dev/null | grep -c '^Battery.*Discharging') -gt 0 ]]
-    }
-
-    function battery_pct() {
-      if (( $+commands[acpi] )) ; then
-        echo "$(acpi | cut -f2 -d ',' | tr -cd '[:digit:]')"
-      fi
-    }
-
-    function battery_pct_remaining() {
-      if [ ! $(battery_is_charging) ] ; then
-        battery_pct
-      else
-        echo "External Power"
-      fi
-    }
-
-    function battery_time_remaining() {
-      if [[ $(acpi 2&>/dev/null | grep -c '^Battery.*Discharging') -gt 0 ]] ; then
-        echo $(acpi | cut -f3 -d ',')
-      fi
-    }
-
-    b=$(battery_pct_remaining)
-    if [[ $(acpi 2&>/dev/null | grep -c '^Battery.*Discharging') -gt 0 ]] ; then
-      if [ $b -gt 40 ] ; then
-        prompt_segment green white
-      elif [ $b -gt 20 ] ; then
-        prompt_segment yellow white
-      else
-        prompt_segment red white
-      fi
-      echo -n "%{$fg_bold[white]%}$HEART$(battery_pct_remaining)%%%{$fg_no_bold[white]%}"
-    fi
-
-  fi
-}
 
 # Git: branch/detached head, dirty status
 prompt_git() {
@@ -331,31 +228,12 @@ prompt_virtualenv() {
   fi
 }
 
-prompt_time() {
-  prompt_segment blue white "%{$fg_bold[white]%}%D{%a %e %b - %H:%M}%{$fg_no_bold[white]%}"
-}
 
-# Status:
-# - was there an error
-# - am I root
-# - are there background jobs?
-prompt_status() {
-  local symbols
-  symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
-  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}$LIGHTNING"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}$GEAR"
-
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
-}
 
 ## Main prompt
 build_prompt() {
   RETVAL=$?
   print -n "\n"
-#  prompt_status
-#  prompt_battery
-#  prompt_time
   prompt_virtualenv
   prompt_dir
   prompt_git
@@ -363,8 +241,6 @@ build_prompt() {
   prompt_end
   CURRENT_BG='NONE'
   print -n "\n\>"
-#  prompt_context
-#  prompt_end
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt) '
