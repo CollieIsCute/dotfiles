@@ -70,9 +70,10 @@ HIST_STAMPS="yyyy/mm/dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git you-should-use)
+plugins=(you-should-use zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # User configuration
 
@@ -93,11 +94,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
-plugins=( 
-	# other plugins...
-	zsh-autosuggestions
-)
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
@@ -105,14 +103,16 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias bat="bat --pager='never'"
-alias gaa="make clean &>/dev/null; git add --all"
+alias gaa="git add --all"
 alias gc="git commit -m"
+alias gf="git fetch"
+alias gl="git pull"
 alias gp="git push"
+alias gst="git status"
 alias la="ls -a"
 alias lal="ls -al"
 alias ll="ls -l"
 alias sdn="shutdown now"
-alias tosync="cd ~/syncfolder/"
-alias tg="~/Downloads/Telegram/Telegram & &>/dev/null"
-alias wo="xdg-open"
 alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
+alias tosync="cd ~/syncfolder/"
+alias wo="xdg-open"
