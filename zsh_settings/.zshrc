@@ -55,10 +55,9 @@ HIST_STAMPS="yyyy/mm/dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(you-should-use zsh-autosuggestions)
+plugins=(you-should-use zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -76,4 +75,4 @@ alias ll="ls -l"
 alias sdn="shutdown now"
 alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
 alias tosync="cd ~/syncfolder/"
-alias wo="xdg-open"
+alias wo="xdg-open"source /home/mst/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
