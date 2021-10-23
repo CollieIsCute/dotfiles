@@ -15,8 +15,7 @@ makepkg -si
 echo "install zsh setup zsh environment"
 # setup zsh shell
 paru zsh
-cd zsh_settings
-./setup.sh
+(cd zsh_settings && ./setup.sh)
 
 echo "install others"
 # install others
