@@ -2,7 +2,7 @@
 # install ohmyzsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # add theme of zsh
-cp ./agnosterzak.zsh-theme ~/.oh-my-zsh/themes/
+cp ./agnosterzak.zsh-theme $ZSH_COSTUM/themes/
 # install autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/autosuggestions
 # install you-should-use
