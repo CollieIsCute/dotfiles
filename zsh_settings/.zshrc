@@ -76,4 +76,4 @@ alias ll="ls -l"
 alias sdn="shutdown now"
 alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
 alias tosync="cd ~/syncfolder/"
-alias wo="xdg-open"source /home/mst/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+alias wo="xdg-open"
