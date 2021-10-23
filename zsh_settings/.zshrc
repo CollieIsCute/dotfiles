@@ -62,6 +62,7 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# user define alias
 alias bat="bat --pager='never'"
 alias gaa="git add --all"
 alias gc="git commit -m"
@@ -77,3 +78,12 @@ alias sdn="shutdown now"
 alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
 alias tosync="cd ~/syncfolder/"
 alias wo="xdg-open"
+
+#user define functions
+upop(){
+	homework_num=${@:$#}
+	echo there are $(($# - 1)) items:
+	items=(${@:1: $(($# - 1)) })
+	sshpass -p "FwVcsJ" scp -r $items b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw:~/HW$homework_num
+	echo finished upload $items
+}
