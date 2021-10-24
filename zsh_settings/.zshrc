@@ -58,9 +58,9 @@ HIST_STAMPS="yyyy/mm/dd"
 plugins=(you-should-use zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-source $ZSH_CUSTOM/plugins/you-should-use.plugin.zsh
-source $ZSH_CUSTOM/plugins/zsh-autosuggestions.plugin.zsh
-source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting.plugin.zsh
+source $ZSH_CUSTOM/plugins/you-should-use/you-should-use.plugin.zsh
+source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
