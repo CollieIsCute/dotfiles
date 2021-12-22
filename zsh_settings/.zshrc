@@ -78,7 +78,7 @@ alias la="ls -a"
 alias lal="ls -al"
 alias ll="ls -l"
 alias sdn="shutdown now"
-alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw'
+alias toop='sshpass -p "FwVcsJ" ssh b073040019aoop2021f@140.117.176.181'
 alias tosync="cd ~/syncfolder/"
 
 #user define functions
@@ -86,7 +86,7 @@ upop(){
 	homework_num=${@:$#}
 	echo there are $(($# - 1)) items:
 	items=(${@:1: $(($# - 1)) })
-	sshpass -p "FwVcsJ" scp -r $items b073040019aoop2021f@hw.oslab.cse.nsysu.edu.tw:~/HW$homework_num
+	sshpass -p "FwVcsJ" scp -r $items b073040019aoop2021f@140.117.176.181:~/HW$homework_num
 	echo finished upload $items
 }
 
