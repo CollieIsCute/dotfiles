@@ -1,5 +1,5 @@
 export ZSH=~/.oh-my-zsh
-ZSH_THEME="agnosterzak"
+ZSH_THEME="astro"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
