@@ -85,7 +85,7 @@ wo(){
 	openlist=($@)
 	for item in $openlist
 	do
-		xdg-open $item &>/dev/null &
+		open $item &>/dev/null &
 	done
 }
 
