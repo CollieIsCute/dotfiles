@@ -1,7 +1,4 @@
-# Setup-For-Linux
-write a shell script for me to set up the environment while I setup arch linux again.
+dotfiles in `~`
+===
 
-## Usage
-```bash=
-./setup.sh
-```
+move these files to `~/`
