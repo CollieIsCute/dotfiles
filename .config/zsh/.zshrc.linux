@@ -1,0 +1,12 @@
+
+wo(){
+	openlist=($@)
+	for item in $openlist
+	do
+		xdg-open $item &>/dev/null &
+	done
+}
+
+hide(){
+	setsid $@ &>/dev/null &
+}
