@@ -65,6 +65,16 @@ source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugi
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# user define source
+case "$OSTYPE" in
+	darwin*)
+		source ~/.config/zsh/.zshrc.for.macOS.tmux
+	;;
+	linux*)
+		# other custom scripts
+	;;
+esac
+
 # user define alias
 alias bat="bat --pager='never'"
 alias gaa="git add --all"
