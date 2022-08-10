@@ -4,7 +4,6 @@ ZSH_THEME="astro"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"
 
@@ -69,9 +68,10 @@ source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugi
 case "$OSTYPE" in
 	darwin*)
 		source ~/.config/zsh/.zshrc.for.macOS.tmux
+		source ~/.config/zsh/.zshrc.macOS
 	;;
 	linux*)
-		# other custom scripts
+		source ~/.config/zsh/.zshrc.linux
 	;;
 esac
 
@@ -90,15 +90,3 @@ alias ll="ls -l"
 alias sdn="shutdown now"
 alias tosync="cd ~/syncfolder/"
 
-#user define functions
-wo(){
-	openlist=($@)
-	for item in $openlist
-	do
-		open $item &>/dev/null &
-	done
-}
-
-hide(){
-	setsid $@ &>/dev/null &
-}
