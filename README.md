@@ -1,13 +1,27 @@
 Collie's dotfiles
 ---
 
-## shell setting
+## Shell setting
 ### tmux
-- [tmux](https://github.com/tmux/tmux) : as default shell
-- [oh my tmux](https://github.com/gpakosz/.tmux) : some beautiful themes and convenient tools
+- [tmux](https://github.com/tmux/tmux) 
+- [oh my tmux](https://github.com/gpakosz/.tmux)
 ### zsh
-- [zsh](https://github.com/zsh-users/zsh) : use it in tmux
-- [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) : zsh setting, like plugins and themes
-- [zsh-you-should-use](https://github.com/MichaelAquilina/zsh-you-should-use) : zsh plugin. it reminds me to use some alias I don't use
-- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) : help me type command I've used
-- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) : improve readibility of commands I type in zsh
+- [zsh](https://github.com/zsh-users/zsh) 
+- [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) 
+- [zsh-you-should-use](https://github.com/MichaelAquilina/zsh-you-should-use) 
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) 
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) 
+### nvim  
+- [neovim](https://github.com/neovim/neovim)
+- [junegunn/vim-plug](https://github.com/junegunn/vim-plug) 
+- [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) 
+- [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim) 
+- [jackguo380/vim-lsp-cxx-highlight](https://github.com/jackguo380/vim-lsp-cxx-highlight) 
+
+## Other tools
+- clang-format
+- htop
+- neofetch
+- bat : `alias bat="bat --pager='never'"`
+- git
+
