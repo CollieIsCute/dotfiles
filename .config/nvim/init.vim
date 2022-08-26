@@ -13,3 +13,6 @@ runtime ./keyMapping.vim
 
 " neoclide/coc.nvim configuration
 runtime ./coc.vim
+
+" EdenEast/nightfox.nvim setting
+runtime ./nightfox.lua
