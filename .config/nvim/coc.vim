@@ -6,6 +6,14 @@ set nowritebackup
 " delays and poor user experience.
 set updatetime=300
 
+" some daily used coc tools
+let g:coc_global_extensions = [
+    \ 'coc-clangd',
+    \ 'coc-markdown-preview-enhanced',
+    \ 'coc-webview',
+    \ 'coc-json'
+\ ]
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " NOTE: There's always complete item selected by default, you may want to enable
