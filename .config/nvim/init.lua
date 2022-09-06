@@ -6,4 +6,4 @@ require('CollieIsCute/keyMapping')
 require('CollieIsCute/nightfox')
 
 -- neoclide/coc.nvim configuration
-vim.cmd 'runtime ./lua/CollieIsCute/coc.vim'
+require('CollieIsCute/coc')
