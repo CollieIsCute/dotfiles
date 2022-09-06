@@ -2,21 +2,18 @@ Collie's dotfiles
 ---
 
 ## Shell setting
-### tmux
+### [zsh](https://github.com/zsh-users/zsh) 
 - [tmux](https://github.com/tmux/tmux) 
-- [oh my tmux](https://github.com/gpakosz/.tmux)
-### zsh
-- [zsh](https://github.com/zsh-users/zsh) 
+    - [oh my tmux](https://github.com/gpakosz/.tmux)
 - [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) 
 - [zsh-you-should-use](https://github.com/MichaelAquilina/zsh-you-should-use) 
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) 
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) 
-### nvim  
-- [neovim](https://github.com/neovim/neovim)
-- [junegunn/vim-plug](https://github.com/junegunn/vim-plug) 
-- [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) 
-- [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim) 
-- [jackguo380/vim-lsp-cxx-highlight](https://github.com/jackguo380/vim-lsp-cxx-highlight) 
+### [neovim](https://github.com/neovim/neovim)
+- [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim) 
+- [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim)
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+- [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
 ## Other tools
 - clang-format
