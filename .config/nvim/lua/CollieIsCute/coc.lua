@@ -4,16 +4,16 @@ vim.opt.writebackup = false
 
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
-vim.opt.updatetime=300
-
+vim.opt.updatetime = 300
 
 vim.cmd([[
 " some daily used coc tools
 let g:coc_global_extensions = [
     \ 'coc-clangd',
+    \ 'coc-highlight',
+    \ 'coc-json',
     \ 'coc-markdown-preview-enhanced',
-    \ 'coc-webview',
-    \ 'coc-json'
+    \ 'coc-webview'
 \ ]
 
 " Use tab for trigger completion with characters ahead and navigate.

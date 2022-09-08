@@ -17,6 +17,13 @@
     "python",
     "sh"
   ],
+  "colors.filetypes": ["*"],
+  
+  "highlight.disableLanguages": [],
+  "highlight.document.enable": true,
+  "highlight.colors.enable": true,
+  "highlight.colorNames.enable": true,
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
+  "semanticTokens.filetypes": ["*"],
   "webview.colorStrategy": "dark"
 }
