@@ -6,15 +6,18 @@ vim.opt.writebackup = false
 -- delays and poor user experience.
 vim.opt.updatetime = 300
 
+-- some daily used coc tools
+vim.g.coc_global_extensions = {
+	"coc-clangd",
+	"coc-highlight",
+	"coc-json",
+	"coc-markdown-preview-enhanced",
+	"coc-webview"
+}
+
 vim.cmd([[
-" some daily used coc tools
-let g:coc_global_extensions = [
-    \ 'coc-clangd',
-    \ 'coc-highlight',
-    \ 'coc-json',
-    \ 'coc-markdown-preview-enhanced',
-    \ 'coc-webview'
-\ ]
+
+nmap <leader>rn <Plug>(coc-rename)
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
