@@ -15,9 +15,9 @@ vim.g.coc_global_extensions = {
 	"coc-webview"
 }
 
-vim.cmd([[
+vim.keymap.set('n', '<leader>rn', '<Plug>(coc-rename)')
 
-nmap <leader>rn <Plug>(coc-rename)
+vim.cmd([[
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
