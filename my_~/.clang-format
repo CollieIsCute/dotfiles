@@ -76,7 +76,7 @@ BreakBeforeTernaryOperators:	true
 # 在構造函數的初始化列表的逗號前換行
 BreakConstructorInitializersBeforeComma:	false
 # 每行字符的限制，0表示沒有限制
-ColumnLimit:	100
+ColumnLimit: 80
 # 描述具有特殊意義的注釋的正則表達式，它不應該被分割為多行或以其它方式改變
 CommentPragmas:	'^ IWYU pragma:'
 # 構造函數的初始化列表要麼都在同一行，要麼都各自一行
@@ -86,7 +86,7 @@ ConstructorInitializerIndentWidth:	4
 # 延續的行的縮進寬度
 ContinuationIndentWidth:	4
 # 去除C++11的列表初始化的大括號{後和}前的空格
-Cpp11BracedListStyle:	false
+Cpp11BracedListStyle:	true
 # 繼承最常用的指針和引用的對齊方式
 DerivePointerAlignment:	false
 # 關閉格式化
@@ -131,9 +131,9 @@ PenaltyBreakBeforeFirstCallParameter:	19
 # 在一個注釋中引入換行的penalty
 PenaltyBreakComment:	80
 # 第一次在<<前換行的penalty
-PenaltyBreakFirstLessLess:	120
+PenaltyBreakFirstLessLess:	80
 # 在一個字符串字面量中引入換行的penalty
-PenaltyBreakString:	1000
+PenaltyBreakString:	80
 # 對於每個在行字符數限制之外的字符的penalty
 PenaltyExcessCharacter:	1000000
 # 將函數的返回類型放到它自己的行的penalty
