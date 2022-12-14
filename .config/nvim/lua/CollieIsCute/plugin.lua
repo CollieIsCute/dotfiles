@@ -10,11 +10,14 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
-    use {'neoclide/coc.nvim', branch = 'release'}
-    -- telescope needs plenary
+	use {
+		'williamboman/mason-lspconfig.nvim', 
+		requires = {{'neovim/nvim-lspconfig'}, {'williamboman/mason.nvim'}}
+	}
+	use {'neovim/nvim-lspconfig', 'williamboman/mason.nvim'}
     use {
-	'nvim-telescope/telescope.nvim', tag = '0.1.0',
-	requires = { {'nvim-lua/plenary.nvim'} }
+		'nvim-telescope/telescope.nvim', tag = '0.1.0',
+		requires = { {'nvim-lua/plenary.nvim'} }
     }
     use "EdenEast/nightfox.nvim"
 end)
