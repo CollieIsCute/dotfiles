@@ -11,7 +11,6 @@ Collie's dotfiles
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) 
 ### [neovim](https://github.com/neovim/neovim)
 - [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim) 
-- [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim)
 - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
@@ -21,4 +20,4 @@ Collie's dotfiles
 - neofetch
 - bat : `alias bat="bat --pager='never'"`
 - git
-
+- tig
