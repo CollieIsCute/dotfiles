@@ -90,3 +90,6 @@ alias ll="ls -lh"
 alias sdn="shutdown now"
 alias tosync="cd ~/syncfolder/"
 
+if [ -f ~/.zsh_local_setting ]; then
+    source ~/.zsh_local_setting
+fi
