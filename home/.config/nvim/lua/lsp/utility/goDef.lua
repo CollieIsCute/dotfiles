@@ -1,4 +1,10 @@
 print("baseLsp is called")
-vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, {noremap = true, silent = true})
+local bufopts = {noremap=true, silent=true}
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+vim.keymap.set('n', '<space>K', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
