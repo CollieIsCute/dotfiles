@@ -76,7 +76,12 @@ case "$OSTYPE" in
 esac
 
 # user define alias
-alias bat="bat --pager='never'"
+if [  -n "$(uname -a | grep Ubuntu)" ]; then
+    alias bat="batcat --pager='never'" 
+else
+    alias bat="bat --pager='never''"
+fi  
+
 alias gaa="git add --all"
 alias gc="git commit -m"
 alias gf="git fetch"
