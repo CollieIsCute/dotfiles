@@ -10,7 +10,8 @@ do
 	echo ${f}
 done
 cp -lR --remove-destination ${DOTFILE_PATH}/home/.[!.g]* ~
-
+#install ohmyzsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 echo -e "${GREEN}Configurating zsh and tmux, and this may need user password...${NC}"
 chsh -s $(which zsh)
 echo -e "${GREEN}Installing zsh plugins...${NC}"
