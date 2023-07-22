@@ -11,9 +11,8 @@ do
 done
 cp -lR --remove-destination ${DOTFILE_PATH}/home/.[!.g]* ~
 #install ohmyzsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(yes | curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 echo -e "${GREEN}Configurating zsh and tmux, and this may need user password...${NC}"
-chsh -s $(which zsh)
 echo -e "${GREEN}Installing zsh plugins...${NC}"
 zsh -c 'git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions'
 zsh -c 'git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
