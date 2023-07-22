@@ -13,6 +13,7 @@ apt_packages=(
 	"neofetch"
 	"ssh"
 	"tig"
+	"tree"
 	"tmux"
 	"wget"
 	"zsh"
