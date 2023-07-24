@@ -9,7 +9,7 @@ for f in ${DOTFILE_PATH}/home/.[!.g]*
 do
 	echo ${f}
 done
-cp -lR --remove-destination ${DOTFILE_PATH}/home/.[!.g]* ~
+cp -lR --remove-destination ${DOTFILE_PATH}/home/.[!.]* ~
 #install ohmyzsh
 sh -c "$(yes | curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 echo -e "${GREEN}Configurating zsh and tmux, and this may need user password...${NC}"
