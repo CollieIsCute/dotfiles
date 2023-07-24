@@ -19,6 +19,7 @@ apt_packages=(
 	"zsh"
 )
 snap_packages=(
+    "discord"
 	"nvim --classic"
 	"telegram-desktop"
 )
