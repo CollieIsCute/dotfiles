@@ -11,6 +11,7 @@ apt_packages=(
 	"htop"
 	"ibus-chewing"
 	"neofetch"
+    "silversearcher-ag"
 	"ssh"
 	"tig"
 	"tree"
