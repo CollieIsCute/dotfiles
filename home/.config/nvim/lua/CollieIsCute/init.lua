@@ -1,4 +1,4 @@
 print('hello from collieiscute')
 require('CollieIsCute/set')
-require('CollieIsCute/packer')
+require('CollieIsCute/lazy_nvim')
 require('CollieIsCute/keyMapping')
