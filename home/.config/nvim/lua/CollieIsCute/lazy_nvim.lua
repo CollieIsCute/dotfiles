@@ -19,17 +19,33 @@ require("lazy").setup({
             "neovim/nvim-lspconfig"
         }
     },
-    "williamboman/mason.nvim",
+    {
+        "williamboman/mason.nvim"
+        config = function()
+            require("CollieIsCute/plugin/mason")
+        end
+    },
     "neovim/nvim-lspconfig",
     {
         "nvim-telescope/telescope.nvim",
         tag = '0.1.2',
         dependencies = { 'nvim-lua/plenary.nvim' }
+        config = function()
+            require("CollieIsCute/plugin/telescope")
+        end
     },
-    "EdenEast/nightfox.nvim",
+    {
+        "EdenEast/nightfox.nvim",
+        config = function()
+            require("CollieIsCute/plugin/nightfox")
+        end
+    },
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate"
+        build = ":TSUpdate",
+        config = function()
+            require("CollieIsCute/plugin/treesitter")
+        end
     },
     {
         'VonHeikemen/lsp-zero.nvim',
@@ -43,6 +59,9 @@ require("lazy").setup({
             {'hrsh7th/nvim-cmp'},     -- Required
             {'hrsh7th/cmp-nvim-lsp'}, -- Required
             {'L3MON4D3/LuaSnip'}     -- Required
-        }
+        },
+        config = function()
+            require("CollieIsCute/plugin/lsp")
+        end
     }
 })
