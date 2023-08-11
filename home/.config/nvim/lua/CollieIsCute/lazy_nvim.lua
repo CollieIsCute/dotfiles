@@ -20,7 +20,7 @@ require("lazy").setup({
         }
     },
     {
-        "williamboman/mason.nvim"
+        "williamboman/mason.nvim",
         config = function()
             require("CollieIsCute/plugin/mason")
         end
@@ -29,7 +29,7 @@ require("lazy").setup({
     {
         "nvim-telescope/telescope.nvim",
         tag = '0.1.2',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             require("CollieIsCute/plugin/telescope")
         end
