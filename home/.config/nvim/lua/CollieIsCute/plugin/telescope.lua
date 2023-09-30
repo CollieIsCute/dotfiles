@@ -1,3 +1,4 @@
+print('Calling telescope config')
 local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 telescope.setup({

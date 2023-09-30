@@ -42,10 +42,13 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
+        build = ':TSUpdateSync',
         config = function()
             require("CollieIsCute/plugin/treesitter")
-        end
+        end,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+        }
     },
     {
         'VonHeikemen/lsp-zero.nvim',
