@@ -13,6 +13,18 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     {
+        "iamcco/markdown-preview.nvim",
+        cmd = {"MarkdownPreview", "MarkdownPreviewStop"},
+        lazy = false,
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
+        init = function()
+            vim.g.mkdp_theme = 'dark'
+            require('CollieIsCute.plugin.markdown_preview')
+        end,
+    },
+    {
         "williamboman/mason-lspconfig.nvim",
         dependencies = {
             "williamboman/mason.nvim",
