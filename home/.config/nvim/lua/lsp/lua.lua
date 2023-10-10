@@ -1,4 +1,3 @@
-print("lua.lua is called")
 require('lsp.utility.goDef')
 require('lspconfig').lua_ls.setup{
 	on_attach = on_attach,
