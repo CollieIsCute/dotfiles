@@ -1,4 +1,3 @@
-print('Calling telescope config')
 require('CollieIsCute.keyMapping')
 local telescope = require('telescope')
 local builtin = require('telescope.builtin')

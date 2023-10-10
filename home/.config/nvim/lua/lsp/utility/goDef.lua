@@ -1,4 +1,3 @@
-print("baseLsp is called")
 local bufopts = { noremap = true, silent = true }
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
