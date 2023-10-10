@@ -23,6 +23,7 @@ snap_packages=(
     "discord"
 	"nvim --classic"
 	"telegram-desktop"
+    "marksman"
 )
 
 echo -e "${GREEN}Installing packages...${NC}"
