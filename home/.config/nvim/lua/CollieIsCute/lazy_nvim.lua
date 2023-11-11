@@ -36,10 +36,9 @@ require("lazy").setup({
             require("CollieIsCute/plugin/mason")
         end
     },
-    "neovim/nvim-lspconfig",
     {
         "nvim-telescope/telescope.nvim",
-        tag = '0.1.2',
+        branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             require("CollieIsCute/plugin/telescope")
