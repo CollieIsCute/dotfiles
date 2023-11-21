@@ -37,6 +37,7 @@ cmp.setup({
             vim_item.kind = string.format("%s ", kind_icon[vim_item.kind])
             vim_item.menu=({
                 luasnip = "[Snippet]",
+                nvim_lsp = "[LSP]",
                 buffer = "[Buffer]",
                 path = "[Path]",
             })[entry.source.name]
