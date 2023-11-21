@@ -60,6 +60,8 @@ require("lazy").setup({
             'nvim-treesitter/nvim-treesitter-textobjects',
         }
     },
+
+    -- cmp
     {
         "hrsh7th/nvim-cmp",
         config = function()
