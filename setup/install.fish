@@ -1,9 +1,9 @@
 #!/usr/bin/fish
 
-GREEN='\033[1;32m'
-NC='\033[0m'
-echo -e "${GREEN}Setting up...${NC}"
-echo -e "${GREEN}May need root permission to install packages${NC}"
+set GREEN '\033[1;32m'
+set NC '\033[0m'
+echo -e "$GREEN""Setting up...$NC"
+echo -e "$GREEN""May need root permission to install packages$NC"
 
 set os_name (uname -s)
 switch $os_name
@@ -29,4 +29,4 @@ switch $os_name
         return 1
 end
 
-echo -e "${GREEN}All setup steps finished!${NC}"
+echo -e "$GREEN""All setup steps finished!$NC"
