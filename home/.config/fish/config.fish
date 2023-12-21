@@ -10,3 +10,4 @@ alias lal "la -lh"
 alias ll "ls -lh"
 alias sdn "shutdown now"
 alias tosync "cd ~/syncfolder/"
+command -qv nvim && alias vi nvim
