@@ -18,7 +18,6 @@ apt_packages=(
 	"tree"
 	"tmux"
 	"wget"
-	"zsh"
 )
 snap_packages=(
 	"discord"
