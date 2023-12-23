@@ -7,6 +7,7 @@ apt_packages=(
 	"build-essential"
 	"clang-format"
 	"curl"
+	"fish"
 	"git"
 	"htop"
 	"ibus-chewing"
