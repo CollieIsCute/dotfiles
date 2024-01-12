@@ -9,3 +9,7 @@ for f in ${DOTFILE_PATH}/home/.[!.g]*; do
 	echo ${f}
 done
 cp -lR --remove-destination ${DOTFILE_PATH}/home/.[!.]* ~
+
+# switch shell to fish
+echo -e "${GREEN}Switching shell to fish...${NC}"
+chsh -s $(which fish)

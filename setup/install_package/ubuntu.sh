@@ -7,6 +7,8 @@ apt_packages=(
 	"build-essential"
 	"clang-format"
 	"curl"
+	"docker"
+	"docker-compose"
 	"fish"
 	"git"
 	"htop"
