@@ -30,6 +30,11 @@ Linux)
 		;;
 	esac
 	;;
+Darwin)
+	echo "Using MacOS setting..."
+	./install_package/macos.sh
+	./configuration/macos.sh
+	;;
 *)
 	echo "This setup hasn't been supported yet. Please set up the system manually."
 	exit 1
