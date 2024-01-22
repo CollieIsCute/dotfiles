@@ -21,9 +21,9 @@ cp -R ${DOTFILE_PATH}/home/.[!.]* ~
 # switch shell to fish
 echo -e "${GREEN}Switching shell to fish...${NC}"
 # if fish is not in /etc/shells, add it
-if ! grep -q "$(which fish)" /etc/shells; then
+if ! grep -q "fish" /etc/shells; then
 	echo "Adding fish to /etc/shells..."
-	echo "$(which fish)" | sudo tee -a /etc/shells
+	echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
 fi
-chsh -s $(which fish)
+chsh -s /opt/homebrew/bin/fish
 echo -e "${GREEN}Please log out and log in again to make fish shell work${NC}"
