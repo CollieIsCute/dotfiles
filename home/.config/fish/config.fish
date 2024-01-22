@@ -28,7 +28,7 @@ else
     alias bat="bat --pager='never''"
 end
 
-// run OS specific script
+# run OS specific script
 switch (uname)
   case Darwin
     source (stauts dirname)/config-macos.fish
