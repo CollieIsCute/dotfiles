@@ -30,3 +30,6 @@ if cat /etc/os-release | grep -q -E "Ubuntu"
 else
     alias bat="bat --pager='never'"
 end
+
+# omf settings
+omf update
