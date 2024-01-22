@@ -15,7 +15,7 @@ rm -rf ~/.config/omf
 rm -f ~/.clang-format
 rm -f ~/.tmux.conf
 rm -f ~/.tmux.conf.local
-rm -f ~/README.md
+rm -f ~/**/README.md
 cp -R ${DOTFILE_PATH}/home/.[!.]* ~
 
 # switch shell to fish
