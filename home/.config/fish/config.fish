@@ -25,6 +25,3 @@ alias ..... "cd ../../../.."
 alias ...... "cd ../../../../.."
 alias ....... "cd ../../../../../.."
 command -qv nvim && alias vi nvim
-
-# omf settings
-omf update > /dev/null 2>&1
