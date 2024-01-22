@@ -12,6 +12,10 @@ done
 rm -rf ~/.config/fish
 rm -rf ~/.config/nvim
 rm -rf ~/.config/omf
+rm -f ~/.clang-format
+rm -f ~/.tmux.conf
+rm -f ~/.tmux.conf.local
+rm -f ~/README.md
 ln -Ffws ${DOTFILE_PATH}/home/.[!.]* ~/
 
 # install packages
