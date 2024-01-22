@@ -1,5 +1,5 @@
 #!/bin/bash
-DOTFILE_PATH="$(pwd -P)/.."
+DOTFILE_PATH="$(pwd -P)/../../"
 GREEN='\033[1;32m'
 NC='\033[0m'
 
@@ -16,7 +16,7 @@ rm -f ~/.clang-format
 rm -f ~/.tmux.conf
 rm -f ~/.tmux.conf.local
 rm -f ~/README.md
-ln -Ffws ${DOTFILE_PATH}/home/.[!.]* ~/
+cp -R ${DOTFILE_PATH}/home/.[!.]* ~
 
 # install packages
 brew bundle install --file=install_package/Brewfile
