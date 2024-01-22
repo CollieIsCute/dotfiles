@@ -25,11 +25,6 @@ alias ..... "cd ../../../.."
 alias ...... "cd ../../../../.."
 alias ....... "cd ../../../../../.."
 command -qv nvim && alias vi nvim
-if cat /etc/os-release | grep -q -E "Ubuntu"
-    alias bat="batcat --pager='never'" 
-else
-    alias bat="bat --pager='never'"
-end
 
 # omf settings
 omf update > /dev/null 2>&1
