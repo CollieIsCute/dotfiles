@@ -6,11 +6,6 @@ case Linux
   source (dirname (status --current-filename))/config-linux.fish
 end
 
-# install omf if not installed
-if not type -q omf
-    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-end
-
 # user define alias
 alias gaa "git add --all"
 alias gc "git commit -m"
@@ -33,5 +28,5 @@ command -qv nvim && alias vi nvim
 if cat /etc/os-release | grep -q -E "Ubuntu"
     alias bat="batcat --pager='never'" 
 else
-    alias bat="bat --pager='never''"
+    alias bat="bat --pager='never'"
 end
