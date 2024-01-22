@@ -18,9 +18,6 @@ rm -f ~/.tmux.conf.local
 rm -f ~/README.md
 cp -R ${DOTFILE_PATH}/home/.[!.]* ~
 
-# install packages
-brew bundle install --file=install_package/Brewfile
-
 # switch shell to fish
 echo -e "${GREEN}Switching shell to fish...${NC}"
 # if fish is not in /etc/shells, add it
