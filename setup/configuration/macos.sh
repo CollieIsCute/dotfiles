@@ -27,4 +27,3 @@ if ! grep -q "fish" /etc/shells; then
 fi
 chsh -s /opt/homebrew/bin/fish
 echo -e "${GREEN}Please log out and log in again to make fish shell work${NC}"
-omf install && omf update
