@@ -5,6 +5,6 @@
 # install packages
 brew bundle install --file=install_package/Brewfile
 # check & install oh-my-fish
-if ! type omf > /dev/null ; then
+if [ -z "$OMF_PATH" ]; then
     curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 fi
