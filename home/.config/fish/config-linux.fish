@@ -11,3 +11,9 @@ if cat /etc/os-release | grep -q -E "Ubuntu"
         setsid $argv > /dev/null 2>&1 &
     end
 end
+
+if cat /etc/os-release | grep -q -E "Ubuntu"
+    alias bat="batcat --pager='never'" 
+else
+    alias bat="bat --pager='never'"
+end
