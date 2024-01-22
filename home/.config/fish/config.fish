@@ -1,9 +1,9 @@
 # run OS specific script
 switch (uname)
 case Darwin
-  source (stauts dirname)/config-macos.fish
+  source (dirname (status --current-filename))/config-macos.fish
 case Linux
-  source (stauts dirname)/config-linux.fish
+  source (dirname (status --current-filename))/config-linux.fish
 end
 
 # install omf if not installed
