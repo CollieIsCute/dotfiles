@@ -1,5 +1,5 @@
 #!/bin/bash
-DOTFILE_PATH="$(pwd -P)/../../"
+DOTFILE_PATH="$(pwd -P)/.."
 GREEN='\033[1;32m'
 NC='\033[0m'
 
