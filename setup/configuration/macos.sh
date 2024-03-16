@@ -1,13 +1,10 @@
-#!/bin/bash
-DOTFILE_PATH="$(pwd -P)/.."
-GREEN='\033[1;32m'
-NC='\033[0m'
+#!/opt/homebrew/bin/fish
 
-echo -e "${GREEN}Setting up configurations...${NC}"
-echo -e "Copying following files to ~/:"
-for f in ${DOTFILE_PATH}/home/.[!.g]*; do
-	echo ${f}
-done
+set GREEN '\033[1;32m'
+set NC '\033[0m'
+
+echo -e "$GREEN""Setting up configurations...$NC"
+
 # symbolic link all files except .gitignore, if dest file exists, overwrite it
 rm -rf ~/.config/fish
 rm -rf ~/.config/nvim
@@ -15,15 +12,23 @@ rm -rf ~/.config/omf
 rm -f ~/.clang-format
 rm -f ~/.tmux.conf
 rm -f ~/.tmux.conf.local
-rm -f ~/**/README.md
-cp -R ${DOTFILE_PATH}/home/.[!.]* ~
 
-# switch shell to fish
-echo -e "${GREEN}Switching shell to fish...${NC}"
+cd $(pwd -P)/..
+echo -e "DOTFILE_PATH: $(pwd -P)"
+echo -e "Copying following files to ~/:"
+for f in (pwd -P)/home/.*
+    echo $f
+    cp -R $f ~/
+end
+
 # if fish is not in /etc/shells, add it
 if ! grep -q "fish" /etc/shells; then
 	echo "Adding fish to /etc/shells..."
 	echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
-fi
-chsh -s /opt/homebrew/bin/fish
-echo -e "${GREEN}Please log out and log in again to make fish shell work${NC}"
+end
+# if $SHELL is not fish, then change default shell to fish
+if test "$SHELL" != "/opt/homebrew/bin/fish"
+    echo "Changing default shell to fish..."
+    chsh -s /opt/homebrew/bin/fish
+end
+echo -e "$GREEN""Please log out and log in again to make fish shell work""$NC"
