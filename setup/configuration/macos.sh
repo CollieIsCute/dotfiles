@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #!/opt/homebrew/bin/fish
 
 set GREEN '\033[1;32m'
@@ -5,6 +6,10 @@ set NC '\033[0m'
 
 echo -e "$GREEN""Setting up configurations...$NC"
 
+=======
+#!/bin/bash
+source ./common.sh
+>>>>>>> Stashed changes
 # symbolic link all files except .gitignore, if dest file exists, overwrite it
 rm -rf ~/.config/fish
 rm -rf ~/.config/nvim

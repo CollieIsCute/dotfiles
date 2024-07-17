@@ -1,5 +1,5 @@
 #!/bin/bash
-
+DOTFILE_PATH="$(pwd -P)/.."
 GREEN='\033[1;32m'
 NC='\033[0m'
 echo -e "${GREEN}Setting up...${NC}"
@@ -16,13 +16,13 @@ Linux)
 	case $distro_name in
 	arch | manjaro)
 		echo "Using Arch setting..."
-		sudo ./install_package/arch.sh
-		./configuration/linux.sh
+		sudo source ./install_package/arch.sh
+		. ./configuration/linux.sh
 		;;
 	ubuntu)
 		echo "Using Ubuntu setting..."
-		sudo ./install_package/ubuntu.sh
-		./configuration/linux.sh
+		sudo source ./install_package/ubuntu.sh
+		. ./configuration/linux.sh
 		;;
 	*)
 		echo "Using some Linux distro which isn't supported yet."
@@ -32,8 +32,8 @@ Linux)
 	;;
 Darwin)
 	echo "Using MacOS setting..."
-	./install_package/macos.sh
-	./configuration/macos.sh
+	. ./install_package/macos.sh
+	. ./configuration/macos.sh
 	;;
 *)
 	echo "This setup hasn't been supported yet. Please set up the system manually."

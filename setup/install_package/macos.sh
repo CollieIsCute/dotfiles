@@ -20,3 +20,4 @@ if [ -z "$OMF_PATH" ]; then
     fish install --path=~/.local/share/omf --config=~/.config/omf
     rm -rf install
 fi
+. ${DOTFILE_PATH}/setup/install_package/common.sh
