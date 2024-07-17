@@ -41,4 +41,3 @@ apt autoremove
 for snap_pkg in "${snap_packages[@]}"; do
 	snap install ${snap_pkg}
 done
-. ${DOTFILE_PATH}/setup/install_package/common.sh

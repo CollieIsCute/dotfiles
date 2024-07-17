@@ -38,6 +38,4 @@ sudo pacman -S "${pacman_packages[@]}" --noconfirm
 
 # Install paru
 (cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm)
-
 echo -e "${GREEN}All packages installed!${NC}"
-. ${DOTFILE_PATH}/setup/install_package/common.sh

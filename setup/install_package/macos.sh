@@ -22,4 +22,3 @@ if [ -z "$OMF_PATH" ]; then
     curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 
 fi
-. ${DOTFILE_PATH}/setup/install_package/common.sh
