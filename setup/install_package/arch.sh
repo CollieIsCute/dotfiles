@@ -1,11 +1,4 @@
-<<<<<<< Updated upstream
-#!/usr/bin/bash
-GREEN='\033[1;32m'
-NC='\033[0m'
-
-=======
 #!/bin/bash
->>>>>>> Stashed changes
 # setup pacman parallel downloads
 sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 
