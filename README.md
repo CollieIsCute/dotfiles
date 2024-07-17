@@ -10,6 +10,7 @@ Collie's dotfiles
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) 
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) 
 ### [neovim](https://github.com/neovim/neovim)
+- [LazyVim](https://github.com/LazyVim/LazyVim) 
 - [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim) 
 - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
