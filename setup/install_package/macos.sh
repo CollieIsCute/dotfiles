@@ -19,4 +19,6 @@ if [ -z "$OMF_PATH" ]; then
     curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
     fish install --path=~/.local/share/omf --config=~/.config/omf
     rm -rf install
+    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+
 fi

@@ -1,10 +1,4 @@
-#!/opt/homebrew/bin/fish
-
-set GREEN '\033[1;32m'
-set NC '\033[0m'
-
-echo -e "$GREEN""Setting up configurations...$NC"
-
+#!/bin/bash
 # symbolic link all files except .gitignore, if dest file exists, overwrite it
 rm -rf ~/.config/fish
 rm -rf ~/.config/nvim
@@ -20,6 +14,8 @@ for f in (pwd -P)/home/.*
     echo $f
     cp -R $f ~/
 end
+
+source ${DOTFILE_PATH}/setup/configuration/common.sh
 
 # if fish is not in /etc/shells, add it
 if ! grep -q "fish" /etc/shells; then

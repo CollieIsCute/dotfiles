@@ -1,7 +1,7 @@
 #!/bin/bash
-
-GREEN='\033[1;32m'
-NC='\033[0m'
+export DOTFILE_PATH="$(pwd -P)/.."
+export GREEN='\033[1;32m'
+export NC='\033[0m'
 echo -e "${GREEN}Setting up...${NC}"
 echo -e "${GREEN}May need root permission to install packages${NC}"
 
@@ -16,13 +16,13 @@ Linux)
 	case $distro_name in
 	arch | manjaro)
 		echo "Using Arch setting..."
-		sudo ./install_package/arch.sh
-		./configuration/linux.sh
+		sudo -E ./install_package/arch.sh
+		source ./configuration/linux.sh
 		;;
 	ubuntu)
 		echo "Using Ubuntu setting..."
-		sudo ./install_package/ubuntu.sh
-		./configuration/linux.sh
+		sudo -E ./install_package/ubuntu.sh
+		source ./configuration/linux.sh
 		;;
 	*)
 		echo "Using some Linux distro which isn't supported yet."
@@ -32,8 +32,8 @@ Linux)
 	;;
 Darwin)
 	echo "Using MacOS setting..."
-	./install_package/macos.sh
-	./configuration/macos.sh
+	source ./install_package/macos.sh
+	source ./configuration/macos.sh
 	;;
 *)
 	echo "This setup hasn't been supported yet. Please set up the system manually."

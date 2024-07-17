@@ -1,7 +1,4 @@
-#!/usr/bin/bash
-GREEN='\033[1;32m'
-NC='\033[0m'
-
+#!/bin/bash
 # setup pacman parallel downloads
 sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 
@@ -41,5 +38,4 @@ sudo pacman -S "${pacman_packages[@]}" --noconfirm
 
 # Install paru
 (cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm)
-
 echo -e "${GREEN}All packages installed!${NC}"
