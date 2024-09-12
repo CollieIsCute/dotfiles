@@ -361,7 +361,7 @@ set -g mouse on
 #set -g status-position top
 
 # use zsh as default shell
-set-option -g default-shell /bin/zsh
+set-option -g default-shell /usr/bin/fish
 
 # -- tpm -----------------------------------------------------------------------
 
