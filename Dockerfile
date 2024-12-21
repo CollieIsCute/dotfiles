@@ -19,7 +19,7 @@ ENV CHEZMOI_VERBOSE=1
 USER $USER
 WORKDIR $HOME
 
-RUN chezmoi init  --apply https://github.com/CollieIsCute/old-dotfiles.git --verbose
+RUN chezmoi init --branch feature/introduce_chezmoi --apply https://github.com/CollieIsCute/old-dotfiles.git --verbose
 
 CMD ["/bin/bash"]
 
