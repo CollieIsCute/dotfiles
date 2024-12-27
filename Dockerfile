@@ -11,15 +11,16 @@ RUN pacman -Syu --noconfirm \
     chezmoi \
     sudo \
     openssh \
-    && useradd -m -s /bin/bash $USER \
+    fish \
+    && useradd -m -s /usr/bin/fish $USER \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ENV CHEZMOI_VERBOSE=1
 
+# Switch to the non-root user
 USER $USER
 WORKDIR $HOME
 
-RUN chezmoi init --branch feature/introduce_chezmoi --apply https://github.com/CollieIsCute/old-dotfiles.git --verbose
-
-CMD ["/bin/bash"]
+# Set the entrypoint to chezmoi init
+ENTRYPOINT ["sh", "-c", "chezmoi init --apply https://github.com/CollieIsCute/old-dotfiles.git --branch feature/introduce_chezmoi --verbose && exec fish"]
 
