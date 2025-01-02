@@ -29,7 +29,7 @@ retry() {
 {{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{ if eq .osid "linux-arch" "linux-manjaro" }}
+{{ if eq $osid "linux-arch" "linux-manjaro" }}
 # Arch/Manjaro specific setup
 echo -e "${GREEN}Using Arch/Manjaro setting...${NC}"
 # Update pacman mirrorlist for better performance
@@ -92,17 +92,17 @@ cp -lR --remove-destination ${DOTFILE_PATH}/nvim/lua/* ~/.config/nvim/lua/
 echo -e "${GREEN}Switching shell to fish...${NC}"
 chsh -s $(which fish)
 
-{{ else if eq .osid "linux-ubuntu" }}
+{{ else if eq $osid "linux-ubuntu" }}
 # Ubuntu specific setup
 echo -e "${GREEN}Using Ubuntu setting...${NC}"
 retry sudo apt update && sudo apt install -y git openssh-client fish
 
-{{ else if eq .osid "darwin" }}
+{{ else if eq $osid "darwin" }}
 # macOS specific setup
 echo -e "${GREEN}Using macOS setting...${NC}"
 retry brew install git fish
 
 {{ else }}
-echo "Unsupported operating system or distribution: {{ .osid }}"
+echo "Unsupported operating system or distribution: $osid"
 {{ end }}
 
