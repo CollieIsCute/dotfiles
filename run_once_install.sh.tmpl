@@ -4,6 +4,26 @@ export GREEN='\033[1;32m'
 export NC='\033[0m'
 
 echo -e "${GREEN}Installing required packages...${NC}"
+
+# Retry helper function
+retry() {
+  local n=1
+  local max=5
+  local delay=5
+  while true; do
+    "$@" && break || {
+      if [[ $n -lt $max ]]; then
+        ((n++))
+        echo "Command failed. Attempt $n/$max:"
+        sleep $delay;
+      else
+        echo "Command failed after $n attempts."
+        return 1
+      fi
+    }
+  done
+}
+
 {{ if eq .chezmoi.os "linux" }}
 if [ -f /etc/os-release ]; then
     distro=$(grep -E '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
@@ -11,11 +31,11 @@ if [ -f /etc/os-release ]; then
         arch|manjaro)
             echo -e "${GREEN}Using Arch/Manjaro setting...${NC}"
             # Update pacman mirrorlist for better performance
-            echo -e "${GREEN}Updating pacman mirrorlist for better performance...${NC}"
+            echo -e "${GREEN}Optimizing mirrorlist...${NC}"
             sudo pacman-mirrors --fasttrack && sudo pacman -Syy
 
             # Setup pacman parallel downloads
-            sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
+            sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
 
             # List of packages to be installed using Pacman
             pacman_packages=(
@@ -45,11 +65,12 @@ if [ -f /etc/os-release ]; then
             )
 
             echo -e "${GREEN}Installing packages...${NC}"
-            sudo pacman -Syu --noconfirm
-            sudo pacman -S "${pacman_packages[@]}" --noconfirm
+            retry sudo pacman -Syu --noconfirm
+            retry sudo pacman -S "${pacman_packages[@]}" --noconfirm
 
             # Install paru
-            (cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm)
+            echo -e "${GREEN}Installing paru...${NC}"
+            retry (cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm)
             echo -e "${GREEN}All packages installed!${NC}"
 
             # Configuration
@@ -70,7 +91,8 @@ if [ -f /etc/os-release ]; then
             chsh -s $(which fish)
             ;;
         ubuntu)
-            sudo apt update && sudo apt install -y git openssh-client fish
+            echo -e "${GREEN}Using Ubuntu setting...${NC}"
+            retry sudo apt update && sudo apt install -y git openssh-client fish
             ;;
         *)
             echo "Unsupported Linux distribution: $distro"
@@ -78,7 +100,8 @@ if [ -f /etc/os-release ]; then
     esac
 fi
 {{ else if eq .chezmoi.os "darwin" }}
-brew install git fish
+echo -e "${GREEN}Using macOS setting...${NC}"
+retry brew install git fish
 {{ else }}
 echo "Unsupported operating system."
 {{ end }}
