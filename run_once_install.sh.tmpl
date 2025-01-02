@@ -9,7 +9,62 @@ if [ -f /etc/os-release ]; then
     distro=$(grep -E '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
     case $distro in
         arch|manjaro)
-            sudo pacman -Syu --noconfirm git openssh fish
+            echo -e "${GREEN}Using Arch/Manjaro setting...${NC}"
+            # Setup pacman parallel downloads
+            sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
+
+            # List of packages to be installed using Pacman
+            pacman_packages=(
+                "bat"
+                "base-devel"
+                "brave-browser"
+                "clang"
+                "curl"
+                "discord"
+                "docker"
+                "docker-compose"
+                "fish"
+                "git"
+                "htop"
+                "ibus-chewing"
+                "neofetch"
+                "neovim"
+                "net-tools"
+                "openssh"
+                "teams"
+                "telegram-desktop"
+                "the_silver_searcher"
+                "tig"
+                "tldr"
+                "tree"
+                "tmux"
+                "wget"
+            )
+
+            echo -e "${GREEN}Installing packages...${NC}"
+            sudo pacman -Syu --noconfirm
+            sudo pacman -S "${pacman_packages[@]}" --noconfirm
+
+            # Install paru
+            (cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm)
+            echo -e "${GREEN}All packages installed!${NC}"
+
+            # Configuration
+            echo -e "${GREEN}Setting up configurations...${NC}"
+            echo -e "Copying following files to ~/:">
+            for f in ${DOTFILE_PATH}/home/.[!.g]*; do
+                echo ${f}
+            done
+
+            # Install LazyVim
+            rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+            git clone https://github.com/LazyVim/starter ~/.config/nvim
+            rm -rf ~/.config/nvim/.git
+            cp -lR --remove-destination ${DOTFILE_PATH}/nvim/lua/* ~/.config/nvim/lua/
+
+            # Switch shell to fish
+            echo -e "${GREEN}Switching shell to fish...${NC}"
+            chsh -s $(which fish)
             ;;
         ubuntu)
             sudo apt update && sudo apt install -y git openssh-client fish
