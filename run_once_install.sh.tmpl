@@ -10,6 +10,10 @@ if [ -f /etc/os-release ]; then
     case $distro in
         arch|manjaro)
             echo -e "${GREEN}Using Arch/Manjaro setting...${NC}"
+            # Update pacman mirrorlist for better performance
+            echo -e "${GREEN}Updating pacman mirrorlist for better performance...${NC}"
+            sudo pacman-mirrors --fasttrack && sudo pacman -Syy
+
             # Setup pacman parallel downloads
             sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/g' /etc/pacman.conf
 
@@ -51,7 +55,7 @@ if [ -f /etc/os-release ]; then
 
             # Configuration
             echo -e "${GREEN}Setting up configurations...${NC}"
-            echo -e "Copying following files to ~/:"
+            echo -e "Copying following files to ~/:">
             for f in ${DOTFILE_PATH}/home/.[!.g]*; do
                 echo ${f}
             done
