@@ -3,12 +3,7 @@ FROM manjarolinux/base:latest
 ENV USER=dev
 ENV HOME=/home/$USER
 
-RUN pacman -Syu --noconfirm \
-    git \
-    chezmoi \
-    sudo \
-    openssh \
-    fish \
+RUN pacman -Syu --noconfirm chezmoi sudo \
     && useradd -m -s /usr/bin/fish $USER \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
