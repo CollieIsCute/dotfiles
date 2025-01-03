@@ -5,10 +5,9 @@ ENV HOME=/home/$USER
 
 ENV CHEZMOI_VERBOSE=1
 
-RUN pacman -Syu --noconfirm sudo
-RUN useradd -m -s bin/bash $USER \
-RUN echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
-RUN echo "$USER:" | chpasswd
+RUN pacman -Syu --noconfirm sudo chezmoi && \
+    useradd -m -s /usr/bin/fish $USER && \
+    echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER $USER
 WORKDIR $HOME
