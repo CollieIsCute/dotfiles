@@ -93,7 +93,6 @@ echo "Unsupported operating system or distribution: $osid"
 rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 rm -rf ~/.config/nvim/.git
-cp -lR --remove-destination ${DOTFILE_PATH}/nvim/lua/* ~/.config/nvim/lua/
 
 # Switch shell to fish
 echo -e "${GREEN}Switching shell to fish...${NC}"
