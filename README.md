@@ -1,6 +1,13 @@
 Collie's dotfiles
 ---
 
+## Usage
+```bash
+chezmoi init --apply https://github.com/CollieIsCute/old-dotfiles.git --branch feature/introduce_chezmoi --verbose
+```
+```
+```
+
 ## Shell setting
 ### [zsh](https://github.com/zsh-users/zsh) 
 - [tmux](https://github.com/tmux/tmux) 
