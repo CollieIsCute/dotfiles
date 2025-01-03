@@ -75,23 +75,6 @@ echo -e "${GREEN}Installing paru...${NC}"
 retry bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
 echo -e "${GREEN}All packages installed!${NC}"
 
-# Configuration
-echo -e "${GREEN}Setting up configurations...${NC}"
-echo -e "Copying following files to ~/:">
-for f in ${DOTFILE_PATH}/home/.[!.g]*; do
-    echo ${f}
-done
-
-# Install LazyVim
-rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
-git clone https://github.com/LazyVim/starter ~/.config/nvim
-rm -rf ~/.config/nvim/.git
-cp -lR --remove-destination ${DOTFILE_PATH}/nvim/lua/* ~/.config/nvim/lua/
-
-# Switch shell to fish
-echo -e "${GREEN}Switching shell to fish...${NC}"
-chsh -s $(which fish)
-
 {{ else if eq $osid "linux-ubuntu" }}
 # Ubuntu specific setup
 echo -e "${GREEN}Using Ubuntu setting...${NC}"
@@ -106,3 +89,12 @@ retry brew install git fish
 echo "Unsupported operating system or distribution: $osid"
 {{ end }}
 
+# Install LazyVim
+rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
+cp -lR --remove-destination ${DOTFILE_PATH}/nvim/lua/* ~/.config/nvim/lua/
+
+# Switch shell to fish
+echo -e "${GREEN}Switching shell to fish...${NC}"
+chsh -s $(which fish)
