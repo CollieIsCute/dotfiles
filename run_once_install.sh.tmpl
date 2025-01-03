@@ -29,7 +29,7 @@ retry() {
 {{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{ if eq $osid "linux-arch" "linux-manjaro" }}
+{{ if or (eq $osid "linux-arch") (eq $osid "linux-manjaro") }}
 # Arch/Manjaro specific setup
 echo -e "${GREEN}Using Arch/Manjaro setting...${NC}"
 # Update pacman mirrorlist for better performance
