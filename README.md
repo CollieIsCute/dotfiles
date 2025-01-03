@@ -5,22 +5,12 @@ Collie's dotfiles
 ```bash
 chezmoi init --apply https://github.com/CollieIsCute/old-dotfiles.git --branch feature/introduce_chezmoi --verbose
 ```
-```
-```
 
 ## Shell setting
-### [zsh](https://github.com/zsh-users/zsh) 
-- [tmux](https://github.com/tmux/tmux) 
-    - [oh my tmux](https://github.com/gpakosz/.tmux)
-- [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) 
-- [zsh-you-should-use](https://github.com/MichaelAquilina/zsh-you-should-use) 
-- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) 
-- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) 
+### [tmux](https://github.com/tmux/tmux) 
+- [oh my tmux](https://github.com/gpakosz/.tmux)
 ### [neovim](https://github.com/neovim/neovim)
 - [LazyVim](https://github.com/LazyVim/LazyVim) 
-- [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim) 
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-- [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
 ## Other tools
 - clang-format
