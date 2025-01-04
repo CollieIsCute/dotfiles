@@ -26,15 +26,20 @@ retry() {
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
   echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-  retry sudo pacman -S --noconfirm {{ join .packages.sharedArch.pacman " " | quote }}
+  {{ if .packages.sharedArch.pacman }}
+  retry sudo pacman -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }}
+  {{ end }}
   echo -e "${GREEN}Installing AUR packages...${NC}"
-  echo -e "${GREEN}This script doesn't support aur packages${NC}"
+  retry bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
-  retry sudo apt update
-  retry sudo apt install -y {{ join .packages.ubuntu.apt " " | quote }}
+  {{ if .packages.ubuntu.apt }}
+  retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+  {{ end }}
+  {{ if .packages.ubuntu.snap }}
   echo -e "${GREEN}Installing Snap packages...${NC}"
-  retry sudo snap install {{ join .packages.ubuntu.snap " " | quote }}
+  retry sudo snap install {{ range .packages.ubuntu.snap }}{{ . }} {{ end }}
+  {{ end }}
 {{ else }}
   echo "Unsupported OS: {{ $osid }}"
   exit 1
