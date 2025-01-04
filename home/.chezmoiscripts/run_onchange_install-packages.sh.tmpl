@@ -26,7 +26,7 @@ retry() {
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
   echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-  retry sudo pacman -S --noconfirm {{ join .packages.shared-arch.pacman " " | quote }}
+  retry sudo pacman -S --noconfirm {{ join .packages.sharedArch.pacman " " | quote }}
   echo -e "${GREEN}Installing AUR packages...${NC}"
   echo -e "${GREEN}This script doesn't support aur packages${NC}"
 {{ else if eq $osid "ubuntu" }}
