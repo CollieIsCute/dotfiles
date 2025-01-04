@@ -1,6 +1,6 @@
 packages:
   shared-arch:
-    pacman: &arch_pacman
+    pacman:
       - "bat"
       - "base-devel"
       - "brave-browser"
@@ -24,14 +24,7 @@ packages:
       - "tree"
       - "tmux"
       - "wget"
-    aur: &arch_aur
-      - "paru"
-  arch:
-    pacman: *arch_pacman
-    aur: *arch_aur
-  manjaro:
-    pacman: *arch_pacman
-    aur: *arch_aur
+    aur:
   ubuntu:
     apt:
       - "bat"

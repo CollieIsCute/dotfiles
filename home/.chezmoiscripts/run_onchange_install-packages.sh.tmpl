@@ -31,7 +31,7 @@ retry() {
   {{ end }}
   echo -e "${GREEN}Installing AUR packages...${NC}"
   {{ range .packages["shared-arch"].aur }}
-  retry bash -c "cd /tmp && git clone https://aur.archlinux.org/{{ . }}.git && cd {{ . }} && makepkg -si --noconfirm"
+  echo -e "${GREEN}This script doesn't support aur packages${NC}"
   {{ end }}
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Installing packages for Ubuntu...${NC}"

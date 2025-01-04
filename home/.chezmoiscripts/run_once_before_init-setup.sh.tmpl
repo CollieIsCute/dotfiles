@@ -9,9 +9,19 @@ export NC='\033[0m'
 {{- $osid := .chezmoi.osRelease.id -}}
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
-  echo -e "${GREEN}Setting up configurations for {{ $osid }}...${NC}"
-  sudo pacman-mirrors --fasttrack && sudo pacman -Syy
+  echo -e "${GREEN}Setting up mirrorlist${NC}"
+  {{ if eq $osid "arch" }}
+    sudo pacman -S --noconfirm reflector
+    sudo reflector --country "US" --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+  {{ else if eq $osid "manjaro" }}
+    sudo pacman-mirrors --fasttrack
+  {{ end }}
+
+  sudo pacman -Syy
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
+  echo -e "${GREEN}Installing paru...${NC}"
+  bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
+  echo -e "${GREEN}paru installed successfully!${NC}"
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
 {{ else }}
