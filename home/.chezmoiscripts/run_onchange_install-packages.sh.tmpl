@@ -22,13 +22,10 @@ retry() {
   done
 }
 
-{{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
-{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
+{{- $osid := .chezmoi.osRelease.id -}}
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
-  echo -e "${GREEN}Installing packages for $osid...${NC}"
+  echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
   {{ range .packages["shared-arch"].pacman }}
   retry sudo pacman -S --noconfirm {{ . | quote }}
   {{ end }}
@@ -47,7 +44,7 @@ retry() {
   retry sudo snap install {{ . }}
   {{ end }}
 {{ else }}
-  echo "Unsupported OS: $osid"
+  echo "Unsupported OS: {{ $osid }}"
   exit 1
 {{ end }}
 

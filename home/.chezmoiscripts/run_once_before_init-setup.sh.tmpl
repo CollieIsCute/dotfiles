@@ -5,19 +5,17 @@ export GREEN='\033[1;32m'
 export NC='\033[0m'
 
 # Setup system configurations
-{{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
-{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
+
+{{- $osid := .chezmoi.osRelease.id -}}
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
-  echo -e "${GREEN}Setting up configurations for $osid...${NC}"
+  echo -e "${GREEN}Setting up configurations for {{ $osid }}...${NC}"
   sudo pacman-mirrors --fasttrack && sudo pacman -Syy
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
 {{ else }}
-  echo "Unsupported OS: $osid"
+  echo "Unsupported OS: {{ $osid }}"
   exit 1
 {{ end }}
 
