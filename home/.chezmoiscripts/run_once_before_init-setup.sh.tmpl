@@ -10,20 +10,16 @@ export NC='\033[0m'
 {{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-case "$osid" in
-  arch|manjaro)
-    echo -e "${GREEN}Setting up configurations for $osid...${NC}"
-    sudo pacman-mirrors --fasttrack && sudo pacman -Syy
-    sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
-    ;;
-  ubuntu)
-    echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
-    ;;
-  *)
-    echo "Unsupported OS: $osid"
-    exit 1
-    ;;
-esac
+{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+  echo -e "${GREEN}Setting up configurations for $osid...${NC}"
+  sudo pacman-mirrors --fasttrack && sudo pacman -Syy
+  sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
+{{ else if eq $osid "ubuntu" }}
+  echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
+{{ else }}
+  echo "Unsupported OS: $osid"
+  exit 1
+{{ end }}
 
 echo -e "${GREEN}System configuration complete!${NC}"
 

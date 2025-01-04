@@ -27,33 +27,29 @@ retry() {
 {{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-case "$osid" in
-  arch|manjaro)
-    echo -e "${GREEN}Installing packages for $osid...${NC}"
-    {{ range .packages["shared-arch"].pacman }}
-    retry sudo pacman -S --noconfirm {{ . | quote }}
-    {{ end }}
-    echo -e "${GREEN}Installing AUR packages...${NC}"
-    {{ range .packages["shared-arch"].aur }}
-    retry bash -c "cd /tmp && git clone https://aur.archlinux.org/{{ . }}.git && cd {{ . }} && makepkg -si --noconfirm"
-    {{ end }}
-    ;;
-  ubuntu)
-    echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
-    retry sudo apt update
-    {{ range .packages["ubuntu"].apt }}
-    retry sudo apt install -y {{ . | quote }}
-    {{ end }}
-    echo -e "${GREEN}Installing Snap packages...${NC}"
-    {{ range .packages["ubuntu"].snap }}
-    retry sudo snap install {{ . }}
-    {{ end }}
-    ;;
-  *)
-    echo "Unsupported OS: $osid"
-    exit 1
-    ;;
-esac
+{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+  echo -e "${GREEN}Installing packages for $osid...${NC}"
+  {{ range .packages["shared-arch"].pacman }}
+  retry sudo pacman -S --noconfirm {{ . | quote }}
+  {{ end }}
+  echo -e "${GREEN}Installing AUR packages...${NC}"
+  {{ range .packages["shared-arch"].aur }}
+  retry bash -c "cd /tmp && git clone https://aur.archlinux.org/{{ . }}.git && cd {{ . }} && makepkg -si --noconfirm"
+  {{ end }}
+{{ else if eq $osid "ubuntu" }}
+  echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
+  retry sudo apt update
+  {{ range .packages["ubuntu"].apt }}
+  retry sudo apt install -y {{ . | quote }}
+  {{ end }}
+  echo -e "${GREEN}Installing Snap packages...${NC}"
+  {{ range .packages["ubuntu"].snap }}
+  retry sudo snap install {{ . }}
+  {{ end }}
+{{ else }}
+  echo "Unsupported OS: $osid"
+  exit 1
+{{ end }}
 
 echo -e "${GREEN}Package installation complete!${NC}"
 
