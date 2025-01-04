@@ -26,21 +26,21 @@ retry() {
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
   echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-  {{ range .packages["shared-arch"].pacman }}
+  {{ range .packages.sharedArch.pacman }}
   retry sudo pacman -S --noconfirm {{ . | quote }}
   {{ end }}
   echo -e "${GREEN}Installing AUR packages...${NC}"
-  {{ range .packages["shared-arch"].aur }}
+  {{ range .packages.sharedArch.aur }}
   echo -e "${GREEN}This script doesn't support aur packages${NC}"
   {{ end }}
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
   retry sudo apt update
-  {{ range .packages["ubuntu"].apt }}
+  {{ range .packages.ubuntu.apt }}
   retry sudo apt install -y {{ . | quote }}
   {{ end }}
   echo -e "${GREEN}Installing Snap packages...${NC}"
-  {{ range .packages["ubuntu"].snap }}
+  {{ range .packages.ubuntu.snap }}
   retry sudo snap install {{ . }}
   {{ end }}
 {{ else }}
@@ -49,4 +49,5 @@ retry() {
 {{ end }}
 
 echo -e "${GREEN}Package installation complete!${NC}"
+
 
