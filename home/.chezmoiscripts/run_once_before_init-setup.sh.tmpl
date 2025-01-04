@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+# Setup system configurations
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+case "$osid" in
+  arch|manjaro)
+    echo -e "${GREEN}Setting up configurations for $osid...${NC}"
+    sudo pacman-mirrors --fasttrack && sudo pacman -Syy
+    sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
+    ;;
+  ubuntu)
+    echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
+    ;;
+  *)
+    echo "Unsupported OS: $osid"
+    exit 1
+    ;;
+esac
+
+echo -e "${GREEN}System configuration complete!${NC}"
+

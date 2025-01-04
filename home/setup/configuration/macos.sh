@@ -1,22 +1,3 @@
-#!/bin/bash
-# symbolic link all files except .gitignore, if dest file exists, overwrite it
-rm -rf ~/.config/fish
-rm -rf ~/.config/nvim
-rm -rf ~/.config/omf
-rm -f ~/.clang-format
-rm -f ~/.tmux.conf
-rm -f ~/.tmux.conf.local
-
-cd $(pwd -P)/..
-echo -e "DOTFILE_PATH: $(pwd -P)"
-echo -e "Copying following files to ~/:"
-for f in (pwd -P)/home/.*
-    echo $f
-    cp -R $f ~/
-end
-
-source ${DOTFILE_PATH}/setup/configuration/common.sh
-
 # if fish is not in /etc/shells, add it
 if ! grep -q "fish" /etc/shells; then
 	echo "Adding fish to /etc/shells..."
