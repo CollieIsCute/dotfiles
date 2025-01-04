@@ -1,0 +1,59 @@
+packages:
+  shared-arch:
+    pacman: &arch_pacman
+      - "bat"
+      - "base-devel"
+      - "brave-browser"
+      - "clang"
+      - "curl"
+      - "discord"
+      - "docker"
+      - "docker-compose"
+      - "fish"
+      - "git"
+      - "htop"
+      - "ibus-chewing"
+      - "neofetch"
+      - "neovim"
+      - "net-tools"
+      - "openssh"
+      - "telegram-desktop"
+      - "the_silver_searcher"
+      - "tig"
+      - "tldr"
+      - "tree"
+      - "tmux"
+      - "wget"
+    aur: &arch_aur
+      - "paru"
+  arch:
+    pacman: *arch_pacman
+    aur: *arch_aur
+  manjaro:
+    pacman: *arch_pacman
+    aur: *arch_aur
+  ubuntu:
+    apt:
+      - "bat"
+      - "build-essential"
+      - "clang-format"
+      - "curl"
+      - "docker"
+      - "docker-compose"
+      - "fish"
+      - "git"
+      - "htop"
+      - "ibus-chewing"
+      - "neofetch"
+      - "silversearcher-ag"
+      - "ssh"
+      - "tig"
+      - "tree"
+      - "tmux"
+      - "wget"
+    snap:
+      - "discord"
+      - "nvim --classic"
+      - "telegram-desktop"
+      - "marksman"
+
