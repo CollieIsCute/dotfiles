@@ -20,6 +20,7 @@ export NC='\033[0m'
   sudo pacman -Syy
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
   echo -e "${GREEN}Installing paru...${NC}"
+  sudo pacman -S --noconfirm base-devel git
   bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
   echo -e "${GREEN}paru installed successfully!${NC}"
 {{ else if eq $osid "ubuntu" }}
