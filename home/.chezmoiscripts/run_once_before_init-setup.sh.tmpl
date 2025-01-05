@@ -17,8 +17,12 @@ export NC='\033[0m'
     sudo pacman-mirrors --fasttrack
   {{ end }}
 
+  echo -e "${GREEN}Synchronizing package databases${NC}"
   sudo pacman -Syy
+  echo -e "${GREEN}Configuring pacman settings${NC}"
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
+  sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+
   echo -e "${GREEN}Installing paru...${NC}"
   sudo pacman -S --noconfirm base-devel git
   bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
