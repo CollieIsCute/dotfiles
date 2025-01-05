@@ -19,7 +19,6 @@ packages:
       - "net-tools"
       - "nethogs"
       - "openssh"
-      - "steam"
       - "telegram-desktop"
       - "the_silver_searcher"
       - "tig"
