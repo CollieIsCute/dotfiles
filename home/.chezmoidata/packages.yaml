@@ -19,6 +19,7 @@ packages:
       - "net-tools"
       - "nethogs"
       - "openssh"
+      - "steam"
       - "telegram-desktop"
       - "the_silver_searcher"
       - "tig"
@@ -27,6 +28,7 @@ packages:
       - "tmux"
       - "wget"
     aur:
+      - "visual-studio-code-bin"
   ubuntu:
     apt:
       - "bat"

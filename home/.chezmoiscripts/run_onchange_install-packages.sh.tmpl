@@ -26,12 +26,8 @@ retry() {
 
 {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
   echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-  {{ if .packages.sharedArch.pacman }}
-  retry sudo pacman -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }}
-  {{ end }}
-  {{ if .packages.sharedArch.aur }}
-  echo -e "${GREEN}There is no AUR packages support yet${NC}"
-  exit 1
+  {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
+  retry paru -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
   {{ end }}
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
