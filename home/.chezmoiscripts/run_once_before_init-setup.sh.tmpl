@@ -18,7 +18,6 @@ export NC='\033[0m'
   {{ end }}
 
   sudo pacman -Syy
-  sudo pacman -S --noconfirm git base-devel
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
   echo -e "${GREEN}Installing paru...${NC}"
   bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
@@ -29,6 +28,13 @@ export NC='\033[0m'
   echo "Unsupported OS: {{ $osid }}"
   exit 1
 {{ end }}
+
+# Installing lazyvim
+if [ -d "$HOME/.config/nvim" ]; then
+  mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak"
+fi
+git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+rm -rf "$HOME/.config/nvim/.git"
 
 echo -e "${GREEN}System configuration complete!${NC}"
 
