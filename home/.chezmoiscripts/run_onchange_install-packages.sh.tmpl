@@ -29,8 +29,7 @@ retry() {
   {{ if .packages.sharedArch.pacman }}
   retry sudo pacman -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }}
   {{ end }}
-  echo -e "${GREEN}Installing AUR packages...${NC}"
-  retry bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
+  echo -e "${GREEN}There is no aur packages supported${NC}"
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
   {{ if .packages.ubuntu.apt }}
