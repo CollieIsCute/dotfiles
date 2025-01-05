@@ -17,11 +17,11 @@ export NC='\033[0m'
     sudo pacman-mirrors --fasttrack
   {{ end }}
 
-  echo -e "${GREEN}Synchronizing package databases${NC}"
-  sudo pacman -Syy
   echo -e "${GREEN}Configuring pacman settings${NC}"
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
   sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+  echo -e "${GREEN}Synchronizing package databases${NC}"
+  sudo pacman -Syy
 
   echo -e "${GREEN}Installing paru...${NC}"
   sudo pacman -S --noconfirm base-devel git
@@ -29,17 +29,8 @@ export NC='\033[0m'
   echo -e "${GREEN}paru installed successfully!${NC}"
 {{ else if eq $osid "ubuntu" }}
   echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
+  sudo snap refresh && sudo apt update && sudo apt upgrade -y
 {{ else }}
   echo "Unsupported OS: {{ $osid }}"
   exit 1
 {{ end }}
-
-# Installing lazyvim
-if [ -d "$HOME/.config/nvim" ]; then
-  mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak"
-fi
-git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
-rm -rf "$HOME/.config/nvim/.git"
-
-echo -e "${GREEN}System configuration complete!${NC}"
-

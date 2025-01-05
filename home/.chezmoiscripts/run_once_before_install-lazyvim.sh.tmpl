@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# Installing lazyvim
+if [ -d "$HOME/.config/nvim" ]; then
+  mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak"
+fi
+git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+rm -rf "$HOME/.config/nvim/.git"
+
+echo -e "${GREEN}System configuration complete!${NC}"
+
+
