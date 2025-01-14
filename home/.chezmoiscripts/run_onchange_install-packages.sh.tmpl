@@ -1,0 +1,47 @@
+#!/bin/bash
+set -e
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+retry() {
+  local n=1
+  local max=5
+  local delay=5
+  while true; do
+    "$@" && break || {
+      if [[ $n -lt $max ]]; then
+        ((n++))
+        echo "Command failed. Attempt $n/$max:"
+        sleep $delay;
+      else
+        echo "Command failed after $n attempts."
+        return 1
+      fi
+    }
+  done
+}
+
+{{- $osid := .chezmoi.osRelease.id -}}
+
+{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+  echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
+  {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
+  retry paru -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
+  {{ end }}
+{{ else if eq $osid "ubuntu" }}
+  echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
+  {{ if .packages.ubuntu.apt }}
+  retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+  {{ end }}
+  {{ if .packages.ubuntu.snap }}
+  echo -e "${GREEN}Installing Snap packages...${NC}"
+  retry sudo snap install {{ range .packages.ubuntu.snap }}{{ . }} {{ end }}
+  {{ end }}
+{{ else }}
+  echo "Unsupported OS: {{ $osid }}"
+  exit 1
+{{ end }}
+
+echo -e "${GREEN}Package installation complete!${NC}"
+
