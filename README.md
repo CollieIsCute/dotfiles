@@ -3,7 +3,7 @@ Collie's dotfiles
 
 ## Usage
 ```bash
-chezmoi init --apply https://github.com/CollieIsCute/old-dotfiles.git --branch feature/introduce_chezmoi --verbose
+chezmoi init --apply https://github.com/CollieIsCute/dotfiles.git --branch main --verbose
 ```
 
 ## Shell setting
