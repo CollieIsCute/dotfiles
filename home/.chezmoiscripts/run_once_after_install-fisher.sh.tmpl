@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+if command -v fish &> /dev/null; then
+  echo -e "${GREEN}Installing Fisher...${NC}"
+  fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+  echo -e "${GREEN}Installing Fish plugins...${NC}"
+  fish -c 'fisher install edc/bass pure-fish/pure jorgebucaran/nvm.fish'
+else
+  echo "Fish shell is not installed. Skipping Fisher and plugin installation."
+fi
+
