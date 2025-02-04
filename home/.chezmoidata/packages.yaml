@@ -6,7 +6,6 @@ packages:
       - "brave-browser"
       - "clang"
       - "curl"
-      - "discord"
       - "docker"
       - "docker-compose"
       - "fastfetch"
@@ -26,6 +25,7 @@ packages:
       - "tldr"
       - "tree"
       - "tmux"
+      - "vesktop-bin"
       - "wget"
     aur:
       - "visual-studio-code-bin"
