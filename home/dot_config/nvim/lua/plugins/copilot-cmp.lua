@@ -1,2 +1,3 @@
-opts = {}
-
+return {
+  "zbirenbaum/copilot-cmp",
+}
