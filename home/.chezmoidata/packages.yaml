@@ -10,6 +10,7 @@ packages:
       - "docker-compose"
       - "fastfetch"
       - "fish"
+      - "fzf"
       - "git"
       - "htop"
       - "ibus-chewing"
