@@ -1,0 +1,3 @@
+return {
+	"ibhagwan/fzf-lua",
+}
