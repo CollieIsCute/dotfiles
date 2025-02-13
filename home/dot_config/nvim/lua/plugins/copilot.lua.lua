@@ -1,3 +1,8 @@
 return {
-  "zbirenbaum/copilot.lua",
+	"zbirenbaum/copilot.lua",
+	opts = {
+		filetypes = {
+			["*"] = true,
+		},
+	},
 }

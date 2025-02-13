@@ -3,7 +3,7 @@ Collie's dotfiles
 
 ## Usage
 ```bash
-chezmoi init --apply collieiscute --verbose
+chezmoi init --apply collieiscute -v
 ```
 
 ## Shell setting
