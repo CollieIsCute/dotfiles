@@ -9,6 +9,7 @@ packages:
       - "docker"
       - "docker-compose"
       - "fastfetch"
+      - "fd"
       - "fish"
       - "fzf"
       - "git"
