@@ -14,6 +14,7 @@ packages:
       - "fzf"
       - "git"
       - "htop"
+      - "hugo"
       - "ibus-chewing"
       - "neofetch"
       - "neovim"
