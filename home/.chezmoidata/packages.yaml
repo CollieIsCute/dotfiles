@@ -13,6 +13,7 @@ packages:
       - "fish"
       - "fzf"
       - "git"
+      - "go"
       - "htop"
       - "hugo"
       - "ibus-chewing"
