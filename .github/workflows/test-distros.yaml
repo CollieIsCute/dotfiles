@@ -9,7 +9,8 @@ on:
 matrix:
   container: [manjarolinux/base:latest]
 jobs:
-  ${{ matrix.container }}-test:
+  dotfiles-test:
+    name: ${{ matrix.container }}-test
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.container }}
