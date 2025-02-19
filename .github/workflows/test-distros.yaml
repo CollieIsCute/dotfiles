@@ -8,7 +8,7 @@ on:
 
 jobs:
   dotfiles-test:
-    name: ${{ matrix.container }}
+    name: ${{ matrix.container }}-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,8 +23,9 @@ jobs:
       - name: Prepare environment
         run: |
           sudo pacman -Syu --noconfirm sudo chezmoi git
+          sudo useradd -m dev || true
+          echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
 
       - name: chezmoi init dotfiles
         run: |
-          sudo useradd -m dev || true
           sudo -u dev chezmoi init --apply collieiscute -v
