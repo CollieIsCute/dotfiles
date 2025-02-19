@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: [manjarolinux/base:latest]
+        container: ["manjarolinux/base:latest"]
     container:
       image: ${{ matrix.container }}
       env:
