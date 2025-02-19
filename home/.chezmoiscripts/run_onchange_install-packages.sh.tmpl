@@ -34,10 +34,6 @@ retry() {
   {{ if .packages.ubuntu.apt }}
   retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
   {{ end }}
-  {{ if .packages.ubuntu.snap }}
-  echo -e "${GREEN}Installing Snap packages...${NC}"
-  retry sudo snap install {{ range .packages.ubuntu.snap }}{{ . }} {{ end }}
-  {{ end }}
 {{ else }}
   echo "Unsupported OS: {{ $osid }}"
   exit 1

@@ -48,15 +48,11 @@ packages:
       - "htop"
       - "ibus-chewing"
       - "neofetch"
+      - "neovim"
       - "silversearcher-ag"
       - "ssh"
+      - "telegram"
       - "tig"
       - "tree"
       - "tmux"
       - "wget"
-    snap:
-      - "discord"
-      - "nvim --classic"
-      - "telegram-desktop"
-      - "marksman"
-
