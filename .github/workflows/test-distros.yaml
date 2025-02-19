@@ -1,0 +1,26 @@
+
+name: Test Dotfiles on Manjaro
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+matrix:
+  container: [manjarolinux/base:latest]
+jobs:
+  ${{ matrix.container }}-test:
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+      USER: dev
+      HOME: /home/dev
+      CHEZMOI_VERBOSE: 1
+    steps:
+      - name: Prepare environment
+        run: |
+          sudo pacman -Syu --noconfirm sudo chezmoi git
+
+      - name: Install chezmoi and initialize dotfiles
+        run: |
+          chezmoi init --apply collieiscute -v
