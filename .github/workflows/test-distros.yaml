@@ -17,7 +17,7 @@ jobs:
     continue-on-errors: true
     strategy:
       matrix:
-        container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04"]
+        container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:20.04", "ubuntu:22.04"]
     container:
       image: ${{ matrix.container }}
       env:
