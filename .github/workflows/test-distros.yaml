@@ -8,7 +8,7 @@ on:
 
 jobs:
   dotfiles-test:
-    name: ${{ matrix.container }}-test
+    name: ${{ matrix.container }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,4 +26,5 @@ jobs:
 
       - name: chezmoi init dotfiles
         run: |
-          chezmoi init --apply collieiscute -v
+          sudo useradd -m dev || true
+          sudo -u dev chezmoi init --apply collieiscute -v
