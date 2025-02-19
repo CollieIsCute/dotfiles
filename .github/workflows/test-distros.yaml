@@ -6,22 +6,24 @@ on:
     branches: [ main ]
   pull_request:
 
-matrix:
-  container: [manjarolinux/base:latest]
 jobs:
   dotfiles-test:
     name: ${{ matrix.container }}-test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: [manjarolinux/base:latest]
     container:
       image: ${{ matrix.container }}
-      USER: dev
-      HOME: /home/dev
-      CHEZMOI_VERBOSE: 1
+      env:
+        USER: dev
+        HOME: /home/dev
+        CHEZMOI_VERBOSE: 1
     steps:
       - name: Prepare environment
         run: |
           sudo pacman -Syu --noconfirm sudo chezmoi git
 
-      - name: Install chezmoi and initialize dotfiles
+      - name: chezmoi init dotfiles
         run: |
           chezmoi init --apply collieiscute -v
