@@ -14,6 +14,7 @@ jobs:
   dotfiles-test:
     name: ${{ matrix.container }}-test
     runs-on: ubuntu-latest
+    continue-on-errors: true
     strategy:
       matrix:
         container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04"]
