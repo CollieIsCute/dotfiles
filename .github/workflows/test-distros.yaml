@@ -1,5 +1,5 @@
 
-name: Test Dotfiles on different OS
+name: Test Dotfiles on Different OS
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ["manjarolinux/base:latest", "archlinux/archlinux"]
+        container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04"]
     container:
       image: ${{ matrix.container }}
       env:
@@ -26,16 +26,22 @@ jobs:
     steps:
       - name: Prepare environment
         run: |
-          if command -v sudo >/dev/null; then
-            sudo pacman -Syu --noconfirm sudo chezmoi git
-            sudo useradd -m dev || true
-            echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
+          if command -v apt-get >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y sudo git curl
+            if ! command -v chezmoi >/dev/null; then
+              sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+            fi
+          elif command -v pacman >/dev/null; then
+            if ! command -v sudo > /dev/null; then
+              pacman -Syu --noconfirm sudo
+            fi
+            sudo pacman -Syu --noconfirm git chezmoi
           else
-            pacman -Syu --noconfirm sudo chezmoi git
-            useradd -m dev || true
-            echo "dev ALL=(ALL) NOPASSWD: ALL" | tee /etc/sudoers.d/dev
+            exit 1
           fi
-
+          sudo useradd -m dev || true
+          echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
           sudo -u dev chezmoi init --apply collieiscute -v
