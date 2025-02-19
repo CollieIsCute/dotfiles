@@ -1,5 +1,5 @@
 
-name: Test Dotfiles on Manjaro and Arch
+name: Test Dotfiles on different OS
 
 on:
   push:
