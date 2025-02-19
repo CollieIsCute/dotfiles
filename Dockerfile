@@ -12,5 +12,5 @@ RUN pacman -Syu --noconfirm sudo && \
 USER $USER
 WORKDIR $HOME
 
-ENTRYPOINT ["sh", "-c", "sudo pacman -Syu --noconfirm chezmoi && chezmoi init --apply https://github.com/CollieIsCute/old-dotfiles.git --branch feature/introduce_chezmoi --verbose && exec /bin/bash"]
+ENTRYPOINT ["sh", "-c", "sudo pacman -Syu --noconfirm chezmoi && chezmoi init --apply collieiscute -v && exec /bin/bash"]
 
