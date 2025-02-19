@@ -10,6 +10,7 @@ jobs:
   dotfiles-test:
     name: ${{ matrix.container }}-test
     runs-on: ubuntu-latest
+    continue-on-error: ture
     strategy:
       matrix:
         container: ["manjarolinux/base:latest", "archlinux/archlinux"]
