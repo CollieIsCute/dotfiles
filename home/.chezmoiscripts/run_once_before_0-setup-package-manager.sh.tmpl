@@ -32,7 +32,7 @@ export NC='\033[0m'
   sudo apt update && sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/unstable
   sudo add-apt-repository ppa:atareao/telegram
-  sudo DEBIAN_FRONTEND=noninteractive apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
+  sudo apt update && sudo apt upgrade -y
 {{ else }}
   echo "Unsupported OS: {{ $osid }}"
   exit 1
