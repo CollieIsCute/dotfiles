@@ -5,6 +5,16 @@ export GREEN='\033[1;32m'
 export NC='\033[0m'
 
 # Setup system configurations
+enable_multilib(){
+  sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+  if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
+    sudo tee -a /etc/pacman.conf <<EOF
+
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist 
+EOF
+  fi
+}
 
 {{- $osid := .chezmoi.osRelease.id -}}
 
@@ -19,7 +29,7 @@ export NC='\033[0m'
 
   echo -e "${GREEN}Configuring pacman settings${NC}"
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
-  sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+  enable_multilib()
   echo -e "${GREEN}Synchronizing package databases${NC}"
   sudo pacman -Syy
 
