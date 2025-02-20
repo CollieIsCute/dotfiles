@@ -29,7 +29,7 @@ EOF
 
   echo -e "${GREEN}Configuring pacman settings${NC}"
   sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
-  enable_multilib()
+  enable_multilib
   echo -e "${GREEN}Synchronizing package databases${NC}"
   sudo pacman -Syy
 
