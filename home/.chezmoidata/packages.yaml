@@ -5,6 +5,7 @@ packages:
       - "base-devel"
       - "brave-browser"
       - "clang"
+      - "cloc"
       - "curl"
       - "docker-compose"
       - "fastfetch"
