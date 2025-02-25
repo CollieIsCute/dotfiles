@@ -1,6 +1,7 @@
 packages:
   sharedArch:
     pacman:
+      - "alacritty"
       - "bat"
       - "base-devel"
       - "brave-browser"
