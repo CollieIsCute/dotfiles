@@ -1,0 +1,10 @@
+[window]
+dimensions = { columns = 100, lines = 30 }
+opacity = 0.75
+
+[font]
+normal = { family = "JetBrainsMono", style = "Regular" }
+size = 12.0
+
+[scrolling]
+history = 100000
