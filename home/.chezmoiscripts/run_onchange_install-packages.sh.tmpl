@@ -22,21 +22,27 @@ retry() {
   done
 }
 
-{{- $osid := .chezmoi.osRelease.id -}}
-
-{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
-  echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-  {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
-  sudo pacman -Syy
-  retry paru -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
-  {{ end }}
-{{ else if eq $osid "ubuntu" }}
-  echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
-  {{ if .packages.ubuntu.apt }}
-  retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+{{- if eq .chezmoi.os "darwin" }}
+  echo -e "${GREEN}macOS detected, skipping Linux-specific package installation...${NC}"
+{{ else if eq .chezmoi.os "linux" }}
+  {{- $osid := .chezmoi.osRelease.id -}}
+  {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+    echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
+    {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
+    sudo pacman -Syy
+    retry paru -S --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
+    {{ end }}
+  {{ else if eq $osid "ubuntu" }}
+    echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
+    {{ if .packages.ubuntu.apt }}
+    retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+    {{ end }}
+  {{ else }}
+    echo "Unsupported Linux distro: {{ $osid }}"
+    exit 1
   {{ end }}
 {{ else }}
-  echo "Unsupported OS: {{ $osid }}"
+  echo "Unsupported OS: {{ .chezmoi.os }}"
   exit 1
 {{ end }}
 
