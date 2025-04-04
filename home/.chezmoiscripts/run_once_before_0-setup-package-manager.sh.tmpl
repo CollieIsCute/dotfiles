@@ -4,6 +4,9 @@ set -e
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
+{{- $osid := .chezmoi.osRelease.id -}}
+
+{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
 # Setup system configurations
 enable_multilib(){
   sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
@@ -16,9 +19,6 @@ EOF
   fi
 }
 
-{{- $osid := .chezmoi.osRelease.id -}}
-
-{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
   echo -e "${GREEN}Setting up mirrorlist${NC}"
   {{ if eq $osid "arch" }}
     sudo pacman -S --noconfirm reflector
