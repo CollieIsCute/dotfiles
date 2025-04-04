@@ -10,6 +10,7 @@ export NC='\033[0m'
   eval "$(/opt/homebrew/bin/brew shellenv)"
   brew update --force --quiet
   chmod -R go-w "$(brew --prefix)/share/zsh"
+  find ~ -name "Brewfile" 2>/dev/null
   brew bundle install --file=~/setup/install_package/Brewfile
   (fish -C "eval (/opt/homebrew/bin/brew shellenv) && exit")
 
