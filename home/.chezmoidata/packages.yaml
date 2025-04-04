@@ -4,7 +4,7 @@ packages:
       - "alacritty"
       - "bat"
       - "base-devel"
-      - "brave-browser"
+      - "brave-bin"
       - "clang"
       - "cloc"
       - "curl"
