@@ -5,11 +5,21 @@ export GREEN='\033[1;32m'
 export NC='\033[0m'
 
 {{- if eq .chezmoi.os "darwin" }}
-  # macOS-specific logic here (if any).
-  echo -e "${GREEN}macOS detected, skipping OS-specific Linux steps...${NC}"
+  echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
+  # install homebrew
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  brew update --force --quiet
+  chmod -R go-w "$(brew --prefix)/share/zsh"
+
+  # install packages
+  brew bundle install --file=install_package/Brewfile
+
+  # add brew path to fish
+  (fish -C "eval (/opt/homebrew/bin/brew shellenv) && exit")
+
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-
   {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
     # Setup system configurations
     enable_multilib(){
