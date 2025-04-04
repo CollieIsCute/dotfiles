@@ -10,7 +10,7 @@ export NC='\033[0m'
   eval "$(/opt/homebrew/bin/brew shellenv)"
   brew update --force --quiet
   chmod -R go-w "$(brew --prefix)/share/zsh"
-  brew bundle install --file=home/setup/install_package/Brewfile
+  brew bundle install --file=setup/install_package/Brewfile
   (fish -C "eval (/opt/homebrew/bin/brew shellenv) && exit")
 
 {{ else if eq .chezmoi.os "linux" }}
