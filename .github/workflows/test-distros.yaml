@@ -3,7 +3,7 @@ name: Test Dotfiles on Different OS
 
 on:
   push:
-    branches: [ main ]
+    branches: ['*']
   pull_request:
 
 concurrency:
@@ -45,13 +45,11 @@ jobs:
             sudo pacman -Syu --noconfirm git chezmoi curl
           else
             exit 1
-          fi
           sudo useradd -m dev || true
           echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
           if command -v sudo >/dev/null; then
-            sudo -u dev chezmoi init --apply collieiscute -v
+            sudo -u dev chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v
           else
-            su dev -c 'chezmoi init --apply collieiscute -v'
-          fi
+            su dev -c "chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v"
