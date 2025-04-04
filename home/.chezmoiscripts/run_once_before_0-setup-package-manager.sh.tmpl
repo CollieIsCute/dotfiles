@@ -29,7 +29,7 @@ EOF
     echo -e "${GREEN}Setting up mirrorlist${NC}"
     {{ if eq $osid "arch" }}
       sudo pacman -S --noconfirm reflector
-      sudo reflector --country "US" --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+      sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
     {{ else if eq $osid "manjaro" }}
       sudo pacman-mirrors --fasttrack
     {{ end }}
