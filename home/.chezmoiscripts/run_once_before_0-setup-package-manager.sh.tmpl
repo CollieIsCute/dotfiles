@@ -4,46 +4,57 @@ set -e
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
-# Setup system configurations
-enable_multilib(){
-  sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
-  if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
-    sudo tee -a /etc/pacman.conf <<EOF
+{{- if eq .chezmoi.os "darwin" }}
+  echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  brew update --force
+  chmod -R go-w "$(brew --prefix)/share/zsh"
+
+{{ else if eq .chezmoi.os "linux" }}
+  {{- $osid := .chezmoi.osRelease.id -}}
+  {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+    # Setup system configurations
+    enable_multilib(){
+      sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+      if ! grep -q '^\[multilib\]' /etc/pacman.conf; then
+        sudo tee -a /etc/pacman.conf <<EOF
 
       [multilib]
       Include = /etc/pacman.d/mirrorlist 
 EOF
-  fi
-}
+      fi
+    }
 
-{{- $osid := .chezmoi.osRelease.id -}}
+    echo -e "${GREEN}Setting up mirrorlist${NC}"
+    {{ if eq $osid "arch" }}
+      sudo pacman -S --noconfirm reflector
+      sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+    {{ else if eq $osid "manjaro" }}
+      sudo pacman-mirrors --fasttrack
+    {{ end }}
 
-{{ if or (eq $osid "arch") (eq $osid "manjaro") }}
-  echo -e "${GREEN}Setting up mirrorlist${NC}"
-  {{ if eq $osid "arch" }}
-    sudo pacman -S --noconfirm reflector
-    sudo reflector --country "US" --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-  {{ else if eq $osid "manjaro" }}
-    sudo pacman-mirrors --fasttrack
+    echo -e "${GREEN}Configuring pacman settings${NC}"
+    sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
+    enable_multilib
+    echo -e "${GREEN}Synchronizing package databases${NC}"
+    sudo pacman -Syy
+
+    echo -e "${GREEN}Installing paru...${NC}"
+    sudo pacman -S --noconfirm base-devel git
+    bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
+    echo -e "${GREEN}paru installed successfully!${NC}"
+  {{ else if eq $osid "ubuntu" }}
+    echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
+    sudo apt update && sudo apt-get install -y software-properties-common
+    sudo add-apt-repository ppa:neovim-ppa/unstable
+    sudo add-apt-repository ppa:atareao/telegram
+    sudo apt update && sudo apt upgrade -y
+  {{ else }}
+    echo "Unsupported Linux distro: {{ $osid }}"
+    exit 1
   {{ end }}
-
-  echo -e "${GREEN}Configuring pacman settings${NC}"
-  sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
-  enable_multilib
-  echo -e "${GREEN}Synchronizing package databases${NC}"
-  sudo pacman -Syy
-
-  echo -e "${GREEN}Installing paru...${NC}"
-  sudo pacman -S --noconfirm base-devel git
-  bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
-  echo -e "${GREEN}paru installed successfully!${NC}"
-{{ else if eq $osid "ubuntu" }}
-  echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
-  sudo apt update && sudo apt-get install -y software-properties-common
-  sudo add-apt-repository ppa:neovim-ppa/unstable
-  sudo add-apt-repository ppa:atareao/telegram
-  sudo apt update && sudo apt upgrade -y
 {{ else }}
-  echo "Unsupported OS: {{ $osid }}"
+  echo "Unsupported OS: {{ .chezmoi.os }}"
   exit 1
 {{ end }}
