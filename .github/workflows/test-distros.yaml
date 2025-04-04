@@ -59,7 +59,7 @@ jobs:
         shell: sh -e {0}
 
   deploy-on-macos:
-    name: macOS
+    name: macos:latest
     runs-on: macos-latest
     steps:
       - name: Prepare environment
