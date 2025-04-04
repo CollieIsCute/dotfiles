@@ -52,10 +52,11 @@ jobs:
           echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
+          BRANCH=${{ github.head_ref || github.ref_name }}
           if command -v sudo >/dev/null; then
-            sudo -u dev chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v
+            sudo -u dev chezmoi init collieiscute --branch "$BRANCH" --apply -v
           else
-            su dev -c "chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v"
+            su dev -c "chezmoi init collieiscute --branch \"$BRANCH\" --apply -v"
           fi
         shell: sh -e {0}
 
@@ -75,9 +76,10 @@ jobs:
           echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
+          BRANCH=${{ github.head_ref || github.ref_name }}
           if command -v sudo >/dev/null; then
-            sudo -u $USER chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v
+            sudo -u $USER chezmoi init collieiscute --branch "$BRANCH" --apply -v
           else
-            chezmoi init collieiscute --branch ${{ github.ref_name }} --apply -v
+            chezmoi init collieiscute --branch "$BRANCH" --apply -v
           fi
         shell: sh -e {0}
