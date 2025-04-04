@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  dotfiles-test:
+  deploy-on-linux:
     name: ${{ matrix.container }}
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -58,8 +58,8 @@ jobs:
           fi
         shell: sh -e {0}
 
-  dotfiles-test-macos:
-    name: macOS Test
+  deploy-on-macos:
+    name: macOS
     runs-on: macos-latest
     steps:
       - name: Prepare environment
