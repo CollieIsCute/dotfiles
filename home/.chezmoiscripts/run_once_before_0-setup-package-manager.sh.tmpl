@@ -8,9 +8,8 @@ export NC='\033[0m'
   echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  brew update --force --quiet
+  brew update --force
   chmod -R go-w "$(brew --prefix)/share/zsh"
-  (fish -C "eval (/opt/homebrew/bin/brew shellenv) && exit")
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
