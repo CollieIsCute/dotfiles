@@ -1,8 +1,19 @@
-# Check if fish is already the default shell
+# OS specific configurations
+{{ if eq .chezmoi.os "darwin" -}}
+if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
+    echo -e "${GREEN}Adding fish to /etc/shells${NC}"
+    echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
+end
+
+fish_add_path /opt/homebrew/bin
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end }}
+
 if test "$SHELL" != "$(command -v fish)"
     echo -e "${GREEN}Changing default shell to fish...${NC}"
     chsh -s "$(command -v fish)"
 end
+
 # Common aliases and configurations for all platforms
 alias gaa="git add --all"
 alias gc="git commit -m"
@@ -24,40 +35,3 @@ alias .......="cd ../../../../../.."
 
 # Use neovim if available
 command -v nvim >/dev/null && alias vi="nvim"
-
-# Fish shell configuration with OS-specific settings
-
-# OS specific configurations
-{{ if eq .chezmoi.os "darwin" -}}
-if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
-    echo -e "${GREEN}Adding fish to /etc/shells${NC}"
-    echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
-end
-
-# Check if fish is already the default shell
-if test "$SHELL" != "$(brew --prefix)/bin/fish"
-    echo -e "${GREEN}Changing default shell to fish...${NC}"
-    chsh -s "$(brew --prefix)/bin/fish"
-end
-
-fish_add_path /opt/homebrew/bin
-eval "$(/opt/homebrew/bin/brew shellenv)"
-{{ else if eq .chezmoi.os "linux" -}}
-    {{ if (.chezmoi.osRelease.id | lower) | contains "ubuntu" -}}
-    
-    alias bat="batcat --pager='never'"
-    {{ else -}}
-    alias bat="bat --pager='never'"
-    {{ end -}}
-
-function hide
-    setsid $argv > /dev/null 2>&1 &
-end
-function wo
-    set openlist $argv
-    for item in $openlist
-        xdg-open $item > /dev/null 2>&1 &
-    end
-end
-
-{{ end }}

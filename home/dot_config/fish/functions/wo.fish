@@ -1,0 +1,9 @@
+function wo
+    set openlist $argv
+    for item in $openlist
+    {{ if eq .chezmoi.os "linux" }}
+      xdg-open $item > /dev/null 2>&1 &
+    {{ else if eq .chezmoi.os "darwin" }}
+      open $item > /dev/null 2>&1 &
+    end
+end
