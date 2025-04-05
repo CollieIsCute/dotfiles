@@ -2,6 +2,11 @@ Collie's dotfiles
 ---
 
 ## Usage
+
+### Prerequisites
+- [git](https://github.com/git/git)
+- [chezmoi](https://github.com/twpayne/chezmoi)
+
 ```bash
 chezmoi init --apply collieiscute -v
 ```
