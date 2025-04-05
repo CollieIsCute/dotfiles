@@ -1,7 +1,17 @@
 #!/bin/bash
 set -e
-
+echo -e "\n${GREEN}setup fish and fisher...${NC}"
 if command -v fish &> /dev/null; then
+  if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells; then
+    echo -e "${GREEN}Adding fish to /etc/shells${NC}"
+    echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
+  fi
+  # Check if fish is already the default shell
+  if [[ "$SHELL" != "$(brew --prefix)/bin/fish" ]]; then
+    echo -e "${GREEN}Changing default shell to fish...${NC}"
+    chsh -s "$(brew --prefix)/bin/fish"
+  fi
+
   echo -e "${GREEN}Installing Fisher...${NC}"
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
   echo -e "${GREEN}Installing Fish plugins...${NC}"
