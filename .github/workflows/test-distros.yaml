@@ -58,7 +58,6 @@ jobs:
           else
             su dev -c "chezmoi init collieiscute --branch \"$BRANCH\" --apply -v"
           fi
-        shell: sh -e {0}
 
   deploy-on-macos:
     name: macos:latest
@@ -82,4 +81,3 @@ jobs:
           else
             chezmoi init collieiscute --branch "$BRANCH" --apply -v
           fi
-        shell: sh -e {0}
