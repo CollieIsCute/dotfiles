@@ -24,7 +24,7 @@ retry() {
 
 {{ if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}Installing MacOS packages${NC}"
-  brew bundle install --file=~/.config/brew/Brewfile
+  {{- template "install-packages_darwin.tmpl" . -}}
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
