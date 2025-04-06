@@ -77,7 +77,7 @@ jobs:
         run: |
           BRANCH=${{ github.head_ref || github.ref_name }}
           if command -v sudo >/dev/null; then
-            sudo -u $USER chezmoi init collieiscute --branch "$BRANCH" --apply -v
+            sudo -u $USER chezmoi init collieiscute --branch "$BRANCH" --apply -v --debug
           else
-            chezmoi init collieiscute --branch "$BRANCH" --apply -v
+            chezmoi init collieiscute --branch "$BRANCH" --apply -v --debug
           fi
