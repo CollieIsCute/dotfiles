@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
 echo -e "\n${GREEN}setup fish and fisher...${NC}"
 if command -v fish &> /dev/null; then
   echo -e "${GREEN}Installing Fisher...${NC}"
