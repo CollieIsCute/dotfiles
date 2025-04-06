@@ -4,7 +4,7 @@ set -e
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
-echo -e "\n${GREEN}setup fish and fisher...${NC}"
+echo -e "\n${GREEN}Setting fish and fisher...${NC}"
 if command -v fish &> /dev/null; then
   echo -e "${GREEN}Installing Fisher...${NC}"
   fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
@@ -14,3 +14,4 @@ else
   echo "Fish shell is not installed. Skipping Fisher and plugin installation."
 fi
 
+echo -e "${GREEN}fish and fisher setup complete!${NC}"
