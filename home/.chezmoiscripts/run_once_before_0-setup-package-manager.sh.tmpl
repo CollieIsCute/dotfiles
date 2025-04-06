@@ -4,6 +4,7 @@ set -e
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
+echo -e "\n${GREEN}Setting up package manager...${NC}"
 {{- if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -58,3 +59,5 @@ EOF
   echo "Unsupported OS: {{ .chezmoi.os }}"
   exit 1
 {{ end }}
+
+echo -e "${GREEN}setup package manager complete!${NC}"
