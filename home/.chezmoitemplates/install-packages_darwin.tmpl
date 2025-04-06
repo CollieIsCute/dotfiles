@@ -1,2 +1,2 @@
-# this comment is to make script update when Brewfile is modified {{- include ~/.config/brew/Brewfile | sha256sum }}
-brew bundle install --file=~/.config/brew/Brewfile
+# this comment is to make script update when Brewfile is modified {{- include (joinPath .chezmoi.sourceDir "home/dot_config/brew/Brewfile") | sha256sum }}
+brew bundle install --file="${HOME}/.config/brew/Brewfile"
