@@ -25,7 +25,7 @@ retry() {
 {{- if eq .chezmoi.os "darwin" -}}
   echo -e "${GREEN}macOS detected, proceeding with macOS-specific package installation...${NC}"
   brew bundle --file=/dev/stdin <<EOF
-  include "{{ .chezmoi.sourceDir }}/home/dot_config/brew/Brewfile"
+{{ include (joinPath .chezmoi.sourceDir "home/dot_config/brew/Brewfile") }}
 EOF
 
 {{ else if eq .chezmoi.os "linux" }}
