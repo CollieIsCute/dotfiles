@@ -22,7 +22,7 @@ retry() {
   done
 }
 
-{{- if eq .chezmoi.os "darwin" -}}
+{{ if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}macOS detected, proceeding with macOS-specific package installation...${NC}"
   brew bundle install --file=~/.config/brew/Brewfile
 
