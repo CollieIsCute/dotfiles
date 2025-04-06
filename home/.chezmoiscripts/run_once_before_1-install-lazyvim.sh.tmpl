@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
 # Installing lazyvim
 if [ -d "$HOME/.config/nvim" ]; then
   mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak"
