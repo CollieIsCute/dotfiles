@@ -1,4 +1,3 @@
-# 定義顏色變數
 set -l green (set_color green)
 set -l red (set_color red)
 set -l blue (set_color blue)
@@ -6,12 +5,10 @@ set -l normal (set_color normal)
 set -l yellow (set_color yellow)
 set -l cyan (set_color cyan)
 
-# OS 特定配置
 {{ if eq .chezmoi.os "darwin" -}}
-# MacOS 特定配置
 if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
     echo -e "$green Please add fish to shell PATHs. Command: $normal"
-    echo 'echo $(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
+    echo 'echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
 end
 
 fish_add_path /opt/homebrew/bin
