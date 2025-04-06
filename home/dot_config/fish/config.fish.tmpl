@@ -11,6 +11,8 @@ if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
     echo 'echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
 end
 
+alias buu="brew update --auto-update && brew upgrade && fisher update"
+
 fish_add_path /opt/homebrew/bin
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
