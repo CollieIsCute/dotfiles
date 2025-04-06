@@ -4,13 +4,11 @@ set -e
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
-# Installing lazyvim
+echo -e "\n${GREEN}Installing LazyVim...${NC}"
 if [ -d "$HOME/.config/nvim" ]; then
   mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak"
 fi
 git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
 rm -rf "$HOME/.config/nvim/.git"
 
-echo -e "${GREEN}System configuration complete!${NC}"
-
-
+echo -e "${GREEN}install lazyvim complete!${NC}"
