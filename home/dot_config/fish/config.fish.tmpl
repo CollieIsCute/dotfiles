@@ -10,8 +10,8 @@ set -l cyan (set_color cyan)
 {{ if eq .chezmoi.os "darwin" -}}
 # MacOS 特定配置
 if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
-    echo -e "$green Adding fish to /etc/shells $normal"
-    echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
+    echo -e "$green Please add fish to shell PATHs. Command: $normal"
+    echo 'echo $(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
 end
 
 fish_add_path /opt/homebrew/bin
@@ -20,8 +20,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # 更改預設 shell 為 fish
 if test "$SHELL" != "$(command -v fish)"
-    echo -e "$green Changing default shell to fish... $normal"
-    chsh -s "$(command -v fish)"
+    echo -e "$green You can use this command to set fish as default shell: $normal"
+    echo 'chsh -s "$(command -v fish)"'
 end
 
 # 共用別名和配置 (適用於所有平台)
