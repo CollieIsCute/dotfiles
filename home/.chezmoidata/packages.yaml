@@ -37,6 +37,7 @@ packages:
       - "wget"
       - "zip"
     aur:
+      - "tmux-plugin-manager"
       - "visual-studio-code-bin"
   ubuntu:
     apt:
