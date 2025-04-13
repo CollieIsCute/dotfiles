@@ -4,6 +4,7 @@ set -l blue (set_color blue)
 set -l normal (set_color normal)
 set -l yellow (set_color yellow)
 set -l cyan (set_color cyan)
+set -g theme_catppuccin_flavour mocha
 
 {{ if eq .chezmoi.os "darwin" -}}
 if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
