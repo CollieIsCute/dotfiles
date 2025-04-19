@@ -1,4 +1,5 @@
 tap "windwords/vchewing"
+brew "alacritty"
 brew "aspell"
 brew "automake"
 brew "openssl@3"
