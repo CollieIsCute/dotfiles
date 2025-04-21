@@ -21,6 +21,7 @@ brew "git"
 brew "gnu-tar"
 brew "hugo"
 brew "llvm"
+brew "mas"
 brew "mold"
 brew "neovim"
 brew "ninja"
@@ -50,3 +51,7 @@ cask "telegram"
 cask "vchewing"
 cask "vesktop"
 cask "visual-studio-code"
+mas "LINE", id: 539883307
+mas "Messenger", id: 1480068668
+mas "Steam", id: 413730677
+mas "Telegram", id: 747648890
