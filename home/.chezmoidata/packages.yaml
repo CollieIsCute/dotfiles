@@ -9,6 +9,7 @@ packages:
       - "cloc"
       - "curl"
       - "docker-compose"
+      - "eza"
       - "fastfetch"
       - "fd"
       - "fish"

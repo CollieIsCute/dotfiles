@@ -32,7 +32,7 @@ alias gl="git pull"
 alias glg="git log"
 alias gp="git push"
 alias gst="git status"
-alias la="ls -A"
+
 alias lal="la -lh"
 alias ll="ls -lh"
 alias sdn="shutdown now"
@@ -44,7 +44,7 @@ alias ......="cd ../../../../.."
 alias .......="cd ../../../../../.."
 
 # 使用 neovim (如果可用)
-command -v nvim >/dev/null && alias vi="nvim"
+command -vq nvim && alias vi="nvim"
 
 # 如果存在，加載本地配置
 if test -f ~/.config/fish/local.fish
