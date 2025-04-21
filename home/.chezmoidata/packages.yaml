@@ -55,6 +55,7 @@ packages:
       - "neovim"
       - "podman"
       - "ssh"
+      - "tar"
       - "telegram"
       - "tig"
       - "tree"
