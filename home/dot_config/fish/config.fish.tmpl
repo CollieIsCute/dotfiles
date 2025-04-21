@@ -50,3 +50,7 @@ command -vq nvim && alias vi="nvim"
 if test -f ~/.config/fish/local.fish
     source ~/.config/fish/local.fish
 end
+
+if command -vq zoxide
+    zoxide init fish | source
+end
