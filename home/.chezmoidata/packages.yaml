@@ -36,6 +36,7 @@ packages:
       - "vesktop-bin"
       - "wget"
       - "zip"
+      - "zoxide"
     aur:
       - "tmux-plugin-manager"
       - "visual-studio-code-bin"
@@ -62,3 +63,4 @@ packages:
       - "tmux"
       - "wget"
       - "zip"
+      - "zoxide"
