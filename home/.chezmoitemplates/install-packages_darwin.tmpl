@@ -1,2 +1,25 @@
 # this comment is to make script update when Brewfile is modified {{- include (joinPath .chezmoi.sourceDir "dot_config/brew/Brewfile") | sha256sum }}
 brew bundle install --file="${HOME}/.config/brew/Brewfile"
+
+if command -v mas >/dev/null 2>&1; then
+if mas account >/dev/null 2>&1; then
+    echo -e "${GREEN}Installing Mac App Store apps via mas${NC}"
+    MAS_BREWFILE="${HOME}/.config/brew/MasBrewfile"
+    if [ -f "$MAS_BREWFILE" ]; then
+        grep '^mas ' "$MAS_BREWFILE" | while read -r line; do
+            # 解析 id
+            app_id=$(echo "$line" | sed -n 's/.*id: *\([0-9]\+\).*/\1/p')
+            if [ -n "$app_id" ]; then
+                echo -e "${GREEN}Installing app id: $app_id${NC}"
+                mas install "$app_id"
+            fi
+        done
+    else
+        echo -e "${GREEN}[mas] 找不到 MasBrewfile，跳過 mas 安裝流程${NC}"
+    fi
+else
+    echo -e "${GREEN}[mas] 未登入 Apple ID，跳過 mas 安裝流程${NC}"
+fi
+else
+echo -e "${GREEN}[mas] 未安裝 mas，跳過 mas 安裝流程${NC}"
+fi
