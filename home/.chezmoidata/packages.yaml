@@ -65,7 +65,6 @@ packages:
       - "telegram"
       - "tig"
       - "tmux"
-      - "tree"
       - "unzip"
       - "wget"
       - "zip"
