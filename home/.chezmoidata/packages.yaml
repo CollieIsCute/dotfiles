@@ -30,7 +30,6 @@ packages:
       - "tig"
       - "tldr"
       - "tmux"
-      - "tree"
       - "ttf-input"
       - "unzip"
       - "vesktop-bin"
