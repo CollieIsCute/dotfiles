@@ -67,7 +67,6 @@ packages:
       - "tig"
       - "tmux"
       - "unzip"
-      - "wezterm"
       - "wget"
       - "zip"
       - "zoxide"
