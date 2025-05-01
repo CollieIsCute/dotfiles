@@ -9,7 +9,7 @@ packages:
       - "clang"
       - "cloc"
       - "curl"
-      - "cursor"
+      - "cursor-bin"
       - "docker-compose"
       - "eza"
       - "fastfetch"
