@@ -14,7 +14,7 @@ echo -e "\n${GREEN}Setting up package manager...${NC}"
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") }}
     # Setup system configurations
     enable_multilib(){
       sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
@@ -28,7 +28,7 @@ EOF
     }
 
     echo -e "${GREEN}Setting up mirrorlist${NC}"
-    {{ if eq $osid "arch" }}
+    {{ if or (eq $osid "arch") (eq $osid "endeavouros") }}
       sudo pacman -S --noconfirm reflector
       sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
     {{ else if eq $osid "manjaro" }}
