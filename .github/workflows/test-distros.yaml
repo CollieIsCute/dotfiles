@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:24.04", "endeavouros/base:latest"]
+        container: ["manjarolinux/base:latest", "archlinux:latest", "ubuntu:latest", "ubuntu:24.04", "alex5402/endeavouros:latest"]
     container:
       image: ${{ matrix.container }}
       env:
