@@ -28,7 +28,7 @@ retry() {
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") }}
+  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") }}
     echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
     {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
     sudo pacman -Syy
