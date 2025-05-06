@@ -1,7 +1,7 @@
 function la
   if command -vq eza
-    eza --icons --git -lA $argv
+    eza --icons --git -A $argv
   else
-    ls -lA $argv
+    ls -A $argv
   end
 end
