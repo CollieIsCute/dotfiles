@@ -27,6 +27,7 @@ packages:
       - openssh
       - podman
       - ripgrep
+      - sddm
       - steam
       - telegram-desktop
       - tig
@@ -36,7 +37,10 @@ packages:
       - typst
       - unzip
       - vesktop-bin
+      - wayland
+      - wayland-protocols
       - wget
+      - xorg-xwayland
       - zip
       - zoxide
     aur:
