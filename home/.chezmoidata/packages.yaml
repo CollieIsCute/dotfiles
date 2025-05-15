@@ -18,7 +18,8 @@ packages:
       - "fzf"
       - "git"
       - "go"
-      - "hugo"
+      - hugo
+      - hyprland
       - "ibus-chewing"
       - "neovim"
       - "net-tools"
@@ -32,10 +33,9 @@ packages:
       - "tldr"
       - "tmux"
       - "ttf-input"
-      - typst
+      - "typst"
       - "unzip"
       - "vesktop-bin"
-      - "wezterm"
       - "wget"
       - "zip"
       - "zoxide"
