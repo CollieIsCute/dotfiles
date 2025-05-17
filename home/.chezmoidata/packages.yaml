@@ -28,6 +28,9 @@ packages:
       - net-tools
       - nethogs
       - openssh
+      - pavucontrol
+      - pipewire
+      - pipewire-pulse
       - podman
       - ripgrep
       - sddm
@@ -45,6 +48,7 @@ packages:
       - waybar
       - wayland
       - wayland-protocols
+      - wireplumber
       - wget
       - wofi
       - xorg-xwayland
