@@ -20,6 +20,7 @@ packages:
       - go
       - hugo
       - hyprland
+      - hyprpaper
       - ibus-chewing
       - neovim
       - net-tools
@@ -29,6 +30,8 @@ packages:
       - ripgrep
       - sddm
       - steam
+      - swayidle
+      - swaylock
       - telegram-desktop
       - tig
       - tldr
@@ -37,9 +40,12 @@ packages:
       - typst
       - unzip
       - vesktop-bin
+      - waybar
       - wayland
       - wayland-protocols
       - wget
+      - wlogout
+      - wofi
       - xorg-xwayland
       - zip
       - zoxide
