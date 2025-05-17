@@ -51,6 +51,7 @@ packages:
       - wireplumber
       - wget
       - wofi
+      - xdg-desktop-portal-hyprland
       - xorg-xwayland
       - zip
       - zoxide
