@@ -29,6 +29,7 @@ packages:
       - nethogs
       - nwg-look
       - openssh
+      - papers
       - pavucontrol
       - pipewire
       - pipewire-pulse
