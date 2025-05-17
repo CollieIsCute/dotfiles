@@ -27,6 +27,7 @@ packages:
       - neovim
       - net-tools
       - nethogs
+      - nwg-look
       - openssh
       - pavucontrol
       - pipewire
