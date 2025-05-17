@@ -44,7 +44,7 @@ packages:
       - wayland
       - wayland-protocols
       - wget
-      - wlogout
+      - wleave
       - wofi
       - xorg-xwayland
       - zip
