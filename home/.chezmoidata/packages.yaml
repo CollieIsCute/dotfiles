@@ -44,6 +44,8 @@ packages:
       - tldr
       - tmux
       - ttf-input
+      - ttf-jetbrains-mono
+      - ttf-jetbrains-mono-nerd
       - typst
       - unzip
       - vesktop-bin
