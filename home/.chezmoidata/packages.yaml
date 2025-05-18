@@ -16,6 +16,11 @@ packages:
       - eza
       - fastfetch
       - fd
+      - fcitx5
+      - fcitx5-chewing
+      - fcitx5-configtool
+      - fcitx5-gtk
+      - fcitx5-qt
       - fish
       - fzf
       - git
@@ -24,7 +29,6 @@ packages:
       - hyprland
       - hyprlock
       - hyprpaper
-      - ibus-chewing
       - neovim
       - net-tools
       - nethogs
