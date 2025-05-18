@@ -22,6 +22,7 @@ packages:
       - go
       - hugo
       - hyprland
+      - hyprlock
       - hyprpaper
       - ibus-chewing
       - neovim
