@@ -61,6 +61,8 @@ packages:
       - wireplumber
       - wget
       - wofi
+      - xdg-desktop-portal
+      - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xorg-xwayland
       - zip
