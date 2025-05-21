@@ -4,6 +4,9 @@ packages:
       - alacritty
       - bat
       - base-devel
+      - blueman
+      - bluez
+      - bluez-utils
       - btop
       - brave-bin
       - clang
