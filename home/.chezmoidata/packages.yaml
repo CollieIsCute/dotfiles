@@ -28,7 +28,6 @@ packages:
       - fzf
       - git
       - go
-      - grim
       - hugo
       - hyprland
       - hyprlock
@@ -48,10 +47,10 @@ packages:
       - pavucontrol-qt
       - ripgrep
       - sddm
-      - slurp
       - steam
       - swayidle
       - swaylock
+      - swaync
       - telegram-desktop
       - tig
       - tldr
@@ -67,7 +66,6 @@ packages:
       - wayland-protocols
       - wireplumber
       - wget
-      - wl-clipboard
       - wofi
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk
