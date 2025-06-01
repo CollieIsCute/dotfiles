@@ -28,6 +28,7 @@ packages:
       - git
       - go
       - hugo
+      - hypridle
       - hyprland
       - hyprlock
       - hyprpaper
