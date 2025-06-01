@@ -33,6 +33,7 @@ packages:
       - hyprland
       - hyprlock
       - hyprpaper
+      - hyprshot
       - nautilus
       - neovim
       - net-tools
