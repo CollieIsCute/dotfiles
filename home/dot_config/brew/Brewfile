@@ -1,6 +1,4 @@
 tap "windwords/vchewing"
-brew "aspell"
-brew "automake"
 brew "openssl@3"
 brew "bat"
 brew "bear"
