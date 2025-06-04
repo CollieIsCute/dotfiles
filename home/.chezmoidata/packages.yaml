@@ -33,6 +33,7 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
+      - linux-headers
       - nautilus
       - neovim
       - net-tools
@@ -70,6 +71,8 @@ packages:
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
+      - xone-dkms
+      - xone-dongle-firmware
       - xorg-xwayland
       - zip
       - zoxide
