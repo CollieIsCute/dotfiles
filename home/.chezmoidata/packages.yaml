@@ -34,6 +34,7 @@ packages:
       - hyprpaper
       - hyprshot
       - linux-headers
+      - mission-center
       - nautilus
       - neovim
       - net-tools
