@@ -34,7 +34,7 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
-      - liberoffice-fresh
+      - libreoffice-fresh
       - linux-headers
       - mission-center
       - nautilus
