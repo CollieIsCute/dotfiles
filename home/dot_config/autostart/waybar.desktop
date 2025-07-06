@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Waybar
+Exec=waybar
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
