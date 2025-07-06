@@ -294,3 +294,16 @@ label:focus {
 #custom-power:hover {
     background-color: @surface1;
 }
+
+/* Tooltip styling for better contrast */
+tooltip {
+    background-color: @base;
+    border: 1px solid @surface2;
+    border-radius: 8px;
+    color: @text;
+    font-family: "JetBrains Mono", monospace;
+}
+
+tooltip label {
+    color: @text;
+}
