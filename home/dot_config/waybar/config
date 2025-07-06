@@ -5,7 +5,7 @@
     "spacing": 4,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "battery", "tray", "custom/power"],
+    "modules-right": ["custom/music", "network", "pulseaudio", "battery", "tray", "custom/power"],
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -27,16 +27,24 @@
         }
     },
     "clock": {
-        "format": "{:%Y-%m-%d %H:%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%H:%M:%S}",
+        "format-alt": "{:%Y-%m-%d}",
+        "interval": 1
+    },
+    "custom/music": {
+        "format": " {}",
+        "escape": true,
+        "interval": 5,
+        "tooltip": false,
+        "exec": "playerctl metadata --format='{{ title }}'",
+        "on-click": "playerctl play-pause",
+        "max-length": 50
     },
     "network": {
-        "format-wifi": "📶 {essid} ({signalStrength}%) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
-        "format-ethernet": "🔌 {ipaddr}/{cidr} ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
-        "format-linked": "🔗 {ifname} (No IP) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
-        "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "format-wifi": "{essid} ({signalStrength}%) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
+        "format-ethernet": "⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
+        "format-linked": "{ifname} (No IP) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
+        "format-disconnected": "Disconnected",
         "tooltip-format": "{ifname} via {gwaddr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "{ifname}",
