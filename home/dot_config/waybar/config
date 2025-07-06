@@ -5,7 +5,7 @@
     "spacing": 4,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["network", "pulseaudio", "battery", "tray"],
+    "modules-right": ["network", "pulseaudio", "battery", "tray", "custom/power"],
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -71,6 +71,11 @@
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         "format-icons": ["", "", "", "", ""]
+    },
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": "Power Menu",
+        "on-click": "~/.config/waybar/scripts/power-menu.sh"
     },
     "tray": {
         "spacing": 10

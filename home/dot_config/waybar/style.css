@@ -35,19 +35,24 @@ button:hover {
     padding: 0 5px;
     background-color: transparent;
     color: @text;
+    border-radius: 8px;
+    margin: 0 2px;
 }
 
 #workspaces button:hover {
     background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
 #workspaces button.active {
     background-color: @surface0;
     box-shadow: inset 0 -3px @lavender;
+    border-radius: 8px;
 }
 
 #workspaces button.urgent {
     background-color: @red;
+    border-radius: 8px;
 }
 
 #mode {
@@ -70,9 +75,12 @@ button:hover {
 #mode,
 #idle_inhibitor,
 #scratchpad,
-#mpd {
+#mpd,
+#custom-power {
     padding: 0 10px;
     color: @text;
+    border-radius: 10px;
+    margin: 0 2px;
 }
 
 #window,
@@ -272,4 +280,17 @@ label:focus {
 
 #scratchpad.empty {
     background-color: transparent;
+}
+
+#custom-power {
+    background-color: @surface0;
+    color: @red;
+    padding: 0 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    margin: 0 2px;
+}
+
+#custom-power:hover {
+    background-color: @surface1;
 }
