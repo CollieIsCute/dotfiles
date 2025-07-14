@@ -28,6 +28,7 @@ packages:
       - fzf
       - git
       - go
+      - gping
       - hugo
       - hypridle
       - hyprland
@@ -66,7 +67,7 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop-bin
+      - vesktop
       - waybar
       - wayland
       - wayland-protocols
