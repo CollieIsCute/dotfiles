@@ -67,7 +67,7 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop
+      - vesktop-bin
       - waybar
       - wayland
       - wayland-protocols
