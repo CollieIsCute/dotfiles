@@ -41,6 +41,8 @@ packages:
       - mission-center
       - nautilus
       - neovim
+      - networkmanager
+      - network-manager-applet
       - net-tools
       - nethogs
       - nwg-look
