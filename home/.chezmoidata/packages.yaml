@@ -28,6 +28,7 @@ packages:
       - fzf
       - git
       - go
+      - gping
       - hugo
       - hypridle
       - hyprland
