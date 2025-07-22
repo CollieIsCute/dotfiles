@@ -49,6 +49,21 @@ jobs:
 
           sudo useradd -m dev || true
           echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
+      - name: Run shellcheck
+        run: |
+          if command -v apt-get >/dev/null; then
+            if [ "$(id -u)" = "0" ]; then
+              apt-get install -y shellcheck
+            else
+              sudo apt-get install -y shellcheck
+            fi
+          elif command -v pacman >/dev/null; then
+            sudo pacman -Syu --noconfirm shellcheck
+          else
+            echo "No supported package manager found" >&2
+            exit 1
+          fi
+          shellcheck $(git ls-files '*.sh' '*.tmpl')
       - name: chezmoi init dotfiles
         run: |
           BRANCH=${{ github.head_ref || github.ref_name }}
