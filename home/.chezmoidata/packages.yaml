@@ -15,6 +15,7 @@ packages:
       - curl
       - cursor-bin
       - docker-compose
+      - electron37-bin
       - eza
       - fastfetch
       - fd
