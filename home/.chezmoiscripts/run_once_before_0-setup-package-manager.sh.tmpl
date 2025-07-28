@@ -30,7 +30,7 @@ EOF
     echo -e "${GREEN}Setting up mirrorlist${NC}"
     {{ if or (eq $osid "arch") (eq $osid "endeavouros") }}
       sudo pacman -S --noconfirm reflector
-      sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+      sudo reflector --latest 10 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
     {{ else if eq $osid "manjaro" }}
       sudo pacman-mirrors --fasttrack
     {{ end }}
