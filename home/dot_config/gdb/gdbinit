@@ -1,0 +1,5 @@
+set follow-fork-mode child
+set detach-on-fork off
+set environment ASAN_OPTIONS=halt_on_error=0:abort_on_error=0
+set print sevenbit-strings off
+set print pretty on
