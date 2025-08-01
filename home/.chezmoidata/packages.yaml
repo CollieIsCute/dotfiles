@@ -88,6 +88,12 @@ packages:
     aur:
       - tmux-plugin-manager
       - visual-studio-code-bin
+  cachyos:
+    pacman:
+      # CachyOS-specific optimized packages
+      - linux-cachyos
+      - cachyos-settings
+      # Inherits all packages from sharedArch
   ubuntu:
     apt:
       - alacritty

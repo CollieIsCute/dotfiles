@@ -28,12 +28,19 @@ retry() {
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") }}
+  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") (eq $osid "cachyos") }}
     sudo rm -f /etc/lsb-release
     echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
     {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
     sudo pacman -Syy
     retry paru -S --needed --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
+    {{ end }}
+    
+    {{ if eq $osid "cachyos" }}
+      {{ if .packages.cachyos.pacman }}
+      echo -e "${GREEN}Installing CachyOS-specific packages...${NC}"
+      retry paru -S --needed --noconfirm {{ range .packages.cachyos.pacman }}{{ . }} {{ end }}
+      {{ end }}
     {{ end }}
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
