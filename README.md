@@ -19,7 +19,7 @@ This dotfiles collection includes configurations for:
 
 ### 🛠️ Development Tools
 - **[Neovim](https://github.com/neovim/neovim)** - Modern Vim-based editor with [LazyVim](https://github.com/LazyVim/LazyVim) configuration
-- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer with [oh my tmux](https://github.com/gpakosz/.tmux)
+- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer
 - **[Fish Shell](https://fishshell.com/)** - Smart command line shell with custom aliases and functions
 - **[GDB](https://www.gnu.org/software/gdb/)** - GNU Debugger configuration
 
