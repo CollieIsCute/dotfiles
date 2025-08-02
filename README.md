@@ -21,14 +21,14 @@ This dotfiles collection includes configurations for:
 - **[Neovim](https://github.com/neovim/neovim)** - Modern Vim-based editor with [LazyVim](https://github.com/LazyVim/LazyVim)
   ```
   ├── Core Plugins
-  │   ├── zbirenbaum/copilot.lua           # AI-powered code completion
-  │   ├── giuxtaposition/blink-cmp-copilot # Copilot integration for blink.cmp
-  │   ├── neovim/nvim-lspconfig            # LSP configuration
-  │   ├── p00f/clangd_extensions.nvim      # Enhanced clangd support
-  │   ├── nvim-treesitter/nvim-treesitter  # Syntax highlighting
-  │   ├── ibhagwan/fzf-lua                 # Fuzzy finder
-  │   ├── sphamba/smear-cursor.nvim        # Smooth cursor animation
-  │   └── folke/snacks.nvim                # Collection of useful utilities
+  │   ├── [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)           # AI-powered code completion
+  │   ├── [giuxtaposition/blink-cmp-copilot](https://github.com/giuxtaposition/blink-cmp-copilot) # Copilot integration for blink.cmp
+  │   ├── [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)            # LSP configuration
+  │   ├── [p00f/clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)      # Enhanced clangd support
+  │   ├── [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)  # Syntax highlighting
+  │   ├── [ibhagwan/fzf-lua](https://github.com/ibhagwan/fzf-lua)                 # Fuzzy finder
+  │   ├── [sphamba/smear-cursor.nvim](https://github.com/sphamba/smear-cursor.nvim)        # Smooth cursor animation
+  │   └── [folke/snacks.nvim](https://github.com/folke/snacks.nvim)                # Collection of useful utilities
   └── Features
       ├── AI completion with Copilot
       ├── Advanced C/C++ support with clangd
@@ -38,10 +38,10 @@ This dotfiles collection includes configurations for:
 
 - **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer with [TPM](https://github.com/tmux-plugins/tpm)
   ```
-  ├── Plugin Manager: tmux-plugins/tpm
+  ├── Plugin Manager: [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
   ├── Plugins
-  │   ├── catppuccin/tmux#v2.1.3          # Catppuccin theme
-  │   └── tmux-plugins/tmux-sensible      # Sensible defaults
+  │   ├── [catppuccin/tmux](https://github.com/catppuccin/tmux)#v2.1.3          # Catppuccin theme
+  │   └── [tmux-plugins/tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)      # Sensible defaults
   └── Features
       ├── Catppuccin Mocha theme
       ├── Mouse support
@@ -50,17 +50,17 @@ This dotfiles collection includes configurations for:
 
 - **[Fish Shell](https://fishshell.com/)** - Smart shell with [Fisher](https://github.com/jorgebucaran/fisher)
   ```
-  ├── Plugin Manager: jorgebucaran/fisher
+  ├── Plugin Manager: [jorgebucaran/fisher](https://github.com/jorgebucaran/fisher)
   ├── Plugins
-  │   ├── catppuccin/fish                  # Catppuccin theme
-  │   ├── edc/bass                         # Bass shell integration
-  │   ├── jorgebucaran/nvm.fish           # Node version manager
-  │   ├── PatrickF1/fzf.fish              # FZF integration
-  │   └── pure-fish/pure                   # Minimal prompt
+  │   ├── [catppuccin/fish](https://github.com/catppuccin/fish)                  # Catppuccin theme
+  │   ├── [edc/bass](https://github.com/edc/bass)                         # Bass shell integration
+  │   ├── [jorgebucaran/nvm.fish](https://github.com/jorgebucaran/nvm.fish)           # Node version manager
+  │   ├── [PatrickF1/fzf.fish](https://github.com/PatrickF1/fzf.fish)              # FZF integration
+  │   └── [pure-fish/pure](https://github.com/pure-fish/pure)                   # Minimal prompt
   └── Features
       ├── Platform-specific configurations (macOS/Linux)
       ├── Git aliases and shortcuts
-      ├── Enhanced navigation with zoxide
+      ├── Enhanced navigation with [zoxide](https://github.com/ajeetdsouza/zoxide)
       └── Catppuccin theme support
   ```
 
@@ -72,92 +72,80 @@ This dotfiles collection includes configurations for:
   │   ├── hypridle                        # Idle daemon
   │   ├── hyprlock                        # Screen locker
   │   ├── hyprpaper                       # Wallpaper utility
-  │   └── hyprshot                        # Screenshot tool
+  │   ├── hyprshot                        # Screenshot tool
+  │   └── [uwsm](https://github.com/Vladimir-csp/uwsm)                            # Universal Wayland Session Manager
   ├── Status & UI
-  │   ├── waybar                          # Status bar
-  │   ├── swaync                          # Notification center
-  │   └── wofi                            # Application launcher
+  │   ├── [waybar](https://github.com/Alexays/Waybar)                          # Status bar
+  │   ├── [swaync](https://github.com/ErikReider/SwayNotificationCenter)                          # Notification center
+  │   └── [wofi](https://github.com/uncomfyhalomacro/wofi)                            # Application launcher
   ├── System Integration
-  │   ├── xdg-desktop-portal-hyprland     # Desktop portal
-  │   ├── xorg-xwayland                   # X11 compatibility
-  │   └── wayland-protocols               # Wayland protocols
-  └── Audio & Media
-      ├── pipewire + pipewire-pulse       # Audio system
-      ├── wireplumber                     # Audio session manager
-      └── playerctl                       # Media control (for Waybar)
+  │   ├── [xdg-desktop-portal-hyprland](https://github.com/hyprwm/xdg-desktop-portal-hyprland)     # Desktop portal
+  │   ├── [xorg-xwayland](https://gitlab.freedesktop.org/xorg/xserver)                   # X11 compatibility
+  │   └── [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols)               # Wayland protocols
+  ├── Audio & Media
+  │   ├── [pipewire](https://pipewire.org/) + [pipewire-pulse](https://pipewire.org/)       # Audio system
+  │   ├── [wireplumber](https://github.com/PipeWire/wireplumber)                     # Audio session manager
+  │   └── [playerctl](https://github.com/altdesktop/playerctl)                       # Media control (for Waybar)
+  └── Bluetooth & Connectivity
+      ├── [blueman](https://github.com/blueman-project/blueman)                         # Bluetooth manager GUI
+      ├── [bluez](http://www.bluez.org/) + bluez-utils             # Bluetooth stack
+      └── [network-manager-applet](https://gitlab.gnome.org/GNOME/network-manager-applet)          # Network management
   ```
 
 - **[Alacritty](https://github.com/alacritty/alacritty)** - GPU-accelerated terminal emulator
 - **[WezTerm](https://wezfurlong.org/wezterm/)** - Cross-platform terminal emulator
 
-### ⚙️ System Tools
-- **[Karabiner Elements](https://karabiner-elements.pqrs.org/)** - Keyboard customizer for macOS
-- **[Paru](https://github.com/Morganamilo/paru)** - AUR helper configuration
+## 🎨 Unified Theme & Integration
 
-## 📦 Package Management
+### Catppuccin Theme Ecosystem
+All tools share the **[Catppuccin](https://catppuccin.com/)** color palette for visual consistency:
+- **[Fish Shell](https://fishshell.com/)** - Catppuccin Mocha theme with Pure prompt
+- **[Tmux](https://github.com/tmux/tmux)** - Catppuccin theme v2.1.3 with custom status bar
+- **[Neovim](https://github.com/neovim/neovim)** - LazyVim with Catppuccin integration
+- **[Waybar](https://github.com/Alexays/Waybar)** - Catppuccin Frappe color scheme
+- **[Alacritty](https://github.com/alacritty/alacritty)** - Catppuccin terminal colors
 
-### Homebrew (macOS)
-The `Brewfile` includes essential development tools:
-- **Languages**: Python (pyenv), Node.js, LLVM, GCC
-- **Development**: Git, Docker, CMake, Ninja, Poetry
-- **Utilities**: ripgrep, bat, eza, zoxide, btop
-- **Applications**: Brave Browser, VSCode, Raycast, Rectangle
-
-### Package Categories
-- **Build Tools**: cmake, ninja, bear, mold
-- **Version Control**: git, tig
-- **File Management**: eza, bat, ripgrep
-- **Network**: curl, wget, openssh
-- **Container**: docker, docker-compose, colima
-
-## 🐧 Linux Support
-
-### Manjaro Docker Testing
-Includes a Dockerfile for testing the dotfiles in a Manjaro Linux environment:
-```bash
-docker build -f manjaro.dockerfile -t dotfiles-test .
-docker run -it dotfiles-test
+### Integrated Keybindings
+Unified keybinding scheme across all applications:
 ```
+🔧 System Control (Hyprland)
+├── Super + T           → Terminal (Alacritty)
+├── Super + E           → File Manager ([Nautilus](https://apps.gnome.org/Nautilus/))  
+├── Super + C           → Close Window
+├── Super + M           → Exit Hyprland
+├── Super + V           → Toggle Floating
+├── Super + N           → Toggle Notifications (SwayNC)
+├── Super + Shift + L   → Lock Screen (Hyprlock)
+└── Ctrl + Shift + P    → Screenshot Region (Hyprshot)
 
-## 🔧 Configuration Features
+🎯 Navigation & Workspaces
+├── Super + H/J/K/L     → Move Focus (Vim-style)
+├── Super + 1-9         → Switch Workspace
+├── Super + Shift + 1-9 → Move Window to Workspace
+└── Super + S           → Special Workspace (Magic)
 
-### Fish Shell
-- Platform-specific configurations (macOS/Linux)
-- Git aliases and shortcuts
-- Enhanced navigation commands
-- Integration with zoxide and neovim
-- Catppuccin theme support
-
-### Neovim
-- LazyVim-based configuration
-- Custom keymaps and options
-- Plugin management with lazy.nvim
-- Language server support (clangd, copilot)
-
-### Terminal Enhancement
-- Custom color schemes (Catppuccin Frappe)
-- Performance optimizations
-- Cross-platform compatibility
+🎵 Media & System
+├── XF86AudioRaise/Lower → Volume Control (PipeWire)
+├── XF86AudioMute       → Mute Toggle
+├── XF86MonBrightness   → Brightness Control
+└── XF86AudioPlay/Pause → Media Control (Playerctl)
+```
 
 ## 📋 System Requirements
 
-### macOS
-- Homebrew package manager
-- Fish shell (auto-configured)
+### Primary Platforms (Actively Maintained)
+
+#### 🍎 macOS
+- [Homebrew](https://brew.sh/) package manager
+- [Fish shell](https://fishshell.com/) (auto-configured)
 - Chezmoi 2.54.0+
 
-### Linux (Manjaro)
-- Pacman package manager
-- systemd for service management
+#### 🐧 Arch Linux
+- [Pacman](https://archlinux.org/pacman/) package manager
+- systemd for service management  
 - Wayland compositor support
+- AUR access via [Paru](https://github.com/Morganamilo/paru)
 
-## 🔄 Updates and Maintenance
+### CI/CD Testing Only
+Other distributions (Manjaro, Ubuntu, EndeavourOS, CachyOS) are supported through automated testing but not actively maintained for daily use.
 
-The configuration supports easy updates through:
-- `buu` command (brew update && upgrade && fisher update)
-- Chezmoi template system for platform-specific configs
-- Modular configuration structure
-
-## 📄 License
-
-Personal dotfiles configuration - use and modify as needed. 
