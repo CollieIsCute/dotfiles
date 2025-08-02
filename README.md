@@ -18,20 +18,80 @@ chezmoi init --apply collieiscute -v
 This dotfiles collection includes configurations for:
 
 ### 🛠️ Development Tools
-- **[Neovim](https://github.com/neovim/neovim)** - Modern Vim-based editor with [LazyVim](https://github.com/LazyVim/LazyVim) configuration
-- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer
-- **[Fish Shell](https://fishshell.com/)** - Smart command line shell with custom aliases and functions
-- **[GDB](https://www.gnu.org/software/gdb/)** - GNU Debugger configuration
+- **[Neovim](https://github.com/neovim/neovim)** - Modern Vim-based editor with [LazyVim](https://github.com/LazyVim/LazyVim)
+  ```
+  ├── Core Plugins
+  │   ├── zbirenbaum/copilot.lua           # AI-powered code completion
+  │   ├── giuxtaposition/blink-cmp-copilot # Copilot integration for blink.cmp
+  │   ├── neovim/nvim-lspconfig            # LSP configuration
+  │   ├── p00f/clangd_extensions.nvim      # Enhanced clangd support
+  │   ├── nvim-treesitter/nvim-treesitter  # Syntax highlighting
+  │   ├── ibhagwan/fzf-lua                 # Fuzzy finder
+  │   ├── sphamba/smear-cursor.nvim        # Smooth cursor animation
+  │   └── folke/snacks.nvim                # Collection of useful utilities
+  └── Features
+      ├── AI completion with Copilot
+      ├── Advanced C/C++ support with clangd
+      ├── Fuzzy finding and navigation
+      └── Modern syntax highlighting
+  ```
 
-### 🎨 Window Management & UI
+- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer with [TPM](https://github.com/tmux-plugins/tpm)
+  ```
+  ├── Plugin Manager: tmux-plugins/tpm
+  ├── Plugins
+  │   ├── catppuccin/tmux#v2.1.3          # Catppuccin theme
+  │   └── tmux-plugins/tmux-sensible      # Sensible defaults
+  └── Features
+      ├── Catppuccin Mocha theme
+      ├── Mouse support
+      └── Custom key bindings (C-a prefix)
+  ```
+
+- **[Fish Shell](https://fishshell.com/)** - Smart shell with [Fisher](https://github.com/jorgebucaran/fisher)
+  ```
+  ├── Plugin Manager: jorgebucaran/fisher
+  ├── Plugins
+  │   ├── catppuccin/fish                  # Catppuccin theme
+  │   ├── edc/bass                         # Bass shell integration
+  │   ├── jorgebucaran/nvm.fish           # Node version manager
+  │   ├── PatrickF1/fzf.fish              # FZF integration
+  │   └── pure-fish/pure                   # Minimal prompt
+  └── Features
+      ├── Platform-specific configurations (macOS/Linux)
+      ├── Git aliases and shortcuts
+      ├── Enhanced navigation with zoxide
+      └── Catppuccin theme support
+  ```
+
+### 🚀 Hyprland Ecosystem
 - **[Hyprland](https://hyprland.org/)** - Dynamic tiling Wayland compositor
-- **[Waybar](https://github.com/Alexays/Waybar)** - Highly customizable status bar
+  ```
+  ├── Core Components
+  │   ├── hyprland                        # Main compositor
+  │   ├── hypridle                        # Idle daemon
+  │   ├── hyprlock                        # Screen locker
+  │   ├── hyprpaper                       # Wallpaper utility
+  │   └── hyprshot                        # Screenshot tool
+  ├── Status & UI
+  │   ├── waybar                          # Status bar
+  │   ├── swaync                          # Notification center
+  │   └── wofi                            # Application launcher
+  ├── System Integration
+  │   ├── xdg-desktop-portal-hyprland     # Desktop portal
+  │   ├── xorg-xwayland                   # X11 compatibility
+  │   └── wayland-protocols               # Wayland protocols
+  └── Audio & Media
+      ├── pipewire + pipewire-pulse       # Audio system
+      ├── wireplumber                     # Audio session manager
+      └── playerctl                       # Media control (for Waybar)
+  ```
+
 - **[Alacritty](https://github.com/alacritty/alacritty)** - GPU-accelerated terminal emulator
 - **[WezTerm](https://wezfurlong.org/wezterm/)** - Cross-platform terminal emulator
 
 ### ⚙️ System Tools
 - **[Karabiner Elements](https://karabiner-elements.pqrs.org/)** - Keyboard customizer for macOS
-- **[SwayNC](https://github.com/ErikReider/SwayNotificationCenter)** - Notification daemon
 - **[Paru](https://github.com/Morganamilo/paru)** - AUR helper configuration
 
 ## 📦 Package Management
