@@ -99,11 +99,13 @@ This dotfiles collection includes configurations for:
 
 ### Catppuccin Theme Ecosystem
 All tools share the **[Catppuccin](https://catppuccin.com/)** color palette for visual consistency:
-- **[Fish Shell](https://fishshell.com/)** - Catppuccin Mocha theme with Pure prompt
-- **[Tmux](https://github.com/tmux/tmux)** - Catppuccin theme v2.1.3 with custom status bar
-- **[Neovim](https://github.com/neovim/neovim)** - LazyVim with Catppuccin integration
-- **[Waybar](https://github.com/Alexays/Waybar)** - Catppuccin Frappe color scheme
-- **[Alacritty](https://github.com/alacritty/alacritty)** - Catppuccin terminal colors
+- **[Fish Shell](https://fishshell.com/)** - [Catppuccin Mocha](https://github.com/catppuccin/fish) theme with Pure prompt
+- **[Tmux](https://github.com/tmux/tmux)** - [Catppuccin theme](https://github.com/catppuccin/tmux) v2.1.3 with custom status bar
+- **[Neovim](https://github.com/neovim/neovim)** - LazyVim with [Catppuccin](https://github.com/catppuccin/nvim) integration
+- **[Waybar](https://github.com/Alexays/Waybar)** - [Catppuccin Frappe](https://github.com/catppuccin/waybar) color scheme
+- **[Alacritty](https://github.com/alacritty/alacritty)** - [Catppuccin Mocha](https://github.com/catppuccin/alacritty) terminal colors
+- **[WezTerm](https://wezfurlong.org/wezterm/)** - [Catppuccin Mocha](https://github.com/catppuccin/wezterm) built-in theme
+- **[SwayNC](https://github.com/ErikReider/SwayNotificationCenter)** - Custom [Catppuccin Frappe](https://github.com/catppuccin/swaync) styling
 
 ### Integrated Keybindings
 Unified keybinding scheme across all applications:
