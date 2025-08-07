@@ -15,7 +15,6 @@ packages:
       - curl
       - cursor-bin
       - docker-compose
-      - electron37-bin
       - eza
       - fastfetch
       - fd
@@ -70,7 +69,7 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop-bin
+      - vesktop
       - waybar
       - wayland
       - wayland-protocols
