@@ -39,6 +39,7 @@ packages:
       - libreoffice-fresh
       - linux-headers
       - mission-center
+      - mattermost-desktop-bin
       - nautilus
       - neovim
       - networkmanager
