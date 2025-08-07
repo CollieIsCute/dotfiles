@@ -70,7 +70,7 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop
+      - vesktop-electron
       - waybar
       - wayland
       - wayland-protocols
