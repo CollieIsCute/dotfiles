@@ -29,7 +29,7 @@ EOF
 
     echo -e "${GREEN}Setting up mirrorlist${NC}"
     {{ if or (eq $osid "arch") (eq $osid "endeavouros") }}
-      sudo pacman -S --noconfirm reflector
+      sudo pacman -Sy --noconfirm reflector
       sudo reflector --latest 20 --connection-timeout 20 --download-timeout 60 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
     {{ else if eq $osid "manjaro" }}
       sudo pacman-mirrors --fasttrack
@@ -46,7 +46,7 @@ EOF
 
     echo -e "${GREEN}Installing paru...${NC}"
     sudo pacman -S --noconfirm base-devel git
-    bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
+    bash -c "cd /tmp && git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si --noconfirm"
     echo -e "${GREEN}paru installed successfully!${NC}"
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
