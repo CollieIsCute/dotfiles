@@ -25,6 +25,7 @@ packages:
       - fcitx5-qt
       - fcitx5-skin-ori-git
       - fish
+      - flatpak
       - fzf
       - git
       - go
