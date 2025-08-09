@@ -28,13 +28,36 @@ retry() {
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") }}
+  {{ if or (eq $osid "arch") (eq $osid "cachyos") (eq $osid "endeavouros") }}
     sudo rm -f /etc/lsb-release
     echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
     {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
     sudo pacman -Syy
     retry paru -S --needed --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
     {{ end }}
+    
+    {{ if eq $osid "cachyos" }}
+      {{ if .packages.cachyos.pacman }}
+      echo -e "${GREEN}Installing CachyOS-specific packages...${NC}"
+      retry paru -S --needed --noconfirm {{ range .packages.cachyos.pacman }}{{ . }} {{ end }}
+      {{ end }}
+    {{ end }}
+    
+    if command -v flatpak &> /dev/null; then
+      echo -e "${GREEN}Setting up Flatpak and installing applications...${NC}"
+      
+      if ! flatpak remote-list --user | grep -q flathub; then
+        echo -e "${GREEN}Adding Flathub repository...${NC}"
+        flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      fi
+      
+      echo -e "${GREEN}Installing Bottles via Flatpak...${NC}"
+      flatpak install --user -y flathub com.usebottles.bottles || echo -e "${GREEN}Bottles may already be installed${NC}"
+      
+      echo -e "${GREEN}Flatpak setup complete.${NC}"
+    else
+      echo -e "${GREEN}Flatpak not found, skipping Flatpak app installation${NC}"
+    fi
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
     {{ if .packages.ubuntu.apt }}

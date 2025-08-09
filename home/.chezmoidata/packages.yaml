@@ -25,21 +25,27 @@ packages:
       - fcitx5-qt
       - fcitx5-skin-ori-git
       - fish
+      - flatpak
       - fzf
       - git
       - go
+      - gping
       - hugo
       - hypridle
       - hyprland
       - hyprlock
       - hyprpaper
       - hyprshot
+      - legcord-bin
       - libnewt
       - libreoffice-fresh
       - linux-headers
       - mission-center
+      - mattermost-desktop-bin
       - nautilus
       - neovim
+      - networkmanager
+      - network-manager-applet
       - net-tools
       - nethogs
       - nwg-look
@@ -66,7 +72,6 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop-bin
       - waybar
       - wayland
       - wayland-protocols
@@ -84,6 +89,12 @@ packages:
     aur:
       - tmux-plugin-manager
       - visual-studio-code-bin
+  cachyos:
+    pacman:
+      # CachyOS-specific optimized packages
+      - linux-cachyos
+      - cachyos-settings
+      # Inherits all packages from sharedArch
   ubuntu:
     apt:
       - alacritty

@@ -7,14 +7,20 @@ export NC='\033[0m'
 echo -e "\n${GREEN}Setting up package manager...${NC}"
 {{- if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  brew update --force
-  chmod -R go-w "$(brew --prefix)/share/zsh"
+  
+  if command -v brew &> /dev/null; then
+    echo -e "${GREEN}Homebrew is already installed, updating...${NC}"
+    brew update --force
+  else
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    brew update --force
+    chmod -R go-w "$(brew --prefix)/share/zsh"
+  fi
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") }}
+  {{ if or (eq $osid "arch") (eq $osid "cachyos") (eq $osid "endeavouros") }}
     # Setup system configurations
     enable_multilib(){
       sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
@@ -28,11 +34,13 @@ EOF
     }
 
     echo -e "${GREEN}Setting up mirrorlist${NC}"
-    {{ if or (eq $osid "arch") (eq $osid "endeavouros") }}
-      sudo pacman -S --noconfirm reflector
-      sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-    {{ else if eq $osid "manjaro" }}
-      sudo pacman-mirrors --fasttrack
+    {{ if eq $osid "cachyos" }}
+      echo -e "${GREEN}Detected CachyOS, using optimized repositories${NC}"
+    {{ else if or (eq $osid "arch") (eq $osid "endeavouros") }}
+      if ! command -v reflector &> /dev/null; then
+        sudo pacman -Sy --needed --noconfirm reflector
+      fi
+      sudo reflector --latest 20 --connection-timeout 20 --download-timeout 60 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
     {{ end }}
 
     echo -e "${GREEN}Configuring pacman settings${NC}"
@@ -42,9 +50,29 @@ EOF
     sudo pacman -Syy
 
     echo -e "${GREEN}Installing paru...${NC}"
-    sudo pacman -S --noconfirm base-devel git
-    bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"
-    echo -e "${GREEN}paru installed successfully!${NC}"
+    
+    if command -v paru &> /dev/null; then
+      echo -e "${GREEN}paru is already installed, skipping...${NC}"
+    else
+      sudo pacman -S --needed --noconfirm base-devel git || {
+        echo -e "\033[1;31mError: Failed to install build dependencies\033[0m"
+        exit 1
+      }
+      
+      if [ -d "/tmp/paru-bin" ]; then
+        echo -e "${GREEN}Cleaning up existing paru-bin directory...${NC}"
+        rm -rf /tmp/paru-bin
+      fi
+      
+      if ! bash -c "cd /tmp && git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si --noconfirm"; then
+        echo -e "\033[1;31mError: Failed to install paru. Cannot continue without AUR helper.\033[0m"
+        rm -rf /tmp/paru-bin 2>/dev/null || true
+        exit 1
+      fi
+      
+      echo -e "${GREEN}paru installed successfully!${NC}"
+      rm -rf /tmp/paru-bin 2>/dev/null || true
+    fi
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
     sudo apt update && sudo apt-get install -y software-properties-common
