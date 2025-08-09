@@ -61,6 +61,8 @@ jobs:
   deploy-on-macos:
     name: macos:latest
     runs-on: macos-latest
+    env:
+      HOMEBREW_BUNDLE_MAS_SKIP: "all"  # Skip all Mac App Store installations in CI (official Homebrew Bundle env var)
     steps:
       - name: Prepare environment
         run: |
