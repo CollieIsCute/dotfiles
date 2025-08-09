@@ -42,6 +42,22 @@ retry() {
       retry paru -S --needed --noconfirm {{ range .packages.cachyos.pacman }}{{ . }} {{ end }}
       {{ end }}
     {{ end }}
+    
+    # Install Flatpak applications for Arch-based systems
+    if command -v flatpak &> /dev/null; then
+      echo -e "${GREEN}Setting up Flatpak and installing applications...${NC}"
+      
+      # Add Flathub repository if not already added
+      if ! flatpak remote-list | grep -q flathub; then
+        sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      fi
+      
+      # Install Bottles
+      echo -e "${GREEN}Installing Bottles via Flatpak...${NC}"
+      flatpak install -y flathub com.usebottles.bottles || echo -e "${GREEN}Bottles may already be installed${NC}"
+    else
+      echo -e "${GREEN}Flatpak not found, skipping Flatpak app installation${NC}"
+    fi
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
     {{ if .packages.ubuntu.apt }}
