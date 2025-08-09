@@ -5,7 +5,7 @@
     "spacing": 4,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["tray"],
-    "modules-right": ["custom/music", "network", "pulseaudio", "battery", "clock", "custom/power"],
+    "modules-right": ["custom/music", "network", "cpu", "pulseaudio", "battery", "clock", "custom/power"],
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -40,10 +40,14 @@
         "on-click": "playerctl play-pause",
         "max-length": 50
     },
+    "cpu": {
+        "format": "󰻠 {usage}%",
+        "interval": 1
+    },
     "network": {
-        "format-wifi": "{essid} ({signalStrength}%) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
-        "format-ethernet": "⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
-        "format-linked": "{ifname} (No IP) ⬇{bandwidthDownBits} ⬆{bandwidthUpBits}",
+        "format-wifi": "<small>↓ {bandwidthDownBits}</small>\n<small>↑ {bandwidthUpBits}</small>",
+        "format-ethernet": "<small>↓ {bandwidthDownBits}</small>\n<small>↑ {bandwidthUpBits}</small>",
+        "format-linked": "<small>↓ {bandwidthDownBits}</small>\n<small>↑ {bandwidthUpBits}</small>",
         "format-disconnected": "Disconnected",
         "tooltip-format": "{ifname} via {gwaddr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%)",
