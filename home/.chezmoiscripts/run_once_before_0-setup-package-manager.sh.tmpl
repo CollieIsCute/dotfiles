@@ -14,7 +14,7 @@ echo -e "\n${GREEN}Setting up package manager...${NC}"
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "manjaro") (eq $osid "endeavouros") (eq $osid "cachyos") }}
+  {{ if or (eq $osid "arch") (eq $osid "cachyos") (eq $osid "endeavouros") }}
     # Setup system configurations
     enable_multilib(){
       sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
@@ -31,8 +31,6 @@ EOF
     {{ if or (eq $osid "arch") (eq $osid "endeavouros") }}
       sudo pacman -Sy --noconfirm reflector
       sudo reflector --latest 20 --connection-timeout 20 --download-timeout 60 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
-    {{ else if eq $osid "manjaro" }}
-      sudo pacman-mirrors --fasttrack
     {{ else if eq $osid "cachyos" }}
       echo -e "${GREEN}Detected CachyOS, using optimized repositories${NC}"
       # CachyOS repositories are already optimized by default
