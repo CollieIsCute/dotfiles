@@ -1,6 +1,6 @@
 # Collie's Dotfiles
 
-A comprehensive dotfiles configuration managed with [chezmoi](https://github.com/twpayne/chezmoi), supporting multiple platforms including macOS and Linux (Manjaro).
+A comprehensive dotfiles configuration managed with [chezmoi](https://github.com/twpayne/chezmoi), supporting multiple platforms including macOS and Linux (Arch-based distros).
 
 ## 🚀 Quick Start
 
@@ -149,5 +149,5 @@ Unified keybinding scheme across all applications:
 - AUR access via [Paru](https://github.com/Morganamilo/paru)
 
 ### CI/CD Testing Only
-Other distributions (Manjaro, Ubuntu, EndeavourOS, CachyOS) are supported through automated testing but not actively maintained for daily use.
+Other distributions (Ubuntu, EndeavourOS, CachyOS) are supported through automated testing but not actively maintained for daily use.
 
