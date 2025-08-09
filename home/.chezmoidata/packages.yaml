@@ -36,6 +36,7 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
+      - legcord-bin
       - libnewt
       - libreoffice-fresh
       - linux-headers
@@ -71,7 +72,6 @@ packages:
       - typst
       - unzip
       - uwsm
-      - vesktop-electron
       - waybar
       - wayland
       - wayland-protocols
