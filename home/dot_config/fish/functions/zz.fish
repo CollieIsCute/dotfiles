@@ -1,7 +1,7 @@
-function zz --description 'Previous dir (z if available)'
-    if type -q z
-        command z -
+function zz --description 'Previous dir (zoxide if available)' --wraps prevd
+    if functions -q z
+        z -
     else
-        prevd  # 等價於更智慧的 cd -
+        prevd
     end
 end
