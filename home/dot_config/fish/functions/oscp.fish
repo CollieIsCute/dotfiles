@@ -7,7 +7,7 @@ function oscp --wraps=scp --description 'SCP with legacy algorithms for old boxe
         -o KexAlgorithms=+diffie-hellman-group14-sha1
 
     # 先走預設（SFTP 傳輸），失敗再自動改用舊 scp 協議（-O）
-    command scp $legacy $argv
+    command scp $argv
     set -l code $status
     if test $code -ne 0
         echo "oscp: fallback to legacy scp protocol (-O) ..." 1>&2

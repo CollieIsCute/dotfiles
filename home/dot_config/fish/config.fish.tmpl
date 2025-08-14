@@ -24,25 +24,6 @@ if test "$SHELL" != "$(command -v fish)"
     echo 'chsh -s "$(command -v fish)"'
 end
 
-# 共用別名和配置 (適用於所有平台)
-alias gaa="git add --all"
-alias gc="git commit -m"
-alias gf="git fetch"
-alias gl="git pull"
-alias glg="git log"
-alias gp="git push"
-alias gst="git status"
-
-alias lal="la -lh"
-alias ll="ls -lh"
-alias sdn="shutdown now"
-alias tosync="cd ~/syncfolder/"
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-alias .......="cd ../../../../../.."
-
 # 使用 neovim (如果可用)
 command -vq nvim && alias vi="nvim"
 
