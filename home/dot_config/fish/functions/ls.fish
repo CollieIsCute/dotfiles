@@ -1,7 +1,7 @@
-function ls
-  if command -vq eza
-    eza --icons --git $argv
+function ls --description 'eza (fallback to ls)' --wraps eza
+  if command -q eza
+    command eza --icons --git --group-directories-first -- $argv
   else
-    command ls $argv
+    command ls -- $argv
   end
 end

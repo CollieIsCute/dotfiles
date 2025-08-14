@@ -1,7 +1,7 @@
-function ll
-  if command -vq eza
-    eza --icons --git -lh --total-size $argv
+function ll --description 'eza -lh --icons --git (fallback to ls)' --wraps eza
+  if command -q eza
+    command eza --icons --git --group-directories-first -lh --total-size -- $argv
   else
-    ls -lh $argv
+    command ls -lh -- $argv
   end
 end
