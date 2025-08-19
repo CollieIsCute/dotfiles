@@ -35,6 +35,7 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
+      - keepassxc
       - legcord-bin
       - libnewt
       - libreoffice-fresh
