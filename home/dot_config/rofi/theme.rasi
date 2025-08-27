@@ -1,0 +1,167 @@
+/*
+ * ML4W Style Theme for Rofi
+ * Inspired by ML4W dotfiles with modern design
+ */
+
+* {
+    /* Color scheme - Catppuccin Frappe style */
+    bg0:     #303446FF;
+    bg1:     #414559FF;
+    bg2:     #51576dFF;
+    bg3:     #626880FF;
+    
+    fg0:     #c6d0f5FF;
+    fg1:     #b5bfe2FF;
+    fg2:     #a5adceFF;
+    
+    accent:  #8caaffFF;
+    urgent:  #e78284FF;
+    
+    background-color:   transparent;
+    text-color:         @fg0;
+    
+    margin:     0px;
+    padding:    0px;
+    spacing:    0px;
+}
+
+window {
+    location:       center;
+    width:          850;
+    height:         550;
+    
+    background-color:   @bg0;
+    border-radius:      15px;
+    border:             2px;
+    border-color:       @accent;
+    
+    cursor:             "default";
+}
+
+mainbox {
+    padding:    15px;
+}
+
+inputbar {
+    background-color:   @bg1;
+    border-color:       @bg3;
+    border:             1px;
+    border-radius:      10px;
+    
+    padding:    10px 15px;
+    spacing:    10px;
+    
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+    font:       "JetBrainsMono Nerd Font Bold 12";
+}
+
+entry {
+    placeholder:        "Search...";
+    placeholder-color:  @fg2;
+    cursor:             text;
+}
+
+message {
+    margin:             15px 0 0;
+    border-radius:      10px;
+    border-color:       @bg2;
+    background-color:   @bg1;
+}
+
+textbox {
+    padding:            10px 15px;
+    background-color:   inherit;
+}
+
+listview {
+    background-color:   transparent;
+    
+    margin:     15px 0 0;
+    lines:      10;
+    columns:    1;
+    
+    scrollbar:  true;
+    
+    fixed-height: false;
+    fixed-columns: true;
+    
+    cycle: true;
+    dynamic: true;
+    
+    layout: vertical;
+    reverse: false;
+    
+    spacing: 5px;
+}
+
+scrollbar {
+    handle-width:       5px;
+    handle-color:       @accent;
+    border-radius:      10px;
+    background-color:   @bg1;
+}
+
+element {
+    padding:            10px 15px;
+    spacing:            10px;
+    
+    cursor:             pointer;
+    border-radius:      8px;
+    
+    background-color:   transparent;
+    text-color:         @fg1;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg1;
+}
+
+element alternate.normal {
+    background-color: @bg1;
+    background-color: #3a3f5488;
+    text-color:       @fg1;
+}
+
+element normal.urgent {
+    background-color: @urgent;
+    text-color:       @bg0;
+}
+
+element normal.active {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element selected.urgent {
+    background-color: @urgent;
+    text-color:       @bg0;
+}
+
+element selected.active {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element-icon {
+    size:           28px;
+    cursor:         inherit;
+    background-color:   transparent;
+    text-color:         inherit;
+}
+
+element-text {
+    vertical-align: 0.5;
+    cursor:         inherit;
+    background-color:   transparent;
+    text-color:         inherit;
+}
