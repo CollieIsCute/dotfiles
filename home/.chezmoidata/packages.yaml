@@ -40,6 +40,7 @@ packages:
       - libnewt
       - libreoffice-fresh
       - linux-headers
+      - localsend-bin
       - mission-center
       - mattermost-desktop-bin
       - nautilus
