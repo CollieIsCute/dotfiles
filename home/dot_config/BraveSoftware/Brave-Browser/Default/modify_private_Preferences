@@ -34,7 +34,8 @@
 {{- else -}}
   {{- $patched := $prefs -}}
   {{- range $r := $rules -}}
-    {{- $patched = setValueAtPath $patched (join "." $r.path) $r.want -}}
+    {{- $patched = ($patched | setValueAtPath $r.path $r.want) -}}
   {{- end -}}
   {{- toJson $patched -}}
 {{- end -}}
+
