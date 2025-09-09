@@ -1,0 +1,12 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /*
+  .chezmoi.stdin  = 目前目標檔案內容(JSON字串)
+  fromJson        = 解析成物件
+  setValueAtPath  = 以路徑設值（可串管線，路徑不存在會自動建立）
+  toPrettyJson    = 輸出漂亮的 JSON
+*/ -}}
+{{- fromJson .chezmoi.stdin
+    | setValueAtPath "brave.tabs.vertical_tabs_enabled" true
+    | setValueAtPath "brave.accelerators.56215" (list "Control+Shift+KeyF")
+    | toPrettyJson -}}
+
