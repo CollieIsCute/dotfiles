@@ -26,6 +26,7 @@ packages:
       - fcitx5-skin-ori-git
       - fish
       - fzf
+      - gef
       - git
       - go
       - gping
