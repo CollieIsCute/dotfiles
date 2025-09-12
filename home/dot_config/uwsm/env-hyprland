@@ -1,0 +1,4 @@
+export HYPRCURSOR_SIZE=24
+# 若你也有自訂 hyprcursor 主題，可順手：
+# export HYPRCURSOR_THEME=你的主題名
+
