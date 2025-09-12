@@ -9,6 +9,7 @@ packages:
       - bluez-utils
       - btop
       - brave-bin
+      - catppuccin-cursors-mocha
       - clang
       - cliphist
       - cloc
