@@ -58,6 +58,7 @@ packages:
       - pipewire
       - pipewire-pulse
       - podman
+      - qpwgraph
       - ripgrep
       - rofi
       - sddm
