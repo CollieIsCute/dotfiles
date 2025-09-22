@@ -28,6 +28,7 @@ packages:
       - fish
       - fzf
       - gef
+      - ghostty
       - git
       - go
       - gping
