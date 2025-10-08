@@ -1,4 +1,4 @@
 return {
 	"ibhagwan/fzf-lua",
-	cmd = "FzfLua",
+	-- cmd = "FzfLua" is already set by LazyVim default
 }
