@@ -14,6 +14,8 @@ configuration {
     display-window: "Windows";
     drun-display-format: "{name}";
     window-format: "{w} · {c} · {t}";
+    run-command: "bash -lc 'cmd={cmd}; case $cmd in brave*) exec brave --disable-features=WaylandWpColorManagerV1 ${cmd#brave} ;; chromium*) exec chromium --disable-features=WaylandWpColorManagerV1 ${cmd#chromium} ;; *) exec $cmd ;; esac'";
+
     
     /* Behavior */
     click-to-exit: true;
@@ -30,7 +32,7 @@ configuration {
     /* SSH settings */
     ssh-client: "ssh";
     ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
-    
+
     /* File browser settings */
     filebrowser {
         directories-first: true;
