@@ -12,6 +12,10 @@ if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
     echo 'echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
 end
 
+# Homebrew environment variables - disable auto-update messages and hints
+set -gx HOMEBREW_NO_AUTO_UPDATE 1
+set -gx HOMEBREW_NO_ENV_HINTS 1
+
 alias buu="brew update --auto-update && brew upgrade && fisher update"
 
 fish_add_path /opt/homebrew/bin
