@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Blueman Applet
-Exec=blueman-applet
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true

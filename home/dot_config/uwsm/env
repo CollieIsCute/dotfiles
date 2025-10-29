@@ -1,8 +1,0 @@
-export ELECTRON_OZONE_PLATFORM_HINT=wayland
-export GTK_THEME=Adwaita:dark
-export QT_QPA_PLATFORMTHEME=qt6ct
-export QT_STYLE_OVERRIDE=kvantum
-
-# if it's green, then it must fallback to xcursor
-export XCURSOR_THEME="Catppuccin Mocha Green"
-export XCURSOR_SIZE=24
