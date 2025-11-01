@@ -17,6 +17,7 @@ packages:
       - cursor-bin
       - docker-compose
       - eza
+      - electron39-bin
       - fastfetch
       - fd
       - fcitx5
