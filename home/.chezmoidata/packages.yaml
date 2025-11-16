@@ -39,6 +39,7 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
+      - hyprutils
       - keepassxc
       - libnewt
       - libreoffice-fresh
