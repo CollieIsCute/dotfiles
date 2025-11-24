@@ -14,8 +14,6 @@ configuration {
     display-window: "Windows";
     drun-display-format: "{name}";
     window-format: "{w} · {c} · {t}";
-    run-command: "bash -lc 'cmd=\"{cmd}\"; case \"$cmd\" in brave*) exec brave --disable-features=WaylandWpColorManagerV1 --enable-features=TouchpadOverscrollHistoryNavigation ${cmd#brave} ;; chromium*) exec chromium --disable-features=WaylandWpColorManagerV1 ${cmd#chromium} ;; *) exec $cmd ;; esac'";
-
     
     /* Behavior */
     click-to-exit: true;
