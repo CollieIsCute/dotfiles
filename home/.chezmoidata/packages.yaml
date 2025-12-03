@@ -12,7 +12,6 @@ packages:
       - catppuccin-cursors-mocha
       - clang
       - cliphist
-      - cloc
       - curl
       - cursor-bin
       - docker-compose
@@ -72,6 +71,7 @@ packages:
       - tig
       - tldr
       - tmux
+      - tokei
       - ttf-input
       - ttf-jetbrains-mono
       - ttf-jetbrains-mono-nerd
