@@ -45,7 +45,7 @@ packages:
       - linux-headers
       - localsend-bin
       - mission-center
-      - mattermost-desktop-bin
+      - mattermost-desktop
       - nautilus
       - neovim
       - networkmanager
