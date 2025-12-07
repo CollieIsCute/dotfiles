@@ -6,7 +6,11 @@
 {{- /* 想要強制的設定：每條規則是 {path: [...], want: <value>} */ -}}
 {{- $rules := list
       (dict "path" (list "brave" "tabs" "vertical_tabs_enabled") "want" true)
-      (dict "path" (list "brave" "accelerators" "56215")          "want" (list "Control+Shift+KeyF"))
+      (dict "path" (list "brave" "tabs" "vertical_tabs_hide_completely_when_collapsed")
+            "want" true)
+      (dict "path" (list "brave" "tabs" "vertical_tabs_expanded_state_per_window")
+            "want" true)
+      (dict "path" (list "brave" "accelerators" "56215") "want" (list "Control+Shift+KeyF"))
 -}}
 
 {{- /* 檢查所有規則：缺鍵或值不相等 -> 需要修補 */ -}}
