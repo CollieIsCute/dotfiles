@@ -77,7 +77,6 @@ packages:
       - ttf-jetbrains-mono-nerd
       - typst
       - unzip
-      - uwsm
       - vesktop-bin
       - waybar
       - wayland
