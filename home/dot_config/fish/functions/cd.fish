@@ -1,7 +1,3 @@
-function cd --description 'z (fallback to builtin cd)' --wraps cd
-  if type -q z
-    z -- $argv
-  else
-    builtin cd -- $argv
-  end
+function cd --description 'z (fallback to builtin cd)' --wraps z
+    type -q z && z -- $argv || builtin cd -- $argv
 end

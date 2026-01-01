@@ -1,7 +1,3 @@
-function zz --description 'Previous dir (zoxide if available)' --wraps prevd
-    if functions -q z
-        z -
-    else
-        prevd
-    end
+function zz --description 'Previous dir (zoxide if available)'
+    functions -q z && z - || prevd
 end

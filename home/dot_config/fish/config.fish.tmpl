@@ -1,41 +1,36 @@
-set -l green (set_color green)
-set -l red (set_color red)
-set -l blue (set_color blue)
-set -l normal (set_color normal)
-set -l yellow (set_color yellow)
-set -l cyan (set_color cyan)
 set -g theme_catppuccin_flavour mocha
 
 {{ if eq .chezmoi.os "darwin" -}}
-if ! grep -q "$(brew --prefix)/bin/fish" /etc/shells
-    echo -e "$green Please add fish to shell PATHs. Command: $normal"
+if not grep -q (brew --prefix)/bin/fish /etc/shells
+    set_color green
+    echo "Please add fish to shell PATHs:"
+    set_color normal
     echo 'echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells'
 end
 
-# Homebrew environment variables - disable auto-update messages and hints
+# Homebrew environment
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx HOMEBREW_NO_ENV_HINTS 1
 
-alias buu="brew update --auto-update && brew upgrade && fisher update"
+alias buu "brew update --auto-update && brew upgrade && fisher update"
 
 fish_add_path /opt/homebrew/bin
-eval "$(/opt/homebrew/bin/brew shellenv)"
+/opt/homebrew/bin/brew shellenv | source
 {{ end }}
 
-# 更改預設 shell 為 fish
-if test "$SHELL" != "$(command -v fish)"
-    echo -e "$green You can use this command to set fish as default shell: $normal"
-    echo 'chsh -s "$(command -v fish)"'
+# 提示設定預設 shell
+if test "$SHELL" != (command -v fish)
+    set_color green
+    echo "Set fish as default shell:"
+    set_color normal
+    echo 'chsh -s (command -v fish)'
 end
 
-# 使用 neovim (如果可用)
-command -vq nvim && alias vi="nvim"
+# neovim 別名
+command -q nvim && alias vi nvim
 
-# 如果存在，加載本地配置
-if test -f ~/.config/fish/local.fish
-    source ~/.config/fish/local.fish
-end
+# 載入本地設定
+test -f ~/.config/fish/local.fish && source ~/.config/fish/local.fish
 
-if command -vq zoxide
-    zoxide init fish | source
-end
+# zoxide 初始化
+command -q zoxide && zoxide init fish | source
