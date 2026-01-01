@@ -1,5 +1,42 @@
-# this comment is to make script update when Brewfile is modified {{- include (joinPath .chezmoi.sourceDir "dot_config/brew/Brewfile") | sha256sum }}
-env | grep -E '^HOMEBREW_BUNDLE_' || true
+set -euo pipefail
+
+echo "== brew path/version =="
+command -v brew
 brew --version
+brew config  # 官方建議 debug 用的總覽輸出:contentReference[oaicite:3]{index=3}
+
+echo "== brew env (shell) =="
+env | grep -E '^HOMEBREW_' || true
+
+echo "== brew env files (might override shell env) =="
+# 這些路徑是 manpage 列的；有檔就印，沒有就略過:contentReference[oaicite:4]{index=4}
+for f in \
+  /etc/homebrew/brew.env \
+  "$(brew --prefix)/etc/homebrew/brew.env" \
+  "${XDG_CONFIG_HOME:-$HOME/.config}/homebrew/brew.env" \
+  "$HOME/.homebrew/brew.env"
+do
+  if [ -f "$f" ]; then
+    echo "--- $f ---"
+    sed -n '1,200p' "$f"
+  fi
+done
+
+echo "== Brewfile actually used =="
+ls -la "${HOME}/.config/brew/Brewfile"
 cat "${HOME}/.config/brew/Brewfile"
-brew bundle install --file="${HOME}/.config/brew/Brewfile"
+
+echo "== taps visible BEFORE bundle =="
+brew tap
+
+echo "== can brew see vchewing as a cask? =="
+brew search --cask vchewing || true   # search 可強制當 cask 查:contentReference[oaicite:5]{index=5}
+brew search --formula vchewing || true
+brew info --cask vchewing || true
+
+echo "== run bundle with verbose+debug to see what it executes =="
+brew bundle install --file="${HOME}/.config/brew/Brewfile" -v -d
+# -v: install 會印出實際跑的命令；-d: debug 資訊:contentReference[oaicite:6]{index=6}
+
+echo "== taps visible AFTER bundle =="
+brew tap
