@@ -72,8 +72,7 @@ This dotfiles collection includes configurations for:
   │   ├── hypridle                        # Idle daemon
   │   ├── hyprlock                        # Screen locker
   │   ├── hyprpaper                       # Wallpaper utility
-  │   ├── hyprshot                        # Screenshot tool
-  │   └── [uwsm](https://github.com/Vladimir-csp/uwsm)                            # Universal Wayland Session Manager
+  │   └── hyprshot                        # Screenshot tool
   ├── Status & UI
   │   ├── [waybar](https://github.com/Alexays/Waybar)                          # Status bar
   │   ├── [swaync](https://github.com/ErikReider/SwayNotificationCenter)                          # Notification center
