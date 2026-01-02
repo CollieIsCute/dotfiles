@@ -148,5 +148,5 @@ Unified keybinding scheme across all applications:
 - AUR access via [Paru](https://github.com/Morganamilo/paru)
 
 ### CI/CD Testing Only
-Other distributions (Ubuntu, EndeavourOS, CachyOS) are supported through automated testing but not actively maintained for daily use.
+Other distributions (Ubuntu, CachyOS) are supported through automated testing but not actively maintained for daily use.
 
