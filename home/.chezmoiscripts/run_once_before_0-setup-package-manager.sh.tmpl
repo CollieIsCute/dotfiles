@@ -20,7 +20,7 @@ echo -e "\n${GREEN}Setting up package manager...${NC}"
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "cachyos") (eq $osid "endeavouros") }}
+  {{ if or (eq $osid "arch") (eq $osid "cachyos") }}
     # Setup system configurations
     enable_multilib(){
       sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
@@ -36,7 +36,7 @@ EOF
     echo -e "${GREEN}Setting up mirrorlist${NC}"
     {{ if eq $osid "cachyos" }}
       echo -e "${GREEN}Detected CachyOS, using optimized repositories${NC}"
-    {{ else if or (eq $osid "arch") (eq $osid "endeavouros") }}
+    {{ else if eq $osid "arch" }}
       if ! command -v reflector &> /dev/null; then
         sudo pacman -Sy --needed --noconfirm reflector
       fi
