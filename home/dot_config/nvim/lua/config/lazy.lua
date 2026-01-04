@@ -17,11 +17,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = {
 		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+		-- Picker extra (Snacks Picker - recommended by folke)
+		{ import = "lazyvim.plugins.extras.editor.snacks_picker" },
 		-- Language extras
 		{ import = "lazyvim.plugins.extras.lang.clangd" },
-		-- AI extras (copilot inline + NES + chat)
+		-- AI extras (copilot inline + NES, chat replaced by CodeCompanion)
 		{ import = "lazyvim.plugins.extras.ai.copilot" },
-		{ import = "lazyvim.plugins.extras.ai.copilot-chat" },
 		{ import = "lazyvim.plugins.extras.ai.sidekick" },
 		-- Custom plugin overrides
 		{ import = "plugins" },

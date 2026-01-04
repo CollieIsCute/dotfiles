@@ -4,7 +4,7 @@
 
 -- In case you don't want to use `:LazyExtras`,
 -- then you need to set the option below.
-vim.g.lazyvim_picker = "fzf"
+vim.g.lazyvim_picker = "snacks"
 
 -- Native inline completions don't support being shown as regular completions
 vim.g.ai_cmp = false
