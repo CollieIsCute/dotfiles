@@ -17,9 +17,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = {
 		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
-		-- LazyVim Extras (declarative, no need for :LazyExtras)
+		-- Language extras
 		{ import = "lazyvim.plugins.extras.lang.clangd" },
+		-- AI extras (copilot inline + NES + chat)
 		{ import = "lazyvim.plugins.extras.ai.copilot" },
+		{ import = "lazyvim.plugins.extras.ai.copilot-chat" },
+		{ import = "lazyvim.plugins.extras.ai.sidekick" },
 		-- Custom plugin overrides
 		{ import = "plugins" },
 	},
