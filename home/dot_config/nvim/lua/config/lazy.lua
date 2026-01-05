@@ -21,6 +21,7 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.editor.snacks_picker" },
 		-- Language extras
 		{ import = "lazyvim.plugins.extras.lang.clangd" },
+		{ import = "lazyvim.plugins.extras.lang.markdown" },
 		{ import = "lazyvim.plugins.extras.lang.typst" },
 		-- AI extras (copilot inline + NES, chat replaced by CodeCompanion)
 		{ import = "lazyvim.plugins.extras.ai.copilot" },
