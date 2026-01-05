@@ -25,6 +25,8 @@ require("lazy").setup({
 		-- AI extras (copilot inline + NES, chat replaced by CodeCompanion)
 		{ import = "lazyvim.plugins.extras.ai.copilot" },
 		{ import = "lazyvim.plugins.extras.ai.sidekick" },
+		-- Util extras
+		{ import = "lazyvim.plugins.extras.util.chezmoi" },
 		-- Custom plugin overrides
 		{ import = "plugins" },
 	},
