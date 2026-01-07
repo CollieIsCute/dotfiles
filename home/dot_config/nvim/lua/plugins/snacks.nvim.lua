@@ -14,9 +14,11 @@ return {
 │   \______| \______/  |_______||_______||__| |_______|  │
 │                                                        │
 └────────────────────────────────────────────────────────┘
-        ]]
-      }
-    }
-  }
+        ]],
+      },
+    },
+    -- Image viewer (requires kitty, wezterm, or ghostty terminal)
+    image = { enabled = true },
+  },
 }
 
