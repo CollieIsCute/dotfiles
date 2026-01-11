@@ -1,0 +1,5 @@
+# Ghostty Configuration
+# https://ghostty.org/docs/config
+
+# Font
+font-family = JetBrainsMono Nerd Font
