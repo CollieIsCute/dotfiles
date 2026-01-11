@@ -1,0 +1,86 @@
+# Tig Configuration
+# Based on best practices from folke, vim.tigrc, and community configs
+
+# =============================================================================
+# Display Settings
+# =============================================================================
+set line-graphics = utf-8
+set tab-size = 4
+set ignore-case = true
+set refresh-mode = auto
+set editor-line-number = yes
+set diff-highlight = true
+set mouse = true
+set wrap-lines = no
+
+# Main view with commit ID and graph
+set main-view = id:yes date:default,format="%Y-%m-%d" author:email-user commit-title:yes,graph=yes,refs=yes
+
+# Line numbers in views
+set blame-view = date:default author:email-user id:yes,color line-number:yes,interval=1 text
+set pager-view = line-number:yes,interval=1 text
+set stage-view = line-number:yes,interval=1 text
+set log-view = line-number:yes,interval=1 text
+set blob-view = line-number:yes,interval=1 text
+set diff-view = line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
+# Split view height
+set split-view-height = 67%
+
+# =============================================================================
+# Vim-Style Navigation
+# =============================================================================
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic <C-f> move-page-down
+bind generic <C-b> move-page-up
+
+# =============================================================================
+# Git Operations
+# =============================================================================
+# Commit
+bind generic C !git commit
+bind generic + !git commit --amend
+
+# Fetch/Pull/Push
+bind generic F ?git fetch %(remote)
+bind generic U ?git pull %(remote)
+bind generic P ?git push -u %(remote) %(repo:head)
+
+# Interactive rebase
+bind main R !git rebase -i %(commit)^
+
+# Cherry-pick
+bind main K ?git cherry-pick %(commit)
+
+# Reset
+bind main H ?git reset --hard %(commit)
+bind status H ?git reset --hard HEAD
+
+# Stash
+bind stash A ?git stash apply %(stash)
+bind stash D ?git stash drop %(stash)
+
+# Branch
+bind refs B ?git checkout -b "%(prompt Enter branch name: )"
+bind refs D ?git branch -d %(branch)
+bind refs = ?git checkout %(branch)
+bind generic - ?git checkout -
+
+# =============================================================================
+# Diff Navigation
+# =============================================================================
+bind diff n :/^@@
+bind diff p :?^@@
+bind stage n :/^@@
+bind stage p :?^@@
+bind stage 1 stage-update-line
+
+# Diff context
+bind diff [ :toggle diff-context -1
+bind diff ] :toggle diff-context +1
+
+# =============================================================================
+# Clipboard (Wayland with wl-copy)
+# =============================================================================
+bind generic ` @sh -c "echo -n %(commit) | wl-copy"
