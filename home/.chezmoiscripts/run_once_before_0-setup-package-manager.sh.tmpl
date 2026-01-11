@@ -49,29 +49,29 @@ EOF
     echo -e "${GREEN}Upgrading system packages (including pacman/libalpm)${NC}"
     sudo pacman -Syu --noconfirm
 
-    echo -e "${GREEN}Installing/upgrading paru...${NC}"
+    echo -e "${GREEN}Installing/upgrading paru from source...${NC}"
     
-    # Always reinstall paru to ensure it matches the current libalpm version
-    # This prevents "libalpm.so.X: cannot open shared object file" errors
-    # that occur when the system's libalpm is upgraded but paru binary is stale
-    sudo pacman -S --needed --noconfirm base-devel git || {
+    # Build paru from source to ensure it matches the current libalpm version
+    # Using paru (not paru-bin) because pre-compiled binaries may be built against
+    # an older libalpm version, causing "libalpm.so.X: cannot open shared object file" errors
+    sudo pacman -S --needed --noconfirm base-devel git rust || {
       echo -e "\033[1;31mError: Failed to install build dependencies\033[0m"
       exit 1
     }
     
-    if [ -d "/tmp/paru-bin" ]; then
-      echo -e "${GREEN}Cleaning up existing paru-bin directory...${NC}"
-      rm -rf /tmp/paru-bin
+    if [ -d "/tmp/paru" ]; then
+      echo -e "${GREEN}Cleaning up existing paru directory...${NC}"
+      rm -rf /tmp/paru
     fi
     
-    if ! bash -c "cd /tmp && git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg -si --noconfirm"; then
+    if ! bash -c "cd /tmp && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si --noconfirm"; then
       echo -e "\033[1;31mError: Failed to install paru. Cannot continue without AUR helper.\033[0m"
-      rm -rf /tmp/paru-bin 2>/dev/null || true
+      rm -rf /tmp/paru 2>/dev/null || true
       exit 1
     fi
     
     echo -e "${GREEN}paru installed successfully!${NC}"
-    rm -rf /tmp/paru-bin 2>/dev/null || true
+    rm -rf /tmp/paru 2>/dev/null || true
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
     sudo apt update && sudo apt-get install -y software-properties-common
