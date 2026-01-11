@@ -32,7 +32,8 @@ retry() {
     sudo rm -f /etc/lsb-release
     echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
     {{ if or .packages.sharedArch.pacman .packages.sharedArch.aur }}
-    sudo pacman -Syy
+    # Use -Syu to ensure system is up-to-date and libalpm version matches paru
+    sudo pacman -Syu --noconfirm
     retry paru -S --needed --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }} {{ range .packages.sharedArch.aur }}{{ . }} {{ end }}
     {{ end }}
     
