@@ -94,7 +94,6 @@ packages:
       - zoxide
     aur:
       - tmux-plugin-manager
-      - visual-studio-code-bin
   cachyos:
     pacman:
       # CachyOS-specific optimized packages
