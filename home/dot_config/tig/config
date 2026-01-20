@@ -9,7 +9,7 @@ set tab-size = 4
 set ignore-case = true
 set refresh-mode = auto
 set editor-line-number = yes
-set diff-highlight = true
+set diff-highlight = /usr/share/git/diff-highlight/diff-highlight
 set mouse = true
 set wrap-lines = no
 
