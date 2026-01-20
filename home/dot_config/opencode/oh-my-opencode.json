@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "oracle": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "librarian": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "explore": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "multimodal-looker": {
+      "model": "anthropic/claude-opus-4-5"
+    }
+  },
+  "categories": {
+    "visual": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "business-logic": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "quick": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "most-capable": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "general": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "writing": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "artistry": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "ultrabrain": {
+      "model": "anthropic/claude-opus-4-5"
+    }
+  }
+}
