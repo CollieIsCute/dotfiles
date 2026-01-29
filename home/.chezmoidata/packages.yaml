@@ -39,6 +39,7 @@ packages:
       - hyprshot
       - hyprutils
       - keepassxc
+      - lazygit
       - libnewt
       - libreoffice-fresh
       - linux-headers
