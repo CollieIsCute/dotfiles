@@ -1,0 +1,15 @@
+# Global clangd configuration
+# Deploys to: ~/.config/clangd/config.yaml
+
+CompileFlags:
+  Add:
+    # Preprocessor flag to detect clangd analysis (enables conditional code paths)
+    - -D__clangd__
+    # Suppress warnings from unknown compiler-specific flags (GCC flags clangd doesn't recognize)
+    - -Wno-unknown-warning-option
+
+InlayHints:
+  # Show parameter names at call sites: foo(/*x=*/42, /*y=*/true)
+  ParameterNames: Yes
+  # Show deduced types for auto: auto /*int*/ x = 42;
+  DeducedTypes: Yes
