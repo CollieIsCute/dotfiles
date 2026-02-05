@@ -1,6 +1,30 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
+    "build": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "plan": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "sisyphus": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "sisyphus-junior": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "OpenCode-Builder": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "prometheus": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "metis": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "momus": {
+      "model": "anthropic/claude-opus-4-5"
+    },
     "oracle": {
       "model": "anthropic/claude-opus-4-5"
     },
@@ -11,6 +35,12 @@
       "model": "anthropic/claude-opus-4-5"
     },
     "multimodal-looker": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "atlas": {
+      "model": "anthropic/claude-opus-4-5"
+    },
+    "hephaestus": {
       "model": "anthropic/claude-opus-4-5"
     }
   },
