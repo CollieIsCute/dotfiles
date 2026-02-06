@@ -1,5 +1,5 @@
 return {
-  "CollieIsCute/smart-splits.nvim",
+  "mrjones2014/smart-splits.nvim",
   lazy = false,
   opts = {
     multiplexer_integration = "tmux",
