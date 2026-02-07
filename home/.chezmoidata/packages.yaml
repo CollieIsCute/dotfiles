@@ -116,7 +116,6 @@ packages:
       - fzf
       - git
       - ibus-chewing
-      - lazygit
       - neofetch
       - neovim
       - nethogs
