@@ -118,12 +118,4 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-k = ['join-with up', 'mode main']
     cmd-shift-l = ['join-with right', 'mode main']
 
-# ────────────────────────────────────────
-# Window detection rules
-# ────────────────────────────────────────
-# Ghostty uses macOS native tabs which appear as separate windows to
-# tiling WMs. Force tiling layout to keep tabs grouped as one unit.
-# See: https://ghostty.org/docs/help/macos-tiling-wms
-[[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
-run = ['layout tiling']
+
