@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+{{ if ne .chezmoi.os "darwin" }}
+exit 0
+{{ end }}
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+echo -e "\n${GREEN}Configuring macOS system defaults...${NC}"
+
+# Disable macOS Sequoia+ native window tiling (conflicts with AeroSpace)
+defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+
+# AeroSpace workspace emulation: disable Spaces auto-rearrange and group Mission Control by app
+defaults write com.apple.dock mru-spaces -bool false
+defaults write com.apple.dock expose-group-apps -bool true
+killall Dock
+
+# AeroSpace multi-monitor: let windows span across displays (requires logout)
+defaults write com.apple.spaces spans-displays -bool true
+
+echo -e "${GREEN}macOS system defaults configured!${NC}"
