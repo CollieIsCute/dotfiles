@@ -1,0 +1,129 @@
+# AeroSpace - i3-like tiling window manager for macOS
+# https://nikitabobko.github.io/AeroSpace/guide
+#
+# Keybinding philosophy:
+#   Cmd + H/J/K/L           → focus left/down/up/right
+#   Cmd + Shift + H/L       → move window to prev/next workspace
+#   Cmd + 1-9               → switch workspace
+#   Cmd + Shift + 1-9       → move window to workspace
+#
+# NOTE: Alt (Option) keybindings are intentionally avoided because
+# macOS 26 (Tahoe) intercepts Option key events before AeroSpace can
+# receive them (Option is a dead-key modifier for special characters).
+
+config-version = 2
+
+start-at-login = true
+# auto-reload-config = true  # NOTE: requires AeroSpace > v0.20.2-Beta (not yet released)
+
+# Neutralize macOS "Hide Application" (Cmd+H) since we use Cmd+H for focus
+# AeroSpace intercepts Cmd+H before macOS, but if somehow an app hides, this unhides it
+automatically-unhide-macos-hidden-apps = true
+
+# Tree normalization (recommended defaults)
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when switching monitors
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+[key-mapping]
+    preset = 'qwerty'
+
+# 0 gaps
+[gaps]
+    inner.horizontal = 0
+    inner.vertical =   0
+    outer.left =       0
+    outer.bottom =     0
+    outer.top =        0
+    outer.right =      0
+
+# ────────────────────────────────────────
+# Main keybindings
+# ────────────────────────────────────────
+[mode.main.binding]
+
+    # ── Focus (Cmd + H/J/K/L) ─────────────────────
+    cmd-h = 'focus left'
+    cmd-j = 'focus down'
+    cmd-k = 'focus up'
+    cmd-l = 'focus right'
+
+    # ── Move window to adjacent workspace (Cmd + Shift + H/L) ──
+    cmd-shift-h = 'move-node-to-workspace prev'
+    cmd-shift-l = 'move-node-to-workspace next'
+
+    # Disable "hide others" (Cmd+Alt+H) to prevent accidental hiding
+    cmd-alt-h = []
+
+    # ── Layout ─────────────────────────────────────
+    cmd-slash = 'layout tiles horizontal vertical'
+    cmd-comma = 'layout accordion horizontal vertical'
+
+    # ── Resize ─────────────────────────────────────
+    cmd-minus = 'resize smart -50'
+    cmd-equal = 'resize smart +50'
+
+    # ── Workspaces (Cmd + 1-9) ─────────────────────
+    cmd-1 = 'workspace 1'
+    cmd-2 = 'workspace 2'
+    cmd-3 = 'workspace 3'
+    cmd-4 = 'workspace 4'
+    cmd-5 = 'workspace 5'
+    cmd-6 = 'workspace 6'
+    cmd-7 = 'workspace 7'
+    cmd-8 = 'workspace 8'
+    cmd-9 = 'workspace 9'
+
+    # ── Move to workspace (Cmd + Shift + 1-9) ─────
+    cmd-shift-1 = 'move-node-to-workspace 1'
+    cmd-shift-2 = 'move-node-to-workspace 2'
+    cmd-shift-3 = 'move-node-to-workspace 3'
+    cmd-shift-4 = 'move-node-to-workspace 4'
+    cmd-shift-5 = 'move-node-to-workspace 5'
+    cmd-shift-6 = 'move-node-to-workspace 6'
+    cmd-shift-7 = 'move-node-to-workspace 7'
+    cmd-shift-8 = 'move-node-to-workspace 8'
+    cmd-shift-9 = 'move-node-to-workspace 9'
+
+    # ── Workspace navigation ──────────────────────
+    cmd-tab = 'workspace-back-and-forth'
+    cmd-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # ── Fullscreen ─────────────────────────────────
+    cmd-enter = 'fullscreen'
+
+    # ── Float toggle ───────────────────────────────
+    cmd-shift-space = 'layout floating tiling'
+
+    # ── Service mode ───────────────────────────────
+    cmd-shift-semicolon = 'mode service'
+
+# ────────────────────────────────────────
+# Service mode (for less common operations)
+# ────────────────────────────────────────
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main']
+    f = ['layout floating tiling', 'mode main']
+    backspace = ['close-all-windows-but-current', 'mode main']
+
+    cmd-shift-h = ['join-with left', 'mode main']
+    cmd-shift-j = ['join-with down', 'mode main']
+    cmd-shift-k = ['join-with up', 'mode main']
+    cmd-shift-l = ['join-with right', 'mode main']
+
+# ────────────────────────────────────────
+# Window detection rules
+# ────────────────────────────────────────
+# Ghostty uses macOS native tabs which appear as separate windows to
+# tiling WMs. Force tiling layout to keep tabs grouped as one unit.
+# See: https://ghostty.org/docs/help/macos-tiling-wms
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = ['layout tiling']
