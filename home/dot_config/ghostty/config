@@ -3,3 +3,7 @@
 
 # Font
 font-family = JetBrainsMono Nerd Font
+
+# SSH terminfo auto-installation
+# See: https://ghostty.org/docs/help/terminfo#ssh
+shell-integration-features = ssh-terminfo,ssh-env
