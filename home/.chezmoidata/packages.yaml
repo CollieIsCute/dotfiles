@@ -47,6 +47,7 @@ packages:
       - mission-center
       - mattermost-desktop
       - nautilus
+      - neovide-bin
       - neovim
       - networkmanager
       - network-manager-applet
