@@ -39,6 +39,7 @@ packages:
       - hyprshot
       - hyprutils
       - keepassxc
+      - kitty
       - lazygit
       - libnewt
       - libreoffice-fresh
@@ -115,6 +116,7 @@ packages:
       - fzf
       - git
       - ibus-chewing
+      - kitty
       - neofetch
       - neovim
       - nethogs
