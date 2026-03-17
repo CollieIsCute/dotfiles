@@ -5,6 +5,7 @@ abbr -a gl "git pull"
 abbr -a glg "git log"
 abbr -a gp "git push"
 abbr -a gst "git status"
+abbr -a rd rmdir
 abbr -a sdn "shutdown now"
 abbr -a tosync "cd ~/syncfolder/"
 abbr -a ... "cd ../.."
