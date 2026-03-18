@@ -5,11 +5,62 @@
     "*": "ask",
 
     "read": {
-      "*": "allow",
+      "*": "allow"
     },
 
     "list": "allow",
     "glob": "allow",
     "grep": "allow",
+
+    "bash": {
+      "*": "ask",
+
+      "cat *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow",
+      "nm *": "allow",
+      "objdump *": "allow",
+
+      "rg *": "allow",
+      "fd *": "allow",
+
+      "git status *": "allow",
+      "git log *": "allow",
+      "git show *": "allow",
+      "git diff *": "allow",
+      "git blame *": "allow",
+      "git branch": "allow",
+      "git ls-files *": "allow",
+      "git ls-tree *": "allow",
+      "git cat-file *": "allow",
+      "git rev-parse *": "allow",
+      "git reflog *": "allow",
+      "git shortlog *": "allow",
+      "git describe *": "allow",
+      "git name-rev *": "allow",
+
+      "git -C * status *": "allow",
+      "git -C * log *": "allow",
+      "git -C * show *": "allow",
+      "git -C * diff *": "allow",
+      "git -C * blame *": "allow",
+      "git -C * branch": "allow",
+      "git -C * ls-files *": "allow",
+      "git -C * ls-tree *": "allow",
+      "git -C * cat-file *": "allow",
+      "git -C * rev-parse *": "allow",
+      "git -C * reflog *": "allow",
+      "git -C * shortlog *": "allow",
+      "git -C * describe *": "allow",
+      "git -C * name-rev *": "allow",
+
+      "git push *--force*": "deny",
+      "git -C * push *--force*": "deny",
+      "git reset --hard *": "deny",
+      "git -C * reset --hard *": "deny",
+      "git clean *": "deny",
+      "git -C * clean *": "deny"
+    }
   }
 }
