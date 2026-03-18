@@ -91,6 +91,8 @@ packages:
       - xone-dkms
       - xone-dongle-firmware
       - xorg-xwayland
+      - zathura
+      - zathura-pdf-mupdf
       - zip
       - zoxide
     aur:
