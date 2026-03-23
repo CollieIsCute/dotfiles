@@ -2,72 +2,94 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
     "build": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "plan": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "sisyphus": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "sisyphus-junior": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "OpenCode-Builder": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "prometheus": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "metis": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "momus": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "oracle": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "librarian": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "explore": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "multimodal-looker": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "atlas": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "hephaestus": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     }
   },
   "categories": {
     "visual": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "business-logic": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "quick": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "most-capable": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "general": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "writing": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "artistry": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "ultrabrain": {
-      "model": "anthropic/claude-opus-4-6"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     }
   }
 }
