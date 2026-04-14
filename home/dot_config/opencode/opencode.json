@@ -1,30 +1,26 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["oh-my-opencode"],
+  "plugin": [
+    "oh-my-openagent"
+  ],
   "permission": {
     "*": "ask",
-
     "read": {
       "*": "allow"
     },
-
     "list": "allow",
     "glob": "allow",
     "grep": "allow",
-
     "bash": {
       "*": "ask",
-
       "cat *": "allow",
       "head *": "allow",
       "tail *": "allow",
       "wc *": "allow",
       "nm *": "allow",
       "objdump *": "allow",
-
       "rg *": "allow",
       "fd *": "allow",
-
       "git status *": "allow",
       "git log *": "allow",
       "git show *": "allow",
@@ -39,7 +35,6 @@
       "git shortlog *": "allow",
       "git describe *": "allow",
       "git name-rev *": "allow",
-
       "git -C * status *": "allow",
       "git -C * log *": "allow",
       "git -C * show *": "allow",
@@ -54,7 +49,6 @@
       "git -C * shortlog *": "allow",
       "git -C * describe *": "allow",
       "git -C * name-rev *": "allow",
-
       "git push *--force*": "deny",
       "git -C * push *--force*": "deny",
       "git reset --hard *": "deny",
