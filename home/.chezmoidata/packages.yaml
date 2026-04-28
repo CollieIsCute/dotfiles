@@ -1,7 +1,6 @@
 packages:
   sharedArch:
     pacman:
-      - alacritty
       - bat
       - base-devel
       - blueman
@@ -14,7 +13,6 @@ packages:
       - cliphist
       - curl
       - cursor-bin
-      - docker-compose
       - eza
       - fastfetch
       - fd
@@ -95,8 +93,6 @@ packages:
       - zathura-pdf-mupdf
       - zip
       - zoxide
-    aur:
-      - tmux-plugin-manager
   cachyos:
     pacman:
       # CachyOS-specific optimized packages
@@ -105,7 +101,6 @@ packages:
       # Inherits all packages from sharedArch
   ubuntu:
     apt:
-      - alacritty
       - bat
       - btop
       - build-essential
