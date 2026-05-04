@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mattermost
+Comment=Mattermost Desktop Application
+Exec=env ELECTRON_FORCE_IS_PACKAGED=1 ELECTRON_IS_DEV=0 mattermost-desktop %U
+Icon=mattermost-desktop
+Terminal=false
+StartupWMClass=Mattermost
+MimeType=x-scheme-handler/mattermost;
+Categories=Network;InstantMessaging;
