@@ -95,8 +95,6 @@ packages:
   ubuntu:
     apt:
       - bat
-      - blueman
-      - bluez
       - btop
       - build-essential
       - clang
@@ -131,7 +129,6 @@ packages:
       - lazygit
       - libfcitx5-qt1
       - libfcitx5-qt6-1
-      - libnewt0.52
       - libreoffice
       - nautilus
       - neovim
