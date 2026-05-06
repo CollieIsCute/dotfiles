@@ -1,9 +1,0 @@
-{{- $location := "home" -}}
-{{- if hasKey . "location" -}}
-{{-   $location = .location -}}
-{{- else if stdinIsATTY -}}
-{{-   $location = promptChoice "Where is this machine?" (list "home" "office") "home" -}}
-{{- end }}
-
-[data]
-  location = {{ $location | quote }}
