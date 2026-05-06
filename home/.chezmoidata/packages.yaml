@@ -16,7 +16,6 @@ packages:
       - eza
       - fastfetch
       - fd
-      - fcitx5
       - fcitx5-chewing
       - fcitx5-configtool
       - fcitx5-gtk
@@ -37,7 +36,6 @@ packages:
       - hyprlock
       - hyprpaper
       - hyprshot
-      - hyprutils
       - keepassxc
       - kitty
       - lazygit
@@ -50,7 +48,6 @@ packages:
       - nautilus
       - neovide-bin
       - neovim
-      - networkmanager
       - network-manager-applet
       - net-tools
       - nethogs
@@ -59,7 +56,6 @@ packages:
       - openssh
       - papers
       - pavucontrol
-      - pipewire
       - pipewire-pulse
       - podman
       - qpwgraph
@@ -81,17 +77,12 @@ packages:
       - typst
       - unzip
       - waybar
-      - wayland
-      - wayland-protocols
       - wireplumber
       - wget
-      - xdg-desktop-portal
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xone-dkms
-      - xone-dongle-firmware
       - xorg-xwayland
-      - zathura
       - zathura-pdf-mupdf
       - zip
       - zoxide
@@ -125,7 +116,6 @@ packages:
       - podman
       - ripgrep
       - ssh
-      - tar
       - telegram
       - tig
       - tmux
