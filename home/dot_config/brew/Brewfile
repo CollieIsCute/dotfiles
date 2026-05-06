@@ -1,4 +1,3 @@
-brew "openssl@3"
 brew "bat"
 brew "bear"
 brew "btop"
