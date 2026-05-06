@@ -1,7 +1,7 @@
 @import "frappe.css";
 
 * {
-    font-family: "JetBrains Mono", monospace;
+    font-family: "JetBrainsMono Nerd Font", monospace;
     font-size: 14px;
     min-height: 0;
     color: @text;
@@ -307,7 +307,7 @@ tooltip {
     border: 1px solid @surface2;
     border-radius: 8px;
     color: @text;
-    font-family: "JetBrains Mono", monospace;
+    font-family: "JetBrainsMono Nerd Font", monospace;
 }
 
 tooltip label {

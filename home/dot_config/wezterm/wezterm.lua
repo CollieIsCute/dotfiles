@@ -9,7 +9,7 @@ config.enable_tab_bar = false
 config.color_scheme = 'Catppuccin Mocha'
 
 -- Font configuration
-config.font = wezterm.font('JetBrains Mono', { weight = 'Regular' })
+config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
 config.font_size = 12.0
 
 return config
