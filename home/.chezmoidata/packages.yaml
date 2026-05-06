@@ -27,6 +27,8 @@ packages:
       - gef
       - ghostty
       - git
+      - github-cli
+      - glab
       - go
       - gping
       - hugo
@@ -112,7 +114,9 @@ packages:
       - fd-find
       - fish
       - fzf
+      - gh
       - git
+      - glab
       - ibus-chewing
       - kitty
       - neofetch
