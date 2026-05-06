@@ -346,11 +346,17 @@ bindl = , XF86AudioPrev, exec, playerctl previous
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
 
-# Office monitors: pin ws1/2/3 left-to-right.
-# Inert at home — desc lookup is a no-op when the monitor isn't connected.
+# Office: pin ws1/2/3 to the BenQ/BenQ/Dell monitors (left-to-right).
+# Only emit when this is the office host: a desc-keyed rule would
+# otherwise reserve the slot at home (Hyprland's findAvailableDefaultWS()
+# compares the rule string against the connected monitor's name without
+# resolving desc:), pushing home monitors to ws4/5/6. With no rules at
+# home, Hyprland's default per-monitor workspace assignment gives 1/2/3.
+{{- if eq (index . "location") "office" }}
 workspace = 1, monitor:desc:BNQ BenQ GC2870 51J06421019, default:true
 workspace = 2, monitor:desc:BNQ BenQ GW2790, default:true
 workspace = 3, monitor:desc:Dell Inc. DELL P2214H 20C1Y64C5EEL, default:true
+{{- end }}
 
 # Ignore maximize requests from apps. You'll probably like this.
 windowrule {
