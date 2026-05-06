@@ -102,6 +102,7 @@ packages:
       - cmake
       - curl
       - eza
+      - fastfetch
       - fd-find
       - fish
       - fzf
@@ -110,7 +111,6 @@ packages:
       - glab
       - ibus-chewing
       - kitty
-      - neofetch
       - neovim
       - nethogs
       - podman
