@@ -40,12 +40,20 @@ This dotfiles collection includes configurations for:
   ```
   ├── Plugin Manager: [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
   ├── Plugins
-  │   ├── [catppuccin/tmux](https://github.com/catppuccin/tmux)#v2.1.3          # Catppuccin theme
+  │   ├── [catppuccin/tmux](https://github.com/catppuccin/tmux)               # Catppuccin theme (follows main)
   │   └── [tmux-plugins/tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)      # Sensible defaults
   └── Features
       ├── Catppuccin Mocha theme
       ├── Mouse support
       └── Custom key bindings (C-a prefix)
+  ```
+
+- **[Zellij](https://zellij.dev/)** - Terminal workspace (modern alternative to tmux)
+  ```
+  ├── Theme: catppuccin-mocha (built-in, no plugin needed)
+  └── Features
+      ├── Built-in Catppuccin themes since v0.34.3
+      └── KDL-based config, layout-driven sessions
   ```
 
 - **[Fish Shell](https://fishshell.com/)** - Smart shell with [Fisher](https://github.com/jorgebucaran/fisher)
@@ -92,6 +100,7 @@ This dotfiles collection includes configurations for:
   ```
 
 - **[Alacritty](https://github.com/alacritty/alacritty)** - GPU-accelerated terminal emulator
+- **[Kitty](https://sw.kovidgoyal.net/kitty/)** - Feature-rich GPU terminal (used on macOS for AeroSpace single-window tab handling)
 - **[WezTerm](https://wezfurlong.org/wezterm/)** - Cross-platform terminal emulator
 
 ## 🎨 Unified Theme & Integration
@@ -99,11 +108,13 @@ This dotfiles collection includes configurations for:
 ### Catppuccin Theme Ecosystem
 All tools share the **[Catppuccin](https://catppuccin.com/)** color palette for visual consistency:
 - **[Fish Shell](https://fishshell.com/)** - [Catppuccin Mocha](https://github.com/catppuccin/fish) theme with Pure prompt
-- **[Tmux](https://github.com/tmux/tmux)** - [Catppuccin theme](https://github.com/catppuccin/tmux) v2.1.3 with custom status bar
+- **[Tmux](https://github.com/tmux/tmux)** - [Catppuccin theme](https://github.com/catppuccin/tmux) (follows main) with custom status bar
 - **[Neovim](https://github.com/neovim/neovim)** - LazyVim with [Catppuccin](https://github.com/catppuccin/nvim) integration
 - **[Waybar](https://github.com/Alexays/Waybar)** - [Catppuccin Frappe](https://github.com/catppuccin/waybar) color scheme
-- **[Alacritty](https://github.com/alacritty/alacritty)** - [Catppuccin Mocha](https://github.com/catppuccin/alacritty) terminal colors
-- **[WezTerm](https://wezfurlong.org/wezterm/)** - [Catppuccin Mocha](https://github.com/catppuccin/wezterm) built-in theme
+- **[Alacritty](https://github.com/alacritty/alacritty)** - [Catppuccin Mocha](https://github.com/catppuccin/alacritty) (auto-refreshed weekly via chezmoi external)
+- **[Kitty](https://sw.kovidgoyal.net/kitty/)** - [Catppuccin Macchiato](https://github.com/catppuccin/kitty) (auto-refreshed weekly via chezmoi external)
+- **[WezTerm](https://wezfurlong.org/wezterm/)** - Catppuccin Mocha (built-in color_scheme)
+- **[Zellij](https://zellij.dev/)** - Catppuccin Mocha (built-in theme since v0.34.3)
 - **[SwayNC](https://github.com/ErikReider/SwayNotificationCenter)** - Custom [Catppuccin Frappe](https://github.com/catppuccin/swaync) styling
 
 ### Integrated Keybindings
