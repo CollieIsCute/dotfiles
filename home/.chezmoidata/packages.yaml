@@ -95,31 +95,71 @@ packages:
   ubuntu:
     apt:
       - bat
+      - blueman
+      - bluez
       - btop
       - build-essential
+      - clang
       - clang-format
+      - cliphist
       - cloc
       - cmake
       - curl
       - eza
+      - fastfetch
+      - fcitx5-chewing
+      - fcitx5-config-qt
+      - fcitx5-frontend-gtk3
+      - fcitx5-frontend-gtk4
       - fd-find
       - fish
       - fzf
       - gh
+      - ghostty
       - git
       - glab
+      - golang-go
+      - gping
+      - hugo
+      - hypridle
+      - hyprland
+      - hyprlock
+      - hyprpaper
       - ibus-chewing
+      - keepassxc
       - kitty
-      - neofetch
+      - lazygit
+      - libfcitx5-qt1
+      - libfcitx5-qt6-1
+      - libnewt0.52
+      - libreoffice
+      - nautilus
       - neovim
+      - net-tools
       - nethogs
+      - network-manager-applet
+      - nwg-look
+      - pavucontrol
+      - pipewire-pulse
       - podman
+      - qpwgraph
       - ripgrep
+      - rofi
+      - sddm
       - ssh
+      - steam-installer
+      - swayidle
+      - swaylock
       - telegram
       - tig
       - tmux
+      - tokei
       - unzip
+      - waybar
       - wget
+      - wireplumber
+      - xdg-desktop-portal-gtk
+      - xdg-desktop-portal-hyprland
+      - xwayland
       - zip
       - zoxide
