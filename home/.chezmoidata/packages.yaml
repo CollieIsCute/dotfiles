@@ -83,6 +83,7 @@ packages:
       - xone-dkms
       - xorg-xwayland
       - zathura-pdf-mupdf
+      - zellij
       - zip
       - zoxide
   cachyos:
