@@ -1,0 +1,4 @@
+{{- $location := promptChoiceOnce . "location" "Where is this machine?" (list "home" "office") -}}
+
+[data]
+  location = {{ $location | quote }}
