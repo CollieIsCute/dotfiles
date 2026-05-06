@@ -147,7 +147,6 @@ packages:
       - rofi
       - sddm
       - ssh
-      - steam-installer
       - swayidle
       - swaylock
       - telegram
