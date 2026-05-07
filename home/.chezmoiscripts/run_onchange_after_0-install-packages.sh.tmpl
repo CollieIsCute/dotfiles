@@ -62,7 +62,16 @@ retry() {
   {{ else if or (eq $osid "ubuntu") (eq $osid "debian") }}
     echo -e "${GREEN}Installing packages for {{ $osid }} (apt, Ubuntu list)...${NC}"
     {{ if .packages.ubuntu.apt }}
+    {{- if eq $osid "debian" }}
+    # Debian's apt index lacks some Ubuntu-only packages (hyprland family,
+    # ghostty, telegram metapackage). Install per-package and skip the
+    # missing ones rather than aborting the whole transaction.
+    for pkg in {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}; do
+      sudo apt install -y "$pkg" 2>/dev/null || echo "Skip (not in apt): $pkg"
+    done
+    {{- else }}
     retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+    {{- end }}
     {{ end }}
 
     # Install lazygit from GitHub binary release (not available in Ubuntu/Debian apt repos)
