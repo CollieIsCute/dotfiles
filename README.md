@@ -1,163 +1,221 @@
 # Collie's Dotfiles
 
-A comprehensive dotfiles configuration managed with [chezmoi](https://github.com/twpayne/chezmoi), supporting multiple platforms including macOS and Linux (Arch-based distros).
+[![CI](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml/badge.svg?branch=main)](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml)
+![macOS](https://img.shields.io/badge/macOS-Homebrew-000?logo=apple&logoColor=white)
+![Arch](https://img.shields.io/badge/Arch-pacman%20%2B%20paru-1793D1?logo=archlinux&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-apt-E95420?logo=ubuntu&logoColor=white)
+![Debian](https://img.shields.io/badge/Debian-apt-A81D33?logo=debian&logoColor=white)
+![Mint](https://img.shields.io/badge/Linux%20Mint-apt-87CF3E?logo=linuxmint&logoColor=white)
 
-## 🚀 Quick Start
+Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several machines.
 
-### Prerequisites
-- [git](https://github.com/git/git)
-- [chezmoi](https://github.com/twpayne/chezmoi)
+## Install
 
-### Installation
 ```bash
-chezmoi init --apply collieiscute -v
+chezmoi init --apply collieiscute
 ```
 
-## 📁 Configuration Overview
+## Supported platforms
 
-This dotfiles collection includes configurations for:
+| OS | Package manager | Status |
+|---|---|---|
+| macOS | Homebrew | daily-driven |
+| Arch / CachyOS | pacman + paru | daily-driven |
+| Ubuntu / Debian / Linux Mint | apt | CI-tested only |
 
-### 🛠️ Development Tools
-- **[Neovim](https://github.com/neovim/neovim)** - Modern Vim-based editor with [LazyVim](https://github.com/LazyVim/LazyVim)
-  ```
-  ├── Core Plugins
-  │   ├── [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)           # AI-powered code completion
-  │   ├── [giuxtaposition/blink-cmp-copilot](https://github.com/giuxtaposition/blink-cmp-copilot) # Copilot integration for blink.cmp
-  │   ├── [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)            # LSP configuration
-  │   ├── [p00f/clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)      # Enhanced clangd support
-  │   ├── [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)  # Syntax highlighting
-  │   ├── [ibhagwan/fzf-lua](https://github.com/ibhagwan/fzf-lua)                 # Fuzzy finder
-  │   ├── [sphamba/smear-cursor.nvim](https://github.com/sphamba/smear-cursor.nvim)        # Smooth cursor animation
-  │   └── [folke/snacks.nvim](https://github.com/folke/snacks.nvim)                # Collection of useful utilities
-  └── Features
-      ├── AI completion with Copilot
-      ├── Advanced C/C++ support with clangd
-      ├── Fuzzy finding and navigation
-      └── Modern syntax highlighting
-  ```
+## Custom touches worth knowing
 
-- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer with [TPM](https://github.com/tmux-plugins/tpm)
-  ```
-  ├── Plugin Manager: [tmux-plugins/tpm](https://github.com/tmux-plugins/tpm)
-  ├── Plugins
-  │   ├── [catppuccin/tmux](https://github.com/catppuccin/tmux)               # Catppuccin theme (follows main)
-  │   └── [tmux-plugins/tmux-sensible](https://github.com/tmux-plugins/tmux-sensible)      # Sensible defaults
-  └── Features
-      ├── Catppuccin Mocha theme
-      ├── Mouse support
-      └── Custom key bindings (C-a prefix)
-  ```
+### Theme
 
-- **[Zellij](https://zellij.dev/)** - Terminal workspace (modern alternative to tmux)
-  ```
-  ├── Theme: catppuccin-mocha (built-in, no plugin needed)
-  └── Features
-      ├── Built-in Catppuccin themes since v0.34.3
-      └── KDL-based config, layout-driven sessions
-  ```
+- **Catppuccin** everywhere. Mocha by default; kitty uses **Macchiato**; waybar / swaync / rofi use **Frappe** (intentional — slightly lighter for the bar/notif/launcher).
+- Theme files for kitty, alacritty and waybar are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
+- Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
-- **[Fish Shell](https://fishshell.com/)** - Smart shell with [Fisher](https://github.com/jorgebucaran/fisher)
-  ```
-  ├── Plugin Manager: [jorgebucaran/fisher](https://github.com/jorgebucaran/fisher)
-  ├── Plugins
-  │   ├── [catppuccin/fish](https://github.com/catppuccin/fish)                  # Catppuccin theme
-  │   ├── [edc/bass](https://github.com/edc/bass)                         # Bass shell integration
-  │   ├── [jorgebucaran/nvm.fish](https://github.com/jorgebucaran/nvm.fish)           # Node version manager
-  │   ├── [PatrickF1/fzf.fish](https://github.com/PatrickF1/fzf.fish)              # FZF integration
-  │   └── [pure-fish/pure](https://github.com/pure-fish/pure)                   # Minimal prompt
-  └── Features
-      ├── Platform-specific configurations (macOS/Linux)
-      ├── Git aliases and shortcuts
-      ├── Enhanced navigation with [zoxide](https://github.com/ajeetdsouza/zoxide)
-      └── Catppuccin theme support
-  ```
+### Per-host config switch
 
-### 🚀 Hyprland Ecosystem
-- **[Hyprland](https://hyprland.org/)** - Dynamic tiling Wayland compositor
-  ```
-  ├── Core Components
-  │   ├── hyprland                        # Main compositor
-  │   ├── hypridle                        # Idle daemon
-  │   ├── hyprlock                        # Screen locker
-  │   ├── hyprpaper                       # Wallpaper utility
-  │   └── hyprshot                        # Screenshot tool
-  ├── Status & UI
-  │   ├── [waybar](https://github.com/Alexays/Waybar)                          # Status bar
-  │   ├── [swaync](https://github.com/ErikReider/SwayNotificationCenter)                          # Notification center
-  │   └── [wofi](https://github.com/uncomfyhalomacro/wofi)                            # Application launcher
-  ├── System Integration
-  │   ├── [xdg-desktop-portal-hyprland](https://github.com/hyprwm/xdg-desktop-portal-hyprland)     # Desktop portal
-  │   ├── [xorg-xwayland](https://gitlab.freedesktop.org/xorg/xserver)                   # X11 compatibility
-  │   └── [wayland-protocols](https://gitlab.freedesktop.org/wayland/wayland-protocols)               # Wayland protocols
-  ├── Audio & Media
-  │   ├── [pipewire](https://pipewire.org/) + [pipewire-pulse](https://pipewire.org/)       # Audio system
-  │   ├── [wireplumber](https://github.com/PipeWire/wireplumber)                     # Audio session manager
-  │   └── [playerctl](https://github.com/altdesktop/playerctl)                       # Media control (for Waybar)
-  └── Bluetooth & Connectivity
-      ├── [blueman](https://github.com/blueman-project/blueman)                         # Bluetooth manager GUI
-      ├── [bluez](http://www.bluez.org/) + bluez-utils             # Bluetooth stack
-      └── [network-manager-applet](https://gitlab.gnome.org/GNOME/network-manager-applet)          # Network management
-  ```
+Two Hyprland machines (home + office) share one config but pin different monitors to ws1/2/3. Office hosts get desc-keyed workspace rules; home hosts use Hyprland's default per-monitor assignment (which already gives 1/2/3) — hand-rolled rules would otherwise reserve those slots even when the matching monitor isn't connected (see `hyprland.conf.tmpl` head comment for the underlying bug).
 
-- **[Alacritty](https://github.com/alacritty/alacritty)** - GPU-accelerated terminal emulator
-- **[Kitty](https://sw.kovidgoyal.net/kitty/)** - Feature-rich GPU terminal (used on macOS for AeroSpace single-window tab handling)
-- **[WezTerm](https://wezfurlong.org/wezterm/)** - Cross-platform terminal emulator
+To mark a machine as office: edit `~/.config/chezmoi/chezmoi.toml` →
 
-## 🎨 Unified Theme & Integration
-
-### Catppuccin Theme Ecosystem
-All tools share the **[Catppuccin](https://catppuccin.com/)** color palette for visual consistency:
-- **[Fish Shell](https://fishshell.com/)** - [Catppuccin Mocha](https://github.com/catppuccin/fish) theme with Pure prompt
-- **[Tmux](https://github.com/tmux/tmux)** - [Catppuccin theme](https://github.com/catppuccin/tmux) (follows main) with custom status bar
-- **[Neovim](https://github.com/neovim/neovim)** - LazyVim with [Catppuccin](https://github.com/catppuccin/nvim) integration
-- **[Waybar](https://github.com/Alexays/Waybar)** - [Catppuccin Frappe](https://github.com/catppuccin/waybar) color scheme
-- **[Alacritty](https://github.com/alacritty/alacritty)** - [Catppuccin Mocha](https://github.com/catppuccin/alacritty) (auto-refreshed weekly via chezmoi external)
-- **[Kitty](https://sw.kovidgoyal.net/kitty/)** - [Catppuccin Macchiato](https://github.com/catppuccin/kitty) (auto-refreshed weekly via chezmoi external)
-- **[WezTerm](https://wezfurlong.org/wezterm/)** - Catppuccin Mocha (built-in color_scheme)
-- **[Zellij](https://zellij.dev/)** - Catppuccin Mocha (built-in theme since v0.34.3)
-- **[SwayNC](https://github.com/ErikReider/SwayNotificationCenter)** - Custom [Catppuccin Frappe](https://github.com/catppuccin/swaync) styling
-
-### Integrated Keybindings
-Unified keybinding scheme across all applications:
-```
-🔧 System Control (Hyprland)
-├── Super + T           → Terminal (Alacritty)
-├── Super + E           → File Manager ([Nautilus](https://apps.gnome.org/Nautilus/))  
-├── Super + C           → Close Window
-├── Super + M           → Exit Hyprland
-├── Super + V           → Toggle Floating
-├── Super + N           → Toggle Notifications (SwayNC)
-├── Super + Shift + L   → Lock Screen (Hyprlock)
-└── Ctrl + Shift + P    → Screenshot Region (Hyprshot)
-
-🎯 Navigation & Workspaces
-├── Super + H/J/K/L     → Move Focus (Vim-style)
-├── Super + 1-9         → Switch Workspace
-├── Super + Shift + 1-9 → Move Window to Workspace
-└── Super + S           → Special Workspace (Magic)
-
-🎵 Media & System
-├── XF86AudioRaise/Lower → Volume Control (PipeWire)
-├── XF86AudioMute       → Mute Toggle
-├── XF86MonBrightness   → Brightness Control
-└── XF86AudioPlay/Pause → Media Control (Playerctl)
+```toml
+[data]
+  location = "office"
 ```
 
-## 📋 System Requirements
+Then `chezmoi apply`.
 
-### Primary Platforms (Actively Maintained)
+### chezmoi quirks I keep tripping over (that this repo handles)
 
-#### 🍎 macOS
-- [Homebrew](https://brew.sh/) package manager
-- [Fish shell](https://fishshell.com/) (auto-configured)
-- Chezmoi 2.54.0+
+- `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
+- All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
+- Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
 
-#### 🐧 Arch Linux
-- [Pacman](https://archlinux.org/pacman/) package manager
-- systemd for service management  
-- Wayland compositor support
-- AUR access via [Paru](https://github.com/Morganamilo/paru)
+### Tmux
 
-### CI/CD Testing Only
-Other distributions (Ubuntu, CachyOS) are supported through automated testing but not actively maintained for daily use.
+- Prefix is `C-z` (so `C-b` stays free for vim).
+- Splits: `prefix |` (horizontal), `prefix -` (vertical), inheriting the current pane's path.
+- `set-clipboard on` + `allow-passthrough` → OSC 52 yank works over SSH without X11 forwarding.
+- Sessions auto-restore via tmux-resurrect + tmux-continuum on tmux start.
+
+### Kitty (macOS)
+
+- Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
+- `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
+
+### Hyprland
+
+- 6 `monitorv2` blocks (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
+- Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
+- Electron / fcitx5 / GTK theming env vars set centrally.
+
+## Keymappings
+
+`$SUPER` = Windows / Cmd key. `$ALT` = Option / Meta. `$CTRL` = Control.
+
+### Hyprland (Wayland)
+
+| Bind | Action |
+|---|---|
+| `SUPER+T` | open Kitty |
+| `SUPER+E` | open Nautilus |
+| `SUPER+C` | close window |
+| `SUPER+M` | exit Hyprland |
+| `SUPER+V` | toggle floating |
+| `SUPER+P` | pseudotile |
+| `SUPER+RETURN` | maximize |
+| `SUPER+N` | toggle SwayNC |
+| `SUPER+S` | toggle scratchpad workspace |
+| `SUPER+SHIFT+S` | move window to scratchpad |
+| `CTRL+SPACE` | rofi (drun) |
+| `ALT+L` | hyprlock |
+| `ALT+J` | toggle split |
+| `ALT+P` | hyprshot region → clipboard |
+| `CTRL+RETURN` | true fullscreen |
+| `SUPER+H/J/K/L` | focus left/down/up/right |
+| `SUPER+1..9,0` | switch workspace 1..10 |
+| `SUPER+SHIFT+1..9,0` | move window to workspace |
+| `SUPER+SHIFT+H/L` | move window to prev/next monitor |
+| `SUPER+scroll` | cycle workspaces |
+| `SUPER+LMB/RMB drag` | move/resize floating window |
+| `XF86Audio*` | volume / mute / mic mute |
+| `XF86MonBrightness*` | screen brightness |
+
+### Tmux (prefix = `C-z`)
+
+| Bind | Action |
+|---|---|
+| `prefix \|` | split horizontal (keep cwd) |
+| `prefix -` | split vertical (keep cwd) |
+| `prefix v` (copy mode) | begin selection |
+| `prefix C-v` (copy mode) | rectangle toggle |
+| `prefix y` (copy mode) | copy + cancel |
+| `C-←/↓/↑/→` | resize pane (smart-splits) |
+| `prefix I` | install plugins (TPM) |
+| `prefix U` | update plugins (TPM) |
+
+### Kitty (macOS)
+
+| Bind | Action |
+|---|---|
+| `Cmd+T` | new tab |
+| `Cmd+W` | close tab |
+| `Cmd+Shift+]/[` | next / previous tab |
+| `Cmd+Shift+→/←` | move tab forward / backward |
+| `Cmd+D` | new window (split) |
+| `Cmd+Shift+D` | close window |
+| `Ctrl+Shift+]/[` | next / previous window |
+| `Cmd+Shift+J/K` | scroll line down / up |
+| `Cmd+Shift+N/U` | scroll page down / up |
+| `Cmd+Shift+Home/End` | scroll to top / bottom |
+| `Cmd+C / Cmd+V` | copy / paste |
+| `Cmd+Shift+F5` | reload config |
+| `Cmd+Shift+F6` | debug config |
+| `Ctrl+± / Ctrl+0` | font size + / − / reset |
+
+### Fish aliases
+
+| Alias | Expands to |
+|---|---|
+| `vi` | `nvim` (when nvim is installed) |
+| `buu` | `brew update --auto-update && brew upgrade && fisher update` (macOS only) |
+
+## Tools
+
+### Shell / multiplexer
+
+- [`fish`](https://fishshell.com) — primary shell.
+- [`tmux`](https://github.com/tmux/tmux) — primary multiplexer.
+- [`zellij`](https://zellij.dev) — secondary multiplexer (Catppuccin Mocha built-in theme).
+
+### Editor
+
+- [`neovim`](https://github.com/neovim/neovim) — LazyVim distro on top.
+
+### Terminals
+
+- [`kitty`](https://sw.kovidgoyal.net/kitty/) — macOS daily driver (AeroSpace-friendly tabs).
+- [`wezterm`](https://wezterm.org) — cross-platform fallback.
+- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Mocha.
+- [`alacritty`](https://github.com/alacritty/alacritty) — minimal GPU terminal.
+
+### Wayland stack (Hyprland)
+
+- [`hyprland`](https://hyprland.org), `hyprlock`, `hyprpaper`, `hyprshot`, `hypridle` — compositor + utilities.
+- [`waybar`](https://github.com/Alexays/Waybar) — status bar.
+- [`swaync`](https://github.com/ErikReider/SwayNotificationCenter) — notification center.
+- [`rofi`](https://github.com/davatorium/rofi) — launcher.
+- [`sddm`](https://github.com/sddm/sddm) — display manager.
+- [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
+
+### macOS extras
+
+- [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.
+- [`karabiner-elements`](https://karabiner-elements.pqrs.org) — keyboard remapper.
+- [`raycast`](https://raycast.com) — launcher.
+
+### CLI tooling
+
+- File / dir: [`eza`](https://github.com/eza-community/eza), [`fd`](https://github.com/sharkdp/fd), [`ripgrep`](https://github.com/BurntSushi/ripgrep), [`bat`](https://github.com/sharkdp/bat), [`zoxide`](https://github.com/ajeetdsouza/zoxide), [`fzf`](https://github.com/junegunn/fzf).
+- System info: [`btop`](https://github.com/aristocratos/btop), [`fastfetch`](https://github.com/fastfetch-cli/fastfetch).
+- Git: [`lazygit`](https://github.com/jesseduffield/lazygit), [`tig`](https://github.com/jonas/tig), [`gh`](https://cli.github.com), [`glab`](https://gitlab.com/gitlab-org/cli), [`onefetch`](https://github.com/o2sh/onefetch).
+- Build / dev: [`gnu-tar`](https://www.gnu.org/software/tar/), [`bear`](https://github.com/rizsotto/Bear), [`cmake`](https://cmake.org), [`mold`](https://github.com/rui314/mold), [`ninja`](https://ninja-build.org), [`llvm`](https://llvm.org), [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html), [`cppcheck`](https://cppcheck.sourceforge.io), [`uv`](https://github.com/astral-sh/uv).
+- Containers: [`podman`](https://podman.io).
+- Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
+
+### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
+
+- `catppuccin/fish` — colour theme.
+- `edc/bass` — run bash scripts in fish.
+- `jorgebucaran/nvm.fish` — Node version manager.
+- `patrickf1/fzf.fish` — fzf integrations.
+- `pure-fish/pure` — minimal prompt.
+
+### Tmux plugins (managed by [`TPM`](https://github.com/tmux-plugins/tpm))
+
+- `catppuccin/tmux` — status-bar theme.
+- `mrjones2014/smart-splits.nvim` — `Ctrl+Arrow` resize, plays nice with neovim.
+- `tmux-plugins/tmux-sensible` — sensible defaults.
+- `tmux-plugins/tmux-continuum` — auto-save/restore on start.
+- `tmux-plugins/tmux-resurrect` — manual save/restore + nvim session capture.
+
+### Neovim — LazyVim core extras
+
+- `zbirenbaum/copilot.lua` — Copilot.
+- `giuxtaposition/blink-cmp-copilot` — Copilot source for blink.cmp.
+- `neovim/nvim-lspconfig` + `p00f/clangd_extensions.nvim` — LSP, with extra clangd polish.
+- `nvim-treesitter/nvim-treesitter` — syntax.
+- `ibhagwan/fzf-lua` — fuzzy finder.
+- `sphamba/smear-cursor.nvim` — animated cursor.
+- `folke/snacks.nvim` — utility collection.
+
+## Layout
+
+```
+home/                            # chezmoi source root (.chezmoiroot=home)
+├── .chezmoidata/packages.yaml   # canonical package list (pacman + apt)
+├── .chezmoiexternal.toml.tmpl   # auto-pulled theme files
+├── .chezmoiscripts/             # run_once / run_onchange bootstrap
+├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
+└── dot_config/                  # → ~/.config/...
+```
 
