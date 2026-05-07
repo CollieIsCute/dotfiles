@@ -62,7 +62,14 @@ retry() {
   {{ else if or (eq $osid "ubuntu") (eq $osid "linuxmint") }}
     echo -e "${GREEN}Installing packages for {{ $osid }} (apt, Ubuntu list)...${NC}"
     {{ if .packages.ubuntu.apt }}
-    retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+    # Per-package install with skip-on-failure: telegram is PPA-only on
+    # vanilla Ubuntu, and the linuxmintd image (Mint 22.1, noble base)
+    # lacks the hyprland family / fastfetch / ghostty / nwg-look / tokei
+    # which only landed in plucky+ Ubuntu. Tolerate skips here rather
+    # than carving out per-distro lists.
+    for pkg in {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}; do
+      sudo apt install -y "$pkg" 2>/dev/null || echo "Skip (not in apt): $pkg"
+    done
     {{ end }}
 
     # Install lazygit from GitHub binary release (not available in Ubuntu apt repos)
