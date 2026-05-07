@@ -97,6 +97,10 @@ MIRRORLIST
     sudo add-apt-repository ppa:neovim-ppa/unstable
     sudo add-apt-repository ppa:atareao/telegram
     sudo apt update && sudo apt upgrade -y
+  {{ else if eq $osid "debian" }}
+    # Debian doesn't use Ubuntu PPAs and ships its own apt sources only.
+    echo -e "${GREEN}Setting up configurations for Debian...${NC}"
+    sudo apt update && sudo apt upgrade -y
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1
