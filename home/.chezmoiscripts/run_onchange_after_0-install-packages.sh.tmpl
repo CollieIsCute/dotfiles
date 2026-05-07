@@ -59,8 +59,8 @@ retry() {
     else
       echo -e "${GREEN}Flatpak not found, skipping Flatpak app installation${NC}"
     fi
-  {{ else if eq $osid "ubuntu" }}
-    echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
+  {{ else if or (eq $osid "ubuntu") (eq $osid "linuxmint") }}
+    echo -e "${GREEN}Installing packages for {{ $osid }} (apt, Ubuntu list)...${NC}"
     {{ if .packages.ubuntu.apt }}
     retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
     {{ end }}
