@@ -97,6 +97,12 @@ MIRRORLIST
     sudo add-apt-repository ppa:neovim-ppa/unstable
     sudo add-apt-repository ppa:atareao/telegram
     sudo apt update && sudo apt upgrade -y
+  {{ else if eq $osid "linuxmint" }}
+    # Mint uses mintsources in place of software-properties-common, which
+    # rejects Ubuntu PPAs that don't list a Mint codename — skip the PPAs
+    # and rely on what the apt list itself ships with the Mint base.
+    echo -e "${GREEN}Setting up configurations for Linux Mint...${NC}"
+    sudo apt update && sudo apt upgrade -y
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1
