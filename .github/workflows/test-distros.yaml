@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        container: ["archlinux:latest", "cachyos/cachyos:latest", "ubuntu:latest"]
+        container: ["archlinux:latest", "cachyos/cachyos:latest", "debian:latest", "ubuntu:latest"]
     container:
       image: ${{ matrix.container }}
       env:
