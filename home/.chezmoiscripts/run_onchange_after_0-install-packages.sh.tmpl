@@ -62,7 +62,14 @@ retry() {
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
     {{ if .packages.ubuntu.apt }}
-    retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+    # Per-package install with skip-on-failure: some apt names come and
+    # go between Ubuntu releases (e.g. telegram-desktop is in noble +
+    # questing but was sunset in resolute), and pinning the apt list to
+    # one specific release would defeat the cross-release CI. Skip the
+    # missing ones rather than aborting the whole transaction.
+    for pkg in {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}; do
+      sudo apt-get install -y "$pkg" || echo "Skip (not in apt): $pkg"
+    done
     {{ end }}
 
     # Install lazygit from GitHub binary release (not available in Ubuntu apt repos)

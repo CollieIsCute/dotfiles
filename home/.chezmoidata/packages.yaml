@@ -146,6 +146,7 @@ packages:
       - ssh
       - swayidle
       - swaylock
+      - telegram-desktop
       - tig
       - tmux
       - tokei
