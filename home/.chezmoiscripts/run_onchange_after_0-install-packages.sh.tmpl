@@ -67,7 +67,7 @@ retry() {
     # ghostty, telegram metapackage). Install per-package and skip the
     # missing ones rather than aborting the whole transaction.
     for pkg in {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}; do
-      sudo apt install -y "$pkg" 2>/dev/null || echo "Skip (not in apt): $pkg"
+      sudo apt install -y "$pkg" || echo "Skip (not in apt): $pkg"
     done
     {{- else }}
     retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
