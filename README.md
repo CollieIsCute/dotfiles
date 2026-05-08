@@ -12,7 +12,7 @@ Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several 
 ## Install
 
 ```bash
-chezmoi init --apply collieiscute
+chezmoi init --apply collieiscute -v
 ```
 
 ## Supported platforms
