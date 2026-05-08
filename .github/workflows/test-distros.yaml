@@ -8,6 +8,7 @@ concurrency:
 
 env:
   CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
+  CHEZMOI_VERBOSE: 1
 
 jobs:
   linux:
@@ -17,14 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         container: ["archlinux:latest", "cachyos/cachyos:latest", "ubuntu:latest"]
-    container:
-      image: ${{ matrix.container }}
-      env:
-        USER: dev
-        HOME: /home/dev
-        CHEZMOI_VERBOSE: 1
+    container: ${{ matrix.container }}
     steps:
-      - name: Install dependencies + create dev user
+      - name: Install dependencies
         run: |
           if command -v apt-get >/dev/null; then
             apt-get update
@@ -33,17 +29,13 @@ jobs:
           else
             pacman -Syu --noconfirm sudo git chezmoi curl
           fi
-          useradd -m dev
-          echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
-          sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   macos:
     name: macos:latest
     runs-on: macos-latest
-    env:
-      CHEZMOI_VERBOSE: 1
     steps:
       - run: brew install chezmoi
       - name: chezmoi init dotfiles
