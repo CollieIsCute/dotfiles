@@ -18,9 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         container: ["archlinux:latest", "cachyos/cachyos:latest", "ubuntu:latest"]
-    container: ${{ matrix.container }}
+    container:
+      image: ${{ matrix.container }}
+      env:
+        USER: dev
+        HOME: /home/dev
     steps:
-      - name: Install dependencies
+      - name: Install dependencies + create dev user
         run: |
           if command -v apt-get >/dev/null; then
             apt-get update
@@ -29,9 +33,15 @@ jobs:
           else
             pacman -Syu --noconfirm sudo git chezmoi curl
           fi
+          # Arch's setup script builds paru via makepkg, which refuses to
+          # run as root — we need an unprivileged user with passwordless
+          # sudo. Apt distros could run chezmoi as root but we keep this
+          # uniform across the Linux matrix.
+          useradd -m dev
+          echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
-          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   macos:
     name: macos:latest
