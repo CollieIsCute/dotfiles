@@ -68,7 +68,7 @@ retry() {
     # which only landed in plucky+ Ubuntu. Tolerate skips here rather
     # than carving out per-distro lists.
     for pkg in {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}; do
-      sudo apt install -y "$pkg" 2>/dev/null || echo "Skip (not in apt): $pkg"
+      sudo apt install -y "$pkg" || echo "Skip (not in apt): $pkg"
     done
     {{ end }}
 
