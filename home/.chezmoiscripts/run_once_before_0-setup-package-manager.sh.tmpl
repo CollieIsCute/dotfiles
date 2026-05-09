@@ -93,10 +93,7 @@ MIRRORLIST
     rm -rf /tmp/paru 2>/dev/null || true
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Setting up configurations for Ubuntu...${NC}"
-    sudo apt update && sudo apt-get install -y software-properties-common
-    sudo add-apt-repository ppa:neovim-ppa/unstable
-    sudo add-apt-repository ppa:atareao/telegram
-    sudo apt update && sudo apt upgrade -y
+    sudo apt-get update && sudo apt-get upgrade -y
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1

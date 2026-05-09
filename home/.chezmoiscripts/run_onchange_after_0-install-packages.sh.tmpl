@@ -62,7 +62,7 @@ retry() {
   {{ else if eq $osid "ubuntu" }}
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
     {{ if .packages.ubuntu.apt }}
-    retry sudo apt install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
+    retry sudo apt-get install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}
     {{ end }}
 
     # Install lazygit from GitHub binary release (not available in Ubuntu apt repos)
