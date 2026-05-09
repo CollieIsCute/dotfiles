@@ -1,16 +1,17 @@
 name: Test Dotfiles on Different OS
 
-on:
-  push:
-    branches: ['*']
-  pull_request:
+on: [push, pull_request]
 
 concurrency:
-  group: dotfiles-tests-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
+  CHEZMOI_VERBOSE: 1
+
 jobs:
-  deploy-on-linux:
+  linux:
     name: ${{ matrix.container }}
     runs-on: ubuntu-latest
     strategy:
@@ -22,60 +23,31 @@ jobs:
       env:
         USER: dev
         HOME: /home/dev
-        CHEZMOI_VERBOSE: 1
     steps:
-      - name: Prepare environment
+      - name: Install dependencies + create dev user
         run: |
           if command -v apt-get >/dev/null; then
-            if [ "$(id -u)" = "0" ]; then
-              apt-get update
-              apt-get install -y sudo git curl
-            else
-              sudo apt-get update
-              sudo apt-get install -y sudo git curl
-            fi
-            if ! command -v chezmoi >/dev/null; then
-              sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-            fi
-          elif command -v pacman >/dev/null; then
-            if ! command -v sudo >/dev/null; then
-              pacman -Syu --noconfirm sudo
-            fi
-            sudo pacman -Syu --noconfirm git chezmoi curl
+            apt-get update
+            apt-get install -y sudo git curl
+            sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           else
-            exit 1
+            pacman -Syu --noconfirm sudo git chezmoi curl
           fi
-
-          sudo useradd -m dev || true
-          echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
+          # Arch's setup script builds paru via makepkg, which refuses to
+          # run as root — we need an unprivileged user with passwordless
+          # sudo. Apt distros could run chezmoi as root but we keep this
+          # uniform across the Linux matrix.
+          useradd -m dev
+          echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
       - name: chezmoi init dotfiles
         run: |
-          BRANCH=${{ github.head_ref || github.ref_name }}
-          if command -v sudo >/dev/null; then
-            sudo -u dev chezmoi init collieiscute --branch "$BRANCH" --apply -v
-          else
-            su dev -c "chezmoi init collieiscute --branch \"$BRANCH\" --apply -v"
-          fi
+          sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
-  deploy-on-macos:
+  macos:
     name: macos:latest
     runs-on: macos-latest
     steps:
-      - name: Prepare environment
-        run: |
-          if ! command -v chezmoi >/dev/null; then
-            brew install chezmoi
-          fi
-          # Create a 'dev' user (macOS doesn't have useradd)
-          # For demo, just set up an environment folder
-          sudo mkdir -p /Users/dev
-          sudo chown $USER /Users/dev
-          echo "dev ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dev
+      - run: brew install chezmoi
       - name: chezmoi init dotfiles
         run: |
-          BRANCH=${{ github.head_ref || github.ref_name }}
-          if command -v sudo >/dev/null; then
-            sudo -u $USER chezmoi init collieiscute --branch "$BRANCH" --apply -v --debug
-          else
-            chezmoi init collieiscute --branch "$BRANCH" --apply -v --debug
-          fi
+          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
