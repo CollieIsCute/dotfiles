@@ -33,7 +33,7 @@ chezmoi init --apply collieiscute -v
 
 ### Per-host config switch
 
-Two Hyprland machines (home + office) share one config but pin different monitors to ws1/2/3. Office hosts get desc-keyed workspace rules; home hosts use Hyprland's default per-monitor assignment (which already gives 1/2/3) — hand-rolled rules would otherwise reserve those slots even when the matching monitor isn't connected (see `hyprland.conf.tmpl` head comment for the underlying bug).
+Two Hyprland machines (home + office) share one config but pin different monitors to ws1/2/3. Office hosts get desc-keyed workspace rules; home hosts use Hyprland's default per-monitor assignment (which already gives 1/2/3) — hand-rolled rules would otherwise reserve those slots even when the matching monitor isn't connected (see `hyprland.lua.tmpl` head comment for the underlying bug).
 
 To mark a machine as office: edit `~/.config/chezmoi/chezmoi.toml` →
 

@@ -253,8 +253,8 @@ hl.bind(mainMod   .. " + P",      hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + J",      hl.dsp.layout("togglesplit"))
 hl.bind(secondMod .. " + L",      hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod   .. " + N",      hl.dsp.exec_cmd("swaync-client -t -sw"))
-hl.bind(thirdMod  .. " + RETURN", hl.dsp.window.fullscreen({ mode = 1 }))
-hl.bind(mainMod   .. " + RETURN", hl.dsp.window.fullscreen({ mode = 0 }))
+hl.bind(thirdMod  .. " + RETURN", hl.dsp.window.fullscreen({ mode = "maximized" }))
+hl.bind(mainMod   .. " + RETURN", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
 -- Screenshot
 hl.bind(secondMod .. " + P", hl.dsp.exec_cmd("hyprshot -z -m region --clipboard-only"))
