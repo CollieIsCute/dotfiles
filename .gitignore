@@ -2,3 +2,4 @@ home/dot_config/tmux/plugins/
 tmux-client-*.log
 .sisyphus/
 .claude/
+.omo/
