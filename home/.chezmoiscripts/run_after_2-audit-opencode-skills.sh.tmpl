@@ -1,0 +1,111 @@
+#!/bin/bash
+set -euo pipefail
+
+skills_dir="$HOME/.config/opencode/skills"
+source_url="https://github.com/addyosmani/agent-skills"
+branch="main"
+
+if [ ! -d "$skills_dir" ]; then
+  echo "OpenCode skills directory not found. Skipping skill audit."
+  exit 0
+fi
+
+head_line="$(git ls-remote "$source_url.git" "refs/heads/$branch" 2>/dev/null || true)"
+head_commit="${head_line%%[[:space:]]*}"
+
+export OPENCODE_SKILLS_DIR="$skills_dir"
+export ADDY_AGENT_SKILLS_SOURCE="$source_url"
+export ADDY_AGENT_SKILLS_BRANCH="$branch"
+export ADDY_AGENT_SKILLS_COMMIT="$head_commit"
+
+python3 <<'PY'
+import json
+import os
+import re
+from datetime import datetime, timezone
+from pathlib import Path
+
+skills_dir = Path(os.environ["OPENCODE_SKILLS_DIR"])
+source = os.environ["ADDY_AGENT_SKILLS_SOURCE"]
+branch = os.environ["ADDY_AGENT_SKILLS_BRANCH"]
+commit = os.environ.get("ADDY_AGENT_SKILLS_COMMIT", "")
+name_re = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+prohibited_parts = {".claude", ".gemini", "commands", "hooks"}
+
+errors = []
+skills = []
+seen = {}
+
+for path in skills_dir.rglob("*"):
+    if any(part in prohibited_parts for part in path.parts):
+        errors.append(f"prohibited path copied: {path}")
+    if path.name == "AGENTS.md":
+        errors.append(f"AGENTS.md must not be copied: {path}")
+
+for skill_dir in sorted(p for p in skills_dir.iterdir() if p.is_dir()):
+    skill_file = skill_dir / "SKILL.md"
+    if not skill_file.exists():
+        continue
+
+    text = skill_file.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        errors.append(f"missing YAML frontmatter: {skill_file}")
+        continue
+
+    try:
+        frontmatter = text.split("---\n", 2)[1]
+    except IndexError:
+        errors.append(f"unterminated YAML frontmatter: {skill_file}")
+        continue
+
+    fields = {}
+    for line in frontmatter.splitlines():
+        if ":" not in line or line.startswith(" "):
+            continue
+        key, value = line.split(":", 1)
+        fields[key.strip()] = value.strip().strip('"').strip("'")
+
+    name = fields.get("name", "")
+    description = fields.get("description", "")
+
+    if not name:
+        errors.append(f"missing name: {skill_file}")
+    elif name != skill_dir.name:
+        errors.append(f"name does not match directory: {skill_file} has {name!r}")
+    elif not name_re.fullmatch(name):
+        errors.append(f"invalid skill name: {name}")
+
+    if not description:
+        errors.append(f"missing description: {skill_file}")
+    elif len(description) > 1024:
+        errors.append(f"description too long: {skill_file}")
+
+    if name:
+        if name in seen:
+            errors.append(f"duplicate skill name: {name} in {seen[name]} and {skill_file}")
+        seen[name] = str(skill_file)
+        skills.append(name)
+
+if errors:
+    for error in errors:
+        print(f"OpenCode skill audit error: {error}")
+    raise SystemExit(1)
+
+manifest = {
+    "source": source,
+    "branch": branch,
+    "commit": commit,
+    "syncedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+    "skills": skills,
+}
+(skills_dir / ".addy-agent-skills-source.json").write_text(
+    json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+    encoding="utf-8",
+)
+
+print(f"OpenCode skill audit passed: {len(skills)} skills")
+if commit:
+    print(f"Addy agent-skills {branch} HEAD: {commit}")
+else:
+    print("Addy agent-skills HEAD could not be resolved; manifest commit is empty")
+PY
