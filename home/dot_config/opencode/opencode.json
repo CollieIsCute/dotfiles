@@ -2,5 +2,17 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "oh-my-openagent@latest"
+  ],
+  "mcp": {
+    "zhtw-mcp": {
+      "type": "local",
+      "command": [
+        "zhtw-mcp"
+      ],
+      "enabled": true
+    }
+  },
+  "instructions": [
+    "./instructions/zh-tw.md"
   ]
 }
