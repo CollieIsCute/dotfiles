@@ -1,26 +1,13 @@
 ---
-description: Mark this session as company work and delegate token-heavy research to Claude Code
+description: 將目前 session 標記為公司任務，並委派耗 token 的工作給 Claude Code
 ---
 
-This is company work. For this session, you may use OpenCode to call Claude Code through `claude -p` for token-heavy work that benefits from outside context, including network search, investigation, planning, documentation lookup, and source-code research.
+這是公司任務。需要網路搜尋、調查、規劃、文件查詢或原始程式碼查詢時，可以用 OpenCode 呼叫 `claude -p`，把耗 token 的工作委派給 Claude Code。
 
-Prefer delegating expensive context-gathering goals to Claude Code and then collecting, verifying, and synthesizing the returned results locally. Use Claude Code for broad exploration; keep final decisions, edits, verification, and user-facing summaries in the current OpenCode session.
+請盡量把大範圍蒐集脈絡、查資料、比對文件、探索原始程式碼、整理方案等工作交給 Claude Code；目前 session 只負責回收結果、驗證重點、做最後決策與實作。
 
-When invoking Claude Code:
+委派時可使用可用的最強 Opus 模型，並依任務需要調整思考深度。不要送出 secrets、憑證、private keys，或不必要的公司內部資料；也不要讓 Claude Code 執行釋出、推送、刪除、修改 production 等有外部副作用的動作。
 
-- Use the strongest currently available Opus model when the installed CLI/provider supports selecting one.
-- Use whatever thinking depth is appropriate for the delegated task.
-- Provide Claude Code with a focused prompt containing the goal, known constraints, expected output format, and what not to do.
-- Ask for concise, source-backed results that are easy to validate.
-- Split independent expensive research goals into separate Claude Code calls when that improves quality or latency.
-
-Boundaries:
-
-- Do not send secrets, credentials, tokens, private keys, or unnecessary proprietary data to Claude Code.
-- Do not delegate irreversible actions, production changes, publishing, pushing, or external side effects.
-- Do not trust Claude Code results blindly; verify important claims against local files, official docs, or reproducible commands before acting.
-- Do not hardcode unverified CLI flags for model or thinking depth; check the local `claude` CLI help or installed provider documentation when exact flags matter.
-
-If the user provided extra instructions for this mode, apply them here:
+額外指示：
 
 $ARGUMENTS
