@@ -181,6 +181,7 @@ Then `chezmoi apply`.
 - Build / dev: [`gnu-tar`](https://www.gnu.org/software/tar/), [`bear`](https://github.com/rizsotto/Bear), [`cmake`](https://cmake.org), [`mold`](https://github.com/rui314/mold), [`ninja`](https://ninja-build.org), [`llvm`](https://llvm.org), [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html), [`cppcheck`](https://cppcheck.sourceforge.io), [`uv`](https://github.com/astral-sh/uv).
 - Containers: [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
+- OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
