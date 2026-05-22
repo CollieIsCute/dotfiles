@@ -182,6 +182,7 @@ Then `chezmoi apply`.
 - Containers: [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
+- OpenCode Loop: [`@bybrawe/opencode-loop@0.5.1`](https://github.com/ByBrawe/opencode-loop) is vendored into `~/.config/opencode/plugins/` and `~/.config/opencode/commands/` so `/loop`, `/loop-help`, and related commands load after restarting OpenCode.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
@@ -219,4 +220,3 @@ home/                            # chezmoi source root (.chezmoiroot=home)
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 └── dot_config/                  # → ~/.config/...
 ```
-
