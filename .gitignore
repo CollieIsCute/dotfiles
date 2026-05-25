@@ -1,3 +1,8 @@
 home/dot_config/tmux/plugins/
 tmux-client-*.log
 .claude/
+.opencode/node_modules/
+.opencode/package.json
+.opencode/package-lock.json
+.opencode/bun.lock
+.opencode/opencode-loop/
