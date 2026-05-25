@@ -1,6 +1,6 @@
 name: Test Dotfiles on Different OS
 
-on: [push, pull_request]
+on: [push]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
