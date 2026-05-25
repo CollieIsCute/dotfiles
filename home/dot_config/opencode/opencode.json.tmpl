@@ -19,6 +19,14 @@
         "{{ .chezmoi.homeDir }}/.local/bin/zhtw-mcp"
       ],
       "enabled": true
+    },
+    "redmine": {
+      "type": "local",
+      "command": [
+        "{{ .chezmoi.homeDir }}/.local/bin/redmine-mcp",
+        "--mcp"
+      ],
+      "enabled": true
     }
   },
   "instructions": [
