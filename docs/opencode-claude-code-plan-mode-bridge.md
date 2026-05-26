@@ -36,11 +36,11 @@ Evidence from the current machine:
 
 ## Implementation Status
 
-Current path: B. Local plugin patch.
+Current path: B. Fork plugin patch.
 
 Completed:
 
-- `home/dot_config/opencode/opencode.json.tmpl` points OpenCode at the patched local build: `file://{{ .chezmoi.homeDir }}/syncfolder/opencode-claude-code-plugin/dist/index.js`.
+- `home/dot_config/opencode/opencode.json.tmpl` points OpenCode at the patched fork master: `github:CollieIsCute/opencode-claude-code-plugin#master`.
 - `ExitPlanMode` now renders the plan text plus a native OpenCode `question` tool-call instead of a plain markdown yes/no prompt.
 - The `question` result is converted back into a Claude `tool_result` for the original `ExitPlanMode` tool-use id.
 - Approval uses Claude Code's native approval text.
@@ -59,6 +59,7 @@ Verification performed:
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Built plugin smoke test: `dist/index.js` imports and `default.server` registers the `claude-code` provider.
+- Fork package check: `npm install github:CollieIsCute/opencode-claude-code-plugin#master` runs `prepare`, builds `dist/index.js`, and the built plugin imports successfully.
 - `chezmoi apply /home/collie/.config/opencode/opencode.json`: applied.
 - `chezmoi diff`: clean.
 - OpenCode was restarted by the user after the config apply.
