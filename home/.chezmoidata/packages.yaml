@@ -59,6 +59,7 @@ packages:
       - pipewire-pulse
       - podman
       - qpwgraph
+      - redmine-cli-bin
       - ripgrep
       - rofi
       - sddm
