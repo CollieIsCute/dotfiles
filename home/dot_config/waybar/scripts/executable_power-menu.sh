@@ -8,7 +8,7 @@ case $choice in
         hyprlock
         ;;
     "🏠 Logout")
-        hyprctl dispatch exit
+        hyprctl dispatch 'hl.dsp.exit()'
         ;;
     "🔄 Reboot")
         systemctl reboot
