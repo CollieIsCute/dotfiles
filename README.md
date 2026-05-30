@@ -64,7 +64,7 @@ Then `chezmoi apply`.
 
 ### Hyprland
 
-- 6 `monitorv2` blocks (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
+- 6 Lua `hl.monitor(...)` rules (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 
@@ -82,7 +82,7 @@ Then `chezmoi apply`.
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
 | `SUPER+P` | pseudotile |
-| `SUPER+RETURN` | maximize |
+| `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle SwayNC |
 | `SUPER+S` | toggle scratchpad workspace |
 | `SUPER+SHIFT+S` | move window to scratchpad |
@@ -90,7 +90,7 @@ Then `chezmoi apply`.
 | `ALT+L` | hyprlock |
 | `ALT+J` | toggle split |
 | `ALT+P` | hyprshot region → clipboard |
-| `CTRL+RETURN` | true fullscreen |
+| `CTRL+RETURN` | maximize |
 | `SUPER+H/J/K/L` | focus left/down/up/right |
 | `SUPER+1..9,0` | switch workspace 1..10 |
 | `SUPER+SHIFT+1..9,0` | move window to workspace |

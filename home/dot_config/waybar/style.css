@@ -70,7 +70,7 @@ button:hover {
 #network,
 #pulseaudio,
 #wireplumber,
-#custom-media,
+#custom-music,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -188,18 +188,18 @@ label:focus {
     color: @subtext0;
 }
 
-#custom-media {
+#custom-music {
     background-color: @surface0;
     color: @green;
     min-width: 100px;
 }
 
-#custom-media.custom-spotify {
+#custom-music.custom-spotify {
     background-color: @surface0;
     color: @green;
 }
 
-#custom-media.custom-vlc {
+#custom-music.custom-vlc {
     background-color: @surface0;
     color: @peach;
 }
