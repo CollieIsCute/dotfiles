@@ -183,7 +183,7 @@ Then `chezmoi apply`.
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
 - OpenCode Loop: [`@bybrawe/opencode-loop@0.5.1`](https://github.com/ByBrawe/opencode-loop) is loaded through OpenCode's native npm plugin support, with `/loop*` command stubs managed under `~/.config/opencode/commands/`.
-- OpenCode Claude Code plugin: temporarily loaded from fork master via `github:CollieIsCute/opencode-claude-code-plugin#master`; after changing the plugin path, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
+- OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin@0.6.2`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin path, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
