@@ -1,0 +1,18 @@
+{
+  "model": "opus",
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
+  },
+  "effortLevel": "xhigh",
+  "theme": "dark",
+  "verbose": true,
+  "skipAutoPermissionPrompt": true,
+  "permissions": {
+    "allow": [
+      "mcp__opencode_proxy__bash",
+      "mcp__opencode_proxy__edit",
+      "mcp__opencode_proxy__write",
+      "mcp__opencode_proxy__webfetch"
+    ]
+  }
+}
