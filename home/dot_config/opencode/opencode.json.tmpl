@@ -7,7 +7,24 @@
   "permission": {
     "bash": "allow",
     "edit": "allow",
+    "task": "allow",
     "webfetch": "allow"
+  },
+  "provider": {
+    "claude-code": {
+      "options": {
+        "proxyTools": [
+          "Bash",
+          "Edit",
+          "Write",
+          "WebFetch",
+          "Task"
+        ],
+        "bridgeOpencodeMcp": true,
+        "strictMcpConfig": false,
+        "webSearch": "claude"
+      }
+    }
   },
   "mcp": {
     "context7": {
