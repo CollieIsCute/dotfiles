@@ -1,0 +1,11 @@
+[Default Applications]
+x-scheme-handler/discord=vesktop.desktop
+x-scheme-handler/sgnl=signal.desktop
+x-scheme-handler/signalcaptcha=signal.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/mattermost=mattermost-desktop.desktop
+
+[Added Associations]
+video/mp4=brave-browser.desktop;
+video/quicktime=brave-browser.desktop;
+x-scheme-handler/mattermost=mattermost-desktop.desktop;
