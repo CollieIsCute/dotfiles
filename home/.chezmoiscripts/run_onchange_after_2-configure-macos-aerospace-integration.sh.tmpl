@@ -1,0 +1,86 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+echo -e "\n${GREEN}Configuring macOS AeroSpace integration...${NC}"
+
+# Window management settings for AeroSpace.
+defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+
+# AeroSpace workspace behavior.
+defaults write com.apple.dock mru-spaces -bool false
+defaults write com.apple.dock expose-group-apps -bool true
+
+# AeroSpace multi-monitor behavior. This requires logout to fully apply.
+defaults write com.apple.spaces spans-displays -bool true
+
+delete_symbolic_hotkey() {
+    local id="$1"
+
+    /usr/libexec/PlistBuddy \
+        -c "Delete :AppleSymbolicHotKeys:${id}" \
+        "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" \
+        2>/dev/null || true
+}
+
+set_symbolic_hotkey() {
+    local id="$1"
+    local enabled="$2"
+    local key_char="$3"
+    local key_code="$4"
+    local modifiers="$5"
+    local enabled_bool
+
+    case "$enabled" in
+        0|false) enabled_bool=false ;;
+        1|true) enabled_bool=true ;;
+        *) echo "Invalid enabled value for symbolic hotkey ${id}: ${enabled}"; return 1 ;;
+    esac
+
+    # Replace any stale or malformed entry before writing a complete typed dict.
+    delete_symbolic_hotkey "$id"
+
+    # PlistBuddy preserves plist types; old-style defaults dictionaries can
+    # coerce these values to strings, which SystemUIServer ignores.
+    /usr/libexec/PlistBuddy \
+        -c "Add :AppleSymbolicHotKeys:${id} dict" \
+        -c "Add :AppleSymbolicHotKeys:${id}:enabled bool ${enabled_bool}" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value dict" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value:parameters array" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value:parameters:0 integer ${key_char}" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value:parameters:1 integer ${key_code}" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value:parameters:2 integer ${modifiers}" \
+        -c "Add :AppleSymbolicHotKeys:${id}:value:type string standard" \
+        "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist"
+}
+
+# Keep Cmd+Shift+numbers available for AeroSpace workspace moves.
+# Apple does not document this preference schema.
+set_symbolic_hotkey 28 0 51 20 1179648  # Cmd+Shift+3: capture screen
+set_symbolic_hotkey 30 0 52 21 1179648  # Cmd+Shift+4: capture selection
+set_symbolic_hotkey 184 0 53 23 1179648 # Cmd+Shift+5: Screenshot app
+set_symbolic_hotkey 181 0 54 22 1179648 # Cmd+Shift+6: capture Touch Bar
+
+# Match Hyprland Alt+P: capture selected area to clipboard.
+set_symbolic_hotkey 31 1 112 35 524288  # Option+P
+
+killall cfprefsd || true
+
+activate_settings="/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings"
+if [[ -x "$activate_settings" ]]; then
+    "$activate_settings" -u
+else
+    echo "activateSettings not found; symbolic hotkey changes may require logout."
+fi
+
+killall Dock || true
+killall SystemUIServer || true
+
+echo -e "${GREEN}macOS AeroSpace integration configured!${NC}"
+{{- end }}
