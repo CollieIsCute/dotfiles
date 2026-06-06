@@ -1,6 +1,6 @@
 ---
 name: respond-structured
-description: Use when the user wants a structured, scannable response instead of prose: headers, bullets, numbered lists, hierarchy, one phrase per line, diff patches, or ASCII diagrams.
+description: Use when the user asks for 流程, 步驟, 表格, 列點, 整理, 研究, plan, 計畫, 流程圖, sequence/order, checklist, comparison, diagram, or any structured, scannable response instead of prose.
 ---
 
 # Respond Structured
