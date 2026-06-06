@@ -91,10 +91,6 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-8 = 'move-node-to-workspace 8'
     cmd-shift-9 = 'move-node-to-workspace 9'
 
-    # ── Workspace navigation ──────────────────────
-    cmd-tab = 'workspace-back-and-forth'
-    cmd-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
     # ── Fullscreen ─────────────────────────────────
     cmd-enter = 'fullscreen'
 
@@ -117,5 +113,4 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-j = ['join-with down', 'mode main']
     cmd-shift-k = ['join-with up', 'mode main']
     cmd-shift-l = ['join-with right', 'mode main']
-
 
