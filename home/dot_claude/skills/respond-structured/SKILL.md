@@ -1,6 +1,6 @@
 ---
 name: respond-structured
-description: Use when the user asks for 流程, 步驟, 表格, 列點, 整理, 研究, plan, 計畫, 流程圖, sequence/order, checklist, comparison, diagram, or a scannable answer instead of prose. For chat diagrams, use ASCII art by default.
+description: Use when the user asks for 流程, 步驟, 表格, 列點, 整理, 研究, plan, 計畫, 流程圖, 調查, sequence/order, checklist, comparison, diagram, or a scannable answer instead of prose. For chat diagrams, use ASCII art by default.
 ---
 
 # Respond Structured
