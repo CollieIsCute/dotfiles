@@ -10,23 +10,26 @@ Write structured, scannable answers instead of prose.
 Use the smallest structure that makes the answer clear. Keep flat content flat.
 
 Use:
+
 - headers
 - short bullets
 - numbered lists
 - one phrase per line
 - concise hierarchy
 
-For code changes:
-- default to no diff patch
-- include a diff patch only when the user asks or it clarifies a small change
+For changes & plans:
+
+- always use diff patch to show any modification
 
 For diagrams:
+
 - use ASCII art by default
 - wrap ASCII diagrams in fenced `text` blocks
 - draw flowcharts with boxes and connectors, not plain arrow chains like `A -> B -> C`
 - use Mermaid, PlantUML, Graphviz DOT, SVG, or images only when the user asks for that format or the edited file requires it
 
 Avoid:
+
 - dense paragraphs
 - unnecessary nesting
 - decorative diagrams
