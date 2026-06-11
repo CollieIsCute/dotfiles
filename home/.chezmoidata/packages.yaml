@@ -8,6 +8,7 @@ packages:
       - bluez-utils
       - btop
       - brave-bin
+      - brave-origin-bin
       - catppuccin-cursors-mocha
       - clang
       - cliphist
