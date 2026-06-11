@@ -6,6 +6,11 @@ x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/mattermost=mattermost-desktop.desktop
 video/mp4=brave-origin.desktop;brave-browser.desktop;
 video/quicktime=brave-origin.desktop;brave-browser.desktop;
+text/html=brave-origin.desktop;brave-browser.desktop;
+x-scheme-handler/http=brave-origin.desktop;brave-browser.desktop;
+x-scheme-handler/https=brave-origin.desktop;brave-browser.desktop;
+x-scheme-handler/about=brave-origin.desktop;brave-browser.desktop;
+x-scheme-handler/unknown=brave-origin.desktop;brave-browser.desktop;
 
 [Added Associations]
 video/mp4=brave-origin.desktop;brave-browser.desktop;
