@@ -1,0 +1,36 @@
+# macOS-only targets.
+{{- if ne .chezmoi.os "darwin" }}
+.config/aerospace
+.config/aerospace/**
+.config/brew
+.config/brew/**
+.config/karabiner
+.config/karabiner/**
+{{- end }}
+
+# Linux desktop / XDG targets.
+{{- if ne .chezmoi.os "linux" }}
+.config/code-flags.conf
+.config/cursor-flags.conf
+.config/electron-flags.conf
+.config/environment.d
+.config/environment.d/**
+.config/hypr
+.config/hypr/**
+.config/mimeapps.list
+.config/paru
+.config/paru/**
+.config/rofi
+.config/rofi/**
+.config/swaync
+.config/swaync/**
+.config/waybar
+.config/waybar/**
+.config/wallpapers
+.config/wallpapers/**
+.local/share/applications
+.local/share/applications/**
+{{- else if not (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}
+.config/paru
+.config/paru/**
+{{- end }}
