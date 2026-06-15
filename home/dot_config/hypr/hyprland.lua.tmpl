@@ -72,6 +72,7 @@ hl.monitor({
 
 local terminal    = "kitty"
 local fileManager = "nautilus"
+local noctalia    = "noctalia msg"
 
 
 -------------------
@@ -81,9 +82,7 @@ local fileManager = "nautilus"
 hl.on("hyprland.start", function()
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("fcitx5 -d")
-    hl.exec_cmd("waybar")
-    hl.exec_cmd("hyprpaper")
-    hl.exec_cmd("hypridle")
+    hl.exec_cmd("noctalia")
 end)
 
 
@@ -124,6 +123,7 @@ hl.config({
 })
 
 hl.permission({ binary = "/usr/(bin|local/bin)/grim",                            type = "screencopy", mode = "allow" })
+hl.permission({ binary = "/usr/(bin|local/bin)/noctalia",                        type = "screencopy", mode = "allow" })
 hl.permission({ binary = "/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", type = "screencopy", mode = "allow" })
 hl.permission({ binary = "/usr/(bin|local/bin)/hyprpm",                          type = "plugin",     mode = "allow" })
 hl.permission({ binary = "/usr/(bin|local/bin)/hyprlock",                        type = "screencopy", mode = "allow" })
@@ -248,16 +248,16 @@ hl.bind(mainMod   .. " + C",      hl.dsp.window.close())
 hl.bind(mainMod   .. " + M",      hl.dsp.exit())
 hl.bind(mainMod   .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod   .. " + V",      hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod   .. " + space",  hl.dsp.exec_cmd("pkill rofi || rofi -show drun"))
+hl.bind(mainMod   .. " + space",  hl.dsp.exec_cmd(noctalia .. " panel-toggle launcher"))
 hl.bind(mainMod   .. " + P",      hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + J",      hl.dsp.layout("togglesplit"))
-hl.bind(secondMod .. " + L",      hl.dsp.exec_cmd("hyprlock"))
-hl.bind(mainMod   .. " + N",      hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(secondMod .. " + L",      hl.dsp.exec_cmd(noctalia .. " session lock"))
+hl.bind(mainMod   .. " + N",      hl.dsp.exec_cmd(noctalia .. " panel-toggle control-center notifications"))
 hl.bind(thirdMod  .. " + RETURN", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod   .. " + RETURN", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
 -- Screenshot
-hl.bind(secondMod .. " + P", hl.dsp.exec_cmd("hyprshot -z -m region --clipboard-only"))
+hl.bind(secondMod .. " + P", hl.dsp.exec_cmd(noctalia .. " screenshot-region"))
 
 -- Focus
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
@@ -289,18 +289,18 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Multimedia / brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),       { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),    { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),                   { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),                   { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(noctalia .. " volume-up"),       { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(noctalia .. " volume-down"),     { locked = true, repeating = true })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd(noctalia .. " volume-mute"),     { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd(noctalia .. " mic-mute"),        { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd(noctalia .. " brightness-up"),   { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd(noctalia .. " brightness-down"), { locked = true, repeating = true })
 
 -- Player control (locked = active on lockscreen)
-hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind("XF86AudioNext",  hl.dsp.exec_cmd(noctalia .. " media next"),     { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd(noctalia .. " media toggle"),   { locked = true })
+hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd(noctalia .. " media toggle"),   { locked = true })
+hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd(noctalia .. " media previous"), { locked = true })
 
 
 ----------------------------------

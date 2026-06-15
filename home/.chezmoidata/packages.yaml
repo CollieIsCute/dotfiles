@@ -52,6 +52,7 @@ packages:
       - network-manager-applet
       - net-tools
       - nethogs
+      - noctalia-git
       - nwg-look
       - opencode-bin
       - openssh
