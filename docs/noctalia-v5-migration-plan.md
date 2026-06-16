@@ -23,7 +23,7 @@ Noctalia v5 is still alpha software, so the first phase keeps the old packages i
 - Add `~/.config/noctalia/config.toml` via chezmoi.
 - Configure a minimal working shell: bar, widgets, notifications, wallpaper, lock screen, idle behavior, screenshots, and clipboard history.
 - Disable telemetry.
-- Use the existing wallpaper at `~/.config/wallpapers/xp_wallpaper.webp`.
+- Use the existing wallpaper at `~/.config/wallpapers/xp_wallpaper.jpg`.
 
 ### Hyprland Startup
 

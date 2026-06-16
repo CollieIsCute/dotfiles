@@ -26,7 +26,7 @@ directory = "~/.config/wallpapers"
 transition_on_startup = false
 
 [wallpaper.default]
-path = "~/.config/wallpapers/xp_wallpaper.webp"
+path = "~/.config/wallpapers/xp_wallpaper.jpg"
 
 [theme]
 mode = "dark"
