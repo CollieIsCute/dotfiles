@@ -1,0 +1,31 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+wallpaper_path="{{ joinPath .chezmoi.homeDir .wallpaper.targetPath }}"
+
+# wallpaper hash: {{ output "shasum" "-a" "256" (joinPath .chezmoi.sourceDir .wallpaper.sourcePath) | trim | splitList " " | first }}
+
+echo -e "\n${GREEN}Configuring macOS wallpaper...${NC}"
+
+if [[ ! -f "$wallpaper_path" ]]; then
+    echo "Wallpaper file not found: $wallpaper_path" >&2
+    exit 1
+fi
+
+/usr/bin/osascript - "$wallpaper_path" <<'APPLESCRIPT'
+on run argv
+    set wallpaperPath to POSIX file (item 1 of argv)
+    tell application "System Events"
+        repeat with currentDesktop in desktops
+            set picture of currentDesktop to wallpaperPath
+        end repeat
+    end tell
+end run
+APPLESCRIPT
+
+echo -e "${GREEN}macOS wallpaper configured!${NC}"
+{{- end }}

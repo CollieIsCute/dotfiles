@@ -1,0 +1,5 @@
+wallpaper:
+  directory: "~/.config/wallpapers"
+  path: "~/.config/wallpapers/xp_wallpaper.jpg"
+  targetPath: ".config/wallpapers/xp_wallpaper.jpg"
+  sourcePath: "dot_config/wallpapers/xp_wallpaper.jpg"

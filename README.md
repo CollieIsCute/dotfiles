@@ -68,6 +68,7 @@ Then `chezmoi apply`.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 - Noctalia v5 now owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard). Legacy gadgets stay installed during the migration window for rollback.
+- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia and Hyprpaper read the shared `wallpaper` template data.
 
 ## Keymappings
 
@@ -172,6 +173,7 @@ Then `chezmoi apply`.
 - [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.
 - [`karabiner-elements`](https://karabiner-elements.pqrs.org) — keyboard remapper.
 - [`raycast`](https://raycast.com) — launcher.
+- Desktop wallpaper is deployed by chezmoi to `~/.config/wallpapers` and applied by `run_onchange_after_3-configure-macos-wallpaper.sh.tmpl`.
 
 ### CLI tooling
 

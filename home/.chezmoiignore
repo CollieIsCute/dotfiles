@@ -28,11 +28,15 @@
 .config/swaync/**
 .config/waybar
 .config/waybar/**
-.config/wallpapers
-.config/wallpapers/**
 .local/share/applications
 .local/share/applications/**
 {{- else if not (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}
 .config/paru
 .config/paru/**
+{{- end }}
+
+# Cross-platform wallpaper targets.
+{{- if not (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
+.config/wallpapers
+.config/wallpapers/**
 {{- end }}
