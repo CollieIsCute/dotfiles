@@ -22,11 +22,11 @@ pipe_to_command = false
 [wallpaper]
 enabled = true
 fill_mode = "crop"
-directory = {{ .wallpaper.directory | quote }}
+directory = "~/.config/wallpapers"
 transition_on_startup = false
 
 [wallpaper.default]
-path = {{ .wallpaper.path | quote }}
+path = "~/.config/wallpapers/xp_wallpaper.jpg"
 
 [theme]
 mode = "dark"

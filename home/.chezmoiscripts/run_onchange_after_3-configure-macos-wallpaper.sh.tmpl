@@ -5,9 +5,9 @@ set -euo pipefail
 export GREEN='\033[1;32m'
 export NC='\033[0m'
 
-wallpaper_path="{{ joinPath .chezmoi.homeDir .wallpaper.targetPath }}"
+wallpaper_path="$HOME/.config/wallpapers/xp_wallpaper.jpg"
 
-# wallpaper hash: {{ output "shasum" "-a" "256" (joinPath .chezmoi.sourceDir .wallpaper.sourcePath) | trim | splitList " " | first }}
+# wallpaper hash: {{ output "shasum" "-a" "256" (joinPath .chezmoi.sourceDir "dot_config/wallpapers/xp_wallpaper.jpg") | trim | splitList " " | first }}
 
 echo -e "\n${GREEN}Configuring macOS wallpaper...${NC}"
 

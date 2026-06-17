@@ -68,7 +68,7 @@ Then `chezmoi apply`.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 - Noctalia v5 now owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard). Legacy gadgets stay installed during the migration window for rollback.
-- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia and Hyprpaper read the shared `wallpaper` template data.
+- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia and Hyprpaper read the shared path directly.
 
 ## Keymappings
 
