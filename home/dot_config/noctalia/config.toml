@@ -106,9 +106,9 @@ shadow = false
 capsule = true
 capsule_fill = "surface_variant"
 capsule_opacity = 0.8
-start = ["workspaces", "group:net-status"]
-center = ["tray"]
-end = ["media", "group:sys-status", "volume", "clock", "notifications", "clipboard", "session"]
+start = ["workspaces", "tray"]
+center = ["clock", "volume"]
+end = ["media", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
 [[bar.main.capsule_group]]
 id = "net-status"
