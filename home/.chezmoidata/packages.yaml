@@ -58,7 +58,8 @@ packages:
       - qpwgraph
       - redmine-cli-bin
       - ripgrep
-      - sddm
+      - greetd
+      - greetd-regreet
       - steam
       - telegram-desktop
       - tig

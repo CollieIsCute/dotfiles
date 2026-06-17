@@ -164,7 +164,7 @@ Then `chezmoi apply`.
 
 - [`hyprland`](https://hyprland.org) — Wayland compositor.
 - [`noctalia`](https://github.com/noctalia-dev/noctalia) — desktop shell: bar, launcher, notifications, wallpaper, lock screen, idle behavior, screenshots, clipboard, and control center.
-- [`sddm`](https://github.com/sddm/sddm) — display manager.
+- [`greetd`](https://git.sr.ht/~kennylevinsen/greetd) + [`ReGreet`](https://github.com/rharish101/ReGreet) — Wayland-native display manager and greeter, hosted by a minimal Hyprland config.
 - [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
 
 ### macOS extras
