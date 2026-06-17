@@ -96,7 +96,7 @@ reserve_space = true
 layer = "top"
 thickness = 30
 background_opacity = 1.0
-radius = 10
+radius = 0
 margin_ends = 0
 margin_edge = 0
 padding = 10
@@ -108,7 +108,14 @@ capsule_fill = "surface_variant"
 capsule_opacity = 0.8
 start = ["workspaces"]
 center = ["tray"]
-end = ["media", "net-down", "net-up", "cpu", "volume", "battery", "clock", "notifications", "clipboard", "session"]
+end = ["media", "group:sys-status", "volume", "battery", "clock", "notifications", "clipboard", "session"]
+
+[[bar.main.capsule_group]]
+id = "sys-status"
+members = ["net-down", "net-up", "cpu", "temp", "ram", "disk"]
+fill = "surface_variant"
+padding = 6.0
+opacity = 0.8
 
 [widget.clock]
 format = "{:%H:%M:%S}"
@@ -131,6 +138,22 @@ display = "text"
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
+display = "text"
+
+[widget.temp]
+type = "sysmon"
+stat = "cpu_temp"
+display = "text"
+
+[widget.ram]
+type = "sysmon"
+stat = "ram_pct"
+display = "text"
+
+[widget.disk]
+type = "sysmon"
+stat = "disk_pct"
+path = "/"
 display = "text"
 
 [widget.volume]
