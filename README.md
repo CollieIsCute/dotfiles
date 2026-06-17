@@ -27,8 +27,8 @@ chezmoi init --apply collieiscute -v
 
 ### Theme
 
-- **Catppuccin** everywhere. Mocha by default; kitty uses **Macchiato**; Noctalia uses its built-in **Catppuccin** palette. Legacy waybar / swaync / rofi fallback configs still use **Frappe** during the migration window.
-- Theme files for kitty, alacritty and legacy waybar are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
+- **Catppuccin** everywhere. Mocha by default; kitty uses **Macchiato**; Noctalia uses its built-in **Catppuccin** palette.
+- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### Per-host config switch
@@ -67,7 +67,7 @@ Then `chezmoi apply`.
 - 6 Lua `hl.monitor(...)` rules (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
-- Noctalia v5 now owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard). Legacy gadgets stay installed during the migration window for rollback.
+- Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 
 ## Keymappings
 
@@ -163,7 +163,6 @@ Then `chezmoi apply`.
 
 - [`hyprland`](https://hyprland.org) — Wayland compositor.
 - [`noctalia`](https://github.com/noctalia-dev/noctalia) — desktop shell: bar, launcher, notifications, wallpaper, lock screen, idle behavior, screenshots, clipboard, and control center.
-- `hyprlock`, `hyprpaper`, `hyprshot`, `hypridle`, [`waybar`](https://github.com/Alexays/Waybar), [`swaync`](https://github.com/ErikReider/SwayNotificationCenter), and [`rofi`](https://github.com/davatorium/rofi) — retained temporarily as migration fallback.
 - [`sddm`](https://github.com/sddm/sddm) — display manager.
 - [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
 

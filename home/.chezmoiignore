@@ -22,12 +22,6 @@
 .config/noctalia/**
 .config/paru
 .config/paru/**
-.config/rofi
-.config/rofi/**
-.config/swaync
-.config/swaync/**
-.config/waybar
-.config/waybar/**
 .config/wallpapers
 .config/wallpapers/**
 .local/share/applications

@@ -1,1 +1,13 @@
 .config/hypr/hyprland.conf
+{{ if eq .chezmoi.os "linux" }}
+.config/hypr/hypridle.conf
+.config/hypr/hyprlock.conf
+.config/hypr/hyprpaper.conf
+.config/rofi/config.rasi
+.config/rofi/theme.rasi
+.config/swaync/style.css
+.config/waybar/config
+.config/waybar/scripts/power-menu.sh
+.config/waybar/style.css
+.config/waybar/themes/frappe.css
+{{ end }}
