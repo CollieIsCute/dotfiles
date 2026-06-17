@@ -99,16 +99,16 @@ background_opacity = 1.0
 radius = 0
 margin_ends = 0
 margin_edge = 0
-padding = 10
-widget_spacing = 6
-scale = 1.0
+padding = 5
+widget_spacing = 3
+scale = 1.1
 shadow = false
 capsule = true
 capsule_fill = "surface_variant"
-capsule_opacity = 0.8
-start = ["workspaces", "tray"]
-center = ["clock", "volume"]
-end = ["media", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
+capsule_opacity = 0.5
+start = ["tray", "media"]
+center = ["clock", "workspaces"]
+end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
 [[bar.main.capsule_group]]
 id = "net-status"
@@ -121,16 +121,16 @@ opacity = 0.8
 id = "sys-status"
 members = ["cpu", "ram", "temp", "battery"]
 fill = "surface_variant"
-padding = 6.0
-opacity = 0.8
+padding = 3.0
+opacity = 0.7
 
 [widget.clock]
-format = "{:%H:%M:%S}"
+format = "{:%B %d %H:%M:%S}"
 tooltip_format = "{:%A, %B %d, %Y}"
 
 [widget.media]
 hide_when_no_media = true
-max_length = 220
+max_length = 320
 
 [widget.net-down]
 type = "sysmon"
