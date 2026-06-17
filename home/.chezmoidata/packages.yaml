@@ -48,6 +48,7 @@ packages:
       - net-tools
       - nethogs
       - noctalia-git
+      - noctalia-greeter-git
       - nwg-look
       - opencode-bin
       - openssh
@@ -59,7 +60,7 @@ packages:
       - redmine-cli-bin
       - ripgrep
       - greetd
-      - greetd-regreet
+      - sddm
       - steam
       - telegram-desktop
       - tig
