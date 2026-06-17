@@ -112,7 +112,7 @@ end = ["media", "group:sys-status", "volume", "battery", "clock", "notifications
 
 [[bar.main.capsule_group]]
 id = "sys-status"
-members = ["net-down", "net-up", "cpu", "temp", "ram", "disk"]
+members = ["net-down", "net-up", "cpu", "temp", "ram"]
 fill = "surface_variant"
 padding = 6.0
 opacity = 0.8
@@ -148,12 +148,6 @@ display = "text"
 [widget.ram]
 type = "sysmon"
 stat = "ram_pct"
-display = "text"
-
-[widget.disk]
-type = "sysmon"
-stat = "disk_pct"
-path = "/"
 display = "text"
 
 [widget.volume]
