@@ -22,12 +22,6 @@
 .config/noctalia/**
 .config/paru
 .config/paru/**
-.config/rofi
-.config/rofi/**
-.config/swaync
-.config/swaync/**
-.config/waybar
-.config/waybar/**
 .local/share/applications
 .local/share/applications/**
 {{- else if not (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}

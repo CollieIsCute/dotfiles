@@ -19,11 +19,3 @@ refreshPeriod = "168h"
 type = "file"
 url = "https://raw.githubusercontent.com/addyosmani/agent-skills/main/LICENSE"
 refreshPeriod = "168h"
-
-{{- if eq .chezmoi.os "linux" }}
-
-[".config/waybar/themes/frappe.css"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/waybar/main/themes/frappe.css"
-refreshPeriod = "168h"
-{{- end }}
