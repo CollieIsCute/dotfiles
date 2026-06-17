@@ -18,6 +18,8 @@
 .config/hypr
 .config/hypr/**
 .config/mimeapps.list
+.config/noctalia
+.config/noctalia/**
 .config/paru
 .config/paru/**
 .config/rofi
