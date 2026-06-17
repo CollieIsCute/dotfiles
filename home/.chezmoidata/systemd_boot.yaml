@@ -1,0 +1,22 @@
+systemdBoot:
+  # Safe by default: this script only does work after explicit opt-in.
+  enabled: false
+  # When false, chezmoi writes loader config only and does not call bootctl install.
+  install: false
+  espPath: /boot
+  defaultEntry: arch.conf
+  title: Arch Linux
+  fallbackTitle: Arch Linux (fallback initramfs)
+  timeout: 5
+  consoleMode: max
+  editor: false
+  autoEntries: true
+  autoFirmware: true
+  rebootForBitlocker: false
+  keepPreviousFallback: true
+  # Leave empty to auto-detect from /boot and /proc/cmdline on the target host.
+  kernelImage: ""
+  initramfsImage: ""
+  fallbackInitramfsImage: ""
+  microcodeImage: ""
+  kernelOptions: ""

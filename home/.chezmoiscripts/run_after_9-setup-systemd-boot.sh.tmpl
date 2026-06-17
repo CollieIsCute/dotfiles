@@ -1,0 +1,255 @@
+#!/bin/bash
+set -euo pipefail
+
+{{ if eq .chezmoi.os "linux" }}
+{{- $osid := .chezmoi.osRelease.id -}}
+{{ if or (eq $osid "arch") (eq $osid "cachyos") }}
+export GREEN='\033[1;32m'
+export YELLOW='\033[1;33m'
+export RED='\033[1;31m'
+export NC='\033[0m'
+
+enabled="{{ .systemdBoot.enabled }}"
+install_bootloader="{{ .systemdBoot.install }}"
+
+if [ "${CHEZMOI_SYSTEMD_BOOT:-0}" = "1" ]; then
+  enabled="true"
+fi
+
+if [ "${CHEZMOI_SYSTEMD_BOOT_INSTALL:-0}" = "1" ]; then
+  enabled="true"
+  install_bootloader="true"
+fi
+
+if [ "$enabled" != "true" ]; then
+  exit 0
+fi
+
+esp_path="{{ .systemdBoot.espPath }}"
+default_entry="{{ .systemdBoot.defaultEntry }}"
+linux_title="{{ .systemdBoot.title }}"
+fallback_title="{{ .systemdBoot.fallbackTitle }}"
+timeout="{{ .systemdBoot.timeout }}"
+console_mode="{{ .systemdBoot.consoleMode }}"
+editor="{{ .systemdBoot.editor }}"
+auto_entries="{{ .systemdBoot.autoEntries }}"
+auto_firmware="{{ .systemdBoot.autoFirmware }}"
+reboot_for_bitlocker="{{ .systemdBoot.rebootForBitlocker }}"
+keep_previous_fallback="{{ .systemdBoot.keepPreviousFallback }}"
+kernel_image="{{ .systemdBoot.kernelImage }}"
+initramfs_image="{{ .systemdBoot.initramfsImage }}"
+fallback_initramfs_image="{{ .systemdBoot.fallbackInitramfsImage }}"
+microcode_image="{{ .systemdBoot.microcodeImage }}"
+kernel_options="{{ .systemdBoot.kernelOptions }}"
+
+fail() {
+  echo -e "${RED}systemd-boot setup failed: $*${NC}" >&2
+  exit 1
+}
+
+need_command() {
+  command -v "$1" >/dev/null 2>&1 || fail "missing required command: $1"
+}
+
+path_exists_on_esp() {
+  [ -n "$1" ] && [ -e "${esp_path}${1}" ]
+}
+
+detect_kernel_image() {
+  if [ -n "$kernel_image" ]; then
+    return
+  fi
+
+  local candidate
+  for candidate in /vmlinuz-linux /vmlinuz-linux-cachyos /vmlinuz-linux-zen /vmlinuz-linux-lts; do
+    if path_exists_on_esp "$candidate"; then
+      kernel_image="$candidate"
+      return
+    fi
+  done
+
+  fail "could not find a supported vmlinuz image under ${esp_path}"
+}
+
+detect_initramfs_images() {
+  local kernel_name
+  kernel_name="${kernel_image#/vmlinuz-}"
+
+  if [ -z "$initramfs_image" ]; then
+    initramfs_image="/initramfs-${kernel_name}.img"
+  fi
+
+  if [ -z "$fallback_initramfs_image" ]; then
+    fallback_initramfs_image="/initramfs-${kernel_name}-fallback.img"
+  fi
+}
+
+detect_microcode_image() {
+  if [ -n "$microcode_image" ]; then
+    return
+  fi
+
+  if path_exists_on_esp /intel-ucode.img; then
+    microcode_image="/intel-ucode.img"
+  elif path_exists_on_esp /amd-ucode.img; then
+    microcode_image="/amd-ucode.img"
+  fi
+}
+
+detect_kernel_options() {
+  if [ -n "$kernel_options" ]; then
+    return
+  fi
+
+  if [ -r /proc/cmdline ]; then
+    local word
+    for word in $(< /proc/cmdline); do
+      case "$word" in
+        BOOT_IMAGE=*) continue ;;
+      esac
+      kernel_options="${kernel_options:+$kernel_options }$word"
+    done
+  fi
+
+  [ -n "$kernel_options" ] || fail "kernelOptions is empty and /proc/cmdline could not be used"
+}
+
+validate_environment() {
+  need_command bootctl
+  need_command findmnt
+  need_command install
+  need_command sudo
+
+  [ -d /sys/firmware/efi ] || fail "system is not booted in UEFI mode"
+  [ -d "$esp_path" ] || fail "ESP path does not exist: ${esp_path}"
+
+  local boot_fstype
+  boot_fstype="$(findmnt -n -o FSTYPE --target "$esp_path" || true)"
+  case "$boot_fstype" in
+    vfat|fat|msdos) ;;
+    *) fail "${esp_path} is not mounted as a FAT ESP (found: ${boot_fstype:-unmounted})" ;;
+  esac
+}
+
+validate_boot_files() {
+  path_exists_on_esp "$kernel_image" || fail "missing kernel image: ${esp_path}${kernel_image}"
+  path_exists_on_esp "$initramfs_image" || fail "missing initramfs image: ${esp_path}${initramfs_image}"
+
+  if [ -n "$microcode_image" ]; then
+    path_exists_on_esp "$microcode_image" || fail "missing microcode image: ${esp_path}${microcode_image}"
+  fi
+}
+
+backup_previous_fallback() {
+  [ "$keep_previous_fallback" = "true" ] || return
+  [ -e "${esp_path}/EFI/BOOT/BOOTX64.EFI" ] || return
+  [ ! -e "${esp_path}/EFI/saved-fallback/BOOTX64.EFI" ] || return
+
+  if sudo bootctl --esp-path="$esp_path" is-installed >/dev/null 2>&1; then
+    return
+  fi
+
+  echo -e "${YELLOW}Saving current fallback loader before bootctl install...${NC}"
+  sudo install -d -o root -g root -m 0755 "${esp_path}/EFI/saved-fallback"
+  sudo install -o root -g root -m 0644 \
+    "${esp_path}/EFI/BOOT/BOOTX64.EFI" \
+    "${esp_path}/EFI/saved-fallback/BOOTX64.EFI"
+}
+
+write_loader_config() {
+  local tmpdir
+  tmpdir="$(mktemp -d)"
+  trap 'rm -rf "$tmpdir"' EXIT
+
+  sudo install -d -o root -g root -m 0755 "${esp_path}/loader/entries"
+
+  {
+    printf 'default %s\n' "$default_entry"
+    printf 'timeout %s\n' "$timeout"
+    printf 'console-mode %s\n' "$console_mode"
+    printf 'editor %s\n' "$editor"
+    printf 'auto-entries %s\n' "$auto_entries"
+    printf 'auto-firmware %s\n' "$auto_firmware"
+    if [ "$reboot_for_bitlocker" = "true" ]; then
+      printf 'reboot-for-bitlocker yes\n'
+    fi
+  } > "${tmpdir}/loader.conf"
+
+  {
+    printf 'title   %s\n' "$linux_title"
+    printf 'linux   %s\n' "$kernel_image"
+    if [ -n "$microcode_image" ]; then
+      printf 'initrd  %s\n' "$microcode_image"
+    fi
+    printf 'initrd  %s\n' "$initramfs_image"
+    printf 'options %s\n' "$kernel_options"
+  } > "${tmpdir}/arch.conf"
+
+  sudo install -o root -g root -m 0644 "${tmpdir}/loader.conf" "${esp_path}/loader/loader.conf"
+  sudo install -o root -g root -m 0644 "${tmpdir}/arch.conf" "${esp_path}/loader/entries/arch.conf"
+
+  if path_exists_on_esp "$fallback_initramfs_image"; then
+    {
+      printf 'title   %s\n' "$fallback_title"
+      printf 'linux   %s\n' "$kernel_image"
+      if [ -n "$microcode_image" ]; then
+        printf 'initrd  %s\n' "$microcode_image"
+      fi
+      printf 'initrd  %s\n' "$fallback_initramfs_image"
+      printf 'options %s\n' "$kernel_options"
+    } > "${tmpdir}/arch-fallback.conf"
+    sudo install -o root -g root -m 0644 "${tmpdir}/arch-fallback.conf" "${esp_path}/loader/entries/arch-fallback.conf"
+  else
+    echo -e "${YELLOW}Skipping fallback entry; missing ${esp_path}${fallback_initramfs_image}.${NC}"
+  fi
+
+  if [ -e "${esp_path}/EFI/saved-fallback/BOOTX64.EFI" ]; then
+    {
+      printf 'title Previous fallback bootloader\n'
+      printf 'efi   /EFI/saved-fallback/BOOTX64.EFI\n'
+    } > "${tmpdir}/previous-fallback.conf"
+    sudo install -o root -g root -m 0644 "${tmpdir}/previous-fallback.conf" "${esp_path}/loader/entries/previous-fallback.conf"
+  fi
+}
+
+install_systemd_boot() {
+  [ "$install_bootloader" = "true" ] || return
+
+  if sudo bootctl --esp-path="$esp_path" is-installed >/dev/null 2>&1; then
+    echo -e "${GREEN}systemd-boot is already installed; updating ${esp_path}...${NC}"
+    sudo bootctl --esp-path="$esp_path" update
+  else
+    backup_previous_fallback
+
+    echo -e "${GREEN}Installing systemd-boot to ${esp_path}...${NC}"
+    sudo bootctl --esp-path="$esp_path" install
+  fi
+
+  if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
+    sudo systemctl enable systemd-boot-update.service
+  fi
+}
+
+echo -e "${GREEN}Configuring systemd-boot entries...${NC}"
+validate_environment
+detect_kernel_image
+detect_initramfs_images
+detect_microcode_image
+detect_kernel_options
+validate_boot_files
+if [ "$install_bootloader" = "true" ]; then
+  backup_previous_fallback
+fi
+write_loader_config
+install_systemd_boot
+
+echo -e "${GREEN}systemd-boot configuration complete.${NC}"
+if [ "$install_bootloader" != "true" ]; then
+  echo -e "${YELLOW}Set systemdBoot.install=true or CHEZMOI_SYSTEMD_BOOT_INSTALL=1 to run bootctl install.${NC}"
+fi
+{{ else }}
+exit 0
+{{ end }}
+{{ else }}
+exit 0
+{{ end }}

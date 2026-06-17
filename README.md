@@ -50,6 +50,33 @@ Then `chezmoi apply`.
 - All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
 
+### systemd-boot opt-in
+
+The systemd-boot setup script is disabled by default so a normal `chezmoi apply` never rewrites bootloader state.
+
+To render `/boot/loader` config without installing the bootloader:
+
+```bash
+CHEZMOI_SYSTEMD_BOOT=1 chezmoi apply
+```
+
+To also run `bootctl install` and enable `systemd-boot-update.service`:
+
+```bash
+CHEZMOI_SYSTEMD_BOOT_INSTALL=1 chezmoi apply
+```
+
+Persistent per-host settings can live in `~/.config/chezmoi/chezmoi.toml`:
+
+```toml
+[data.systemdBoot]
+  enabled = true
+  install = false
+  rebootForBitlocker = false
+```
+
+The script auto-detects the kernel, initramfs, microcode image, and current kernel command line. Before installing systemd-boot it saves the existing fallback EFI loader to `/boot/EFI/saved-fallback/BOOTX64.EFI` and adds a `previous-fallback.conf` entry when that backup exists.
+
 ### Tmux
 
 - Prefix is `C-z` (so `C-b` stays free for vim).
