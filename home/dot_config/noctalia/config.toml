@@ -1,0 +1,149 @@
+[shell]
+font_family = "JetBrainsMono Nerd Font"
+telemetry_enabled = false
+polkit_agent = false
+clipboard_enabled = true
+clipboard_history_max_entries = 100
+clipboard_auto_paste = "auto"
+
+[shell.panel]
+launcher_placement = "centered"
+clipboard_placement = "centered"
+control_center_placement = "attached"
+wallpaper_placement = "attached"
+session_placement = "attached"
+
+[shell.screenshot]
+save_to_file = false
+copy_to_clipboard = true
+freeze_screen = false
+pipe_to_command = false
+
+[wallpaper]
+enabled = true
+fill_mode = "crop"
+directory = "~/.config/wallpapers"
+transition_on_startup = false
+
+[wallpaper.default]
+path = "~/.config/wallpapers/xp_wallpaper.jpg"
+
+[theme]
+mode = "dark"
+source = "builtin"
+builtin = "Catppuccin"
+
+[notification]
+enable_daemon = true
+show_app_name = true
+layer = "top"
+background_opacity = 0.97
+
+[osd]
+position = "top_center"
+orientation = "horizontal"
+scale = 1.0
+
+[lockscreen]
+enabled = true
+blurred_desktop = true
+blur_intensity = 0.5
+tint_intensity = 0.3
+
+[system.monitor]
+enabled = true
+
+[weather]
+enabled = false
+
+[audio]
+enable_overdrive = false
+enable_sounds = false
+
+[brightness]
+enable_ddcutil = false
+
+[idle]
+pre_action_fade_seconds = 2.0
+
+[idle.behavior.lock]
+enabled = true
+timeout = 300
+command = "noctalia:session lock"
+
+[idle.behavior.screen-off]
+enabled = true
+timeout = 600
+command = "noctalia:dpms-off"
+resume_command = "noctalia:dpms-on"
+
+[keybinds]
+validate = ["return", "kp_enter"]
+cancel = ["escape"]
+left = ["left"]
+right = ["right"]
+up = ["up"]
+down = ["down"]
+
+[bar]
+order = ["main"]
+
+[bar.main]
+enabled = true
+position = "top"
+auto_hide = false
+reserve_space = true
+layer = "top"
+thickness = 30
+background_opacity = 1.0
+radius = 10
+margin_ends = 0
+margin_edge = 0
+padding = 10
+widget_spacing = 6
+scale = 1.0
+shadow = false
+capsule = true
+capsule_fill = "surface_variant"
+capsule_opacity = 0.8
+start = ["workspaces"]
+center = ["tray"]
+end = ["media", "net-down", "net-up", "cpu", "volume", "battery", "clock", "notifications", "clipboard", "session"]
+
+[widget.clock]
+format = "{:%H:%M:%S}"
+tooltip_format = "{:%A, %B %d, %Y}"
+
+[widget.media]
+hide_when_no_media = true
+max_length = 220
+
+[widget.net-down]
+type = "sysmon"
+stat = "net_rx"
+display = "text"
+
+[widget.net-up]
+type = "sysmon"
+stat = "net_tx"
+display = "text"
+
+[widget.cpu]
+type = "sysmon"
+stat = "cpu_usage"
+display = "text"
+
+[widget.volume]
+show_label = true
+
+[widget.battery]
+show_label = true
+
+[widget.notifications]
+hide_when_no_unread = false
+
+[widget.tray]
+drawer = false
+
+[dock]
+enabled = false
