@@ -164,8 +164,17 @@ Then `chezmoi apply`.
 
 - [`hyprland`](https://hyprland.org) — Wayland compositor.
 - [`noctalia`](https://github.com/noctalia-dev/noctalia) — desktop shell: bar, launcher, notifications, wallpaper, lock screen, idle behavior, screenshots, clipboard, and control center.
-- [`sddm`](https://github.com/sddm/sddm) — display manager.
+- [`sddm`](https://github.com/sddm/sddm) — bootstrap and fallback display manager for fresh Arch installs.
+- [`greetd`](https://git.sr.ht/~kennylevinsen/greetd) + [`Noctalia Greeter`](https://github.com/noctalia-dev/noctalia-greeter) — final Wayland login greeter after AUR packages are installed.
 - [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
+
+### Display manager bootstrap and recovery
+
+- Fresh Arch installs should use `SDDM` from `archinstall` first; chezmoi switches to `greetd` only after `noctalia-greeter-session` is installed and setup succeeds.
+- `SDDM` stays installed as the fallback display manager.
+- The switch script only enables/disables services; it does not stop/start the current graphical session.
+- If Noctalia Greeter shows a black screen, switch to a TTY with `Ctrl+Alt+F2` and run `sudo systemctl disable --now greetd.service && sudo systemctl enable --now sddm.service`.
+- If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB, then run the same service switch.
 
 ### macOS extras
 
