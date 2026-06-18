@@ -85,6 +85,14 @@ json_escape() {
   printf '%s' "$value"
 }
 
+noctalia_msg() {
+  if command -v timeout >/dev/null 2>&1; then
+    timeout 5s noctalia msg "$@"
+  else
+    noctalia msg "$@"
+  fi
+}
+
 greeter_synced_appearance_ready() {
   [ -s "${greeter_state_dir}/appearance.json" ] || return 1
   set -- "${greeter_state_dir}"/wallpaper*
@@ -266,19 +274,19 @@ set_tmp_greeter_conf_value scheme "$greeter_scheme"
 sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
 sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "$conf_path"
 
-if command -v noctalia >/dev/null 2>&1 && noctalia msg --help >/dev/null 2>&1; then
+if command -v noctalia >/dev/null 2>&1; then
   wallpaper_path=""
   theme_mode="dark"
-  if wallpaper_path="$(noctalia msg wallpaper-get 2>/dev/null)"; then
+  if wallpaper_path="$(noctalia_msg wallpaper-get 2>/dev/null)"; then
     echo -e "${GREEN}Noctalia wallpaper: ${wallpaper_path}${NC}"
   fi
-  if theme_mode="$(noctalia msg theme-mode-get 2>/dev/null)"; then
+  if theme_mode="$(noctalia_msg theme-mode-get 2>/dev/null)"; then
     :
   else
     theme_mode="dark"
   fi
 
-  if noctalia msg greeter-sync >/dev/null 2>&1 && wait_for_greeter_sync; then
+  if noctalia_msg greeter-sync >/dev/null 2>&1 && wait_for_greeter_sync; then
     echo -e "${GREEN}Noctalia Greeter appearance sync completed.${NC}"
   else
     echo -e "${YELLOW}Warning: Noctalia Greeter IPC sync did not produce synced files; trying wallpaper fallback.${NC}"
