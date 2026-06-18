@@ -29,6 +29,7 @@ fi
 
 session_bin="$(command -v noctalia-greeter-session)"
 setup_script="/usr/share/noctalia-greeter/setup_greeter_system.sh"
+greeter_state_dir="/var/lib/noctalia-greeter"
 
 if [ ! -x "$setup_script" ]; then
   echo -e "${YELLOW}Warning: ${setup_script} not found; keeping SDDM enabled.${NC}"
@@ -46,6 +47,68 @@ sudo install -d -o root -g root -m 0755 /etc/greetd
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
+
+set_tmp_greeter_conf_value() {
+  local key="$1"
+  local value="$2"
+  local input="${tmpdir}/greeter.conf"
+  local output="${tmpdir}/greeter.conf.next"
+  local found=0
+
+  : > "$output"
+  if [ -f "$input" ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+      case "$line" in
+        "${key}="*)
+          printf '%s=%s\n' "$key" "$value" >> "$output"
+          found=1
+          ;;
+        *)
+          printf '%s\n' "$line" >> "$output"
+          ;;
+      esac
+    done < "$input"
+  fi
+
+  if [ "$found" -eq 0 ]; then
+    printf '%s=%s\n' "$key" "$value" >> "$output"
+  fi
+  mv "$output" "$input"
+}
+
+conf_path="${greeter_state_dir}/greeter.conf"
+if sudo test -f "$conf_path"; then
+  sudo cat "$conf_path" > "${tmpdir}/greeter.conf"
+else
+  cat > "${tmpdir}/greeter.conf" <<GREETER_CONF
+# noctalia-greeter greeter.conf
+# Wallpaper/colors are synced by: noctalia msg greeter-sync
+GREETER_CONF
+fi
+
+set_tmp_greeter_conf_value greeter_user greeter
+set_tmp_greeter_conf_value default_session Hyprland
+greeter_scheme="Catppuccin"
+if sudo test -f "${greeter_state_dir}/appearance.json"; then
+  greeter_scheme="Synced"
+fi
+set_tmp_greeter_conf_value scheme "$greeter_scheme"
+
+sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
+sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "$conf_path"
+
+if command -v noctalia >/dev/null 2>&1 && noctalia msg --help >/dev/null 2>&1; then
+  if wallpaper_path="$(noctalia msg wallpaper-get 2>/dev/null)"; then
+    echo -e "${GREEN}Noctalia wallpaper: ${wallpaper_path}${NC}"
+  fi
+  if noctalia msg greeter-sync >/dev/null 2>&1; then
+    echo -e "${GREEN}Noctalia Greeter appearance sync started.${NC}"
+  else
+    echo -e "${YELLOW}Warning: failed to start Noctalia Greeter appearance sync.${NC}"
+  fi
+else
+  echo -e "${YELLOW}Noctalia Shell IPC is not available; run 'noctalia msg greeter-sync' after login to sync wallpaper/colors.${NC}"
+fi
 
 cat > "${tmpdir}/config.toml" <<GREETD_CONFIG
 [terminal]
