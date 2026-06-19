@@ -245,8 +245,10 @@ def parse_cathay_pdf(path: Path) -> list[CathayTrade]:
         if len(rest_numbers) < 2:
             raise ConversionError(f"cannot parse fee/amount columns: {line}")
 
-        gross_amount = rest_numbers[-1]
+        # The last rest number is Cathay's gross trade amount. Synx Amount should
+        # be the actual Funding Account cash movement, so use the net column.
         tax_and_fees = sum(rest_numbers[:-1])
+        cash_amount = parse_int(match.group("net"))
         signed_shares = parse_int(match.group("shares"))
         if cd.endswith("賣"):
             signed_shares *= -1
@@ -258,9 +260,9 @@ def parse_cathay_pdf(path: Path) -> list[CathayTrade]:
                 name=match.group("name").strip(),
                 shares=signed_shares,
                 price=parse_decimal(match.group("price")),
-                amount=gross_amount,
+                amount=cash_amount,
                 tax=tax_and_fees,
-                net=parse_int(match.group("net")),
+                net=cash_amount,
                 order=match.group("order"),
                 source=str(path),
             )
@@ -540,6 +542,8 @@ Manual mapping CSV format:
 
 Synx prerequisites:
   - Create investment accounts named by stock code, for example 0050 or 2330.
+  - Synx may display market/security names in English; CSV matching still uses
+    exact account names such as 0050.
   - Create a non-investment funding account named 國泰交割戶, unless you pass
     --funding-account with a different existing Synx account name.
 """,

@@ -28,10 +28,10 @@ jobs:
         run: |
           if command -v apt-get >/dev/null; then
             apt-get update
-            apt-get install -y sudo git curl
+            apt-get install -y sudo git curl python3
             sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           else
-            pacman -Syu --noconfirm sudo git chezmoi curl
+            pacman -Syu --noconfirm sudo git chezmoi curl python
           fi
           # Arch's setup script builds paru via makepkg, which refuses to
           # run as root — we need an unprivileged user with passwordless
@@ -42,6 +42,9 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: test Cathay Synx CSV skill
+        run: |
+          sudo -u dev env PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /home/dev/.claude/skills/cathay-synx-csv/tests
 
   macos:
     name: macos:latest
@@ -51,3 +54,6 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: test Cathay Synx CSV skill
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s "$HOME/.claude/skills/cathay-synx-csv/tests"

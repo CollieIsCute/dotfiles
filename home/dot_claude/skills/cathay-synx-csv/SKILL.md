@@ -22,6 +22,8 @@ Account,Funding Account,Date,Shares,Price,Amount,Tax,Note
 
 - Uses stock code as `Account`, for example `0050`, `00646`, `2330`.
 - Uses `國泰交割戶` as `Funding Account` by default.
+- Treats `Amount` as the actual positive `Funding Account` cash movement,
+  using Cathay's 收/付 net amount.
 - De-duplicates overlapping PDF ranges and existing Synx CSV rows.
 
 ## Default Command
@@ -73,6 +75,8 @@ Before importing:
 - Create a non-investment Synx funding account named `國泰交割戶`.
 - Ensure account start dates are earlier than the earliest CSV date.
 - Ensure each investment account has the matching holding/position set up.
+- Synx may display market/security names in English; CSV matching still uses
+  the exact account names such as `0050`.
 
 ## Conversion Rules
 
@@ -83,8 +87,8 @@ Before importing:
 | 交易日期 | `Date` | ROC date to `yyyy-MM-dd` |
 | CD + 股數 | `Shares` | Buy positive, sell negative |
 | 單價 | `Price` | Unit price |
-| 價金 | `Amount` | Gross trade amount |
-| 手續費 + 交易稅 + other visible fees | `Tax` | Sum all numeric fee columns before 價金 |
+| 收付淨額 | `Amount` | Actual positive `Funding Account` cash movement from the Cathay 收/付 column |
+| 手續費 + 交易稅 + other visible fees | `Tax` | Sum all numeric fee columns before 價金; kept for Synx fee/tax tracking |
 | 委託書號 | `Note` | Preserved for audit and de-dupe |
 
 ## De-Dupe Rule
@@ -125,4 +129,6 @@ python3 ~/.claude/skills/cathay-synx-csv/scripts/cathay_pdf_to_synx_csv.py \
 
 - If unresolved symbols appear, do not import until they are mapped.
 - Spot-check total shares by stock against Cathay or 集保.
+- Spot-check `國泰交割戶` cash movement against Cathay settlement amounts.
+- Avoid spreadsheet tools that may strip leading zeros from account codes like `0050`.
 - Import one small date range into Synx first before importing years of data.
