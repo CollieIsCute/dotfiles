@@ -189,7 +189,7 @@ Then `chezmoi apply`.
 - System info: [`btop`](https://github.com/aristocratos/btop), [`fastfetch`](https://github.com/fastfetch-cli/fastfetch).
 - Git: [`lazygit`](https://github.com/jesseduffield/lazygit), [`tig`](https://github.com/jonas/tig), [`gh`](https://cli.github.com), [`glab`](https://gitlab.com/gitlab-org/cli), [`onefetch`](https://github.com/o2sh/onefetch).
 - Build / dev: [`gnu-tar`](https://www.gnu.org/software/tar/), [`bear`](https://github.com/rizsotto/Bear), [`cmake`](https://cmake.org), [`mold`](https://github.com/rui314/mold), [`ninja`](https://ninja-build.org), [`llvm`](https://llvm.org), [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html), [`cppcheck`](https://cppcheck.sourceforge.io), [`uv`](https://github.com/astral-sh/uv).
-- Containers: macOS Apple silicon [`container`](https://github.com/apple/container); Linux [`podman`](https://podman.io).
+- Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
 - OpenCode Loop: [`@bybrawe/opencode-loop@0.5.1`](https://github.com/ByBrawe/opencode-loop) is loaded through OpenCode's native npm plugin support, with `/loop*` command stubs managed under `~/.config/opencode/commands/`.
