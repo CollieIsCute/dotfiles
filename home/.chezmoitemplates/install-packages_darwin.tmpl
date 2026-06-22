@@ -7,7 +7,7 @@ if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
       brew\ *) printf '%s\n' "$line" >> "$ci_brewfile" ;;
     esac
   done < "${HOME}/.config/brew/Brewfile"
-  brew bundle install --file="$ci_brewfile"
+  brew bundle install --file="$ci_brewfile" --no-upgrade
   rm -f "$ci_brewfile"
 else
   brew bundle install --file="${HOME}/.config/brew/Brewfile"
