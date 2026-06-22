@@ -48,43 +48,6 @@ sudo install -d -o root -g root -m 0755 /etc/greetd
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-set_tmp_greeter_conf_value() {
-  local key="$1"
-  local value="$2"
-  local input="${tmpdir}/greeter.conf"
-  local output="${tmpdir}/greeter.conf.next"
-  local found=0
-
-  : > "$output"
-  if [ -f "$input" ]; then
-    while IFS= read -r line || [ -n "$line" ]; do
-      case "$line" in
-        "${key}="*)
-          printf '%s=%s\n' "$key" "$value" >> "$output"
-          found=1
-          ;;
-        *)
-          printf '%s\n' "$line" >> "$output"
-          ;;
-      esac
-    done < "$input"
-  fi
-
-  if [ "$found" -eq 0 ]; then
-    printf '%s=%s\n' "$key" "$value" >> "$output"
-  fi
-  mv "$output" "$input"
-}
-
-json_escape() {
-  local value="$1"
-  value=${value//\\/\\\\}
-  value=${value//\"/\\\"}
-  value=${value//$'\n'/}
-  value=${value//$'\r'/}
-  printf '%s' "$value"
-}
-
 noctalia_msg() {
   if command -v timeout >/dev/null 2>&1; then
     timeout 5s noctalia msg "$@"
@@ -93,204 +56,22 @@ noctalia_msg() {
   fi
 }
 
-greeter_synced_appearance_ready() {
-  [ -s "${greeter_state_dir}/appearance.json" ] || return 1
-  set -- "${greeter_state_dir}"/wallpaper*
-  [ -e "$1" ]
-}
-
-theme_color() {
-  local palette_json="$1"
-  local key="$2"
-  local line=""
-
-  while IFS= read -r line; do
-    if [[ $line =~ \"${key}\"[[:space:]]*:[[:space:]]*\"(#[^\"]+)\" ]]; then
-      printf '%s' "${BASH_REMATCH[1]}"
-      return 0
-    fi
-  done <<< "$palette_json"
-
-  return 1
-}
-
-build_greeter_palette_json() {
-  local palette_json="$1"
-  local primary=""
-  local on_primary=""
-  local secondary=""
-  local on_secondary=""
-  local tertiary=""
-  local on_tertiary=""
-  local error=""
-  local on_error=""
-  local surface=""
-  local on_surface=""
-  local surface_variant=""
-  local on_surface_variant=""
-  local outline=""
-  local shadow=""
-
-  primary="$(theme_color "$palette_json" primary)" || return 1
-  on_primary="$(theme_color "$palette_json" on_primary)" || return 1
-  secondary="$(theme_color "$palette_json" secondary)" || return 1
-  on_secondary="$(theme_color "$palette_json" on_secondary)" || return 1
-  tertiary="$(theme_color "$palette_json" tertiary)" || return 1
-  on_tertiary="$(theme_color "$palette_json" on_tertiary)" || return 1
-  error="$(theme_color "$palette_json" error)" || return 1
-  on_error="$(theme_color "$palette_json" on_error)" || return 1
-  surface="$(theme_color "$palette_json" surface)" || return 1
-  on_surface="$(theme_color "$palette_json" on_surface)" || return 1
-  surface_variant="$(theme_color "$palette_json" surface_variant)" || return 1
-  on_surface_variant="$(theme_color "$palette_json" on_surface_variant)" || return 1
-  outline="$(theme_color "$palette_json" outline)" || return 1
-  shadow="$(theme_color "$palette_json" shadow)" || return 1
-
-  cat <<PALETTE_JSON
-{
-    "primary": "${primary}",
-    "on_primary": "${on_primary}",
-    "secondary": "${secondary}",
-    "on_secondary": "${on_secondary}",
-    "tertiary": "${tertiary}",
-    "on_tertiary": "${on_tertiary}",
-    "error": "${error}",
-    "on_error": "${on_error}",
-    "surface": "${surface}",
-    "on_surface": "${on_surface}",
-    "surface_variant": "${surface_variant}",
-    "on_surface_variant": "${on_surface_variant}",
-    "outline": "${outline}",
-    "shadow": "${shadow}",
-    "hover": "${tertiary}",
-    "on_hover": "${on_tertiary}"
-  }
-PALETTE_JSON
-}
-
-wait_for_greeter_sync() {
-  local _
-  for _ in {1..10}; do
-    if greeter_synced_appearance_ready; then
-      return 0
-    fi
-    sleep 1
-  done
-  return 1
-}
-
-sync_greeter_from_wallpaper_fallback() {
-  local wallpaper_path="$1"
-  local theme_mode="$2"
-  local apply_helper=""
-  local staging="${tmpdir}/greeter-sync"
-  local wallpaper_name="wallpaper"
-  local wallpaper_target=""
-  local wallpaper_target_json=""
-  local palette_json=""
-  local greeter_palette_json=""
-  local theme_flag="--dark"
-
-  if [ -z "$wallpaper_path" ] || [ ! -f "$wallpaper_path" ]; then
-    echo -e "${YELLOW}Warning: cannot sync greeter wallpaper; invalid wallpaper path: ${wallpaper_path}${NC}"
-    return 1
-  fi
-
-  if ! apply_helper="$(command -v noctalia-greeter-apply-appearance)"; then
-    echo -e "${YELLOW}Warning: noctalia-greeter-apply-appearance not found; cannot sync greeter appearance.${NC}"
-    return 1
-  fi
-
-  case "$(basename "$wallpaper_path")" in
-    *.*) wallpaper_name="wallpaper.${wallpaper_path##*.}" ;;
-  esac
-
-  case "$theme_mode" in
-    light) theme_flag="--light" ;;
-    *) theme_mode="dark" ;;
-  esac
-
-  rm -rf "$staging"
-  mkdir -p "$staging"
-  cp -- "$wallpaper_path" "${staging}/${wallpaper_name}"
-
-  if ! palette_json="$(noctalia theme "$wallpaper_path" "$theme_flag" 2>/dev/null)" || [ -z "$palette_json" ]; then
-    echo -e "${YELLOW}Warning: failed to generate greeter palette from wallpaper.${NC}"
-    return 1
-  fi
-  if ! greeter_palette_json="$(build_greeter_palette_json "$palette_json")"; then
-    echo -e "${YELLOW}Warning: generated wallpaper palette is missing required greeter colors.${NC}"
-    return 1
-  fi
-
-  wallpaper_target="${greeter_state_dir}/${wallpaper_name}"
-  wallpaper_target_json="$(json_escape "$wallpaper_target")"
-
-  cat > "${staging}/appearance.json" <<APPEARANCE_JSON
-{
-  "version": 1,
-  "theme_mode": "${theme_mode}",
-  "palette": ${greeter_palette_json},
-  "wallpaper": {
-    "path": "${wallpaper_target_json}",
-    "fill_mode": "crop"
-  },
-  "corner_radius_scale": 1.0
-}
-APPEARANCE_JSON
-
-  if ! sudo "$apply_helper" "$staging"; then
-    echo -e "${YELLOW}Warning: failed to install generated greeter appearance.${NC}"
-    return 1
-  fi
-
-  if greeter_synced_appearance_ready; then
-    echo -e "${GREEN}Noctalia Greeter appearance synced from wallpaper.${NC}"
-    return 0
-  fi
-
-  echo -e "${YELLOW}Warning: greeter appearance install completed, but synced files are still missing.${NC}"
-  return 1
-}
-
-conf_path="${greeter_state_dir}/greeter.conf"
-if sudo test -f "$conf_path"; then
-  sudo cat "$conf_path" > "${tmpdir}/greeter.conf"
-else
-  cat > "${tmpdir}/greeter.conf" <<GREETER_CONF
-# noctalia-greeter greeter.conf
-# Wallpaper/colors are synced by: noctalia msg greeter-sync
-GREETER_CONF
-fi
-
-set_tmp_greeter_conf_value greeter_user greeter
-set_tmp_greeter_conf_value default_session Hyprland
-greeter_scheme="Catppuccin"
-if greeter_synced_appearance_ready; then
-  greeter_scheme="Synced"
-fi
-set_tmp_greeter_conf_value scheme "$greeter_scheme"
-
 sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
-sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "$conf_path"
+cat > "${tmpdir}/greeter.conf" <<GREETER_CONF
+# noctalia-greeter greeter.conf
+# Managed by chezmoi. Wallpaper/colors are synced by: noctalia msg greeter-sync
+greeter_user=greeter
+default_session=Hyprland
+session=Hyprland
+scheme=Synced
+GREETER_CONF
+sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "${greeter_state_dir}/greeter.conf"
 
 if command -v noctalia >/dev/null 2>&1; then
-  wallpaper_path=""
-  theme_mode="dark"
-  if wallpaper_path="$(noctalia_msg wallpaper-get 2>/dev/null)"; then
-    echo -e "${GREEN}Noctalia wallpaper: ${wallpaper_path}${NC}"
-  fi
-  if theme_mode="$(noctalia_msg theme-mode-get 2>/dev/null)"; then
-    :
+  if noctalia_msg greeter-sync >/dev/null 2>&1; then
+    echo -e "${GREEN}Noctalia Greeter appearance sync requested.${NC}"
   else
-    theme_mode="dark"
-  fi
-
-  if noctalia_msg greeter-sync >/dev/null 2>&1 && wait_for_greeter_sync; then
-    echo -e "${GREEN}Noctalia Greeter appearance sync completed.${NC}"
-  else
-    echo -e "${YELLOW}Warning: Noctalia Greeter IPC sync did not produce synced files; trying wallpaper fallback.${NC}"
-    sync_greeter_from_wallpaper_fallback "$wallpaper_path" "$theme_mode" || true
+    echo -e "${YELLOW}Warning: failed to request Noctalia Greeter appearance sync; run 'noctalia msg greeter-sync' after login.${NC}"
   fi
 else
   echo -e "${YELLOW}Noctalia Shell IPC is not available; run 'noctalia msg greeter-sync' after login to sync wallpaper/colors.${NC}"
