@@ -1,14 +1,3 @@
 
 # Brewfile hash: {{ include "dot_config/brew/Brewfile" | sha256sum }}
-if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
-  ci_brewfile="$(mktemp)"
-  while IFS= read -r line; do
-    case "$line" in
-      brew\ *) printf '%s\n' "$line" >> "$ci_brewfile" ;;
-    esac
-  done < "${HOME}/.config/brew/Brewfile"
-  brew bundle install --file="$ci_brewfile" --no-upgrade
-  rm -f "$ci_brewfile"
-else
-  brew bundle install --file="${HOME}/.config/brew/Brewfile"
-fi
+brew bundle install --file="${HOME}/.config/brew/Brewfile"
