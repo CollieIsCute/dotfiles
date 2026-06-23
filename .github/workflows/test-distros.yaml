@@ -46,6 +46,8 @@ jobs:
   macos:
     name: macos:latest
     runs-on: macos-latest
+    env:
+      HOMEBREW_BUNDLE_NO_JOBS: "1"
     steps:
       - run: brew install chezmoi
       - name: chezmoi init dotfiles
