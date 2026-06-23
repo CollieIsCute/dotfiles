@@ -29,6 +29,7 @@ fi
 
 session_bin="$(command -v noctalia-greeter-session)"
 setup_script="/usr/share/noctalia-greeter/setup_greeter_system.sh"
+greeter_state_dir="/var/lib/noctalia-greeter"
 
 if [ ! -x "$setup_script" ]; then
   echo -e "${YELLOW}Warning: ${setup_script} not found; keeping SDDM enabled.${NC}"
@@ -46,6 +47,35 @@ sudo install -d -o root -g root -m 0755 /etc/greetd
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
+
+noctalia_msg() {
+  if command -v timeout >/dev/null 2>&1; then
+    timeout 5s noctalia msg "$@"
+  else
+    noctalia msg "$@"
+  fi
+}
+
+sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
+cat > "${tmpdir}/greeter.conf" <<GREETER_CONF
+# noctalia-greeter greeter.conf
+# Managed by chezmoi. Wallpaper/colors are synced by: noctalia msg greeter-sync
+greeter_user=greeter
+default_session=Hyprland
+session=Hyprland
+scheme=Synced
+GREETER_CONF
+sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "${greeter_state_dir}/greeter.conf"
+
+if command -v noctalia >/dev/null 2>&1; then
+  if noctalia_msg greeter-sync >/dev/null 2>&1; then
+    echo -e "${GREEN}Noctalia Greeter appearance sync requested.${NC}"
+  else
+    echo -e "${YELLOW}Warning: failed to request Noctalia Greeter appearance sync; run 'noctalia msg greeter-sync' after login.${NC}"
+  fi
+else
+  echo -e "${YELLOW}Noctalia Shell IPC is not available; run 'noctalia msg greeter-sync' after login to sync wallpaper/colors.${NC}"
+fi
 
 cat > "${tmpdir}/config.toml" <<GREETD_CONFIG
 [terminal]
