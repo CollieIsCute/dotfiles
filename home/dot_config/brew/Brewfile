@@ -25,7 +25,8 @@ brew "ninja"
 brew "node"
 brew "onefetch"
 brew "openssh"
-brew "podman"
+brew "container", restart_service: (ENV["CI"] ? false : :changed) if Hardware::CPU.arm?
+brew "container-compose" if Hardware::CPU.arm?
 brew "ripgrep"
 brew "tig"
 brew "tldr"
