@@ -20,7 +20,8 @@ freeze_screen = false
 pipe_to_command = false
 
 [wallpaper]
-enabled = true
+# linux-wallpaperengine draws its own background layer when configured.
+enabled = {{ if and .wallpaperEngine.enabled (gt (len .wallpaperEngine.arguments) 0) }}false{{ else }}true{{ end }}
 fill_mode = "crop"
 directory = "~/.config/wallpapers"
 transition_on_startup = false

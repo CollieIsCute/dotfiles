@@ -38,6 +38,7 @@ packages:
       - libnewt
       - libreoffice-fresh
       - linux-headers
+      - linux-wallpaperengine-git
       - localsend-bin
       - mission-center
       - mattermost-desktop

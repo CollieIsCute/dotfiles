@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+enabled="{{ .wallpaperEngine.enabled }}"
+args=(
+{{- range .wallpaperEngine.arguments }}
+  {{ . | quote }}
+{{- end }}
+)
+
+if [[ "$enabled" != "true" || ${#args[@]} -eq 0 ]]; then
+  exit 0
+fi
+
+if ! command -v linux-wallpaperengine >/dev/null 2>&1; then
+  echo "linux-wallpaperengine is not installed; run chezmoi apply after package installation." >&2
+  exit 0
+fi
+
+exec linux-wallpaperengine "${args[@]}"

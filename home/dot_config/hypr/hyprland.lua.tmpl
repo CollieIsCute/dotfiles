@@ -82,6 +82,7 @@ local noctalia    = "noctalia msg"
 hl.on("hyprland.start", function()
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("fcitx5 -d")
+    hl.exec_cmd({{ printf "%s/.local/bin/linux-wallpaperengine-start" .chezmoi.homeDir | quote }})
     hl.exec_cmd("noctalia")
 end)
 

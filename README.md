@@ -67,8 +67,21 @@ Then `chezmoi apply`.
 - 6 Lua `hl.monitor(...)` rules (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
-- Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
-- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
+- Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper by default, lock screen, idle, screenshots, clipboard).
+- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly unless Wallpaper Engine is enabled.
+- Wallpaper Engine is opt-in through `data.wallpaperEngine.arguments`; when configured, Hyprland starts `linux-wallpaperengine-start` and Noctalia's static wallpaper layer is disabled.
+
+### Wallpaper Engine (Hyprland)
+
+Arch/CachyOS installs `linux-wallpaperengine-git` via `paru`; other Linux machines need a `linux-wallpaperengine` binary on `PATH`. Install and own the official Steam Wallpaper Engine assets first. Upstream auto-detects the usual Steam library paths, then `arguments` are passed directly to `linux-wallpaperengine` at Hyprland startup:
+
+```toml
+[data.wallpaperEngine]
+enabled = true
+arguments = ["--silent", "--fps", "30", "--scaling", "fill", "1845706469"]
+```
+
+Use the same argument list shape for multi-monitor commands, for example `--screen-root ... --bg ...` from upstream's README.
 
 ## Keymappings
 
@@ -164,6 +177,7 @@ Then `chezmoi apply`.
 
 - [`hyprland`](https://hyprland.org) — Wayland compositor.
 - [`noctalia`](https://github.com/noctalia-dev/noctalia) — desktop shell: bar, launcher, notifications, wallpaper, lock screen, idle behavior, screenshots, clipboard, and control center.
+- [`linux-wallpaperengine`](https://github.com/Almamu/linux-wallpaperengine) — opt-in live wallpapers from Steam Wallpaper Engine assets on Hyprland.
 - [`sddm`](https://github.com/sddm/sddm) — bootstrap and fallback display manager for fresh Arch installs.
 - [`greetd`](https://git.sr.ht/~kennylevinsen/greetd) + [`Noctalia Greeter`](https://github.com/noctalia-dev/noctalia-greeter) — final Wayland login greeter after AUR packages are installed.
 - [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
@@ -224,10 +238,11 @@ Then `chezmoi apply`.
 ## Layout
 
 ```
-home/                            # chezmoi source root (.chezmoiroot=home)
-├── .chezmoidata/packages.yaml   # canonical package list (pacman + apt)
-├── .chezmoiexternal.toml.tmpl   # auto-pulled theme files
-├── .chezmoiscripts/             # run_once / run_onchange bootstrap
-├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
-└── dot_config/                  # → ~/.config/...
+home/                              # chezmoi source root (.chezmoiroot=home)
+├── .chezmoidata/                  # package list + feature defaults
+├── .chezmoiexternal.toml.tmpl     # auto-pulled theme files
+├── .chezmoiscripts/               # run_once / run_onchange bootstrap
+├── .chezmoitemplates/             # macOS install template (Brewfile pass-thru)
+├── dot_config/                    # → ~/.config/...
+└── dot_local/                     # → ~/.local/...
 ```
