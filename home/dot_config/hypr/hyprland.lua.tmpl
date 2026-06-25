@@ -80,6 +80,13 @@ local noctalia    = "noctalia msg"
 -------------------
 
 hl.on("hyprland.start", function()
+    -- Keep D-Bus/systemd-activated portals in the Hyprland session.
+    hl.exec_cmd(
+        "/usr/bin/sh -lc 'export XDG_CURRENT_DESKTOP=Hyprland; " ..
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && " ..
+        "systemctl --user restart xdg-desktop-portal-hyprland.service && " ..
+        "systemctl --user restart xdg-desktop-portal.service'"
+    )
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd({{ printf "%s/.local/bin/linux-wallpaperengine-start" .chezmoi.homeDir | quote }})
