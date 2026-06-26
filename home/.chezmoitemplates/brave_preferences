@@ -1,0 +1,39 @@
+{{- $in := default "{}" .chezmoi.stdin -}}
+{{- $prefs := fromJson $in -}}
+
+{{- $rules := list
+      (dict "path" (list "brave" "tabs" "vertical_tabs_enabled") "want" true)
+      (dict "path" (list "brave" "tabs" "vertical_tabs_hide_completely_when_collapsed")
+            "want" true)
+      (dict "path" (list "brave" "tabs" "vertical_tabs_expanded_state_per_window")
+            "want" true)
+      (dict "path" (list "brave" "accelerators" "56215") "want" (list "Control+Shift+KeyF"))
+-}}
+
+{{- $patchFlag := 0 -}}
+{{- range $r := $rules -}}
+  {{- $value := $prefs -}}
+  {{- $missingKey := 0 -}}
+  {{- range $key := $r.path -}}
+    {{- if eq $missingKey 0 -}}
+      {{- if hasKey $value $key -}}
+        {{- $value = index $value $key -}}
+      {{- else -}}
+        {{- $missingKey = 1 -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if or (eq $missingKey 1) (ne (toJson $value) (toJson $r.want)) -}}
+    {{- $patchFlag = 1 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if eq $patchFlag 0 -}}
+  {{- $in -}}
+{{- else -}}
+  {{- $patched := $prefs -}}
+  {{- range $r := $rules -}}
+    {{- $patched = ($patched | setValueAtPath $r.path $r.want) -}}
+  {{- end -}}
+  {{- toJson $patched -}}
+{{- end -}}
