@@ -1,9 +1,6 @@
-
-{{- /* chezmoi:modify-template */ -}}
 {{- $in := default "{}" .chezmoi.stdin -}}
 {{- $prefs := fromJson $in -}}
 
-{{- /* 想要強制的設定：每條規則是 {path: [...], want: <value>} */ -}}
 {{- $rules := list
       (dict "path" (list "brave" "tabs" "vertical_tabs_enabled") "want" true)
       (dict "path" (list "brave" "tabs" "vertical_tabs_hide_completely_when_collapsed")
@@ -13,7 +10,6 @@
       (dict "path" (list "brave" "accelerators" "56215") "want" (list "Control+Shift+KeyF"))
 -}}
 
-{{- /* 檢查所有規則：缺鍵或值不相等 -> 需要修補 */ -}}
 {{- $patchFlag := 0 -}}
 {{- range $r := $rules -}}
   {{- $value := $prefs -}}
@@ -32,7 +28,6 @@
   {{- end -}}
 {{- end -}}
 
-{{- /* 按需修補：一次把所有規則 setValueAtPath，否則原樣輸出 */ -}}
 {{- if eq $patchFlag 0 -}}
   {{- $in -}}
 {{- else -}}
@@ -42,4 +37,3 @@
   {{- end -}}
   {{- toJson $patched -}}
 {{- end -}}
-

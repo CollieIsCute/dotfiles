@@ -6,10 +6,15 @@
 .config/brew/**
 .config/karabiner
 .config/karabiner/**
+Library
+Library/**
 {{- end }}
 
 # Linux desktop / XDG targets.
 {{- if ne .chezmoi.os "linux" }}
+.config/BraveSoftware
+.config/BraveSoftware/**
+.config/brave-origin-flags.conf
 .config/code-flags.conf
 .config/cursor-flags.conf
 .config/electron-flags.conf
