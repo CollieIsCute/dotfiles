@@ -70,6 +70,7 @@ packages:
       - ttf-jetbrains-mono-nerd
       - typst
       - unzip
+      - vesktop-bin
       - wireplumber
       - wget
       - xdg-desktop-portal-gtk

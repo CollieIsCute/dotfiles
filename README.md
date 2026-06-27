@@ -176,6 +176,13 @@ Then `chezmoi apply`.
 - If Noctalia Greeter shows a black screen, switch to a TTY with `Ctrl+Alt+F2` and run `sudo systemctl disable --now greetd.service && sudo systemctl enable --now sddm.service`.
 - If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB, then run the same service switch.
 
+### Vesktop Vencord cache recovery
+
+- Arch-based installs include `vesktop-bin`, but Vencord runtime files under `~/.config/vesktop/sessionData/vencordFiles` are managed by Vesktop, not by chezmoi.
+- Vesktop only recreates that cache when required files are missing; it does not check the cached Vencord commit on every startup.
+- If `Vencord`, `Plugins`, or `Vesktop Settings` disappears from Discord settings, or screen sharing fails after the portal picker with `CAPTURE_FAILURE`, quit Vesktop completely and run `vesktop-repair-vencord-cache`.
+- The helper only renames the cache to a timestamped backup. It does not run automatically or overwrite files with a separate downloader, so Vesktop remains the single updater for its runtime files.
+
 ### macOS extras
 
 - [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.

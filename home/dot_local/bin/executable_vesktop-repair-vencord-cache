@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cache_dir="${VESKTOP_VENCORD_CACHE:-${XDG_CONFIG_HOME:-$HOME/.config}/vesktop/sessionData/vencordFiles}"
+
+if pgrep -u "$(id -u)" -f '[v]esktop/app.asar|[d]ev.vencord.Vesktop' >/dev/null; then
+  printf 'Vesktop is running. Quit Vesktop completely before repairing the Vencord cache.\n' >&2
+  exit 1
+fi
+
+if [[ ! -e "$cache_dir" ]]; then
+  printf 'No Vencord cache found at %s\n' "$cache_dir"
+  printf 'Start Vesktop to let it create a fresh cache.\n'
+  exit 0
+fi
+
+backup_dir="${cache_dir}.backup-$(date +%Y%m%d-%H%M%S)"
+mv "$cache_dir" "$backup_dir"
+
+printf 'Moved stale Vencord cache to %s\n' "$backup_dir"
+printf 'Start Vesktop to download fresh Vencord runtime files.\n'
