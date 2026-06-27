@@ -8,7 +8,6 @@ concurrency:
 
 env:
   CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
-  CHEZMOI_VERBOSE: 1
 
 jobs:
   linux:
