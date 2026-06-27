@@ -30,8 +30,19 @@ path = "~/.config/wallpapers/xp_wallpaper.jpg"
 
 [theme]
 mode = "dark"
-source = "builtin"
-builtin = "Catppuccin"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+
+[theme.templates]
+enable_builtin_templates = false
+enable_community_templates = false
+builtin_ids = []
+community_ids = []
+
+[theme.templates.user.kitty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/kitty.conf"
+output_path = "$XDG_CONFIG_HOME/kitty/themes/noctalia.conf"
+post_hook = "pkill -x -USR1 kitty >/dev/null 2>&1 || true"
 
 [notification]
 enable_daemon = true
