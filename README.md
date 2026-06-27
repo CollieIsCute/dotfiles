@@ -27,7 +27,7 @@ chezmoi init --apply collieiscute -v
 
 ### Theme
 
-- **Catppuccin** everywhere. Mocha by default; kitty uses **Macchiato**; Noctalia uses its built-in **Catppuccin** palette.
+- **Catppuccin** by default on macOS and non-Noctalia apps. Kitty uses **Macchiato** on macOS; on Linux, Noctalia renders Kitty colors from the current wallpaper.
 - Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
@@ -57,10 +57,11 @@ Then `chezmoi apply`.
 - `set-clipboard on` + `allow-passthrough` → OSC 52 yank works over SSH without X11 forwarding.
 - Sessions auto-restore via tmux-resurrect + tmux-continuum on tmux start.
 
-### Kitty (macOS)
+### Kitty
 
 - Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
+- macOS loads Catppuccin Macchiato directly. Linux keeps Catppuccin as a fallback and then `globinclude`s Noctalia's generated `themes/noctalia.conf` so wallpaper changes can update Kitty without Noctalia editing `kitty.conf`.
 
 ### Hyprland
 
@@ -69,6 +70,7 @@ Then `chezmoi apply`.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
+- Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
 
 ## Keymappings
 
