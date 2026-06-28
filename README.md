@@ -27,8 +27,8 @@ chezmoi init --apply collieiscute -v
 
 ### Theme
 
-- **Catppuccin** by default on macOS and non-Noctalia apps. Kitty uses **Macchiato** on macOS; on Linux, Noctalia renders Kitty colors from the current wallpaper.
-- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
+- **Catppuccin** by default on macOS and non-Noctalia apps. On Linux, Noctalia renders Kitty, Alacritty, and Ghostty colors from the current wallpaper.
+- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### Per-host config switch
@@ -62,6 +62,7 @@ Then `chezmoi apply`.
 - Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
 - macOS loads Catppuccin Macchiato directly. Linux keeps Catppuccin as a fallback and then `globinclude`s Noctalia's generated `themes/noctalia.conf` so wallpaper changes can update Kitty without Noctalia editing `kitty.conf`.
+- Alacritty and Ghostty use the same ownership model: chezmoi owns the main config, while Noctalia only rewrites generated theme overlays under each terminal's theme directory.
 
 ### Hyprland
 
@@ -159,7 +160,7 @@ Then `chezmoi apply`.
 
 - [`kitty`](https://sw.kovidgoyal.net/kitty/) — macOS daily driver (AeroSpace-friendly tabs).
 - [`wezterm`](https://wezterm.org) — cross-platform fallback.
-- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Mocha.
+- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Macchiato fallback.
 - [`alacritty`](https://github.com/alacritty/alacritty) — minimal GPU terminal.
 
 ### Wayland stack (Hyprland)
