@@ -39,6 +39,15 @@ enable_community_templates = false
 builtin_ids = []
 community_ids = []
 
+[theme.templates.user.alacritty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/alacritty.toml"
+output_path = "$XDG_CONFIG_HOME/alacritty/themes/noctalia.toml"
+
+[theme.templates.user.ghostty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/ghostty"
+output_path = "$XDG_CONFIG_HOME/ghostty/themes/noctalia"
+post_hook = "pgrep -f ghostty >/dev/null && pkill -SIGUSR2 ghostty || true"
+
 [theme.templates.user.kitty]
 input_path = "$XDG_CONFIG_HOME/noctalia/templates/kitty.conf"
 output_path = "$XDG_CONFIG_HOME/kitty/themes/noctalia.conf"

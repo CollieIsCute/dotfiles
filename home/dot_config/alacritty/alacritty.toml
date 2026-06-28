@@ -1,5 +1,8 @@
 [general]
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+import = [
+    "~/.config/alacritty/catppuccin-mocha.toml",
+    "~/.config/alacritty/themes/noctalia.toml",
+]
 
 [window]
 dimensions = { columns = 100, lines = 30 }

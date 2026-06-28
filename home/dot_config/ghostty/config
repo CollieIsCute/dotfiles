@@ -4,6 +4,10 @@
 # Font
 font-family = JetBrainsMono Nerd Font
 
+# Catppuccin is the fallback; Noctalia owns only the generated overlay theme.
+theme = Catppuccin Macchiato
+config-file = ?themes/noctalia
+
 # SSH terminfo auto-installation
 # See: https://ghostty.org/docs/help/terminfo#ssh
 shell-integration-features = ssh-terminfo,ssh-env
