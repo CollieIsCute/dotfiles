@@ -141,7 +141,7 @@ Then `chezmoi apply`.
 | Alias | Expands to |
 |---|---|
 | `vi` | `nvim` (when nvim is installed) |
-| `buu` | `brew update && brew upgrade --no-ask && fisher update` (macOS only) |
+| `buu` | `brew update && brew upgrade -y && fisher update` (macOS only) |
 
 ## Tools
 

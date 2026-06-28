@@ -11,8 +11,9 @@ end
 # Homebrew environment
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx HOMEBREW_NO_ENV_HINTS 1
+set -gx HOMEBREW_NO_ASK 1
 
-alias buu "brew update && brew upgrade --no-ask && fisher update"
+alias buu "brew update && brew upgrade -y && fisher update"
 
 fish_add_path /opt/homebrew/bin
 /opt/homebrew/bin/brew shellenv | source
