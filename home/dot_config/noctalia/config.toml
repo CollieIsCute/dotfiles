@@ -74,7 +74,10 @@ tint_intensity = 0.3
 enabled = true
 
 [weather]
-enabled = false
+enabled = true
+
+[location]
+address = "taipei"
 
 [audio]
 enable_overdrive = false
@@ -114,8 +117,8 @@ position = "top"
 auto_hide = false
 reserve_space = true
 layer = "top"
-thickness = 30
-background_opacity = 1.0
+thickness = 33
+background_opacity = 0.0
 radius = 0
 margin_ends = 0
 margin_edge = 0
@@ -125,7 +128,9 @@ scale = 1.1
 shadow = false
 capsule = true
 capsule_fill = "surface_variant"
-capsule_opacity = 0.5
+capsule_opacity = 0.3
+color = "primary"
+icon_color = "primary"
 start = ["tray", "media"]
 center = ["clock", "workspaces"]
 end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
@@ -135,14 +140,14 @@ id = "net-status"
 members = ["net-down", "net-up"]
 fill = "surface_variant"
 padding = 6.0
-opacity = 0.8
+opacity = 0.3
 
 [[bar.main.capsule_group]]
 id = "sys-status"
 members = ["cpu", "ram", "temp", "battery"]
 fill = "surface_variant"
 padding = 3.0
-opacity = 0.7
+opacity = 0.3
 
 [widget.clock]
 format = "{:%B %d %H:%M:%S}"
