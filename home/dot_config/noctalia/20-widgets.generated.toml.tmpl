@@ -9,14 +9,8 @@ Keep source portable by deriving those values from monitor roles and ratios.
 {{- $center := index $outputs 1 -}}
 {{- $right := index $outputs 2 -}}
 {{- $centerName := index $center "name" -}}
-{{- $centerTransform := printf "%v" (index $center "transform") -}}
-{{- $centerRotated := or (eq $centerTransform "1") (eq $centerTransform "3") (eq $centerTransform "5") (eq $centerTransform "7") -}}
 {{- $centerWidth := divf (index $center "width") (index $center "scale") -}}
 {{- $centerHeight := divf (index $center "height") (index $center "scale") -}}
-{{- if $centerRotated -}}
-{{- $centerWidth = divf (index $center "height") (index $center "scale") -}}
-{{- $centerHeight = divf (index $center "width") (index $center "scale") -}}
-{{- end -}}
 {{- $rightName := index $right "name" -}}
 {{- $rightTransform := printf "%v" (index $right "transform") -}}
 {{- $rightRotated := or (eq $rightTransform "1") (eq $rightTransform "3") (eq $rightTransform "5") (eq $rightTransform "7") -}}
@@ -94,14 +88,8 @@ visible = true
 
 {{ range $monitor := $outputs }}
 {{- $monitorName := index $monitor "name" -}}
-{{- $monitorTransform := printf "%v" (index $monitor "transform") -}}
-{{- $monitorRotated := or (eq $monitorTransform "1") (eq $monitorTransform "3") (eq $monitorTransform "5") (eq $monitorTransform "7") -}}
 {{- $monitorWidth := divf (index $monitor "width") (index $monitor "scale") -}}
 {{- $monitorHeight := divf (index $monitor "height") (index $monitor "scale") -}}
-{{- if $monitorRotated -}}
-{{- $monitorWidth = divf (index $monitor "height") (index $monitor "scale") -}}
-{{- $monitorHeight = divf (index $monitor "width") (index $monitor "scale") -}}
-{{- end -}}
 [lockscreen_widgets.widget."lockscreen-login-box@{{ $monitorName }}"]
 type = "login_box"
 output = "{{ $monitorName }}"
