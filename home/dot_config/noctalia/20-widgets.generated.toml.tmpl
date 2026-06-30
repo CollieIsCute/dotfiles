@@ -4,7 +4,7 @@ Keep source portable by deriving those values from monitor roles and ratios.
 */ -}}
 {{- $hyprland := and (eq .chezmoi.os "linux") (lookPath "hyprctl") (env "HYPRLAND_INSTANCE_SIGNATURE") (env "XDG_RUNTIME_DIR") -}}
 {{- if $hyprland -}}
-{{- $outputs := (output "hyprctl" "monitors" "-j" | fromJson | jq "map(select(((.disabled // false) == false) and ((.mirrorOf // \"none\") == \"none\"))) | sort_by(.x)" | first) -}}
+{{- $outputs := (output "hyprctl" "monitors" "-j" | jq "fromjson | map(select((.disabled != true) and ((.mirrorOf // \"none\") == \"none\"))) | sort_by(.x)" | first) -}}
 {{- if ge (len $outputs) 3 -}}
 {{- $center := index $outputs 1 -}}
 {{- $right := index $outputs 2 -}}
@@ -12,8 +12,14 @@ Keep source portable by deriving those values from monitor roles and ratios.
 {{- $centerWidth := divf (index $center "width") (index $center "scale") -}}
 {{- $centerHeight := divf (index $center "height") (index $center "scale") -}}
 {{- $rightName := index $right "name" -}}
+{{- $rightTransform := printf "%v" (index $right "transform") -}}
+{{- $rightRotated := or (eq $rightTransform "1") (eq $rightTransform "3") (eq $rightTransform "5") (eq $rightTransform "7") -}}
 {{- $rightWidth := divf (index $right "width") (index $right "scale") -}}
 {{- $rightHeight := divf (index $right "height") (index $right "scale") -}}
+{{- if $rightRotated -}}
+{{- $rightWidth = divf (index $right "height") (index $right "scale") -}}
+{{- $rightHeight = divf (index $right "width") (index $right "scale") -}}
+{{- end -}}
 {{- $lockClockHeightRatio := 0.1666666667 -}}
 {{- $lockLoginHeightRatio := divf 70.0 1152.0 -}}
 {{- $lockGroupGapRatio := divf 40.0 1152.0 -}}
