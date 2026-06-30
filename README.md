@@ -72,6 +72,8 @@ Then `chezmoi apply`.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
 - Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
+- Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after moving between home/office monitor layouts.
+- If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
 
 ## Keymappings
 
