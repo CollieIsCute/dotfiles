@@ -57,15 +57,22 @@ noctalia_msg() {
 }
 
 sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
-cat > "${tmpdir}/greeter.conf" <<GREETER_CONF
-# noctalia-greeter greeter.conf
+cat > "${tmpdir}/greeter.toml" <<GREETER_TOML
+# noctalia-greeter greeter.toml
 # Managed by chezmoi. Wallpaper/colors are synced by: noctalia msg greeter-sync
-greeter_user=greeter
-default_session=Hyprland
-session=Hyprland
-scheme=Synced
-GREETER_CONF
-sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.conf" "${greeter_state_dir}/greeter.conf"
+
+[session]
+default = "Hyprland"
+last = "Hyprland"
+
+[appearance]
+scheme = "Synced"
+GREETER_TOML
+sudo install -o greeter -g greeter -m 0644 "${tmpdir}/greeter.toml" "${greeter_state_dir}/greeter.toml"
+
+# Current noctalia-greeter reads greeter.toml. Remove the old flat config so
+# future debugging does not mistake stale state for active configuration.
+sudo rm -f "${greeter_state_dir}/greeter.conf"
 
 if command -v noctalia >/dev/null 2>&1; then
   if noctalia_msg greeter-sync >/dev/null 2>&1; then
