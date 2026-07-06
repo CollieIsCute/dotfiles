@@ -46,8 +46,8 @@ packages:
       - network-manager-applet
       - net-tools
       - nethogs
-      - noctalia-git
-      - noctalia-greeter-git
+      - noctalia
+      - noctalia-greeter
       - nwg-look
       - opencode-bin
       - openssh
