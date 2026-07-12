@@ -12,14 +12,9 @@ ai:
 
   claude:
     marketplaces:
-      - name: superclaude
-        source: SuperClaude-Org/SuperClaude_Plugin
-      - name: superpowers-marketplace
-        source: obra/superpowers-marketplace
       - name: ponytail
         source: DietrichGebert/ponytail
     plugins:
-      - superpowers@superpowers-marketplace
       - ponytail@ponytail
 
   codex:
@@ -31,6 +26,5 @@ ai:
 
   opencode:
     plugins:
-      - "@bybrawe/opencode-loop"
       - "@khalilgharbaoui/opencode-claude-code-plugin"
       - "@dietrichgebert/ponytail"

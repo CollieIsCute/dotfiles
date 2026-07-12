@@ -197,7 +197,6 @@ Then `chezmoi apply`.
 - Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
-- OpenCode Loop: [`@bybrawe/opencode-loop`](https://github.com/ByBrawe/opencode-loop) is loaded through OpenCode's native npm plugin support, with `/loop*` command stubs managed under `~/.config/opencode/commands/`.
 - OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin list, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
 
 ### AI extensions
