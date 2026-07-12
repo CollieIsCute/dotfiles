@@ -197,8 +197,13 @@ Then `chezmoi apply`.
 - Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
-- OpenCode Loop: [`@bybrawe/opencode-loop@0.5.1`](https://github.com/ByBrawe/opencode-loop) is loaded through OpenCode's native npm plugin support, with `/loop*` command stubs managed under `~/.config/opencode/commands/`.
-- OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin@0.6.2`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin path, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
+- OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin list, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
+
+### AI extensions
+
+- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for user skills, marketplaces, and plugins across Claude Code, Codex, and OpenCode. Entries intentionally track upstream latest releases.
+- `run_after_5-sync-ai-extensions.sh.tmpl` synchronizes Claude Code and Codex plugins and copies listed skills to each CLI's user skill directory on every `chezmoi apply`. Removing an entry from the inventory does not uninstall existing local content.
+- OpenCode plugins are rendered into `~/.config/opencode/opencode.json`; OpenCode installs them at startup. Review and trust new Codex hooks manually with `/hooks`.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
