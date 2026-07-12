@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+info() {
+  printf 'AI extensions: %s\n' "$*"
+}
+
+skill_destination() {
+  case "$1" in
+    claude) printf '%s\n' "$HOME/.claude/skills" ;;
+    codex) printf '%s\n' "$HOME/.agents/skills" ;;
+    opencode) printf '%s\n' "$HOME/.config/opencode/skills" ;;
+    *)
+      printf 'Unknown AI skill host: %s\n' "$1" >&2
+      return 1
+      ;;
+  esac
+}
+
+sync_skill_collection() {
+  local source="$1"
+  local path="$2"
+  shift 2
+
+  if [[ ! -d "$source/$path" ]]; then
+    printf 'AI skill source is missing: %s\n' "$source/$path" >&2
+    return 1
+  fi
+
+  local host destination skill
+  for host in "$@"; do
+    destination="$(skill_destination "$host")"
+    mkdir -p "$destination"
+    for skill in "$source/$path"/*; do
+      [[ -d "$skill" ]] || continue
+      cp -a "$skill" "$destination/"
+    done
+  done
+}
+
+sync_git_skill_collection() {
+  local id="$1"
+  local source="$2"
+  local path="$3"
+  shift 3
+  local checkout="$HOME/.local/share/chezmoi-ai/sources/$id"
+
+  mkdir -p "$(dirname "$checkout")"
+  if [[ ! -d "$checkout/.git" ]]; then
+    info "Cloning skill collection $id"
+    git clone --depth=1 "$source" "$checkout"
+  elif git -C "$checkout" diff --quiet && git -C "$checkout" diff --cached --quiet; then
+    info "Updating skill collection $id"
+    git -C "$checkout" pull --ff-only
+  else
+    info "Keeping locally modified skill collection $id"
+  fi
+
+  sync_skill_collection "$checkout" "$path" "$@"
+}
+
+if command -v claude >/dev/null 2>&1; then
+  info "Synchronizing Claude Code plugins"
+  {{- range .ai.claude.marketplaces }}
+  if ! claude plugin marketplace list --json | grep -Fq '"name": "{{ .name }}"'; then
+    claude plugin marketplace add "{{ .source }}" --scope user
+  fi
+  claude plugin marketplace update "{{ .name }}"
+  {{- end }}
+  {{- range .ai.claude.plugins }}
+  if claude plugin list --json | grep -Fq '"id": "{{ . }}"'; then
+    claude plugin update "{{ . }}" --scope user
+  else
+    claude plugin install "{{ . }}" --scope user
+  fi
+  {{- end }}
+else
+  info "Claude Code is not installed; skipping"
+fi
+
+if command -v codex >/dev/null 2>&1; then
+  info "Synchronizing Codex plugins"
+  {{- range .ai.codex.marketplaces }}
+  if ! codex plugin marketplace list --json | grep -Fq '"name": "{{ .name }}"'; then
+    codex plugin marketplace add "{{ .source }}" --json
+  fi
+  codex plugin marketplace upgrade "{{ .name }}" --json
+  {{- end }}
+  {{- range .ai.codex.plugins }}
+  codex plugin add "{{ . }}" --json
+  {{- end }}
+else
+  info "Codex is not installed; skipping"
+fi
+
+{{- range .ai.skills }}
+{{- if eq .type "git" }}
+sync_git_skill_collection "{{ .id }}" "{{ .source }}" "{{ .path }}"{{ range .hosts }} "{{ . }}"{{ end }}
+{{- else if eq .type "local" }}
+sync_skill_collection "$HOME/{{ .path }}" "."{{ range .hosts }} "{{ . }}"{{ end }}
+{{- end }}
+{{- end }}
