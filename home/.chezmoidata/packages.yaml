@@ -29,6 +29,7 @@ packages:
       - glab
       - go
       - gping
+      - gpu-screen-recorder
       - hugo
       - hyprland
       - keepassxc
