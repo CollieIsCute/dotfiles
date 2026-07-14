@@ -201,9 +201,9 @@ Then `chezmoi apply`.
 
 ### AI extensions
 
-- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for user skills, marketplaces, and plugins across Claude Code, Codex, and OpenCode. Entries intentionally track upstream latest releases.
-- `run_after_5-sync-ai-extensions.sh.tmpl` synchronizes Claude Code and Codex plugins and copies listed skills to each CLI's user skill directory on every `chezmoi apply`. Removing an entry from the inventory does not uninstall existing local content.
-- OpenCode plugins are rendered into `~/.config/opencode/opencode.json`; OpenCode installs them at startup. Review and trust new Codex hooks manually with `/hooks`.
+- `sync-ai-extensions` checks npm versions and Git revisions in parallel during every full `chezmoi apply`, then runs plugin managers only when an installed version is stale or missing.
+- Shared skills are copied to each CLI's user skill directory from one checkout under `~/.local/share/chezmoi-ai`. Review and trust new Codex hooks manually with `/hooks`.
+- OpenCode plugins are declared in `~/.config/opencode/opencode.json`; the sync command refreshes a missing or stale generated package cache.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 

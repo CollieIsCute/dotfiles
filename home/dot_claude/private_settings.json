@@ -14,21 +14,15 @@
   "model": "opus",
   "effortLevel": "max",
   "enabledPlugins": {
-    {{- range $index, $plugin := .ai.claude.plugins }}
-    {{- if $index }},{{ end }}
-    "{{ $plugin }}": true
-    {{- end }}
+    "ponytail@ponytail": true
   },
   "extraKnownMarketplaces": {
-    {{- range $index, $marketplace := .ai.claude.marketplaces }}
-    {{- if $index }},{{ end }}
-    "{{ $marketplace.name }}": {
+    "ponytail": {
       "source": {
         "source": "github",
-        "repo": "{{ $marketplace.source }}"
+        "repo": "DietrichGebert/ponytail"
       }
     }
-    {{- end }}
   },
   "theme": "dark",
   "verbose": true,

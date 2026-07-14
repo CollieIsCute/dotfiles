@@ -42,6 +42,7 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -u dev bash /home/dev/.local/share/chezmoi/tests/sync-ai-extensions.sh
 
   macos:
     name: macos:latest
@@ -53,3 +54,4 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          bash "$HOME/.local/share/chezmoi/tests/sync-ai-extensions.sh"

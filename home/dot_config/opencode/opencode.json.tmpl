@@ -2,10 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "shell": "fish",
   "plugin": [
-    {{- range $index, $plugin := .ai.opencode.plugins }}
-    {{- if $index }},{{ end }}
-    "{{ $plugin }}"
-    {{- end }}
+    "@khalilgharbaoui/opencode-claude-code-plugin",
+    "@dietrichgebert/ponytail"
   ],
   "permission": {
     "bash": "allow",
