@@ -5,13 +5,26 @@ polkit_agent = false
 clipboard_enabled = true
 clipboard_history_max_entries = 100
 clipboard_auto_paste = "auto"
+screen_time_enabled = true
 
 [shell.panel]
-launcher_placement = "centered"
-clipboard_placement = "centered"
+launcher_placement = "floating"
+launcher_position = "center"
+clipboard_placement = "floating"
+clipboard_position = "center"
 control_center_placement = "attached"
 wallpaper_placement = "attached"
 session_placement = "attached"
+
+[shell.animation]
+speed = 1.8
+
+[shell.screen_corners]
+enabled = true
+size = 13
+
+[shell.shadow]
+direction = "center"
 
 [shell.screenshot]
 save_to_file = false
@@ -21,7 +34,7 @@ pipe_to_command = false
 
 [wallpaper]
 enabled = true
-fill_mode = "crop"
+fill_mode = "stretch"
 directory = "~/.config/wallpapers"
 transition_on_startup = false
 
@@ -63,6 +76,7 @@ background_opacity = 0.97
 position = "top_center"
 orientation = "horizontal"
 scale = 1.0
+background_opacity = 0.14
 
 [lockscreen]
 enabled = true
@@ -72,6 +86,8 @@ tint_intensity = 0.3
 
 [system.monitor]
 enabled = true
+cpu_temp_activity_threshold = 70
+cpu_temp_critical_threshold = 100
 
 [weather]
 enabled = true
@@ -107,6 +123,9 @@ left = ["left"]
 right = ["right"]
 up = ["up"]
 down = ["down"]
+
+[plugins]
+enabled = ["noctalia/screen_recorder", "noctalia/timer"]
 
 [bar]
 order = ["main"]
@@ -195,4 +214,11 @@ hide_when_no_unread = false
 drawer = false
 
 [dock]
-enabled = false
+enabled = true
+active_monitor_only = true
+auto_hide = true
+background_opacity = 0.75
+icon_size = 33
+magnification_scale = 1.8
+reserve_space = false
+shadow = false
