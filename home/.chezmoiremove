@@ -1,4 +1,5 @@
 .config/hypr/hyprland.conf
+.config/cursor-flags.conf
 {{ if eq .chezmoi.os "linux" }}
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
