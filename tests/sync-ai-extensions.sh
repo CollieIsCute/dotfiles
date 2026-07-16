@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "$repo/home/dot_local/bin/executable_sync-ai-extensions"
+source "$repo/home/.chezmoiscripts/run_after_5-sync-ai-extensions.sh"
 
 [[ "$(json_version '{"version":"0.9.2"}')" == "0.9.2" ]]
 
