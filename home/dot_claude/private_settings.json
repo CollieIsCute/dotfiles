@@ -11,6 +11,9 @@
       "WebSearch"
     ]
   },
+  "env": {
+    "CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE": "1"
+  },
   "model": "opus",
   "effortLevel": "max",
   "enabledPlugins": {
@@ -21,7 +24,8 @@
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
-      }
+      },
+      "autoUpdate": true
     }
   },
   "theme": "dark",
