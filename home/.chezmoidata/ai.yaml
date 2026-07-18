@@ -1,26 +1,17 @@
 ai:
-  skills:
-    - id: addyosmani-agent-skills
-      type: git
-      source: https://github.com/addyosmani/agent-skills.git
-      path: skills
-      hosts: [claude, codex, opencode]
-    - id: respond-structured
-      type: local
-      path: .local/share/ai-skills
-      hosts: [claude, codex, opencode]
-
   claude:
     marketplaces:
-      - name: ponytail
-        source: DietrichGebert/ponytail
+      ponytail:
+        source:
+          source: github
+          repo: DietrichGebert/ponytail
+        autoUpdate: true
     plugins:
-      - ponytail@ponytail
+      ponytail@ponytail: true
 
   codex:
     marketplaces:
-      - name: ponytail
-        source: DietrichGebert/ponytail
+      ponytail: DietrichGebert/ponytail
     plugins:
       - ponytail@ponytail
 
@@ -28,3 +19,15 @@ ai:
     plugins:
       - "@khalilgharbaoui/opencode-claude-code-plugin"
       - "@dietrichgebert/ponytail"
+
+  skills:
+    git:
+      - id: addyosmani-agent-skills
+        source: https://github.com/addyosmani/agent-skills.git
+        path: skills
+    local:
+      - .local/share/ai-skills
+    destinations:
+      - .claude/skills
+      - .agents/skills
+      - .config/opencode/skills
