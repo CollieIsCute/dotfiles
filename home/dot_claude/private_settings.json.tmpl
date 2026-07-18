@@ -16,18 +16,8 @@
   },
   "model": "opus",
   "effortLevel": "max",
-  "enabledPlugins": {
-    "ponytail@ponytail": true
-  },
-  "extraKnownMarketplaces": {
-    "ponytail": {
-      "source": {
-        "source": "github",
-        "repo": "DietrichGebert/ponytail"
-      },
-      "autoUpdate": true
-    }
-  },
+  "enabledPlugins": {{ .ai.claude.plugins | toPrettyJson }},
+  "extraKnownMarketplaces": {{ .ai.claude.marketplaces | toPrettyJson }},
   "theme": "dark",
   "verbose": true,
   "skipAutoPermissionPrompt": true

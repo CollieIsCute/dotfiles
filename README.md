@@ -201,9 +201,11 @@ Then `chezmoi apply`.
 
 ### AI extensions
 
-- Claude Code and Codex update Ponytail with their native startup updaters.
+- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for plugins, marketplaces, and shared skill sources; add entries there without editing templates.
+- Claude Code and Codex update configured marketplace plugins with their native startup updaters.
 - OpenCode installs configured npm plugins when its generated cache is missing; remove that cache before startup to fetch newer versions.
-- `run_after_5-sync-ai-extensions.sh` only bootstraps a missing Codex plugin and copies shared skills from one checkout under `~/.local/share/chezmoi-ai`.
+- `run_after_5-sync-ai-extensions.sh.tmpl` bootstraps missing Codex plugins and copies every configured skill source to each destination.
+- Skill sources are copied in list order and must use unique skill names; removing inventory entries does not uninstall existing private state or copied files.
 - Review and trust new Codex hooks manually with `/hooks`.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))

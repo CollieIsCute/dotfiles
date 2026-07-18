@@ -1,0 +1,33 @@
+ai:
+  claude:
+    marketplaces:
+      ponytail:
+        source:
+          source: github
+          repo: DietrichGebert/ponytail
+        autoUpdate: true
+    plugins:
+      ponytail@ponytail: true
+
+  codex:
+    marketplaces:
+      ponytail: DietrichGebert/ponytail
+    plugins:
+      - ponytail@ponytail
+
+  opencode:
+    plugins:
+      - "@khalilgharbaoui/opencode-claude-code-plugin"
+      - "@dietrichgebert/ponytail"
+
+  skills:
+    git:
+      - id: addyosmani-agent-skills
+        source: https://github.com/addyosmani/agent-skills.git
+        path: skills
+    local:
+      - .local/share/ai-skills
+    destinations:
+      - .claude/skills
+      - .agents/skills
+      - .config/opencode/skills
