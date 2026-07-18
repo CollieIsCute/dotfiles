@@ -11,25 +11,13 @@
       "WebSearch"
     ]
   },
+  "env": {
+    "CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE": "1"
+  },
   "model": "opus",
   "effortLevel": "max",
-  "enabledPlugins": {
-    {{- range $index, $plugin := .ai.claude.plugins }}
-    {{- if $index }},{{ end }}
-    "{{ $plugin }}": true
-    {{- end }}
-  },
-  "extraKnownMarketplaces": {
-    {{- range $index, $marketplace := .ai.claude.marketplaces }}
-    {{- if $index }},{{ end }}
-    "{{ $marketplace.name }}": {
-      "source": {
-        "source": "github",
-        "repo": "{{ $marketplace.source }}"
-      }
-    }
-    {{- end }}
-  },
+  "enabledPlugins": {{ .ai.claude.plugins | toPrettyJson }},
+  "extraKnownMarketplaces": {{ .ai.claude.marketplaces | toPrettyJson }},
   "theme": "dark",
   "verbose": true,
   "skipAutoPermissionPrompt": true
