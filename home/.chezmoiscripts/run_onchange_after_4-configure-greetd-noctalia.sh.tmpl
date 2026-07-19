@@ -15,6 +15,35 @@ enable_sddm_fallback() {
   fi
 }
 
+setup_script="/usr/share/noctalia-greeter/setup_greeter_system.sh"
+greeter_state_dir="/var/lib/noctalia-greeter"
+pacman_hook_dir="/etc/pacman.d/hooks"
+
+harden_greeter_state_dir() {
+  sudo install -d -o root -g root -m 0755 "$greeter_state_dir"
+}
+
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+
+cat > "${tmpdir}/99-noctalia-greeter-state-dir.hook" <<'PACMAN_HOOK'
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = noctalia-greeter
+
+[Action]
+Description = Protecting Noctalia Greeter sync directory...
+When = PostTransaction
+Exec = /usr/bin/install -d -o root -g root -m 0755 /var/lib/noctalia-greeter
+PACMAN_HOOK
+sudo install -d -o root -g root -m 0755 "$pacman_hook_dir"
+sudo install -o root -g root -m 0644 \
+  "${tmpdir}/99-noctalia-greeter-state-dir.hook" \
+  "${pacman_hook_dir}/99-noctalia-greeter-state-dir.hook"
+harden_greeter_state_dir
+
 if ! command -v noctalia-greeter-session >/dev/null 2>&1; then
   echo -e "${YELLOW}Warning: noctalia-greeter-session not found; keeping SDDM enabled.${NC}"
   enable_sddm_fallback
@@ -28,8 +57,6 @@ if ! getent passwd greeter >/dev/null 2>&1; then
 fi
 
 session_bin="$(command -v noctalia-greeter-session)"
-setup_script="/usr/share/noctalia-greeter/setup_greeter_system.sh"
-greeter_state_dir="/var/lib/noctalia-greeter"
 
 if [ ! -x "$setup_script" ]; then
   echo -e "${YELLOW}Warning: ${setup_script} not found; keeping SDDM enabled.${NC}"
@@ -38,15 +65,14 @@ if [ ! -x "$setup_script" ]; then
 fi
 
 if ! sudo env GREETER_USER=greeter "$setup_script"; then
+  harden_greeter_state_dir
   echo -e "${YELLOW}Warning: Noctalia Greeter setup failed; keeping SDDM enabled.${NC}"
   enable_sddm_fallback
   exit 0
 fi
+harden_greeter_state_dir
 
 sudo install -d -o root -g root -m 0755 /etc/greetd
-
-tmpdir="$(mktemp -d)"
-trap 'rm -rf "$tmpdir"' EXIT
 
 noctalia_msg() {
   if command -v timeout >/dev/null 2>&1; then
@@ -56,7 +82,6 @@ noctalia_msg() {
   fi
 }
 
-sudo install -d -o greeter -g greeter -m 0755 "$greeter_state_dir"
 cat > "${tmpdir}/greeter.toml" <<GREETER_TOML
 # noctalia-greeter greeter.toml
 # Managed by chezmoi. Wallpaper/colors are synced by: noctalia msg greeter-sync

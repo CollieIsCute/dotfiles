@@ -1,11 +1,14 @@
 [shell]
 font_family = "JetBrainsMono Nerd Font"
 telemetry_enabled = false
-polkit_agent = false
+polkit_agent = true
 clipboard_enabled = true
 clipboard_history_max_entries = 100
 clipboard_auto_paste = "auto"
 screen_time_enabled = true
+
+[shell.greeter_sync]
+auto_sync = true
 
 [shell.panel]
 launcher_placement = "floating"
@@ -108,13 +111,12 @@ pre_action_fade_seconds = 2.0
 [idle.behavior.lock]
 enabled = true
 timeout = 300
-command = "noctalia:session lock"
+action = "lock"
 
 [idle.behavior.screen-off]
 enabled = true
 timeout = 600
-command = "noctalia:dpms-off"
-resume_command = "noctalia:dpms-on"
+action = "screen_off"
 
 [keybinds]
 validate = ["return", "kp_enter"]
