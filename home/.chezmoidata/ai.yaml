@@ -21,10 +21,7 @@ ai:
       - "@dietrichgebert/ponytail"
 
   skills:
-    git:
-      - id: addyosmani-agent-skills
-        source: https://github.com/addyosmani/agent-skills.git
-        path: skills
+    git: []
     local:
       - .local/share/ai-skills
     destinations:
