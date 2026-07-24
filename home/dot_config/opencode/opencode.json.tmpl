@@ -4,7 +4,11 @@
   "plugin": {{ .ai.opencode.plugins | toPrettyJson }},
   "permission": {
     "bash": "allow",
-    "edit": "allow",
+    "edit": {
+      "../*": "deny"
+    },
+    "external_directory": "allow",
+    "read": "allow",
     "webfetch": "allow"
   },
   "provider": {
