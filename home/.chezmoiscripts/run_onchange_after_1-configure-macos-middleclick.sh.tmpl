@@ -1,0 +1,25 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+export GREEN='\033[1;32m'
+export NC='\033[0m'
+
+echo -e "\n${GREEN}Configuring MiddleClick...${NC}"
+
+# Match libinput clickfinger behavior: a precise three-finger click emits
+# a real middle-button event. MiddleClick defaults to three fingers, but keep
+# the preference explicit so the behavior is reproducible.
+defaults write art.ginzburg.MiddleClick fingers -int 3
+defaults write art.ginzburg.MiddleClick allowMoreFingers -bool false
+
+# Launch once after installation so MiddleClick can register its login item and
+# macOS can request Accessibility permission. GitHub Actions has no interactive
+# desktop session, so only launch it on a real machine.
+if [[ -z "${CI:-}" ]]; then
+    open -a MiddleClick
+    echo "Enable MiddleClick in System Settings > Privacy & Security > Accessibility if prompted."
+fi
+
+echo -e "${GREEN}MiddleClick configured!${NC}"
+{{- end }}
