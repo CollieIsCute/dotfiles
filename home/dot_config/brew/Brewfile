@@ -45,6 +45,7 @@ cask "ghostty"
 cask "karabiner-elements"
 cask "keepassxc"
 cask "kitty"
+cask "middleclick"
 cask "moonlight"
 cask "nikitabobko/tap/aerospace", trusted: true
 cask "qmk-toolbox"
