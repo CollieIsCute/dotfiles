@@ -53,7 +53,7 @@ chezmoi init --apply collieiscute -v
 
 ### Hyprland
 
-- 3 desc-keyed Lua `hl.monitor(...)` rules plus a fallback that selects the highest resolution and refresh rate available at that resolution.
+- Desc-keyed Lua `hl.monitor(...)` overrides plus a fallback that selects the highest resolution and refresh rate available at that resolution.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
