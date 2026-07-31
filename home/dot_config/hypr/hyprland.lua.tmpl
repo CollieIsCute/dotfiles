@@ -6,10 +6,10 @@
 ---- MONITORS ----
 ------------------
 
--- Default fallback - will be overridden when a known output below matches.
+-- Default fallback - highest resolution and refresh rate available at that resolution.
 hl.monitor({
     output   = "",
-    mode     = "highres@highrr",
+    mode     = "highres",
     position = "auto",
 })
 
@@ -41,30 +41,13 @@ hl.monitor({
     scale    = 1.0,
 })
 
--- Office: explicit coordinates. Hyprland processes auto-* monitors in
--- connection order (m_monitors iteration in CCompositor::arrangeMonitors),
--- and the first-processed one always lands at (0,0) regardless of direction.
--- Dell connects as ID 0, so auto-right was a no-op. Hardcoding sidesteps that.
+-- Dell portrait monitor - 90 degrees clockwise
 hl.monitor({
-    output   = "desc:BNQ BenQ GC2870 51J06421019",
-    mode     = "1920x1080@60",
-    position = "0x0",
-})
-
-hl.monitor({
-    output   = "desc:BNQ BenQ GW2790",
-    mode     = "1920x1080@60",
-    position = "1920x0",
-})
-
-hl.monitor({
-    output    = "desc:Dell Inc. DELL P2214H 20C1Y64C5EEL",
-    mode      = "1920x1080@60",
-    position  = "3840x0",
-    scale     = 1.25,
+    output    = "desc:Dell Inc. DELL U2412M",
+    mode      = "highres",
+    position  = "auto",
     transform = 1,
 })
-
 
 ---------------------
 ---- MY PROGRAMS ----
@@ -309,18 +292,6 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd(noctalia .. " media previous"), { lock
 ----------------------------------
 ---- WINDOWS AND WORKSPACES ----
 ----------------------------------
-
--- Office: pin ws1/2/3 to BenQ/BenQ/Dell (left-to-right). Only emit when this
--- is the office host: a desc-keyed rule would otherwise reserve the slot at
--- home (Hyprland's findAvailableDefaultWS() compares the rule string against
--- the connected monitor's name without resolving desc:), pushing home
--- monitors to ws4/5/6. With no rules at home, Hyprland's default per-monitor
--- workspace assignment gives 1/2/3.
-{{- if eq (index . "location") "office" }}
-hl.workspace_rule({ workspace = 1, monitor = "desc:BNQ BenQ GC2870 51J06421019",         default = true })
-hl.workspace_rule({ workspace = 2, monitor = "desc:BNQ BenQ GW2790",                     default = true })
-hl.workspace_rule({ workspace = 3, monitor = "desc:Dell Inc. DELL P2214H 20C1Y64C5EEL",  default = true })
-{{- end }}
 
 -- Ignore maximize requests from apps. You'll probably like this.
 hl.window_rule({

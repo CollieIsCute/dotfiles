@@ -31,19 +31,6 @@ chezmoi init --apply collieiscute -v
 - Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
-### Per-host config switch
-
-Two Hyprland machines (home + office) share one config but pin different monitors to ws1/2/3. Office hosts get desc-keyed workspace rules; home hosts use Hyprland's default per-monitor assignment (which already gives 1/2/3) — hand-rolled rules would otherwise reserve those slots even when the matching monitor isn't connected (see `hyprland.lua.tmpl` head comment for the underlying bug).
-
-To mark a machine as office: edit `~/.config/chezmoi/chezmoi.toml` →
-
-```toml
-[data]
-  location = "office"
-```
-
-Then `chezmoi apply`.
-
 ### chezmoi quirks I keep tripping over (that this repo handles)
 
 - `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
@@ -66,13 +53,13 @@ Then `chezmoi apply`.
 
 ### Hyprland
 
-- 6 Lua `hl.monitor(...)` rules (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
+- Desc-keyed Lua `hl.monitor(...)` overrides plus a fallback that selects the highest resolution and refresh rate available at that resolution.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
 - Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
-- Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after moving between home/office monitor layouts.
+- Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.
 - If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
 
 ## Keymappings
