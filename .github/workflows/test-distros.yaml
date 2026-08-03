@@ -31,6 +31,10 @@ jobs:
             apt-get install -y sudo git curl
             sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           else
+            if [ "${{ matrix.container }}" = "cachyos/cachyos:latest" ]; then
+              # This container cannot create pacman's hook network namespace.
+              sed -i '/^\[options\]/a DisableSandboxNetwork' /etc/pacman.conf
+            fi
             pacman -Syu --noconfirm sudo git chezmoi curl
           fi
           # Arch's setup script builds paru via makepkg, which refuses to
