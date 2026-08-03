@@ -11,6 +11,8 @@ packages:
       - catppuccin-cursors-mocha
       - clang
       - curl
+      - dropbox
+      - dropbox-cli
       - eza
       - fastfetch
       - fd

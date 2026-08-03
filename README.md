@@ -37,6 +37,11 @@ chezmoi init --apply collieiscute -v
 - All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
 
+### Dropbox
+
+- Arch / CachyOS starts Dropbox headlessly with Hyprland; run `dropbox-cli start` in a terminal and open the printed link to authorize a new machine, then verify with `dropbox-cli status`.
+- Keep `dropbox.service` disabled. Dropbox's self-update handoff leaves the packaged systemd unit in a restart loop.
+
 ### Tmux
 
 - Prefix is `C-z` (so `C-b` stays free for vim).
