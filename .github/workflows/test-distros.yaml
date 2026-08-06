@@ -46,6 +46,11 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -u dev test -x /home/dev/.local/bin/dropbox.py
+          sudo -u dev test -f /home/dev/.local/lib/dropbox/dropbox.py
+          sudo -u dev /home/dev/.local/bin/dropbox.py version
+          sudo -u dev test ! -e /home/dev/.dropbox-dist/dropboxd
+          sudo -u dev test ! -S /home/dev/.dropbox/command_socket
 
   macos:
     name: macos:latest

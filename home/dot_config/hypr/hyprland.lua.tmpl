@@ -71,9 +71,9 @@ hl.on("hyprland.start", function()
         "systemctl --user restart xdg-desktop-portal-hyprland.service && " ..
         "systemctl --user restart xdg-desktop-portal.service'"
     )
-{{ if or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos") }}
+{{ if and (eq .chezmoi.arch "amd64") (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos") (eq .chezmoi.osRelease.id "ubuntu")) }}
     -- Run Dropbox without its optional tray UI.
-    hl.exec_cmd("env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start")
+    hl.exec_cmd("{{ joinPath .chezmoi.homeDir ".local/bin/dropbox.py" | shellQuote }} start")
 {{ end }}
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("fcitx5 -d")

@@ -11,8 +11,6 @@ packages:
       - catppuccin-cursors-mocha
       - clang
       - curl
-      - dropbox
-      - dropbox-cli
       - eza
       - fastfetch
       - fd
@@ -57,6 +55,7 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - podman
+      - python-gpgme
       - qpwgraph
       - redmine-cli-bin
       - ripgrep
@@ -131,6 +130,7 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - podman
+      - python3-gpg
       - qpwgraph
       - ripgrep
       - sddm

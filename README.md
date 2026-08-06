@@ -39,8 +39,25 @@ chezmoi init --apply collieiscute -v
 
 ### Dropbox
 
-- Arch / CachyOS starts Dropbox headlessly with Hyprland; run `dropbox-cli start` in a terminal and open the printed link to authorize a new machine, then verify with `dropbox-cli status`.
-- Keep `dropbox.service` disabled. Dropbox's self-update handoff leaves the packaged systemd unit in a restart loop.
+- Arch, CachyOS, and Ubuntu on amd64 use a checked wrapper at `~/.local/bin/dropbox.py` around the checksum-pinned official CLI.
+- Bootstrap and link a new machine headlessly:
+
+```bash
+"$HOME/.local/bin/dropbox.py" start -i &&
+  test -x "$HOME/.dropbox-dist/dropboxd" &&
+  test -S "$HOME/.dropbox/command_socket"
+```
+
+Open the printed URL, then verify:
+
+```bash
+"$HOME/.local/bin/dropbox.py" status
+```
+
+- The wrapper requires the system `gpg` Python binding and removes display variables before every CLI command.
+- Hyprland runs `start` without `-i`, so normal login never downloads or prompts.
+- Before bootstrapping a legacy AUR install, disable `dropbox.service` and stop its daemon. After the user daemon is confirmed, remove both `dropbox-cli` and `dropbox` if installed; never delete `~/.dropbox`, `~/.dropbox-dist`, or `~/Dropbox`.
+- The initial daemon archive is signature-verified; later daemon updates are handled by Dropbox's updater.
 
 ### Tmux
 
@@ -231,7 +248,7 @@ chezmoi init --apply collieiscute -v
 ```
 home/                            # chezmoi source root (.chezmoiroot=home)
 ├── .chezmoidata/packages.yaml   # canonical package list (pacman + apt)
-├── .chezmoiexternal.toml.tmpl   # auto-pulled theme files
+├── .chezmoiexternal.toml.tmpl   # external files; Dropbox is checksum-pinned
 ├── .chezmoiscripts/             # run_once / run_onchange bootstrap
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 └── dot_config/                  # → ~/.config/...
