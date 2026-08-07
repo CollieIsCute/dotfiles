@@ -39,7 +39,7 @@ chezmoi init --apply collieiscute -v
 
 ### Dropbox
 
-- Arch, CachyOS, and Ubuntu on amd64 use a checked wrapper at `~/.local/bin/dropbox.py` around the checksum-pinned official CLI.
+- Linux uses a checked wrapper at `~/.local/bin/dropbox.py` around the checksum-pinned official CLI.
 - Bootstrap and link a new machine headlessly:
 
 ```bash

@@ -39,7 +39,7 @@ Library/**
 .config/wallpapers/**
 {{- end }}
 
-# Dropbox's Linux client supports amd64 only on configured distros.
-{{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos") (eq .chezmoi.osRelease.id "ubuntu"))) }}
+# Linux-only Dropbox target.
+{{- if ne .chezmoi.os "linux" }}
 .local/bin/dropbox.py
 {{- end }}
