@@ -4,7 +4,7 @@
 # Keybinding philosophy:
 #   Cmd + H/J/K/L           → focus left/down/up/right
 #   Cmd + Shift + H/L       → move window to prev/next workspace
-#   Cmd + Option + H/J/K/L  → swap workspaces across monitors
+#   Cmd + Option + H/J/K/L  → swap workspace windows, keeping numbers fixed
 #   Cmd + Option + S        → toggle the magic workspace
 #   Cmd + 1-9               → switch workspace
 #   Cmd + Shift + 1-9       → move window to workspace
@@ -59,7 +59,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-h = 'move-node-to-workspace prev'
     cmd-shift-l = 'move-node-to-workspace next'
 
-    # ── Swap workspaces across monitors (Cmd + Option + H/J/K/L) ──
+    # ── Swap workspace windows across monitors (Cmd + Option + H/J/K/L) ──
     cmd-alt-h = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" left'
     cmd-alt-j = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" down'
     cmd-alt-k = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" up'

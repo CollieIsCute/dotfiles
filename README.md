@@ -94,7 +94,7 @@ chezmoi init --apply collieiscute -v
 | `SUPER+1..9,0` | switch workspace 1..10 |
 | `SUPER+SHIFT+1..9,0` | move window to workspace |
 | `SUPER+SHIFT+H/L` | move window to prev/next monitor |
-| `SUPER+ALT+H/J/K/L` | swap workspace with the monitor left/down/up/right |
+| `SUPER+ALT+H/J/K/L` | swap workspace contents left/down/up/right, keeping workspace numbers fixed |
 | `SUPER+scroll` | cycle workspaces |
 | `SUPER+LMB/RMB drag` | move/resize floating window |
 | `XF86Audio*` | volume / mute / mic mute |
@@ -104,9 +104,11 @@ chezmoi init --apply collieiscute -v
 
 | Bind | Action |
 |---|---|
-| `Cmd+Option+H/J/K/L` | swap workspace with the monitor left/down/up/right |
+| `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |
+
+AeroSpace restores the swapped root layouts and window states where possible; its CLI cannot reconstruct nested container geometry.
 
 ### Tmux (prefix = `C-z`)
 
