@@ -20,7 +20,7 @@ chezmoi init --apply collieiscute -v
 | OS | Package manager | Status |
 |---|---|---|
 | macOS | Homebrew | daily-driven |
-| Arch / CachyOS | pacman + paru | daily-driven |
+| Arch | pacman + paru | daily-driven |
 | Ubuntu / Debian / Linux Mint | apt | CI-tested only |
 
 ## Custom touches worth knowing

@@ -1,5 +1,5 @@
 packages:
-  sharedArch:
+  arch:
     pacman:
       - bat
       - base-devel
@@ -81,12 +81,6 @@ packages:
       - zellij
       - zip
       - zoxide
-  cachyos:
-    pacman:
-      # CachyOS-specific optimized packages
-      - linux-cachyos
-      - cachyos-settings
-      # Inherits all packages from sharedArch
   ubuntu:
     apt:
       - bat
