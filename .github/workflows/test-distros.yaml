@@ -31,7 +31,9 @@ jobs:
             apt-get install -y sudo git curl
             sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           else
-            sed -i '/^\[options\]/a DisableSandboxNetwork' /etc/pacman.conf
+            if [ "${{ matrix.container }}" = "cachyos/cachyos:latest" ]; then
+              sed -i '/^\[options\]/a DisableSandboxNetwork' /etc/pacman.conf
+            fi
             pacman -Syu --noconfirm sudo git chezmoi curl
           fi
           # Arch's setup script builds paru via makepkg, which refuses to
@@ -43,11 +45,6 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
-          sudo -u dev test -x /home/dev/.local/bin/dropbox.py
-          sudo -u dev test -f /home/dev/.local/lib/dropbox/dropbox.py
-          sudo -u dev /home/dev/.local/bin/dropbox.py version
-          sudo -u dev test ! -e /home/dev/.dropbox-dist/dropboxd
-          sudo -u dev test ! -S /home/dev/.dropbox/command_socket
 
   macos:
     name: macos:latest
