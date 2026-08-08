@@ -269,33 +269,21 @@ hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ monitor = "+1" }))
 -- Swap active workspace contents while keeping each monitor's workspace ID.
 local function swap_workspace_contents(direction)
     return function()
-        local source_monitor = hl.get_active_monitor()
-        local target_monitor = hl.get_monitor(direction)
-        if not source_monitor or not target_monitor or source_monitor.name == target_monitor.name then
-            return
-        end
+        local source_monitor, target_monitor = hl.get_active_monitor(), hl.get_monitor(direction)
+        if not source_monitor or not target_monitor then return end
 
-        local source_workspace = source_monitor.active_workspace
-        local target_workspace = target_monitor.active_workspace
-        if not source_workspace or not target_workspace or source_workspace.id <= 0 or target_workspace.id <= 0 then
-            return
-        end
+        local source_workspace, target_workspace = source_monitor.active_workspace, target_monitor.active_workspace
+        if not source_workspace or not target_workspace or source_workspace.id <= 0 or target_workspace.id <= 0 then return end
 
-        local source_id = source_workspace.id
-        local target_id = target_workspace.id
+        local source_id, target_id = source_workspace.id, target_workspace.id
         local temporary_id = 11
-        while hl.get_workspace(temporary_id) do
-            temporary_id = temporary_id + 1
-        end
+        while hl.get_workspace(temporary_id) do temporary_id = temporary_id + 1 end
 
-        -- Let swap_monitors emit the final ID-to-monitor mapping last.
-        local result = hl.dispatch(hl.dsp.workspace.change_id({ workspace = source_workspace, id = temporary_id }))
-        if not result.ok then return result end
-        result = hl.dispatch(hl.dsp.workspace.change_id({ workspace = target_workspace, id = source_id }))
-        if not result.ok then return result end
-        result = hl.dispatch(hl.dsp.workspace.change_id({ workspace = source_workspace, id = target_id }))
-        if not result.ok then return result end
-        return hl.dispatch(hl.dsp.workspace.swap_monitors({ monitor1 = source_monitor, monitor2 = target_monitor }))
+        -- Emit the final workspace-to-monitor mapping last.
+        return hl.dispatch(hl.dsp.workspace.change_id({ workspace = source_workspace, id = temporary_id })).ok
+            and hl.dispatch(hl.dsp.workspace.change_id({ workspace = target_workspace, id = source_id })).ok
+            and hl.dispatch(hl.dsp.workspace.change_id({ workspace = source_workspace, id = target_id })).ok
+            and hl.dispatch(hl.dsp.workspace.swap_monitors({ monitor1 = source_monitor, monitor2 = target_monitor }))
     end
 end
 
