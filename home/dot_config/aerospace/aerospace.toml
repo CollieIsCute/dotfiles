@@ -4,12 +4,13 @@
 # Keybinding philosophy:
 #   Cmd + H/J/K/L           → focus left/down/up/right
 #   Cmd + Shift + H/L       → move window to prev/next workspace
+#   Cmd + Option + H/J/K/L  → swap workspaces across monitors
+#   Cmd + Option + S        → toggle the magic workspace
 #   Cmd + 1-9               → switch workspace
 #   Cmd + Shift + 1-9       → move window to workspace
 #
-# NOTE: Alt (Option) keybindings are intentionally avoided because
-# macOS 26 (Tahoe) intercepts Option key events before AeroSpace can
-# receive them (Option is a dead-key modifier for special characters).
+# NOTE: Option keybindings are limited to these workspace operations because
+# macOS can intercept Option key events before AeroSpace receives them.
 
 config-version = 2
 
@@ -58,8 +59,15 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-h = 'move-node-to-workspace prev'
     cmd-shift-l = 'move-node-to-workspace next'
 
-    # Disable "hide others" (Cmd+Alt+H) to prevent accidental hiding
-    cmd-alt-h = []
+    # ── Swap workspaces across monitors (Cmd + Option + H/J/K/L) ──
+    cmd-alt-h = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" left'
+    cmd-alt-j = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" down'
+    cmd-alt-k = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" up'
+    cmd-alt-l = 'exec-and-forget "$HOME/.config/aerospace/swap-workspaces.sh" right'
+
+    # ── Dedicated scratchpad workspace ─────────────────
+    cmd-alt-s = 'summon-workspace --fail-if-noop magic || workspace-back-and-forth'
+    cmd-alt-shift-s = 'move-node-to-workspace magic'
 
     # ── Layout ─────────────────────────────────────
     cmd-slash = 'layout tiles horizontal vertical'
@@ -113,4 +121,3 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     cmd-shift-j = ['join-with down', 'mode main']
     cmd-shift-k = ['join-with up', 'mode main']
     cmd-shift-l = ['join-with right', 'mode main']
-

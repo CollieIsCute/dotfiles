@@ -266,6 +266,12 @@ end
 hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ monitor = "-1" }))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ monitor = "+1" }))
 
+-- Swap active workspaces across monitors
+for key, direction in pairs({ H = "l", J = "d", K = "u", L = "r" }) do
+    hl.bind(mainMod .. " + " .. secondMod .. " + " .. key,
+        hl.dsp.workspace.swap_monitors({ monitor1 = "current", monitor2 = direction }))
+end
+
 -- Scratchpad
 hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
