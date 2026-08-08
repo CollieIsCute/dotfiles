@@ -39,22 +39,8 @@ chezmoi init --apply collieiscute -v
 
 ### Dropbox
 
-- Arch installs `dropbox-cli` from AUR; its `dropbox` dependency provides the daemon.
-- Start and link a new machine headlessly:
-
-```bash
-env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start
-```
-
-Open the printed URL, then verify:
-
-```bash
-dropbox-cli status
-```
-
-- Hyprland starts the CLI without display variables, so the optional tray UI stays disabled.
-- Keep `dropbox.service` and `dropbox@USER.service` disabled so Hyprland remains the only startup path.
-- `python-gpgme` keeps CLI-managed daemon downloads signature-verifiable.
+- Hyprland starts AUR's `dropbox-cli` headlessly. On a new machine, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` in a terminal and open the printed URL.
+- Keep `dropbox.service` and `dropbox@USER.service` disabled; Hyprland is the only startup path.
 
 ### Tmux
 

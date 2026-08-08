@@ -56,7 +56,6 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - podman
-      - python-gpgme
       - qpwgraph
       - redmine-cli-bin
       - ripgrep
