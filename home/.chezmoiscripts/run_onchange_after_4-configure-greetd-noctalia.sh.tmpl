@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-{{ if and (eq .chezmoi.os "linux") (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") }}
 export GREEN='\033[1;32m'
 export YELLOW='\033[1;33m'
 export NC='\033[0m'

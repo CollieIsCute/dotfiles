@@ -20,7 +20,7 @@ chezmoi init --apply collieiscute -v
 | OS | Package manager | Status |
 |---|---|---|
 | macOS | Homebrew | daily-driven |
-| Arch / CachyOS | pacman + paru | daily-driven |
+| Arch | pacman + paru | daily-driven |
 | Ubuntu / Debian / Linux Mint | apt | CI-tested only |
 
 ## Custom touches worth knowing
@@ -28,7 +28,7 @@ chezmoi init --apply collieiscute -v
 ### Theme
 
 - **Catppuccin** by default on macOS and non-Noctalia apps. On Linux, Noctalia renders Kitty, Alacritty, and Ghostty colors from the current wallpaper.
-- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
+- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
@@ -36,6 +36,11 @@ chezmoi init --apply collieiscute -v
 - `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
 - All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
+
+### Dropbox
+
+- Hyprland starts AUR's `dropbox-cli` headlessly. On a new machine, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` in a terminal and open the printed URL.
+- Keep `dropbox.service` and `dropbox@USER.service` disabled; Hyprland is the only startup path.
 
 ### Tmux
 
@@ -225,8 +230,8 @@ chezmoi init --apply collieiscute -v
 
 ```
 home/                            # chezmoi source root (.chezmoiroot=home)
-├── .chezmoidata/packages.yaml   # canonical package list (pacman + apt)
-├── .chezmoiexternal.toml.tmpl   # auto-pulled theme files
+├── .chezmoidata/packages.yaml   # canonical package list (paru + apt)
+├── .chezmoiexternal.toml        # external theme files
 ├── .chezmoiscripts/             # run_once / run_onchange bootstrap
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 └── dot_config/                  # → ~/.config/...

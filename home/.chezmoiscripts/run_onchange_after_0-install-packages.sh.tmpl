@@ -28,20 +28,13 @@ retry() {
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
-  {{ if or (eq $osid "arch") (eq $osid "cachyos") }}
+  {{ if eq $osid "arch" }}
     sudo rm -f /etc/lsb-release
     echo -e "${GREEN}Installing packages for {{ $osid }}...${NC}"
-    {{ if .packages.sharedArch.pacman }}
+    {{ if .packages.arch.paru }}
     # Use -Syu to ensure system is up-to-date and libalpm version matches paru
     sudo pacman -Syu --noconfirm
-    retry paru -S --needed --noconfirm {{ range .packages.sharedArch.pacman }}{{ . }} {{ end }}
-    {{ end }}
-    
-    {{ if eq $osid "cachyos" }}
-      {{ if .packages.cachyos.pacman }}
-      echo -e "${GREEN}Installing CachyOS-specific packages...${NC}"
-      retry paru -S --needed --noconfirm {{ range .packages.cachyos.pacman }}{{ . }} {{ end }}
-      {{ end }}
+    retry paru -S --needed --noconfirm {{ range .packages.arch.paru }}{{ . }} {{ end }}
     {{ end }}
     
     if command -v flatpak &> /dev/null; then
@@ -82,4 +75,3 @@ retry() {
 {{ end }}
 
 echo -e "${GREEN}Package installation complete!${NC}"
-

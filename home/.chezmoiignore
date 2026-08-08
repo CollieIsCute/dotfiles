@@ -28,7 +28,7 @@ Library/**
 .config/paru/**
 .local/share/applications
 .local/share/applications/**
-{{- else if not (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}
+{{- else if ne .chezmoi.osRelease.id "arch" }}
 .config/paru
 .config/paru/**
 {{- end }}
