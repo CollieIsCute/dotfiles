@@ -11,4 +11,6 @@
 .config/waybar/scripts/power-menu.sh
 .config/waybar/style.css
 .config/waybar/themes/frappe.css
+.local/bin/dropbox.py
+.local/lib/dropbox/dropbox.py
 {{ end }}
