@@ -28,7 +28,7 @@ chezmoi init --apply collieiscute -v
 ### Theme
 
 - **Catppuccin** by default on macOS and non-Noctalia apps. On Linux, Noctalia renders Kitty, Alacritty, and Ghostty colors from the current wallpaper.
-- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
+- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
@@ -39,25 +39,22 @@ chezmoi init --apply collieiscute -v
 
 ### Dropbox
 
-- Linux uses a checked wrapper at `~/.local/bin/dropbox.py` around the checksum-pinned official CLI.
-- Bootstrap and link a new machine headlessly:
+- Arch installs `dropbox-cli` from AUR; its `dropbox` dependency provides the daemon.
+- Start and link a new machine headlessly:
 
 ```bash
-"$HOME/.local/bin/dropbox.py" start -i &&
-  test -x "$HOME/.dropbox-dist/dropboxd" &&
-  test -S "$HOME/.dropbox/command_socket"
+env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start
 ```
 
 Open the printed URL, then verify:
 
 ```bash
-"$HOME/.local/bin/dropbox.py" status
+dropbox-cli status
 ```
 
-- The wrapper requires the system `gpg` Python binding and removes display variables before every CLI command.
-- Hyprland runs `start` without `-i`, so normal login never downloads or prompts.
-- Before bootstrapping a legacy AUR install, disable `dropbox.service` and stop its daemon. After the user daemon is confirmed, remove both `dropbox-cli` and `dropbox` if installed; never delete `~/.dropbox`, `~/.dropbox-dist`, or `~/Dropbox`.
-- The initial daemon archive is signature-verified; later daemon updates are handled by Dropbox's updater.
+- Hyprland starts the CLI without display variables, so the optional tray UI stays disabled.
+- Keep `dropbox.service` and `dropbox@USER.service` disabled so Hyprland remains the only startup path.
+- `python-gpgme` keeps CLI-managed daemon downloads signature-verifiable.
 
 ### Tmux
 
@@ -247,8 +244,8 @@ Open the printed URL, then verify:
 
 ```
 home/                            # chezmoi source root (.chezmoiroot=home)
-├── .chezmoidata/packages.yaml   # canonical package list (pacman + apt)
-├── .chezmoiexternal.toml.tmpl   # external files; Dropbox is checksum-pinned
+├── .chezmoidata/packages.yaml   # canonical package list (paru + apt)
+├── .chezmoiexternal.toml        # external theme files
 ├── .chezmoiscripts/             # run_once / run_onchange bootstrap
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 └── dot_config/                  # → ~/.config/...

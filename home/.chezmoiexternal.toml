@@ -7,10 +7,3 @@ refreshPeriod = "168h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/alacritty/main/catppuccin-mocha.toml"
 refreshPeriod = "168h"
-
-{{ if eq .chezmoi.os "linux" }}
-[".local/lib/dropbox/dropbox.py"]
-type = "file"
-url = "https://linux.dropbox.com/packages/dropbox.py?version=2026.05.06"
-checksum.sha256 = "4c2319d6bad065b92ec6f5da2d90bae750214573bc127e6442b036dd72a973ca"
-{{ end }}

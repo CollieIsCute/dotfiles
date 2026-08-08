@@ -38,8 +38,3 @@ Library/**
 .config/wallpapers
 .config/wallpapers/**
 {{- end }}
-
-# Linux-only Dropbox target.
-{{- if ne .chezmoi.os "linux" }}
-.local/bin/dropbox.py
-{{- end }}

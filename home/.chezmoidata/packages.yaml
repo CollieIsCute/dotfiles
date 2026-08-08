@@ -1,6 +1,6 @@
 packages:
   arch:
-    pacman:
+    paru:
       - bat
       - base-devel
       - blueman
@@ -11,6 +11,7 @@ packages:
       - catppuccin-cursors-mocha
       - clang
       - curl
+      - dropbox-cli
       - eza
       - fastfetch
       - fd
@@ -124,7 +125,6 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - podman
-      - python3-gpg
       - qpwgraph
       - ripgrep
       - sddm
