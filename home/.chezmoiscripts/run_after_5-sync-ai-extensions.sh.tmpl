@@ -30,7 +30,4 @@ if command -v codex >/dev/null 2>&1; then
   grep -Fq '[plugins."{{ . }}"]' "$HOME/.codex/config.toml" 2>/dev/null ||
     within codex plugin add '{{ . }}' --json || :
 {{- end }}
-  if [[ -x "$HOME/.local/bin/zhtw-mcp" ]] && ! codex mcp get zhtw-mcp >/dev/null 2>&1; then
-    codex mcp add zhtw-mcp -- "$HOME/.local/bin/zhtw-mcp" >/dev/null || :
-  fi
 fi
