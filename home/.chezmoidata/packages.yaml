@@ -54,6 +54,7 @@ packages:
       - openssh
       - papers
       - pavucontrol
+      - pipewire-alsa
       - pipewire-pulse
       - podman
       - qpwgraph
@@ -71,8 +72,11 @@ packages:
       - ttf-jetbrains-mono-nerd
       - typst
       - unzip
+      - voxtype-bin
       - wireplumber
       - wget
+      - wl-clipboard
+      - wtype
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xone-dkms

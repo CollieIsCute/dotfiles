@@ -79,7 +79,8 @@ chezmoi init --apply collieiscute -v
 | `SUPER+E` | open Nautilus |
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
-| `SUPER+V` | toggle floating |
+| `SUPER+F` | toggle floating |
+| hold `SUPER+V` | Voxtype push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -99,6 +100,10 @@ chezmoi init --apply collieiscute -v
 | `SUPER+LMB/RMB drag` | move/resize floating window |
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
+
+Voxtype defaults to local Whisper `large-v3-turbo` on Vulkan. Use
+`voxtype record start --model large-v3` for the larger Whisper model, or
+`voxtype configure` to switch to the CPU-backed SenseVoice FP32 engine.
 
 ### AeroSpace (macOS)
 

@@ -1,0 +1,28 @@
+# Voxtype v0.7.5 configuration reference:
+# https://github.com/peteonrails/voxtype/blob/v0.7.5/docs/CONFIGURATION.md
+engine = "whisper"
+
+[hotkey]
+enabled = false
+
+[whisper]
+backend = "local"
+model = "large-v3-turbo"
+secondary_model = "large-v3"
+language = ["zh", "en"]
+translate = false
+gpu_device = 0
+max_loaded_models = 2
+
+[sensevoice]
+model = "small-fp32"
+language = "auto"
+use_itn = true
+
+[output]
+mode = "type"
+fallback_to_clipboard = true
+
+[text]
+spoken_punctuation = false
+filter_filler_words = false
