@@ -208,7 +208,6 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 - Claude Code and Codex update configured marketplace plugins with their native startup updaters.
 - OpenCode installs configured npm plugins when its generated cache is missing; remove that cache before startup to fetch newer versions.
 - Shared user skills live in `~/.agents/skills`, which Codex and OpenCode discover natively; Claude Code uses compatibility symlinks under `~/.claude/skills`.
-- Codex and OpenCode global `AGENTS.md` symlinks share the zh-TW rules from `~/.config/opencode/instructions/zh-tw.md`.
 - `run_after_5-sync-ai-extensions.sh.tmpl` bootstraps missing Codex plugins and its `zhtw-mcp` registration.
 - Review and trust new Codex hooks manually with `/hooks`.
 
