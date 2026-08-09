@@ -79,7 +79,7 @@ chezmoi init --apply collieiscute -v
 | `SUPER+E` | open Nautilus |
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
-| `SUPER+F` | toggle floating |
+| `SUPER+V` | toggle floating |
 | hold `F13` | Voxtype push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
