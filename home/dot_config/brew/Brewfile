@@ -55,4 +55,4 @@ cask "stats"
 cask "telegram"
 cask "vesktop"
 cask "visual-studio-code"
-cask "windwords/vchewing/vchewing", trusted: true unless ENV["CI"]
+cask "windwords/vchewing/vchewing", trusted: true
