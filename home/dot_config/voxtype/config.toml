@@ -33,5 +33,5 @@ command = "fish -c voxtype-post-process"
 timeout_ms = 5000
 
 [text]
-spoken_punctuation = false
+spoken_punctuation = true
 filter_filler_words = false
