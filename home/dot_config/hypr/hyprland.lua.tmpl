@@ -57,6 +57,7 @@ hl.monitor({
 local terminal    = "kitty"
 local fileManager = "nautilus"
 local noctalia    = "noctalia msg"
+local voxtype     = "voxtype record"
 
 
 -------------------
@@ -238,6 +239,8 @@ hl.bind(mainMod   .. " + C",      hl.dsp.window.close())
 hl.bind(mainMod   .. " + M",      hl.dsp.exit())
 hl.bind(mainMod   .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod   .. " + V",      hl.dsp.window.float({ action = "toggle" }))
+hl.bind("XF86Tools",               hl.dsp.exec_cmd(voxtype .. " start"), { description = "Start voice dictation" })
+hl.bind("XF86Tools",               hl.dsp.exec_cmd(voxtype .. " stop"),  { description = "Stop voice dictation", release = true })
 hl.bind(mainMod   .. " + space",  hl.dsp.exec_cmd(noctalia .. " panel-toggle launcher"))
 hl.bind(mainMod   .. " + P",      hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + J",      hl.dsp.layout("togglesplit"))
