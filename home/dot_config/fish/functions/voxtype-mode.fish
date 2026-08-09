@@ -84,6 +84,8 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
     or set data_home "$HOME/.local/share"
     set -l data_dir "$data_home/voxtype/models"
     set -l crisp_dir "$HOME/.local/libexec/crispasr"
+    set -l crisp_pattern (string escape --style=regex "$crisp_dir/crispasr")
+    set -l asr_process_pattern (string join '' '^(/usr/bin/voxtype|/usr/lib/voxtype/voxtype-|' $crisp_pattern ')( |$)')
     set -l daemon_cmd
     set -l start_qwen 0
     set -l qwen_model
@@ -175,8 +177,9 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
                     return 1
                 end
             end
-            if pgrep -u (id -u) -f '(^| )(/usr/bin/voxtype|/usr/lib/voxtype/voxtype-|.*/libexec/crispasr/crispasr)( |$)' >/dev/null
+            if pgrep -u (id -u) -f "$asr_process_pattern" >/dev/null
                 echo 'voxtype-mode: an ASR process is still running' >&2
+                pgrep -a -u (id -u) -f "$asr_process_pattern" >&2
                 return 1
             end
             return
@@ -189,7 +192,7 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
     if test $start_qwen -eq 1
         systemd-run --user --quiet --collect --service-type=exec --unit=$qwen_unit -- \
             "$crisp_dir/crispasr" --server --backend qwen3 --gpu-backend vulkan \
-            -m "$qwen_model" --host 127.0.0.1 --port 8080
+            --lid-backend none -m "$qwen_model" --host 127.0.0.1 --port 8080
         or return
         curl --fail --silent --retry 30 --retry-delay 1 --retry-connrefused \
             --max-time 2 http://127.0.0.1:8080/health >/dev/null

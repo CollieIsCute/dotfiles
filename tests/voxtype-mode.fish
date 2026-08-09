@@ -12,7 +12,7 @@ mkdir -p "$fake_bin" "$scratch/data/voxtype/models" "$scratch/config/voxtype"
 printf '%s\n' '#!/bin/sh' 'printf "systemctl %s\n" "$*" >> "$VOXTYPE_TEST_LOG"' \
     'case " $* " in *" is-active "*) exit 1 ;; esac' >"$fake_bin/systemctl"
 printf '%s\n' '#!/bin/sh' 'printf "systemd-run %s\n" "$*" >> "$VOXTYPE_TEST_LOG"' >"$fake_bin/systemd-run"
-printf '%s\n' '#!/bin/sh' 'exit 1' >"$fake_bin/pgrep"
+printf '%s\n' '#!/bin/sh' 'case "$*" in *" -f ^"*".*/libexec"*) exit 0 ;; *" -f ^"*) exit 1 ;; *) exit 0 ;; esac' >"$fake_bin/pgrep"
 printf '%s\n' '#!/bin/sh' 'printf "mutated config\n" > "$XDG_CONFIG_HOME/voxtype/config.toml"' >"$fake_bin/voxtype-download"
 chmod +x "$fake_bin"/*
 
@@ -46,6 +46,12 @@ voxtype-mode off
 and string match -q '*stop voxtype-active.service voxtype-qwen.service voxtype.service*' <"$VOXTYPE_TEST_LOG"
 or exit 1
 
+printf '%s\n' '#!/bin/sh' 'exit 0' >"$fake_bin/pgrep"
+voxtype-mode off >/dev/null 2>&1
+test $status -eq 1
+or exit 1
+printf '%s\n' '#!/bin/sh' 'case "$*" in *" -f ^"*".*/libexec"*) exit 0 ;; *" -f ^"*) exit 1 ;; *) exit 0 ;; esac' >"$fake_bin/pgrep"
+
 printf x >"$XDG_DATA_HOME/voxtype/models/ggml-large-v3-turbo.bin"
 voxtype-mode whisper-turbo
 and string match -q '*voxtype-vulkan*--gpu-isolation daemon*' <"$VOXTYPE_TEST_LOG"
@@ -65,6 +71,19 @@ or exit 1
 
 voxtype-mode qwen-1.7b >/dev/null 2>&1
 test $status -eq 1
+or exit 1
+
+mkdir -p "$HOME/.local/libexec/crispasr"
+printf '%s\n' '#!/bin/sh' 'exit 0' >"$HOME/.local/libexec/crispasr/crispasr"
+printf x >"$HOME/.local/libexec/crispasr/libc2pa_c.so"
+printf x >"$XDG_DATA_HOME/voxtype/models/qwen3-asr-1.7b-q8_0.gguf"
+printf '%s\n' '#!/bin/sh' 'exit 0' >"$fake_bin/curl"
+chmod +x "$HOME/.local/libexec/crispasr/crispasr" "$fake_bin/curl"
+function __voxtype_qwen_checksum_ok
+    return 0
+end
+voxtype-mode qwen-1.7b
+and string match -q '*crispasr*--backend qwen3*--lid-backend none*' <"$VOXTYPE_TEST_LOG"
 or exit 1
 
 set -l modes (complete -C 'voxtype-mode ' | string split \t -f 1 | sort)
