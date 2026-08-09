@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-export GREEN='\033[1;32m'
-export NC='\033[0m'
+GREEN='\033[1;32m'
+NC='\033[0m'
 
 {{ if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}Installing MacOS packages${NC}"
@@ -19,7 +19,7 @@ export NC='\033[0m'
     paru -S --needed --noconfirm {{ range .packages.arch.paru }}{{ . }} {{ end }}
     {{ end }}
     
-    if command -v flatpak &> /dev/null; then
+    if command -v flatpak > /dev/null; then
       echo -e "${GREEN}Setting up Flatpak and installing applications...${NC}"
       
       flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

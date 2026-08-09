@@ -1,14 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-export GREEN='\033[1;32m'
-export NC='\033[0m'
+GREEN='\033[1;32m'
+NC='\033[0m'
 
 echo -e "\n${GREEN}Setting up package manager...${NC}"
 {{- if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}macOS detected, configuring Homebrew...${NC}"
   
-  if ! command -v brew &> /dev/null; then
+  if ! command -v brew > /dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     if [[ -x /opt/homebrew/bin/brew ]]; then
       eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -20,14 +20,6 @@ echo -e "\n${GREEN}Setting up package manager...${NC}"
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
   {{ if eq $osid "arch" }}
-    # Setup system configurations
-    enable_multilib() {
-      sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
-      if ! grep -q '^[[:space:]]*\[multilib\]' /etc/pacman.conf; then
-        printf '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' | sudo tee -a /etc/pacman.conf > /dev/null
-      fi
-    }
-
     echo -e "${GREEN}Setting up mirrorlist${NC}"
     # Static mirrorlist with globally distributed mirrors (Asia-optimized order)
     # Deterministic approach: no network dependency on archlinux.org API
@@ -54,7 +46,10 @@ MIRRORLIST
 
     echo -e "${GREEN}Configuring pacman settings${NC}"
     sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/g' /etc/pacman.conf
-    enable_multilib
+    sudo sed -i '/#\[multilib\]/,/#Include/ s/#//' /etc/pacman.conf
+    if ! grep -q '^[[:space:]]*\[multilib\]' /etc/pacman.conf; then
+      printf '\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' | sudo tee -a /etc/pacman.conf > /dev/null
+    fi
     echo -e "${GREEN}Upgrading system packages (including pacman/libalpm)${NC}"
     sudo pacman -Syu --noconfirm
 
@@ -67,8 +62,8 @@ MIRRORLIST
 
     paru_build_dir="$(mktemp -d)"
     trap 'rm -rf -- "$paru_build_dir"' EXIT
-    git clone --depth=1 https://aur.archlinux.org/paru.git "$paru_build_dir/paru"
-    (cd "$paru_build_dir/paru" && makepkg -si --noconfirm)
+    git clone --depth=1 https://aur.archlinux.org/paru.git "$paru_build_dir"
+    (cd "$paru_build_dir" && makepkg -si --noconfirm)
     
     echo -e "${GREEN}paru installed successfully!${NC}"
   {{ else if eq $osid "ubuntu" }}
