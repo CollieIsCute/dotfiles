@@ -199,16 +199,17 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 - Build / dev: [`gnu-tar`](https://www.gnu.org/software/tar/), [`bear`](https://github.com/rizsotto/Bear), [`cmake`](https://cmake.org), [`mold`](https://github.com/rui314/mold), [`ninja`](https://ninja-build.org), [`llvm`](https://llvm.org), [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html), [`cppcheck`](https://cppcheck.sourceforge.io), [`uv`](https://github.com/astral-sh/uv).
 - Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
-- OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
+- Codex/OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so both agents can use the fixed binary path.
 - OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin list, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
 
 ### AI extensions
 
-- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for plugins, marketplaces, and shared skill sources; add entries there without editing templates.
+- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for plugins and marketplaces; add entries there without editing templates.
 - Claude Code and Codex update configured marketplace plugins with their native startup updaters.
 - OpenCode installs configured npm plugins when its generated cache is missing; remove that cache before startup to fetch newer versions.
-- `run_after_5-sync-ai-extensions.sh.tmpl` bootstraps missing Codex plugins and copies every configured skill source to each destination.
-- Skill sources are copied in list order and must use unique skill names; removing inventory entries does not uninstall existing private state or copied files.
+- Shared user skills live in `~/.agents/skills`, which Codex and OpenCode discover natively; Claude Code uses compatibility symlinks under `~/.claude/skills`.
+- Codex and OpenCode global `AGENTS.md` symlinks share the zh-TW rules from `~/.config/opencode/instructions/zh-tw.md`.
+- `run_after_5-sync-ai-extensions.sh.tmpl` bootstraps missing Codex plugins and its `zhtw-mcp` registration.
 - Review and trust new Codex hooks manually with `/hooks`.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
