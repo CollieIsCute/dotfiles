@@ -80,7 +80,7 @@ chezmoi init --apply collieiscute -v
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+F` | toggle floating |
-| hold `SUPER+V` | Voxtype push-to-talk dictation |
+| hold `F13` | Voxtype push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
