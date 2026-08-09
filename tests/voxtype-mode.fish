@@ -26,6 +26,18 @@ source "$root/home/dot_config/fish/functions/voxtype-mode.fish"
 or exit 1
 source "$root/home/dot_config/fish/completions/voxtype-mode.fish"
 or exit 1
+source "$root/home/dot_config/fish/functions/voxtype-post-process.fish"
+or exit 1
+
+set -l formatted (printf '%s\n' '软件process使用3个thread，Qwen3-ASR模型。' | voxtype-post-process)
+test "$formatted" = '軟體 process 使用 3 個 thread，Qwen3-ASR 模型。'
+or exit 1
+set -l reformatted (printf '%s\n' "$formatted" | voxtype-post-process)
+test "$reformatted" = "$formatted"
+or exit 1
+
+string match -q '*command = "fish -c voxtype-post-process"*' <"$root/home/dot_config/voxtype/config.toml"
+or exit 1
 
 printf 'managed config\n' >"$XDG_CONFIG_HOME/voxtype/config.toml"
 __voxtype_download_model "$fake_bin/voxtype-download" test-model

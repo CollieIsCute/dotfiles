@@ -29,7 +29,7 @@ mode = "type"
 fallback_to_clipboard = true
 
 [output.post_process]
-command = "opencc -c s2twp.json"
+command = "fish -c voxtype-post-process"
 timeout_ms = 5000
 
 [text]
