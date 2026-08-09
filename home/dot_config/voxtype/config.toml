@@ -5,8 +5,13 @@ engine = "whisper"
 [hotkey]
 enabled = false
 
+[audio]
+device = "default"
+sample_rate = 16000
+max_duration_secs = 60
+
 [whisper]
-backend = "local"
+mode = "local"
 model = "large-v3-turbo"
 secondary_model = "large-v3"
 language = ["zh", "en"]
