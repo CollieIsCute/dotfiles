@@ -19,12 +19,3 @@ ai:
     plugins:
       - "@khalilgharbaoui/opencode-claude-code-plugin"
       - "@dietrichgebert/ponytail"
-
-  skills:
-    git: []
-    local:
-      - .local/share/ai-skills
-    destinations:
-      - .claude/skills
-      - .agents/skills
-      - .config/opencode/skills
