@@ -51,6 +51,7 @@ packages:
       - noctalia-greeter
       - nwg-look
       - openblas
+      - opencc
       - opencode-bin
       - openssh
       - papers

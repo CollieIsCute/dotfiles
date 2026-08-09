@@ -28,6 +28,10 @@ use_itn = true
 mode = "type"
 fallback_to_clipboard = true
 
+[output.post_process]
+command = "opencc -c s2twp.json"
+timeout_ms = 5000
+
 [text]
 spoken_punctuation = false
 filter_filler_words = false
