@@ -80,6 +80,7 @@ chezmoi init --apply collieiscute -v
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
+| hold `F13` | Voxtype push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -99,6 +100,12 @@ chezmoi init --apply collieiscute -v
 | `SUPER+LMB/RMB drag` | move/resize floating window |
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
+
+Voxtype modes are switched with `voxtype-mode whisper-turbo`,
+`voxtype-mode whisper-large`, `voxtype-mode sensevoice`, or
+`voxtype-mode qwen-1.7b`. Missing models download only when selected. Run
+`voxtype-mode off` before gaming to stop and verify every managed ASR process;
+`voxtype-mode --help` lists the same commands in Fish.
 
 ### AeroSpace (macOS)
 

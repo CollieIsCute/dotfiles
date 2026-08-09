@@ -1,0 +1,37 @@
+# Voxtype v0.7.5 configuration reference:
+# https://github.com/peteonrails/voxtype/blob/v0.7.5/docs/CONFIGURATION.md
+engine = "whisper"
+
+[hotkey]
+enabled = false
+
+[audio]
+device = "default"
+sample_rate = 16000
+max_duration_secs = 60
+
+[whisper]
+mode = "local"
+model = "large-v3-turbo"
+secondary_model = "large-v3"
+language = ["zh", "en"]
+translate = false
+gpu_device = 0
+max_loaded_models = 2
+
+[sensevoice]
+model = "small-fp32"
+language = "auto"
+use_itn = true
+
+[output]
+mode = "type"
+fallback_to_clipboard = true
+
+[output.post_process]
+command = "fish -c voxtype-post-process"
+timeout_ms = 5000
+
+[text]
+spoken_punctuation = true
+filter_filler_words = false
