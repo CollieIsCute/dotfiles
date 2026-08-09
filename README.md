@@ -101,9 +101,11 @@ chezmoi init --apply collieiscute -v
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
 
-Voxtype defaults to local Whisper `large-v3-turbo` on Vulkan. Use
-`voxtype record start --model large-v3` for the larger Whisper model, or
-`voxtype configure` to switch to the CPU-backed SenseVoice FP32 engine.
+Voxtype modes are switched with `voxtype-mode whisper-turbo`,
+`voxtype-mode whisper-large`, `voxtype-mode sensevoice`, or
+`voxtype-mode qwen-1.7b`. Missing models download only when selected. Run
+`voxtype-mode off` before gaming to stop and verify every managed ASR process;
+`voxtype-mode --help` lists the same commands in Fish.
 
 ### AeroSpace (macOS)
 

@@ -50,6 +50,7 @@ packages:
       - noctalia
       - noctalia-greeter
       - nwg-look
+      - openblas
       - opencode-bin
       - openssh
       - papers
