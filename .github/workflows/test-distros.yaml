@@ -27,7 +27,11 @@ jobs:
         run: |
           if command -v apt-get >/dev/null; then
             apt-get -o Acquire::Retries=3 update
-            DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 install -y sudo git chezmoi
+            DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 install -y sudo git curl
+            readonly chezmoi_version=v2.72.0
+            curl -fsSL --retry 3 --output /tmp/install-chezmoi.sh \
+              "https://raw.githubusercontent.com/twpayne/chezmoi/${chezmoi_version}/assets/scripts/install.sh"
+            sh /tmp/install-chezmoi.sh -b /usr/local/bin -t "$chezmoi_version"
           else
             pacman -Syu --noconfirm sudo git chezmoi curl
           fi
