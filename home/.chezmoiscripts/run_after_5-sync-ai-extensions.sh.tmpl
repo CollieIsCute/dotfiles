@@ -30,31 +30,7 @@ if command -v codex >/dev/null 2>&1; then
   grep -Fq '[plugins."{{ . }}"]' "$HOME/.codex/config.toml" 2>/dev/null ||
     within codex plugin add '{{ . }}' --json || :
 {{- end }}
+  if [[ -x "$HOME/.local/bin/zhtw-mcp" ]] && ! codex mcp get zhtw-mcp >/dev/null 2>&1; then
+    codex mcp add zhtw-mcp -- "$HOME/.local/bin/zhtw-mcp" >/dev/null || :
+  fi
 fi
-
-{{- range .ai.skills.git }}
-checkout="$HOME/.local/share/chezmoi-ai/sources/{{ .id }}"
-mkdir -p "$(dirname "$checkout")" || exit
-if [[ -d "$checkout/.git" ]]; then
-  within git -C "$checkout" pull --ff-only --quiet || :
-else
-  within git clone --depth=1 --quiet '{{ .source }}' "$checkout" || :
-fi
-{{- end }}
-
-sources=(
-{{- range .ai.skills.git }}
-  "$HOME/.local/share/chezmoi-ai/sources/{{ .id }}/{{ .path }}"
-{{- end }}
-{{- range .ai.skills.local }}
-  "$HOME/{{ . }}"
-{{- end }}
-)
-
-for source in "${sources[@]}"; do
-  [[ -d "$source" ]] || continue
-  for destination in{{ range .ai.skills.destinations }} "$HOME/{{ . }}"{{ end }}; do
-    mkdir -p "$destination" || exit
-    cp -a "$source/." "$destination/" || exit
-  done
-done
