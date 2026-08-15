@@ -103,16 +103,21 @@ chezmoi init --apply collieiscute -v
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
 
-Voxtype modes are switched with `voxtype-mode whisper-turbo`,
-`voxtype-mode whisper-large`, `voxtype-mode sensevoice`, or
-`voxtype-mode qwen-1.7b`. Missing models download only when selected. Run
-`voxtype-mode off` before gaming to stop and verify every managed ASR process;
-`voxtype-mode --help` lists the same commands in Fish.
+Voice dictation supports Linux x86_64 and Apple silicon macOS. Select
+`voxtype-mode sensevoice` for the CPU-only SenseVoice model or
+`voxtype-mode qwen-1.7b` for the GPU-backed Qwen3-ASR model; missing models
+download only when selected. Run `voxtype-mode off` before gaming to stop and
+verify every managed ASR process, releasing the GPU. `voxtype-mode --help`
+lists the same commands in Fish.
+
+Linux uses the Hyprland `F13` binding. On macOS, `F13` is handled by VoxType;
+allow Microphone and Accessibility access when macOS prompts for them.
 
 ### AeroSpace (macOS)
 
 | Bind | Action |
 |---|---|
+| hold `F13` | Voxtype push-to-talk dictation |
 | `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |

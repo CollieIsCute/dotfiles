@@ -20,7 +20,14 @@ jobs:
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev chezmoi init collieiscute \
+            --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: Validate Phase 1 voice selector
+        run: |
+          sudo -H -u dev sh -c '
+            repo=$(git -C "$(chezmoi source-path)" rev-parse --show-toplevel)
+            VOXTYPE_CHECK_ASSETS=1 "$repo/tests/voxtype-phase1.sh" "$repo"
+          '
 
   ubuntu:
     name: ubuntu:latest
@@ -33,7 +40,14 @@ jobs:
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u ubuntu chezmoi init collieiscute \
+            --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: Validate Phase 1 voice selector
+        run: |
+          sudo -H -u ubuntu sh -c '
+            repo=$(git -C "$(chezmoi source-path)" rev-parse --show-toplevel)
+            VOXTYPE_CHECK_ASSETS=1 "$repo/tests/voxtype-phase1.sh" "$repo"
+          '
 
   macos:
     name: macos:latest
@@ -45,6 +59,10 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: Validate Phase 1 voice selector
+        run: |
+          repo=$(git -C "$(chezmoi source-path)" rev-parse --show-toplevel)
+          VOXTYPE_CHECK_ASSETS=1 "$repo/tests/voxtype-phase1.sh" "$repo"
 
   windows:
     name: windows:latest
