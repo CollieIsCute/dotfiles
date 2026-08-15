@@ -52,3 +52,13 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+
+  windows:
+    name: windows:latest
+    runs-on: windows-latest
+    steps:
+      - name: Install chezmoi and initialize dotfiles source
+        run: |
+          $binDir = Join-Path $env:RUNNER_TEMP "bin"
+          iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
+          & (Join-Path $binDir "chezmoi.exe") init collieiscute --branch "$env:CHEZMOI_BRANCH" -v
