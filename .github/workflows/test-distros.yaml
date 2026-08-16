@@ -20,8 +20,7 @@ jobs:
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev chezmoi init collieiscute \
-            --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   ubuntu:
     name: ubuntu:latest
@@ -34,8 +33,7 @@ jobs:
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu chezmoi init collieiscute \
-            --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u ubuntu chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   macos:
     name: macos:latest
