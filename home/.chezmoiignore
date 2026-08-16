@@ -38,3 +38,8 @@ Library/**
 .config/wallpapers
 .config/wallpapers/**
 {{- end }}
+
+# Windows uses PowerShell run scripts.
+{{- if eq .chezmoi.os "windows" }}
+.chezmoiscripts/*.sh
+{{- end }}
