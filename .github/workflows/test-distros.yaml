@@ -10,37 +10,30 @@ env:
   CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-  linux:
-    name: ${{ matrix.container }}
+  arch:
+    name: archlinux:latest
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        container: ["archlinux:latest", "ubuntu:latest"]
-    container:
-      image: ${{ matrix.container }}
-      env:
-        USER: dev
-        HOME: /home/dev
+    container: archlinux:latest
     steps:
-      - name: Install dependencies + create dev user
+      - name: Install chezmoi and apply dotfiles
         run: |
-          if command -v apt-get >/dev/null; then
-            apt-get update
-            apt-get install -y sudo git curl
-            sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-          else
-            pacman -Syu --noconfirm sudo git chezmoi curl
-          fi
-          # Arch's setup script builds paru via makepkg, which refuses to
-          # run as root — we need an unprivileged user with passwordless
-          # sudo. Apt distros could run chezmoi as root but we keep this
-          # uniform across the Linux matrix.
+          pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-      - name: chezmoi init dotfiles
+          sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+
+  ubuntu:
+    name: ubuntu:latest
+    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    steps:
+      - name: Install chezmoi and apply dotfiles
         run: |
-          sudo -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          apt-get update
+          apt-get install -y sudo git curl
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+          echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
+          sudo -H -u ubuntu chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   macos:
     name: macos:latest
@@ -59,15 +52,14 @@ jobs:
     steps:
       - name: Install chezmoi and apply dotfiles twice
         run: |
+          $PSNativeCommandUseErrorActionPreference = $true
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $chezmoi apply -v
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
           $steam = & "$env:USERPROFILE\scoop\shims\scoop.cmd" prefix steam
-          if ($LASTEXITCODE -ne 0 -or !(Test-Path (Join-Path $steam "Steam.exe"))) {
+          if (!(Test-Path (Join-Path $steam "Steam.exe"))) {
             throw "Steam installation was not found."
           }
