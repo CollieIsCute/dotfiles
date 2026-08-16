@@ -38,3 +38,10 @@ Library/**
 .config/wallpapers
 .config/wallpapers/**
 {{- end }}
+
+# Run scripts are platform-specific.
+{{- if eq .chezmoi.os "windows" }}
+.chezmoiscripts/*.sh
+{{- else }}
+.chezmoiscripts/*.ps1
+{{- end }}
