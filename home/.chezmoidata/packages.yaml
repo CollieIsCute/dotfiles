@@ -145,3 +145,63 @@ packages:
       - xwayland
       - zip
       - zoxide
+  windows:
+    scoop:
+      main:
+        - bat
+        - btop
+        - chezmoi
+        - claude-code
+        - cloc
+        - cmake
+        - cppcheck
+        - curl
+        - dos2unix
+        - eza
+        - fastfetch
+        - fd
+        - fzf
+        - gh
+        - git
+        - glab
+        - go
+        - gping
+        - hugo
+        - llvm
+        - neovim
+        - ninja
+        - nodejs
+        - opencode
+        - openssh
+        - podman
+        - ripgrep
+        - tldr
+        - tokei
+        - typst
+        - unzip
+        - uv
+        - wget
+        - zellij
+        - zip
+        - zoxide
+      extras:
+        - alacritty
+        - brave
+        - flutter
+        - keepassxc
+        - lazygit
+        - libreoffice
+        - localsend
+        - mattermost
+        - moonlight
+        - neovide
+        - onefetch
+        - qmk-toolbox
+        - signal
+        - telegram
+        - vesktop
+        - vscode
+      games:
+        - steam
+      nerd-fonts:
+        - JetBrainsMono-NF

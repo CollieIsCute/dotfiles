@@ -40,12 +40,12 @@
     "zhtw-mcp": {
       "type": "local",
       "command": [
-        "{{ .chezmoi.homeDir }}/.local/bin/zhtw-mcp"
+        {{ printf "%s/.local/bin/zhtw-mcp" .chezmoi.homeDir | toJson }}
       ],
       "enabled": true
     }
   },
   "instructions": [
-    "{{ .chezmoi.homeDir }}/.config/opencode/instructions/zh-tw.md"
+    {{ printf "%s/.config/opencode/instructions/zh-tw.md" .chezmoi.homeDir | toJson }}
   ]
 }

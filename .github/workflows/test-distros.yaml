@@ -57,8 +57,17 @@ jobs:
     name: windows:latest
     runs-on: windows-latest
     steps:
-      - name: Install chezmoi and initialize dotfiles source
+      - name: Install chezmoi and apply dotfiles twice
         run: |
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
-          & (Join-Path $binDir "chezmoi.exe") init collieiscute --branch "$env:CHEZMOI_BRANCH" -v
+          $chezmoi = Join-Path $binDir "chezmoi.exe"
+          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $chezmoi apply -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          $steam = & "$env:USERPROFILE\scoop\shims\scoop.cmd" prefix steam
+          if ($LASTEXITCODE -ne 0 -or !(Test-Path (Join-Path $steam "Steam.exe"))) {
+            throw "Steam installation was not found."
+          }

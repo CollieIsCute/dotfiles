@@ -6,6 +6,7 @@
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-apt-E95420?logo=ubuntu&logoColor=white)
 ![Debian](https://img.shields.io/badge/Debian-apt-A81D33?logo=debian&logoColor=white)
 ![Mint](https://img.shields.io/badge/Linux%20Mint-apt-87CF3E?logo=linuxmint&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-Scoop-0078D4?logo=windows&logoColor=white)
 
 Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several machines.
 
@@ -22,6 +23,7 @@ chezmoi init --apply collieiscute -v
 | macOS | Homebrew | daily-driven |
 | Arch | pacman + paru | daily-driven |
 | Ubuntu / Debian / Linux Mint | apt | CI-tested only |
+| Windows | Scoop | CI-tested only |
 
 ## Custom touches worth knowing
 
