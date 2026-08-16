@@ -39,7 +39,9 @@ Library/**
 .config/wallpapers/**
 {{- end }}
 
-# Windows uses PowerShell run scripts.
+# Run scripts are platform-specific.
 {{- if eq .chezmoi.os "windows" }}
 .chezmoiscripts/*.sh
+{{- else }}
+.chezmoiscripts/*.ps1
 {{- end }}

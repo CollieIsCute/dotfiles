@@ -1,4 +1,3 @@
-{{- if eq .chezmoi.os "windows" -}}
 $ErrorActionPreference = "Stop"
 $scoopRoot = if ($env:SCOOP) { $env:SCOOP } else { Join-Path $env:USERPROFILE "scoop" }
 $scoop = Join-Path $scoopRoot "shims\scoop.cmd"
@@ -11,4 +10,3 @@ if (!(Test-Path $scoop)) {
 if (!(Test-Path $scoop)) {
     throw "Scoop installation completed but $scoop was not found."
 }
-{{- end }}
