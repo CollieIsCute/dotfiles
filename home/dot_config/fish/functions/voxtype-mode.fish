@@ -1,63 +1,15 @@
-function __voxtype_sha256 --argument-names file
-    if command -q sha256sum
-        set -l output (command sha256sum "$file")
-        or return
-        string split --fields 1 ' ' -- "$output"
-    else if command -q shasum
-        set -l output (command shasum -a 256 "$file")
-        or return
-        string split --fields 1 ' ' -- "$output"
-    else
-        echo 'voxtype-mode: missing sha256sum or shasum' >&2
-        return 1
-    end
-end
-
-function __voxtype_checksum_ok --argument-names expected file
+function __voxtype_download_model --argument-names label url file
     test -f "$file"
-    and test (__voxtype_sha256 "$file") = "$expected"
-end
-
-function __voxtype_download_model --argument-names label url size checksum file
-    __voxtype_checksum_ok "$checksum" "$file"
     and return
-
-    for dependency in curl wc dirname
-        command -q $dependency
-        or begin
-            echo "voxtype-mode: missing $dependency" >&2
-            return 1
-        end
-    end
 
     command mkdir -p (command dirname "$file")
     or return
-    set -l part "$file.part"
-    if test -f "$part"
-        set -l part_size (command wc -c <"$part" | string trim)
-        if test "$part_size" -eq "$size"
-            if __voxtype_checksum_ok "$checksum" "$part"
-                command mv -f -- "$part" "$file"
-                return
-            end
-            command rm -f -- "$part"
-        else if test "$part_size" -gt "$size"
-            command rm -f -- "$part"
-        end
-    end
-
     echo "Downloading $label..."
-    command curl --fail --location --retry 3 --continue-at - --output "$part" "$url"
-    or return
-
-    test (command wc -c <"$part" | string trim) -eq "$size"
-    and __voxtype_checksum_ok "$checksum" "$part"
+    command curl --fail --location --retry 3 --output "$file" "$url"
     or begin
-        command rm -f -- "$part"
-        echo "voxtype-mode: $label verification failed" >&2
+        command rm -f -- "$file"
         return 1
     end
-    command mv -f -- "$part" "$file"
 end
 
 function __voxtype_stop_jobs --argument-names os
@@ -204,8 +156,6 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
             __voxtype_download_model \
                 'SenseVoice Small Q8_0 (252 MB)' \
                 https://huggingface.co/cstr/sensevoice-small-GGUF/resolve/e14d94223aef728879f08dfb4d5f20fe873b22ef/sensevoice-small-q8_0.gguf \
-                251670368 \
-                b7126f2cb4fe0440cb76f652aed3f1d67813ca1d12088a13b0cafb8884a72a57 \
                 "$model"
             or return
         case qwen-1.7b
@@ -215,8 +165,6 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
             __voxtype_download_model \
                 'Qwen3-ASR 1.7B Q8_0 (2.51 GB)' \
                 https://huggingface.co/cstr/qwen3-asr-1.7b-GGUF/resolve/674df5d44b50a63e7102a18895ed20e3f91de301/qwen3-asr-1.7b-q8_0.gguf \
-                2506723200 \
-                9851ab996591a2d0cb0efb216002764b509c86bd40c95e613d7b65b8e69c8a6e \
                 "$model"
             or return
     end

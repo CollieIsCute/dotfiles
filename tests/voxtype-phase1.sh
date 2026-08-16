@@ -16,6 +16,10 @@ if printf '%s\n' "$help" | grep -Fi 'whisper' >/dev/null; then
     echo 'voxtype-mode still exposes a Whisper model' >&2
     exit 1
 fi
+if grep -Eq 'sha256|shasum|checksum|continue-at|wc -c' "$function_file"; then
+    echo 'voxtype-mode still contains verified or resumable downloads' >&2
+    exit 1
+fi
 
 modes=$(VOXTYPE_COMPLETION=$completion_file fish --no-config -c 'set -e fish_complete_path; source $VOXTYPE_COMPLETION; complete -C "voxtype-mode "' | cut -f1 | sort)
 expected=$(printf '%s\n' off qwen-1.7b sensevoice)
