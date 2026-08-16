@@ -16,7 +16,11 @@ NC='\033[0m'
     {{ if .packages.arch.paru }}
     # Use -Syu to ensure system is up-to-date and libalpm version matches paru
     sudo pacman -Syu --noconfirm
-    paru -S --needed --noconfirm {{ range .packages.arch.paru }}{{ . }} {{ end }}
+    for attempt in 1 2 3; do
+      paru -S --needed --noconfirm {{ range .packages.arch.paru }}{{ . }} {{ end }} && break
+      (( attempt == 3 )) && exit 1
+      sleep 5
+    done
     {{ end }}
     
     if command -v flatpak > /dev/null; then
