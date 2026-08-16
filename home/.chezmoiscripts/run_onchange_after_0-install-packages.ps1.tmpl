@@ -1,0 +1,35 @@
+{{- if eq .chezmoi.os "windows" -}}
+$ErrorActionPreference = "Stop"
+$scoopRoot = if ($env:SCOOP) { $env:SCOOP } else { Join-Path $env:USERPROFILE "scoop" }
+$scoop = Join-Path $scoopRoot "shims\scoop.cmd"
+
+if (!(Test-Path $scoop)) {
+    throw "Scoop is not installed at $scoop."
+}
+
+function Invoke-Scoop {
+    & $scoop @args
+    if ($LASTEXITCODE -ne 0) {
+        throw "scoop $($args -join ' ') failed with exit code $LASTEXITCODE."
+    }
+}
+
+Invoke-Scoop install main/git
+Invoke-Scoop update
+
+foreach ($bucket in @("extras", "games", "nerd-fonts")) {
+    if (!(Test-Path (Join-Path $scoopRoot "buckets\$bucket"))) {
+        Invoke-Scoop bucket add $bucket
+    }
+}
+
+$packages = @(
+{{ range $bucket, $apps := .packages.windows.scoop -}}
+{{ range $apps -}}
+    "{{ $bucket }}/{{ . }}"
+{{ end -}}
+{{ end -}}
+)
+
+Invoke-Scoop install @packages
+{{- end }}
