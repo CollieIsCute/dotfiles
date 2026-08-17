@@ -103,7 +103,7 @@ chezmoi init --apply collieiscute -v
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
 
-Voice dictation supports Linux x86_64 and Apple silicon macOS. Select
+Voice dictation supports Arch Linux x86_64 and Apple silicon macOS. Select
 `voxtype-mode sensevoice` for the CPU-only SenseVoice model or
 `voxtype-mode qwen-1.7b` for the GPU-backed Qwen3-ASR model; missing models
 download only when selected. Run `voxtype-mode off` before gaming to stop and

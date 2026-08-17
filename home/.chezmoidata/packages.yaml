@@ -73,6 +73,7 @@ packages:
       - ttf-jetbrains-mono-nerd
       - typst
       - unzip
+      - voxtype-bin
       - wireplumber
       - wget
       - wl-clipboard
@@ -125,7 +126,6 @@ packages:
       - nethogs
       - network-manager-applet
       - nwg-look
-      - opencc
       - pavucontrol
       - pipewire-pulse
       - podman
@@ -139,8 +139,6 @@ packages:
       - unzip
       - wget
       - wireplumber
-      - wl-clipboard
-      - wtype
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xwayland

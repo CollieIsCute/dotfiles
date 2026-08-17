@@ -12,16 +12,10 @@ function __voxtype_download_model --argument-names label url file
     end
 end
 
-function __voxtype_stop_jobs --argument-names os
-    switch $os
-        case Linux
-            command systemctl --user stop voxtype-active.service voxtype-asr.service voxtype-qwen.service voxtype.service >/dev/null 2>&1
-            or true
-        case Darwin
-            for label in com.collie.voxtype.active com.collie.voxtype.asr
-                command launchctl remove $label >/dev/null 2>&1
-                or true
-            end
+function __voxtype_stop_macos
+    for label in com.collie.voxtype.active com.collie.voxtype.asr
+        command launchctl remove $label >/dev/null 2>&1
+        or true
     end
 end
 
@@ -60,16 +54,15 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
         return 1
     end
 
-    for dependency in id pgrep
-        command -q $dependency
-        or begin
-            echo "voxtype-mode: missing $dependency" >&2
-            return 1
-        end
-    end
     if test $os = Linux
-        command -q systemctl
-        and command systemctl --user show-environment >/dev/null
+        for dependency in systemctl pgrep
+            command -q $dependency
+            or begin
+                echo "voxtype-mode: missing $dependency" >&2
+                return 1
+            end
+        end
+        systemctl --user show-environment >/dev/null
         or begin
             echo 'voxtype-mode: systemd user manager is unavailable' >&2
             return 1
@@ -78,39 +71,62 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
             echo 'voxtype-mode: missing systemd-run' >&2
             return 1
         end
-    else if not command -q launchctl
-        echo 'voxtype-mode: missing launchctl' >&2
-        return 1
+    else
+        for dependency in launchctl pgrep
+            command -q $dependency
+            or begin
+                echo "voxtype-mode: missing $dependency" >&2
+                return 1
+            end
+        end
     end
 
-    set -l voxtype "$HOME/.local/libexec/voxtype/voxtype"
+    set -l active_unit voxtype-active.service
+    set -l asr_unit voxtype-asr.service
+    set -l data_home "$XDG_DATA_HOME"
+    test -n "$data_home"
+    or set data_home "$HOME/.local/share"
+    set -l data_dir "$data_home/voxtype/models"
     set -l crisp "$HOME/.local/libexec/crispasr/crispasr"
-    set -l pattern (string join '|' \
-        (string escape --style=regex -- "$voxtype") \
-        (string escape --style=regex -- "$crisp") \
-        /usr/bin/voxtype '/usr/lib/voxtype/voxtype-[^ ]+')
-    set pattern "^($pattern)( |\$)"
+    set -l voxtype /usr/bin/voxtype
+    set -l process_pattern (string join '|' \
+        /usr/bin/voxtype '/usr/lib/voxtype/voxtype-[^ ]+' \
+        (string escape --style=regex -- "$crisp"))
+
+    if test $os = Darwin
+        set voxtype "$HOME/.local/libexec/voxtype/voxtype"
+        set process_pattern (string join '|' \
+            (string escape --style=regex -- "$voxtype") \
+            (string escape --style=regex -- "$crisp"))
+    end
+    set process_pattern "^($process_pattern)( |\$)"
 
     if test $mode = off
-        __voxtype_stop_jobs $os
         if test $os = Linux
-            for unit in voxtype-active.service voxtype-asr.service voxtype-qwen.service voxtype.service
-                if command systemctl --user is-active --quiet $unit
+            systemctl --user stop $active_unit $asr_unit voxtype-qwen.service voxtype.service >/dev/null 2>&1
+            or true
+            for unit in $active_unit $asr_unit voxtype-qwen.service voxtype.service
+                if systemctl --user is-active --quiet $unit
                     echo "voxtype-mode: $unit is still active" >&2
                     return 1
                 end
             end
         else
+            __voxtype_stop_macos
             for label in com.collie.voxtype.active com.collie.voxtype.asr
-                if command launchctl list $label >/dev/null 2>&1
+                if launchctl list $label >/dev/null 2>&1
                     echo "voxtype-mode: $label is still active" >&2
                     return 1
                 end
             end
         end
-        if command pgrep -u (id -u) -f "$pattern" >/dev/null
+        if pgrep -u (id -u) -f "$process_pattern" >/dev/null
             echo 'voxtype-mode: an ASR process is still running' >&2
-            command pgrep -a -u (id -u) -f "$pattern" >&2
+            if test $os = Linux
+                pgrep -a -u (id -u) -f "$process_pattern" >&2
+            else
+                pgrep -fl -u (id -u) "$process_pattern" >&2
+            end
             return 1
         end
         return
@@ -122,32 +138,9 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
         return 1
     end
 
-    set -l gpu_args
-    switch $os
-        case Linux
-            test -r "$HOME/.local/libexec/crispasr/libc2pa_c.so"
-            or begin
-                echo 'voxtype-mode: incomplete CrispASR install; run chezmoi apply' >&2
-                return 1
-            end
-            set gpu_args --gpu-backend vulkan
-        case Darwin
-            test -r "$HOME/.local/libexec/crispasr/libc2pa_c.dylib"
-            or begin
-                echo 'voxtype-mode: incomplete CrispASR install; run chezmoi apply' >&2
-                return 1
-            end
-            set gpu_args --gpu-backend metal
-    end
-
-    set -l data_home "$XDG_DATA_HOME"
-    test -n "$data_home"
-    or set data_home "$HOME/.local/share"
-    set -l data_dir "$data_home/voxtype/models"
     set -l backend
     set -l server_mode
     set -l model
-
     switch $mode
         case sensevoice
             set backend sensevoice
@@ -160,7 +153,9 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
             or return
         case qwen-1.7b
             set backend qwen3
-            set server_mode $gpu_args
+            set server_mode --gpu-backend vulkan
+            test $os = Darwin
+            and set server_mode --gpu-backend metal
             set model "$data_dir/qwen3-asr-1.7b-q8_0.gguf"
             __voxtype_download_model \
                 'Qwen3-ASR 1.7B Q8_0 (2.51 GB)' \
@@ -169,47 +164,44 @@ function voxtype-mode --description 'Switch VoxType ASR model or stop ASR'
             or return
     end
 
-    __voxtype_stop_jobs $os
     set -l server_cmd "$crisp" --server --backend $backend $server_mode \
         --lid-backend off -m "$model" --host 127.0.0.1 --port 8080
-    switch $os
-        case Linux
-            command systemd-run --user --quiet --collect --service-type=exec \
-                --unit=voxtype-asr.service -- $server_cmd
-        case Darwin
-            command launchctl submit -l com.collie.voxtype.asr -- $server_cmd
+    if test $os = Linux
+        systemctl --user stop $active_unit $asr_unit voxtype-qwen.service voxtype.service >/dev/null 2>&1
+        or true
+        systemd-run --user --quiet --collect --service-type=exec --unit=$asr_unit -- $server_cmd
+    else
+        __voxtype_stop_macos
+        launchctl submit -l com.collie.voxtype.asr -- $server_cmd
     end
     or return
 
-    set -l ready 0
-    set -l attempt 0
-    while test $attempt -lt 30
-        if command curl --fail --silent --max-time 2 http://127.0.0.1:8080/health >/dev/null
-            set ready 1
-            break
+    curl --fail --silent --retry 30 --retry-delay 1 --retry-connrefused \
+        --max-time 2 http://127.0.0.1:8080/health >/dev/null
+    or begin
+        if test $os = Linux
+            systemctl --user stop $asr_unit >/dev/null 2>&1
+        else
+            __voxtype_stop_macos
         end
-        set attempt (math $attempt + 1)
-        sleep 1
-    end
-    if test $ready -ne 1
-        __voxtype_stop_jobs $os
         echo 'voxtype-mode: CrispASR did not become ready' >&2
         return 1
     end
 
     set -l daemon_cmd "$voxtype" daemon
-    if test $os = Darwin
-        set daemon_cmd /usr/bin/env VOXTYPE_HOTKEY_ENABLED=true VOXTYPE_HOTKEY=F13 "$voxtype" daemon
-    end
-    switch $os
-        case Linux
-            command systemd-run --user --quiet --collect --service-type=exec \
-                --unit=voxtype-active.service -- $daemon_cmd
-        case Darwin
-            command launchctl submit -l com.collie.voxtype.active -- $daemon_cmd
+    test $os = Darwin
+    and set daemon_cmd /usr/bin/env VOXTYPE_HOTKEY_ENABLED=true VOXTYPE_HOTKEY=F13 "$voxtype" daemon
+    if test $os = Linux
+        systemd-run --user --quiet --collect --service-type=exec --unit=$active_unit -- $daemon_cmd
+    else
+        launchctl submit -l com.collie.voxtype.active -- $daemon_cmd
     end
     or begin
-        __voxtype_stop_jobs $os
+        if test $os = Linux
+            systemctl --user stop $asr_unit >/dev/null 2>&1
+        else
+            __voxtype_stop_macos
+        end
         return 1
     end
 end

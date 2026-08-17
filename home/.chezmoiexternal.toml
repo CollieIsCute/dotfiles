@@ -8,14 +8,7 @@ type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/alacritty/main/catppuccin-mocha.toml"
 refreshPeriod = "168h"
 
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") -}}
-[".local/libexec/voxtype/voxtype"]
-type = "file"
-url = "https://github.com/peteonrails/voxtype/releases/download/v0.7.5/voxtype-0.7.5-linux-x86_64-avx2"
-executable = true
-checksum.sha256 = "18ae0510d0c964689f8c9b7119c0b9a45569985e82977dc4f1ef4d76fddd887c"
-checksum.size = 13173600
-
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.arch "amd64") -}}
 [".local/libexec/crispasr"]
 type = "archive"
 url = "https://github.com/CrispStrobe/CrispASR/releases/download/v0.8.28/crispasr-linux-x86_64-vulkan.tar.gz"

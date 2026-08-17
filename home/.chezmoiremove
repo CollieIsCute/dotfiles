@@ -13,4 +13,5 @@
 .config/waybar/themes/frappe.css
 .local/bin/dropbox.py
 .local/lib/dropbox/dropbox.py
+.local/libexec/voxtype
 {{ end }}
