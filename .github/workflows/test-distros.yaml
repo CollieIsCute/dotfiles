@@ -21,6 +21,10 @@ jobs:
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
           sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev sh -c 'test "$(command -v codexbar)" = /usr/bin/codexbar'
+          sudo -H -u dev codexbar --version
+          sudo -H -u dev codexbar config validate
+          sudo -H -u dev bash /home/dev/.local/share/chezmoi/tests/test-codexbar-config.sh
 
   ubuntu:
     name: ubuntu:latest
