@@ -11,18 +11,11 @@ sample_rate = 16000
 max_duration_secs = 60
 
 [whisper]
-mode = "local"
-model = "large-v3-turbo"
-secondary_model = "large-v3"
-language = ["zh", "en"]
-translate = false
-gpu_device = 0
-max_loaded_models = 2
-
-[sensevoice]
-model = "small-fp32"
+backend = "remote"
 language = "auto"
-use_itn = true
+remote_endpoint = "http://127.0.0.1:8080"
+remote_model = "local-asr"
+remote_timeout_secs = 60
 
 [output]
 mode = "type"
