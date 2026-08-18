@@ -127,7 +127,8 @@ up = ["up"]
 down = ["down"]
 
 [plugins]
-enabled = ["noctalia/screen_recorder", "noctalia/timer"]
+enabled = ["noctalia/screen_recorder", "noctalia/timer", "salemsayed/codexbar-meter"]
+auto_update = true
 
 [bar]
 order = ["main"]
@@ -152,7 +153,7 @@ capsule_fill = "surface_variant"
 capsule_opacity = 0.3
 color = "primary"
 icon_color = "primary"
-start = ["tray", "media"]
+start = ["tray", "codexbar-meter", "media"]
 center = ["clock", "workspaces"]
 end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
@@ -177,6 +178,9 @@ tooltip_format = "{:%A, %B %d, %Y}"
 [widget.media]
 hide_when_no_media = true
 max_length = 320
+
+[widget.codexbar-meter]
+type = "salemsayed/codexbar-meter:bar"
 
 [widget.net-down]
 type = "sysmon"
