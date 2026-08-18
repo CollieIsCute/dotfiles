@@ -153,9 +153,9 @@ capsule_fill = "surface_variant"
 capsule_opacity = 0.3
 color = "primary"
 icon_color = "primary"
-start = ["tray", "media"]
+start = ["tray", "codexbar-meter", "media"]
 center = ["clock", "workspaces"]
-end = ["volume", "group:net-status", "group:sys-status", "codexbar-meter", "notifications", "clipboard", "session"]
+end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
 [[bar.main.capsule_group]]
 id = "net-status"
