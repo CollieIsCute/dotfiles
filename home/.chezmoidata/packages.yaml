@@ -10,6 +10,7 @@ packages:
       - brave-origin-bin
       - catppuccin-cursors-mocha
       - clang
+      - codexbar-cli-bin
       - curl
       - dropbox-cli
       - eza
