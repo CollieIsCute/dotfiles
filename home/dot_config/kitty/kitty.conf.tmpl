@@ -7,13 +7,11 @@
 # Kitty uses its own custom tab bar, so AeroSpace sees a single window.
 
 # ── Theme ──────────────────────────────────────────────────────────
-# Catppuccin Macchiato is the macOS theme and the Linux fallback before
-# Noctalia renders its wallpaper-derived theme.
+# Noctalia owns Arch Linux colors; other platforms keep Catppuccin Macchiato.
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") }}
+include themes/noctalia.conf
+{{- else }}
 include themes/catppuccin-macchiato.conf
-{{- if eq .chezmoi.os "linux" }}
-# Noctalia owns this generated file on Linux. Keep kitty.conf managed by
-# chezmoi, and let Noctalia rewrite only the theme include target.
-globinclude themes/noctalia.conf
 {{- end }}
 
 # ── Font ───────────────────────────────────────────────────────────
