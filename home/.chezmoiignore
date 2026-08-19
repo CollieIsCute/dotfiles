@@ -28,7 +28,8 @@ Library/**
 .config/paru/**
 .local/share/applications
 .local/share/applications/**
-{{- else if ne .chezmoi.osRelease.id "arch" }}
+.local/bin/linux-wallpaperengine-start
+{{- else if not (or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.id "cachyos")) }}
 .config/paru
 .config/paru/**
 {{- end }}

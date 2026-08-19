@@ -68,6 +68,19 @@ chezmoi init --apply collieiscute -v
 - Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
 - Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.
 - If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
+- Wallpaper Engine is opt-in through `data.wallpaperEngine.arguments`; when configured, Hyprland starts `linux-wallpaperengine-start` and Noctalia's static wallpaper layer is disabled.
+
+### Wallpaper Engine (Hyprland)
+
+Arch/CachyOS installs `linux-wallpaperengine-git` via `paru`; other Linux machines need a `linux-wallpaperengine` binary on `PATH`. Install and own the official Steam Wallpaper Engine assets first. Upstream auto-detects the usual Steam library paths, then `arguments` are passed directly to `linux-wallpaperengine` at Hyprland startup:
+
+```toml
+[data.wallpaperEngine]
+enabled = true
+arguments = ["--silent", "--fps", "30", "--scaling", "fill", "1845706469"]
+```
+
+Use the same argument list shape for multi-monitor commands, for example `--screen-root ... --bg ...` from upstream's README.
 
 ## Keymappings
 
@@ -186,6 +199,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 - [`hyprland`](https://hyprland.org) — Wayland compositor.
 - [`noctalia`](https://github.com/noctalia-dev/noctalia) — desktop shell: bar, launcher, notifications, wallpaper, lock screen, idle behavior, screenshots, clipboard, and control center.
+- [`linux-wallpaperengine`](https://github.com/Almamu/linux-wallpaperengine) — opt-in live wallpapers from Steam Wallpaper Engine assets on Hyprland.
 - [`sddm`](https://github.com/sddm/sddm) — bootstrap and fallback display manager for fresh Arch installs.
 - [`greetd`](https://git.sr.ht/~kennylevinsen/greetd) + [`Noctalia Greeter`](https://github.com/noctalia-dev/noctalia-greeter) — final Wayland login greeter after AUR packages are installed.
 - [`fcitx5`](https://github.com/fcitx/fcitx5) + chewing — Chinese input.
@@ -256,8 +270,10 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 ```
 home/                            # chezmoi source root (.chezmoiroot=home)
 ├── .chezmoidata/packages.yaml   # canonical package list (paru + apt)
+├── .chezmoidata/                # feature defaults
 ├── .chezmoiexternal.toml        # external theme files
 ├── .chezmoiscripts/             # run_once / run_onchange bootstrap
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
-└── dot_config/                  # → ~/.config/...
+├── dot_config/                    # → ~/.config/...
+└── dot_local/                     # → ~/.local/...
 ```
