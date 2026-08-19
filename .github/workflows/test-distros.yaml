@@ -25,6 +25,7 @@ jobs:
   ubuntu:
     name: ubuntu:latest
     runs-on: ubuntu-latest
+    # Keep this floating on purpose to catch upstream breaking changes early; do not pin it.
     container: ubuntu:latest
     steps:
       - name: Install chezmoi and apply dotfiles

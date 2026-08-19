@@ -67,7 +67,16 @@ MIRRORLIST
     
     echo -e "${GREEN}paru installed successfully!${NC}"
   {{ else if eq $osid "ubuntu" }}
-    echo -e "${GREEN}Ubuntu needs no package-manager bootstrap.${NC}"
+    echo -e "${GREEN}Configuring the Noctalia APT repository...${NC}"
+    noctalia_repo_dir="$(mktemp -d)"
+    trap 'rm -rf -- "$noctalia_repo_dir"' EXIT
+    curl -fsSL https://pkg.noctalia.dev/deb/nickh-archive-keyring.deb \
+      -o "$noctalia_repo_dir/nickh-archive-keyring.deb"
+    curl -fsSL https://pkg.noctalia.dev/deb/noctalia-resolute.sources \
+      -o "$noctalia_repo_dir/noctalia-resolute.sources"
+    sudo dpkg -i "$noctalia_repo_dir/nickh-archive-keyring.deb"
+    sudo install -m 0644 "$noctalia_repo_dir/noctalia-resolute.sources" \
+      /etc/apt/sources.list.d/noctalia-resolute.sources
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1
