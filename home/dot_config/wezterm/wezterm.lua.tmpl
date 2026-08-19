@@ -5,8 +5,11 @@ config.ssh_domains  = {}
 config.harfbuzz_features = { 'liga=1' }
 config.enable_tab_bar = false
 
--- Catppuccin Mocha theme
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") -}}
+config.color_scheme = 'Noctalia'
+{{ else -}}
 config.color_scheme = 'Catppuccin Mocha'
+{{ end -}}
 
 -- Font configuration
 config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
