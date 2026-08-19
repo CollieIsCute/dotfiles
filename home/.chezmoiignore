@@ -33,6 +33,12 @@ Library/**
 .config/paru/**
 {{- end }}
 
+# Noctalia-managed Qt colors are Arch-only.
+{{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) }}
+.config/qt6ct
+.config/qt6ct/**
+{{- end }}
+
 # Cross-platform wallpaper targets.
 {{- if not (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
 .config/wallpapers

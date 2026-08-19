@@ -1,6 +1,7 @@
 packages:
   arch:
     paru:
+      - adw-gtk-theme
       - bat
       - base-devel
       - blueman
@@ -62,6 +63,7 @@ packages:
       - pipewire-pulse
       - podman
       - qpwgraph
+      - qt6ct
       - redmine-cli-bin
       - ripgrep
       - greetd

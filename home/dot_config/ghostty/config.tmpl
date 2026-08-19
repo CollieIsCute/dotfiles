@@ -4,9 +4,12 @@
 # Font
 font-family = JetBrainsMono Nerd Font
 
-# Catppuccin is the fallback; Noctalia owns only the generated overlay theme.
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") -}}
+# Noctalia generates and reloads this theme from the current wallpaper.
+theme = noctalia
+{{ else -}}
 theme = Catppuccin Macchiato
-config-file = ?themes/noctalia
+{{ end -}}
 
 # SSH terminfo auto-installation
 # See: https://ghostty.org/docs/help/terminfo#ssh
