@@ -1,17 +1,33 @@
 [shell]
 font_family = "JetBrainsMono Nerd Font"
 telemetry_enabled = false
-polkit_agent = false
+polkit_agent = true
 clipboard_enabled = true
 clipboard_history_max_entries = 100
 clipboard_auto_paste = "auto"
+screen_time_enabled = true
+
+[shell.greeter_sync]
+auto_sync = true
 
 [shell.panel]
-launcher_placement = "centered"
-clipboard_placement = "centered"
+launcher_placement = "floating"
+launcher_position = "center"
+clipboard_placement = "floating"
+clipboard_position = "center"
 control_center_placement = "attached"
 wallpaper_placement = "attached"
 session_placement = "attached"
+
+[shell.animation]
+speed = 1.8
+
+[shell.screen_corners]
+enabled = true
+size = 13
+
+[shell.shadow]
+direction = "center"
 
 [shell.screenshot]
 save_to_file = false
@@ -22,7 +38,7 @@ pipe_to_command = false
 [wallpaper]
 # linux-wallpaperengine draws its own background layer when configured.
 enabled = {{ if and .wallpaperEngine.enabled (gt (len .wallpaperEngine.arguments) 0) }}false{{ else }}true{{ end }}
-fill_mode = "crop"
+fill_mode = "stretch"
 directory = "~/.config/wallpapers"
 transition_on_startup = false
 
@@ -31,8 +47,28 @@ path = "~/.config/wallpapers/xp_wallpaper.jpg"
 
 [theme]
 mode = "dark"
-source = "builtin"
-builtin = "Catppuccin"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+
+[theme.templates]
+enable_builtin_templates = false
+enable_community_templates = false
+builtin_ids = []
+community_ids = []
+
+[theme.templates.user.alacritty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/alacritty.toml"
+output_path = "$XDG_CONFIG_HOME/alacritty/themes/noctalia.toml"
+
+[theme.templates.user.ghostty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/ghostty"
+output_path = "$XDG_CONFIG_HOME/ghostty/themes/noctalia"
+post_hook = "pgrep -f ghostty >/dev/null && pkill -SIGUSR2 ghostty || true"
+
+[theme.templates.user.kitty]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/kitty.conf"
+output_path = "$XDG_CONFIG_HOME/kitty/themes/noctalia.conf"
+post_hook = "pkill -x -USR1 kitty >/dev/null 2>&1 || true"
 
 [notification]
 enable_daemon = true
@@ -44,6 +80,7 @@ background_opacity = 0.97
 position = "top_center"
 orientation = "horizontal"
 scale = 1.0
+background_opacity = 0.14
 
 [lockscreen]
 enabled = true
@@ -53,9 +90,14 @@ tint_intensity = 0.3
 
 [system.monitor]
 enabled = true
+cpu_temp_activity_threshold = 70
+cpu_temp_critical_threshold = 100
 
 [weather]
-enabled = false
+enabled = true
+
+[location]
+address = "taipei"
 
 [audio]
 enable_overdrive = false
@@ -70,13 +112,12 @@ pre_action_fade_seconds = 2.0
 [idle.behavior.lock]
 enabled = true
 timeout = 300
-command = "noctalia:session lock"
+action = "lock"
 
 [idle.behavior.screen-off]
 enabled = true
 timeout = 600
-command = "noctalia:dpms-off"
-resume_command = "noctalia:dpms-on"
+action = "screen_off"
 
 [keybinds]
 validate = ["return", "kp_enter"]
@@ -85,6 +126,10 @@ left = ["left"]
 right = ["right"]
 up = ["up"]
 down = ["down"]
+
+[plugins]
+enabled = ["noctalia/screen_recorder", "noctalia/timer", "salemsayed/codexbar-meter"]
+auto_update = true
 
 [bar]
 order = ["main"]
@@ -95,8 +140,8 @@ position = "top"
 auto_hide = false
 reserve_space = true
 layer = "top"
-thickness = 30
-background_opacity = 1.0
+thickness = 33
+background_opacity = 0.0
 radius = 0
 margin_ends = 0
 margin_edge = 0
@@ -106,8 +151,10 @@ scale = 1.1
 shadow = false
 capsule = true
 capsule_fill = "surface_variant"
-capsule_opacity = 0.5
-start = ["tray", "media"]
+capsule_opacity = 0.3
+color = "primary"
+icon_color = "primary"
+start = ["tray", "codexbar-meter", "media"]
 center = ["clock", "workspaces"]
 end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
@@ -116,14 +163,14 @@ id = "net-status"
 members = ["net-down", "net-up"]
 fill = "surface_variant"
 padding = 6.0
-opacity = 0.8
+opacity = 0.3
 
 [[bar.main.capsule_group]]
 id = "sys-status"
-members = ["cpu", "ram", "temp", "battery"]
+members = ["cpu", "gpu", "ram", "vram", "temp", "battery"]
 fill = "surface_variant"
 padding = 3.0
-opacity = 0.7
+opacity = 0.3
 
 [widget.clock]
 format = "{:%B %d %H:%M:%S}"
@@ -132,6 +179,9 @@ tooltip_format = "{:%A, %B %d, %Y}"
 [widget.media]
 hide_when_no_media = true
 max_length = 320
+
+[widget.codexbar-meter]
+type = "salemsayed/codexbar-meter:bar"
 
 [widget.net-down]
 type = "sysmon"
@@ -148,6 +198,11 @@ type = "sysmon"
 stat = "cpu_usage"
 display = "text"
 
+[widget.gpu]
+type = "sysmon"
+stat = "gpu_usage"
+display = "text"
+
 [widget.temp]
 type = "sysmon"
 stat = "cpu_temp"
@@ -156,6 +211,11 @@ display = "text"
 [widget.ram]
 type = "sysmon"
 stat = "ram_pct"
+display = "text"
+
+[widget.vram]
+type = "sysmon"
+stat = "gpu_vram"
 display = "text"
 
 [widget.volume]
@@ -171,4 +231,11 @@ hide_when_no_unread = false
 drawer = false
 
 [dock]
-enabled = false
+enabled = true
+active_monitor_only = true
+auto_hide = true
+background_opacity = 0.75
+icon_size = 33
+magnification_scale = 1.8
+reserve_space = false
+shadow = false

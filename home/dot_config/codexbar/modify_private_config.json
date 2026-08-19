@@ -1,0 +1,14 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $config := fromJson (default "{\"version\":1,\"providers\":[]}" .chezmoi.stdin) -}}
+{{- $providers := list -}}
+{{- $sourceByID := dict "codex" "oauth" "claude" "cli" -}}
+{{- range $provider := (get $config "providers" | default (list)) -}}
+  {{- $source := get $sourceByID (get $provider "id") -}}
+  {{- if $source -}}
+    {{- $_ := set $provider "enabled" true -}}
+    {{- $_ := set $provider "source" $source -}}
+  {{- end -}}
+  {{- $providers = append $providers $provider -}}
+{{- end -}}
+{{- $_ := set $config "providers" $providers -}}
+{{ toJson $config }}

@@ -1,0 +1,21 @@
+ai:
+  claude:
+    marketplaces:
+      ponytail:
+        source:
+          source: github
+          repo: DietrichGebert/ponytail
+        autoUpdate: true
+    plugins:
+      ponytail@ponytail: true
+
+  codex:
+    marketplaces:
+      ponytail: DietrichGebert/ponytail
+    plugins:
+      - ponytail@ponytail
+
+  opencode:
+    plugins:
+      - "@khalilgharbaoui/opencode-claude-code-plugin"
+      - "@dietrichgebert/ponytail"

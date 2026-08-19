@@ -1,5 +1,10 @@
 [general]
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+import = [
+    "~/.config/alacritty/catppuccin-mocha.toml",
+{{- if eq .chezmoi.os "linux" }}
+    "~/.config/alacritty/themes/noctalia.toml",
+{{- end }}
+]
 
 [window]
 dimensions = { columns = 100, lines = 30 }

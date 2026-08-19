@@ -6,6 +6,7 @@
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-apt-E95420?logo=ubuntu&logoColor=white)
 ![Debian](https://img.shields.io/badge/Debian-apt-A81D33?logo=debian&logoColor=white)
 ![Mint](https://img.shields.io/badge/Linux%20Mint-apt-87CF3E?logo=linuxmint&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-Scoop-0078D4?logo=windows&logoColor=white)
 
 Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several machines.
 
@@ -20,35 +21,28 @@ chezmoi init --apply collieiscute -v
 | OS | Package manager | Status |
 |---|---|---|
 | macOS | Homebrew | daily-driven |
-| Arch / CachyOS | pacman + paru | daily-driven |
+| Arch | pacman + paru | daily-driven |
 | Ubuntu / Debian / Linux Mint | apt | CI-tested only |
+| Windows | Scoop | CI-tested only |
 
 ## Custom touches worth knowing
 
 ### Theme
 
-- **Catppuccin** everywhere. Mocha by default; kitty uses **Macchiato**; Noctalia uses its built-in **Catppuccin** palette.
-- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml.tmpl`](home/.chezmoiexternal.toml.tmpl) with `refreshPeriod = "168h"` — so they auto-update weekly without manual sync.
+- **Catppuccin** by default on macOS and non-Noctalia apps. On Linux, Noctalia renders Kitty, Alacritty, and Ghostty colors from the current wallpaper.
+- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
-
-### Per-host config switch
-
-Two Hyprland machines (home + office) share one config but pin different monitors to ws1/2/3. Office hosts get desc-keyed workspace rules; home hosts use Hyprland's default per-monitor assignment (which already gives 1/2/3) — hand-rolled rules would otherwise reserve those slots even when the matching monitor isn't connected (see `hyprland.lua.tmpl` head comment for the underlying bug).
-
-To mark a machine as office: edit `~/.config/chezmoi/chezmoi.toml` →
-
-```toml
-[data]
-  location = "office"
-```
-
-Then `chezmoi apply`.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
 
 - `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
 - All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
+
+### Dropbox
+
+- Hyprland starts AUR's `dropbox-cli` headlessly. On a new machine, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` in a terminal and open the printed URL.
+- Keep `dropbox.service` and `dropbox@USER.service` disabled; Hyprland is the only startup path.
 
 ### Tmux
 
@@ -57,18 +51,23 @@ Then `chezmoi apply`.
 - `set-clipboard on` + `allow-passthrough` → OSC 52 yank works over SSH without X11 forwarding.
 - Sessions auto-restore via tmux-resurrect + tmux-continuum on tmux start.
 
-### Kitty (macOS)
+### Kitty
 
 - Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
+- macOS loads Catppuccin Macchiato directly. Linux keeps Catppuccin as a fallback and then `globinclude`s Noctalia's generated `themes/noctalia.conf` so wallpaper changes can update Kitty without Noctalia editing `kitty.conf`.
+- Alacritty and Ghostty use the same ownership model: chezmoi owns the main config, while Noctalia only rewrites generated theme overlays under each terminal's theme directory.
 
 ### Hyprland
 
-- 6 Lua `hl.monitor(...)` rules (3 home + 3 office) — desc-keyed so the right machine picks the right monitors automatically.
+- Desc-keyed Lua `hl.monitor(...)` overrides plus a fallback that selects the highest resolution and refresh rate available at that resolution.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / GTK theming env vars set centrally.
-- Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper by default, lock screen, idle, screenshots, clipboard).
-- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly unless Wallpaper Engine is enabled.
+- Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
+- Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
+- Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
+- Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.
+- If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
 - Wallpaper Engine is opt-in through `data.wallpaperEngine.arguments`; when configured, Hyprland starts `linux-wallpaperengine-start` and Noctalia's static wallpaper layer is disabled.
 
 ### Wallpaper Engine (Hyprland)
@@ -96,6 +95,7 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
+| hold `F13` | Voxtype push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -110,10 +110,32 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 | `SUPER+1..9,0` | switch workspace 1..10 |
 | `SUPER+SHIFT+1..9,0` | move window to workspace |
 | `SUPER+SHIFT+H/L` | move window to prev/next monitor |
+| `SUPER+ALT+H/J/K/L` | swap workspace contents left/down/up/right, keeping workspace numbers fixed |
 | `SUPER+scroll` | cycle workspaces |
 | `SUPER+LMB/RMB drag` | move/resize floating window |
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
+
+Voice dictation supports Arch Linux x86_64 and Apple silicon macOS. Select
+`voxtype-mode sensevoice` for the CPU-only SenseVoice model or
+`voxtype-mode qwen-1.7b` for the GPU-backed Qwen3-ASR model; missing models
+download only when selected. Run `voxtype-mode off` before gaming to stop and
+verify every managed ASR process, releasing the GPU. `voxtype-mode --help`
+lists the same commands in Fish.
+
+Linux uses the Hyprland `F13` binding. On macOS, `F13` is handled by VoxType;
+allow Microphone and Accessibility access when macOS prompts for them.
+
+### AeroSpace (macOS)
+
+| Bind | Action |
+|---|---|
+| hold `F13` | Voxtype push-to-talk dictation |
+| `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
+| `Cmd+Option+S` | toggle the dedicated `magic` workspace |
+| `Cmd+Option+Shift+S` | move window to the `magic` workspace |
+
+AeroSpace restores the swapped root layouts and window states where possible; its CLI cannot reconstruct nested container geometry.
 
 ### Tmux (prefix = `C-z`)
 
@@ -152,7 +174,7 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 | Alias | Expands to |
 |---|---|
 | `vi` | `nvim` (when nvim is installed) |
-| `buu` | `brew update && brew upgrade --no-ask && fisher update` (macOS only) |
+| `buu` | `brew update && brew upgrade -y && fisher update` (macOS only) |
 
 ## Tools
 
@@ -170,7 +192,7 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 
 - [`kitty`](https://sw.kovidgoyal.net/kitty/) — macOS daily driver (AeroSpace-friendly tabs).
 - [`wezterm`](https://wezterm.org) — cross-platform fallback.
-- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Mocha.
+- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Macchiato fallback.
 - [`alacritty`](https://github.com/alacritty/alacritty) — minimal GPU terminal.
 
 ### Wayland stack (Hyprland)
@@ -206,8 +228,16 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 - Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
 - Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
-- OpenCode Loop: [`@bybrawe/opencode-loop@0.5.1`](https://github.com/ByBrawe/opencode-loop) is loaded through OpenCode's native npm plugin support, with `/loop*` command stubs managed under `~/.config/opencode/commands/`.
-- OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin@0.6.2`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin path, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
+- OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin list, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
+
+### AI extensions
+
+- [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml) is the single inventory for plugins and marketplaces; add entries there without editing templates.
+- Claude Code and Codex update configured marketplace plugins with their native startup updaters.
+- OpenCode installs configured npm plugins when its generated cache is missing; remove that cache before startup to fetch newer versions.
+- Shared user skills live in `~/.agents/skills`, which Codex and OpenCode discover natively.
+- `run_after_5-sync-ai-extensions.sh.tmpl` bootstraps missing Codex plugins.
+- Review and trust new Codex hooks manually with `/hooks`.
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
@@ -238,11 +268,12 @@ Use the same argument list shape for multi-monitor commands, for example `--scre
 ## Layout
 
 ```
-home/                              # chezmoi source root (.chezmoiroot=home)
-├── .chezmoidata/                  # package list + feature defaults
-├── .chezmoiexternal.toml.tmpl     # auto-pulled theme files
-├── .chezmoiscripts/               # run_once / run_onchange bootstrap
-├── .chezmoitemplates/             # macOS install template (Brewfile pass-thru)
+home/                            # chezmoi source root (.chezmoiroot=home)
+├── .chezmoidata/packages.yaml   # canonical package list (paru + apt)
+├── .chezmoidata/                # feature defaults
+├── .chezmoiexternal.toml        # external theme files
+├── .chezmoiscripts/             # run_once / run_onchange bootstrap
+├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 ├── dot_config/                    # → ~/.config/...
 └── dot_local/                     # → ~/.local/...
 ```

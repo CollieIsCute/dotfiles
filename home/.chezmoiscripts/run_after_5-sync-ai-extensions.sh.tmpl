@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+export GIT_TERMINAL_PROMPT=0
+
+within() {
+  perl -e 'alarm shift; exec @ARGV' 30 "$@"
+}
+
+if command -v claude >/dev/null 2>&1; then
+  :
+{{- range $name, $marketplace := .ai.claude.marketplaces }}
+  grep -Fq '"{{ $name }}"' "$HOME/.claude/plugins/known_marketplaces.json" 2>/dev/null ||
+    within claude plugin marketplace add '{{ $marketplace.source.repo }}' --scope user || :
+{{- end }}
+{{- range $plugin, $enabled := .ai.claude.plugins }}
+{{- if $enabled }}
+  grep -Fq '"{{ $plugin }}"' "$HOME/.claude/plugins/installed_plugins.json" 2>/dev/null ||
+    within claude plugin install '{{ $plugin }}' --scope user || :
+{{- end }}
+{{- end }}
+fi
+
+if command -v codex >/dev/null 2>&1; then
+  :
+{{- range $name, $source := .ai.codex.marketplaces }}
+  grep -Fq '[marketplaces.{{ $name }}]' "$HOME/.codex/config.toml" 2>/dev/null ||
+    within codex plugin marketplace add '{{ $source }}' --json || :
+{{- end }}
+{{- range .ai.codex.plugins }}
+  grep -Fq '[plugins."{{ . }}"]' "$HOME/.codex/config.toml" 2>/dev/null ||
+    within codex plugin add '{{ . }}' --json || :
+{{- end }}
+fi

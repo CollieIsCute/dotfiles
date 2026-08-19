@@ -16,7 +16,6 @@ Library/**
 .config/BraveSoftware/**
 .config/brave-origin-flags.conf
 .config/code-flags.conf
-.config/cursor-flags.conf
 .config/electron-flags.conf
 .config/environment.d
 .config/environment.d/**
@@ -39,4 +38,11 @@ Library/**
 {{- if not (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
 .config/wallpapers
 .config/wallpapers/**
+{{- end }}
+
+# Run scripts are platform-specific.
+{{- if eq .chezmoi.os "windows" }}
+.chezmoiscripts/*.sh
+{{- else }}
+.chezmoiscripts/*.ps1
 {{- end }}

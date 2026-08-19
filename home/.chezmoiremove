@@ -1,4 +1,5 @@
 .config/hypr/hyprland.conf
+.config/cursor-flags.conf
 {{ if eq .chezmoi.os "linux" }}
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
@@ -10,4 +11,7 @@
 .config/waybar/scripts/power-menu.sh
 .config/waybar/style.css
 .config/waybar/themes/frappe.css
+.local/bin/dropbox.py
+.local/lib/dropbox/dropbox.py
+.local/libexec/voxtype
 {{ end }}
