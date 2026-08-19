@@ -1,24 +1,14 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $config := fromJson (default "{\"version\":1,\"providers\":[]}" .chezmoi.stdin) -}}
 {{- $providers := list -}}
-{{- $foundCodex := false -}}
-{{- $foundClaude := false -}}
+{{- $sourceByID := dict "codex" "oauth" "claude" "cli" -}}
 {{- range $provider := (get $config "providers" | default (list)) -}}
-  {{- $id := get $provider "id" -}}
-  {{- if or (eq $id "codex") (eq $id "claude") -}}
+  {{- $source := get $sourceByID (get $provider "id") -}}
+  {{- if $source -}}
     {{- $_ := set $provider "enabled" true -}}
-    {{- $_ := set $provider "source" "oauth" -}}
+    {{- $_ := set $provider "source" $source -}}
   {{- end -}}
-  {{- if eq $id "codex" }}{{ $foundCodex = true }}{{ end -}}
-  {{- if eq $id "claude" }}{{ $foundClaude = true }}{{ end -}}
   {{- $providers = append $providers $provider -}}
 {{- end -}}
-{{- if not $foundCodex -}}
-  {{- $providers = append $providers (dict "id" "codex" "enabled" true "source" "oauth") -}}
-{{- end -}}
-{{- if not $foundClaude -}}
-  {{- $providers = append $providers (dict "id" "claude" "enabled" true "source" "oauth") -}}
-{{- end -}}
-{{- if not (hasKey $config "version") }}{{ $_ := set $config "version" 1 }}{{ end -}}
 {{- $_ := set $config "providers" $providers -}}
 {{ toJson $config }}

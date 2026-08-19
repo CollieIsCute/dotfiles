@@ -9,8 +9,9 @@ packages:
       - btop
       - brave-origin-bin
       - catppuccin-cursors-mocha
+      - claude-code
       - clang
-      - codexbar-cli-bin
+      - codexbar-cli
       - curl
       - dropbox-cli
       - eza
@@ -51,6 +52,7 @@ packages:
       - noctalia
       - noctalia-greeter
       - nwg-look
+      - openai-codex-bin
       - opencc
       - opencode-bin
       - openssh
