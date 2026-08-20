@@ -51,9 +51,9 @@ wallpaper_scheme = "m3-content"
 
 [theme.templates]
 enable_builtin_templates = true
-enable_community_templates = false
+enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "kitty", "qt", "wezterm"]
-community_ids = []
+community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit"]
 
 [notification]
 enable_daemon = true
@@ -69,7 +69,7 @@ background_opacity = 0.14
 
 [lockscreen]
 enabled = true
-blurred_desktop = true
+blurred_desktop = false
 blur_intensity = 0.5
 tint_intensity = 0.3
 
@@ -77,6 +77,18 @@ tint_intensity = 0.3
 enabled = true
 cpu_temp_activity_threshold = 70
 cpu_temp_critical_threshold = 100
+
+[calendar]
+enabled = true
+
+[calendar.account.work]
+name = "work"
+type = "google"
+
+[calendar.account.personal]
+color = "primary"
+name = "personal"
+type = "google"
 
 [weather]
 enabled = true
@@ -205,6 +217,10 @@ display = "text"
 
 [widget.volume]
 show_label = true
+
+[widget.volume.actions]
+scroll_down = "volume-down 3%"
+scroll_up = "volume-up 3%"
 
 [widget.battery]
 show_label = true
