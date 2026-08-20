@@ -164,7 +164,7 @@ opacity = 0.3
 
 [[bar.main.capsule_group]]
 id = "sys-status"
-members = ["cpu", "gpu", "ram", "vram", "temp", "battery"]
+members = ["cpu", "ram", "gpu", "vram", "temp", "battery"]
 fill = "surface_variant"
 padding = 3.0
 opacity = 0.3
@@ -197,12 +197,14 @@ type = "sysmon"
 stat = "cpu_usage"
 visualization = "graph"
 show_value = false
+show_glyph = false
 
 [widget.gpu]
 type = "sysmon"
 stat = "gpu_usage"
 visualization = "graph"
 show_value = false
+show_glyph = false
 
 [widget.temp]
 type = "sysmon"
