@@ -201,8 +201,8 @@ show_value = true
 [widget.gpu]
 type = "sysmon"
 stat = "gpu_usage"
-visualization = "none"
-show_value = true
+visualization = "graph"
+show_value = false
 
 [widget.temp]
 type = "sysmon"
