@@ -42,7 +42,7 @@ chezmoi init --apply collieiscute -v
 
 ### Dropbox
 
-- Hyprland starts AUR's `dropbox-cli` headlessly. On a new machine, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` in a terminal and open the printed URL.
+- Hyprland starts `dropbox-cli` headlessly when the command is installed (currently via AUR on Arch); other Linux hosts skip it. On a new machine, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` in a terminal and open the printed URL.
 - Keep `dropbox.service` and `dropbox@USER.service` disabled; Hyprland is the only startup path.
 
 ### Tmux
@@ -65,6 +65,7 @@ chezmoi init --apply collieiscute -v
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
 - Electron / fcitx5 / Qt integration env vars set centrally. Noctalia applies GTK light mode and generated GTK/Qt colors through its built-in templates.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
+- Noctalia Shell is installed on Arch and Ubuntu. Noctalia Greeter stays Arch-only; Ubuntu keeps SDDM.
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
 - Noctalia is the Arch Linux wallpaper/theme owner for apps with built-in adapters. App integrations write generated theme files and reload apps; chezmoi keeps their main configs pre-aligned so post-hooks do not cause drift.
 - Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.

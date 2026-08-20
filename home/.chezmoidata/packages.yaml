@@ -130,6 +130,7 @@ packages:
       - net-tools
       - nethogs
       - network-manager-applet
+      - noctalia
       - nwg-look
       - pavucontrol
       - pipewire-pulse
