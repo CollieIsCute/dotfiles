@@ -10,7 +10,7 @@ url = "https://raw.githubusercontent.com/catppuccin/alacritty/main/catppuccin-mo
 refreshPeriod = "168h"
 {{ end -}}
 
-{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.arch "amd64") -}}
+{{ if eq .chezmoi.os "linux" -}}
 [".local/libexec/crispasr"]
 type = "archive"
 url = "https://github.com/CrispStrobe/CrispASR/releases/download/v0.8.28/crispasr-linux-x86_64-vulkan.tar.gz"
@@ -18,7 +18,7 @@ stripComponents = 1
 include = ["crispasr-linux-x86_64-vulkan/crispasr", "crispasr-linux-x86_64-vulkan/lib*"]
 checksum.sha256 = "081e814933ab3d1e1b3ab4da46243d6fc8fe9a6cc89d98ae05b0e2157fe59ad6"
 checksum.size = 70198311
-{{ else if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") -}}
+{{ else if eq .chezmoi.os "darwin" -}}
 [".local/libexec/voxtype/voxtype"]
 type = "file"
 url = "https://github.com/peteonrails/voxtype/releases/download/v0.7.5/voxtype-0.7.5-macos-universal"
