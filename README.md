@@ -29,8 +29,9 @@ chezmoi init --apply collieiscute -v
 
 ### Theme
 
-- **Catppuccin** by default on macOS and non-Noctalia apps. On Linux, Noctalia renders Kitty, Alacritty, and Ghostty colors from the current wallpaper.
-- Theme files for kitty and alacritty are pulled from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`; Ghostty uses its built-in Catppuccin theme.
+- Arch Linux uses Noctalia's wallpaper-derived **light** palette for Kitty, Alacritty, Ghostty, WezTerm, GTK 3/4, Qt, and btop.
+- Platforms without Noctalia keep the existing Catppuccin terminal themes. Kitty and Alacritty files come from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`.
+- Fish, tmux, Zellij, Lazygit, and cursor themes stay independent because Noctalia has no built-in adapter for them.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
@@ -55,18 +56,18 @@ chezmoi init --apply collieiscute -v
 
 - Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
-- macOS loads Catppuccin Macchiato directly. Linux keeps Catppuccin as a fallback and then `globinclude`s Noctalia's generated `themes/noctalia.conf` so wallpaper changes can update Kitty without Noctalia editing `kitty.conf`.
-- Alacritty and Ghostty use the same ownership model: chezmoi owns the main config, while Noctalia only rewrites generated theme overlays under each terminal's theme directory.
+- macOS and non-Arch Linux load Catppuccin Macchiato directly. Arch Linux loads only Noctalia's generated `themes/noctalia.conf`; there is no second palette or fallback competing with it.
+- Alacritty, Ghostty, and WezTerm use the same ownership model on Arch: chezmoi points the main config at `Noctalia`, while Noctalia owns only generated color files.
 
 ### Hyprland
 
 - Desc-keyed Lua `hl.monitor(...)` overrides plus a fallback that selects the highest resolution and refresh rate available at that resolution.
 - Cursor: Catppuccin Mocha Teal (Hyprcursor) with Catppuccin Mocha Green as XCursor fallback.
-- Electron / fcitx5 / GTK theming env vars set centrally.
+- Electron / fcitx5 / Qt integration env vars set centrally. Noctalia applies GTK light mode and generated GTK/Qt colors through its built-in templates.
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 - Noctalia Shell is installed on Arch and Ubuntu. Noctalia Greeter stays Arch-only; Ubuntu keeps SDDM.
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
-- Noctalia is the Linux wallpaper/theme owner. App theme integrations should write generated theme files and reload apps, not mutate chezmoi-managed main config files.
+- Noctalia is the Arch Linux wallpaper/theme owner for apps with built-in adapters. App integrations write generated theme files and reload apps; chezmoi keeps their main configs pre-aligned so post-hooks do not cause drift.
 - Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.
 - If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
 
@@ -180,7 +181,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 - [`kitty`](https://sw.kovidgoyal.net/kitty/) — macOS daily driver (AeroSpace-friendly tabs).
 - [`wezterm`](https://wezterm.org) — cross-platform fallback.
-- [`ghostty`](https://ghostty.org) — newer GPU terminal, Catppuccin Macchiato fallback.
+- [`ghostty`](https://ghostty.org) — newer GPU terminal, Noctalia on Arch and Catppuccin Macchiato elsewhere.
 - [`alacritty`](https://github.com/alacritty/alacritty) — minimal GPU terminal.
 
 ### Wayland stack (Hyprland)

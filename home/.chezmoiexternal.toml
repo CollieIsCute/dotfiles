@@ -1,3 +1,4 @@
+{{ if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) -}}
 [".config/kitty/themes/catppuccin-macchiato.conf"]
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/macchiato.conf"
@@ -7,6 +8,7 @@ refreshPeriod = "168h"
 type = "file"
 url = "https://raw.githubusercontent.com/catppuccin/alacritty/main/catppuccin-mocha.toml"
 refreshPeriod = "168h"
+{{ end -}}
 
 {{ if eq .chezmoi.os "linux" -}}
 [".local/libexec/crispasr"]

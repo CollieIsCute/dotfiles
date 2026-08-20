@@ -14,4 +14,11 @@
 .local/bin/dropbox.py
 .local/lib/dropbox/dropbox.py
 .local/libexec/voxtype
+{{ if eq .chezmoi.osRelease.id "arch" }}
+.config/alacritty/catppuccin-mocha.toml
+.config/kitty/themes/catppuccin-macchiato.conf
+.config/noctalia/templates/alacritty.toml
+.config/noctalia/templates/ghostty
+.config/noctalia/templates/kitty.conf
+{{ end }}
 {{ end }}
