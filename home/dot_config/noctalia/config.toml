@@ -183,37 +183,44 @@ type = "salemsayed/codexbar-meter:bar"
 [widget.net-down]
 type = "sysmon"
 stat = "net_rx"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.net-up]
 type = "sysmon"
 stat = "net_tx"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.gpu]
 type = "sysmon"
 stat = "gpu_usage"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.temp]
 type = "sysmon"
 stat = "cpu_temp"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.ram]
 type = "sysmon"
 stat = "ram_pct"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.vram]
 type = "sysmon"
 stat = "gpu_vram"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.volume]
 show_label = true
