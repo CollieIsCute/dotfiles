@@ -51,9 +51,9 @@ wallpaper_scheme = "m3-content"
 
 [theme.templates]
 enable_builtin_templates = true
-enable_community_templates = false
+enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "kitty", "qt", "wezterm"]
-community_ids = []
+community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit"]
 
 [notification]
 enable_daemon = true
@@ -69,7 +69,7 @@ background_opacity = 0.14
 
 [lockscreen]
 enabled = true
-blurred_desktop = true
+blurred_desktop = false
 blur_intensity = 0.5
 tint_intensity = 0.3
 
@@ -77,6 +77,18 @@ tint_intensity = 0.3
 enabled = true
 cpu_temp_activity_threshold = 70
 cpu_temp_critical_threshold = 100
+
+[calendar]
+enabled = true
+
+[calendar.account.work]
+name = "work"
+type = "google"
+
+[calendar.account.personal]
+color = "primary"
+name = "personal"
+type = "google"
 
 [weather]
 enabled = true
@@ -152,7 +164,7 @@ opacity = 0.3
 
 [[bar.main.capsule_group]]
 id = "sys-status"
-members = ["cpu", "gpu", "ram", "vram", "temp", "battery"]
+members = ["cpu", "ram", "gpu", "vram", "temp", "battery"]
 fill = "surface_variant"
 padding = 3.0
 opacity = 0.3
@@ -171,40 +183,53 @@ type = "salemsayed/codexbar-meter:bar"
 [widget.net-down]
 type = "sysmon"
 stat = "net_rx"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.net-up]
 type = "sysmon"
 stat = "net_tx"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
-display = "text"
+visualization = "graph"
+show_value = false
+show_glyph = false
 
 [widget.gpu]
 type = "sysmon"
 stat = "gpu_usage"
-display = "text"
+visualization = "graph"
+show_value = false
+show_glyph = false
 
 [widget.temp]
 type = "sysmon"
 stat = "cpu_temp"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.ram]
 type = "sysmon"
 stat = "ram_pct"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.vram]
 type = "sysmon"
 stat = "gpu_vram"
-display = "text"
+visualization = "none"
+show_value = true
 
 [widget.volume]
 show_label = true
+
+[widget.volume.actions]
+scroll_down = "volume-down 3%"
+scroll_up = "volume-up 3%"
 
 [widget.battery]
 show_label = true
