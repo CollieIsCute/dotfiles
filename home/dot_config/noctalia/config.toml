@@ -55,6 +55,11 @@ enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "kitty", "qt", "wezterm"]
 community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit"]
 
+[theme.templates.user.tmux]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/tmux.conf"
+output_path = "$XDG_CONFIG_HOME/tmux/themes/noctalia.conf"
+post_hook = "tmux source-file ~/.config/tmux/themes/noctalia.conf >/dev/null 2>&1 && bash ~/.config/tmux/plugins/tmux/catppuccin.tmux >/dev/null 2>&1 || true"
+
 [notification]
 enable_daemon = true
 show_app_name = true
