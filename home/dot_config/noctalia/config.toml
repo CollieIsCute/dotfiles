@@ -47,7 +47,7 @@ path = "~/.config/wallpapers/xp_wallpaper.jpg"
 [theme]
 mode = "light"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "soft"
 
 [theme.templates]
 enable_builtin_templates = true
