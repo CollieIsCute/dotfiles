@@ -52,7 +52,7 @@ wallpaper_scheme = "faithful"
 [theme.templates]
 enable_builtin_templates = true
 enable_community_templates = true
-builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "kitty", "qt", "wezterm"]
+builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "hyprland", "kitty", "qt", "wezterm"]
 community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit"]
 
 [notification]

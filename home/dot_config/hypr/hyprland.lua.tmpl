@@ -129,10 +129,6 @@ hl.config({
     general = {
         gaps_in  = 0,
         gaps_out = 0,
-        col = {
-            active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
-            inactive_border = "rgba(595959aa)",
-        },
     },
     decoration = {
         rounding         = 5,
@@ -341,3 +337,6 @@ hl.window_rule({
     },
     no_focus = true,
 })
+
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
