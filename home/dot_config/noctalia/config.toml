@@ -126,7 +126,7 @@ down = ["down"]
 
 [plugins]
 enabled = ["noctalia/screen_recorder", "noctalia/timer", "salemsayed/codexbar-meter"]
-auto_update = true
+auto_update = "all"
 
 [bar]
 order = ["main"]
