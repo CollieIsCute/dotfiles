@@ -10,7 +10,7 @@ if command -v fish &> /dev/null; then
   if [ ! -f ~/.config/fish/functions/fisher.fish ]; then
     echo -e "${GREEN}Installing Fisher...${NC}"
     mkdir -p ~/.config/fish/functions
-    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
+    curl -fsSL --remove-on-error https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
       -o ~/.config/fish/functions/fisher.fish
   fi
   echo -e "${GREEN}Updating Fish plugins...${NC}"
