@@ -1,6 +1,8 @@
 set -g theme_catppuccin_flavour mocha
 
 {{ if eq .chezmoi.os "darwin" -}}
+set -gx LANG en_US.UTF-8
+
 if not grep -q (brew --prefix)/bin/fish /etc/shells
     set_color green
     echo "Please add fish to shell PATHs:"
