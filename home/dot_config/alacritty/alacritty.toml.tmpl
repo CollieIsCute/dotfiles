@@ -1,10 +1,6 @@
 [general]
 import = [
-{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch") }}
     "~/.config/alacritty/themes/noctalia.toml",
-{{- else }}
-    "~/.config/alacritty/catppuccin-mocha.toml",
-{{- end }}
 ]
 
 [window]
