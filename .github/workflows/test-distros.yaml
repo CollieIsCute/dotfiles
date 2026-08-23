@@ -21,6 +21,8 @@ jobs:
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
           sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev test -x /home/dev/.local/bin/chezmoi-theme
+          sudo -H -u dev test ! -e /home/dev/.config/matugen/config.toml
 
   ubuntu:
     name: ubuntu:latest
@@ -35,6 +37,8 @@ jobs:
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
           sudo -H -u ubuntu chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u ubuntu test -x /home/ubuntu/.local/bin/chezmoi-theme
+          sudo -H -u ubuntu test ! -e /home/ubuntu/.config/matugen/config.toml
 
   macos:
     name: macos:latest
@@ -46,19 +50,72 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+      - name: Verify Matugen theme generation
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          matugen --version
+          matugen image "$HOME/.config/wallpapers/xp_wallpaper.jpg" -c "$HOME/.config/matugen/config.toml" -m light -t scheme-fidelity --source-color-index 0 --dry-run >/dev/null
+          chezmoi theme "$HOME/.config/wallpapers/xp_wallpaper.jpg"
+
+          outputs=(
+            .config/kitty/themes/noctalia.conf
+            .config/ghostty/themes/noctalia
+            .config/btop/themes/noctalia.theme
+            .config/nvim/lua/matugen.lua
+            .config/zellij/themes/noctalia.kdl
+            .config/vesktop/themes/noctalia.theme.css
+          )
+          managed=$(chezmoi managed)
+          for output in "${outputs[@]}"; do
+            test -s "$HOME/$output"
+            ! grep -Fxq "$output" <<<"$managed"
+          done
+
+          chezmoi apply --force --include files "$HOME/.claude/settings.json"
+          before=$(stat -f %m "$HOME/.config/nvim/lua/matugen.lua")
+          sleep 1
+          chezmoi apply -v
+          test "$before" = "$(stat -f %m "$HOME/.config/nvim/lua/matugen.lua")"
 
   windows:
     name: windows:latest
     runs-on: windows-latest
     steps:
-      - name: Install chezmoi and apply dotfiles twice
+      - name: Install chezmoi and verify Matugen theme generation
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+
+          $matugen = Join-Path $env:USERPROFILE ".cargo\bin\matugen.exe"
+          & $matugen --version
+          & $matugen image "$env:USERPROFILE\.config\wallpapers\xp_wallpaper.jpg" -c "$env:USERPROFILE\.config\matugen\config.toml" -m light -t scheme-fidelity --source-color-index 0 --dry-run | Out-Null
+
+          $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
+          & $chezmoi theme "$env:USERPROFILE\.config\wallpapers\xp_wallpaper.jpg"
+
+          $outputs = @(
+            ".config/alacritty/themes/noctalia.toml",
+            ".config/btop/themes/noctalia.theme",
+            ".config/nvim/lua/matugen.lua",
+            ".config/opencode/themes/matugen.json",
+            ".config/zellij/themes/noctalia.kdl",
+            ".config/vesktop/themes/noctalia.theme.css"
+          )
+          $managed = @(& $chezmoi managed) -replace "\\", "/"
+          foreach ($output in $outputs) {
+            if (!(Test-Path "$env:USERPROFILE\$output" -PathType Leaf)) { throw "Missing output: $output" }
+            if ($managed -contains $output) { throw "Generated output is chezmoi-managed: $output" }
+          }
+
+          & $chezmoi apply --force --include files "$env:USERPROFILE\.claude\settings.json"
+          $theme = "$env:USERPROFILE\.config\nvim\lua\matugen.lua"
+          $before = (Get-Item $theme).LastWriteTimeUtc.Ticks
+          Start-Sleep -Seconds 1
           & $chezmoi apply -v
+          if ($before -ne (Get-Item $theme).LastWriteTimeUtc.Ticks) { throw "Second apply regenerated the theme." }
 
           $steam = & "$env:USERPROFILE\scoop\shims\scoop.cmd" prefix steam
           if (!(Test-Path (Join-Path $steam "Steam.exe"))) {

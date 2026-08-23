@@ -1,3 +1,5 @@
+tap "cxwx/cxbrew", trusted: { formula: "matugen" }
+
 brew "bat"
 brew "bear"
 brew "btop"
@@ -21,6 +23,7 @@ brew "gnu-tar"
 brew "hugo"
 brew "lazygit"
 brew "llvm"
+brew "cxwx/cxbrew/matugen"
 brew "mold"
 brew "neovim"
 brew "ninja"
