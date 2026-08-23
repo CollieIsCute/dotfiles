@@ -39,15 +39,18 @@ Library/**
 .config/qt6ct/**
 {{- end }}
 
-# Cross-platform wallpaper targets.
-{{- if not (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
-.config/wallpapers
-.config/wallpapers/**
+# Matugen owns non-Linux palette generation.
+{{- if not (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "windows")) }}
+.chezmoiscripts/6-apply-theme.sh
+.config/matugen
+.config/matugen/**
 {{- end }}
 
 # Run scripts are platform-specific.
 {{- if eq .chezmoi.os "windows" }}
 .chezmoiscripts/*.sh
+.local/bin/chezmoi-theme
 {{- else }}
 .chezmoiscripts/*.ps1
+.local/bin/chezmoi-theme.cmd
 {{- end }}

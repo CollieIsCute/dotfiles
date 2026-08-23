@@ -1,13 +1,32 @@
-{{ if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) -}}
-[".config/kitty/themes/catppuccin-macchiato.conf"]
-type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/kitty/main/themes/macchiato.conf"
-refreshPeriod = "168h"
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "windows") -}}
+[".config/matugen/templates/matugen-themes"]
+type = "archive"
+url = "https://github.com/InioX/matugen-themes/archive/6722a8df27e179ae14ce52b8d76b6396512cd707.tar.gz"
+exact = true
+stripComponents = 2
+{{ if eq .chezmoi.os "darwin" -}}
+include = ["*/templates/btop.theme", "*/templates/ghostty", "*/templates/kitty-colors.conf", "*/templates/midnight-discord.css"]
+{{ else -}}
+include = ["*/templates/alacritty.toml", "*/templates/btop.theme", "*/templates/midnight-discord.css", "*/templates/opencode-colors.json"]
+{{ end -}}
+checksum.sha256 = "65284a68c482fa5226cb937bb7e9fc094e14eb66f2688fc8a646503300a464e3"
 
-[".config/alacritty/catppuccin-mocha.toml"]
+[".config/matugen/templates/neovim.lua"]
 type = "file"
-url = "https://raw.githubusercontent.com/catppuccin/alacritty/main/catppuccin-mocha.toml"
-refreshPeriod = "168h"
+url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/54eb937240fad66b8aa62a9155316ba9bf2b6874/neovim/matugen-template.lua"
+checksum.sha256 = "e7122db1518aa3dfecd0f315db814788ffdf1797bc0ce89329e9e437212ce387"
+
+[".config/matugen/templates/zellij.kdl"]
+type = "file"
+url = "https://raw.githubusercontent.com/InioX/matugen-themes/6722a8df27e179ae14ce52b8d76b6396512cd707/templates/zellij-theme.kdl.tera"
+checksum.sha256 = "911500e736f2c0cbadec9fb303937f8b4e3f13e5de2a1c971c33940de31644ea"
+{{ if eq .chezmoi.os "darwin" -}}
+filter.command = "sed"
+filter.args = ["-e", "s/matugen/noctalia/g", "-e", "s/\\.dark/.default/g"]
+{{ else -}}
+filter.command = "powershell"
+filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -replace '\\.dark','.default'"]
+{{ end -}}
 {{ end -}}
 
 {{ if eq .chezmoi.os "linux" -}}

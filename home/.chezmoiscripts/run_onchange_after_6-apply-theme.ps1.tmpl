@@ -1,0 +1,7 @@
+# wallpaper: {{ include "dot_config/wallpapers/xp_wallpaper.jpg" | sha256sum }}
+# config: {{ include "dot_config/matugen/config.toml.tmpl" | sha256sum }}
+# inputs: {{ include ".chezmoiexternal.toml" | sha256sum }}
+# dispatcher: {{ include "dot_local/bin/chezmoi-theme.cmd.tmpl" | sha256sum }}
+
+& "$env:USERPROFILE\.local\bin\chezmoi-theme.cmd"
+if ($LASTEXITCODE -ne 0) { throw "chezmoi theme failed with exit code $LASTEXITCODE." }

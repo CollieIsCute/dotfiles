@@ -1,5 +1,7 @@
 .config/hypr/hyprland.conf
 .config/cursor-flags.conf
+.config/alacritty/catppuccin-mocha.toml
+.config/kitty/themes/catppuccin-macchiato.conf
 {{ if eq .chezmoi.os "linux" }}
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
@@ -15,8 +17,6 @@
 .local/lib/dropbox/dropbox.py
 .local/libexec/voxtype
 {{ if eq .chezmoi.osRelease.id "arch" }}
-.config/alacritty/catppuccin-mocha.toml
-.config/kitty/themes/catppuccin-macchiato.conf
 .config/noctalia/templates/alacritty.toml
 .config/noctalia/templates/ghostty
 .config/noctalia/templates/kitty.conf

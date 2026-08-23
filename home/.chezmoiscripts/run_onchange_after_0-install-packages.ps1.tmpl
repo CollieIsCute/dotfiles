@@ -31,3 +31,15 @@ $packages = @(
 )
 
 Invoke-Scoop install @packages
+
+$cargoBin = Join-Path $scoopRoot "apps\rustup-msvc\current\.cargo\bin"
+& (Join-Path $cargoBin "rustup.exe") default stable
+if ($LASTEXITCODE -ne 0) { throw "rustup default stable failed with exit code $LASTEXITCODE." }
+& (Join-Path $cargoBin "cargo.exe") install matugen --locked
+if ($LASTEXITCODE -ne 0) { throw "cargo install matugen failed with exit code $LASTEXITCODE." }
+
+$localBin = Join-Path $env:USERPROFILE ".local\bin"
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($localBin -notin ($userPath -split ";")) {
+    [Environment]::SetEnvironmentVariable("Path", $(if ($userPath) { "$userPath;$localBin" } else { $localBin }), "User")
+}

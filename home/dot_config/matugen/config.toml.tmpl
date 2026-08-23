@@ -1,0 +1,41 @@
+[config]
+source_color_index = 0
+{{ if eq .chezmoi.os "windows" }}
+[config.wallpaper]
+command = ""
+set = true
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+[templates.kitty]
+input_path = "~/.config/matugen/templates/matugen-themes/kitty-colors.conf"
+output_path = "~/.config/kitty/themes/noctalia.conf"
+
+[templates.ghostty]
+input_path = "~/.config/matugen/templates/matugen-themes/ghostty"
+output_path = "~/.config/ghostty/themes/noctalia"
+{{ else -}}
+[templates.alacritty]
+input_path = "~/.config/matugen/templates/matugen-themes/alacritty.toml"
+output_path = "~/.config/alacritty/themes/noctalia.toml"
+
+[templates.opencode]
+input_path = "~/.config/matugen/templates/matugen-themes/opencode-colors.json"
+output_path = "~/.config/opencode/themes/matugen.json"
+{{ end }}
+
+[templates.btop]
+input_path = "~/.config/matugen/templates/matugen-themes/btop.theme"
+output_path = "~/.config/btop/themes/noctalia.theme"
+
+[templates.neovim]
+input_path = "~/.config/matugen/templates/neovim.lua"
+output_path = "~/.config/nvim/lua/matugen.lua"
+
+[templates.zellij]
+input_path = "~/.config/matugen/templates/zellij.kdl"
+output_path = "~/.config/zellij/themes/noctalia.kdl"
+
+[templates.vesktop]
+input_path = "~/.config/matugen/templates/matugen-themes/midnight-discord.css"
+output_path = "~/.config/vesktop/themes/noctalia.theme.css"

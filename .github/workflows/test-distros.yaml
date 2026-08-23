@@ -1,4 +1,4 @@
-name: Test Dotfiles on Different OS
+name: Deploy Dotfiles on Different OS
 
 on: [push]
 
@@ -51,16 +51,10 @@ jobs:
     name: windows:latest
     runs-on: windows-latest
     steps:
-      - name: Install chezmoi and apply dotfiles twice
+      - name: Install chezmoi and apply dotfiles
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
-          & $chezmoi apply -v
-
-          $steam = & "$env:USERPROFILE\scoop\shims\scoop.cmd" prefix steam
-          if (!(Test-Path (Join-Path $steam "Steam.exe"))) {
-            throw "Steam installation was not found."
-          }

@@ -29,9 +29,9 @@ chezmoi init --apply collieiscute -v
 
 ### Theme
 
-- Arch Linux uses Noctalia's wallpaper-derived **light** palette for Kitty, Alacritty, Ghostty, WezTerm, GTK 3/4, Qt, and btop.
-- Platforms without Noctalia keep the existing Catppuccin terminal themes. Kitty and Alacritty files come from the upstream `catppuccin/*` repos via [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) with `refreshPeriod = "168h"`.
-- Fish, tmux, Zellij, Lazygit, and cursor themes stay independent because Noctalia has no built-in adapter for them.
+- Linux uses Noctalia's wallpaper-derived **light** palette; macOS and Windows use Matugen with the same per-app theme paths.
+- Generated app themes stay outside chezmoi. [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) only pins the Matugen template inputs.
+- Fish and cursor themes stay independent.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
@@ -56,8 +56,7 @@ chezmoi init --apply collieiscute -v
 
 - Used on macOS specifically because [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiles each Ghostty native tab as a separate window — Kitty's custom tab bar appears as a single AXWindow.
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
-- macOS and non-Arch Linux load Catppuccin Macchiato directly. Arch Linux loads only Noctalia's generated `themes/noctalia.conf`; there is no second palette or fallback competing with it.
-- Alacritty, Ghostty, and WezTerm use the same ownership model on Arch: chezmoi points the main config at `Noctalia`, while Noctalia owns only generated color files.
+- Kitty, Alacritty, and Ghostty point at the fixed `noctalia` theme path; Noctalia or Matugen owns the generated colors.
 
 ### Hyprland
 
@@ -67,7 +66,7 @@ chezmoi init --apply collieiscute -v
 - Noctalia v5 owns the desktop shell layer (bar, launcher, notifications, wallpaper, lock screen, idle, screenshots, clipboard).
 - Noctalia Shell is installed on Arch and Ubuntu. Noctalia Greeter stays Arch-only; Ubuntu keeps SDDM.
 - Wallpapers are deployed by chezmoi to `~/.config/wallpapers`; Noctalia reads that path directly.
-- Noctalia is the Arch Linux wallpaper/theme owner for apps with built-in adapters. App integrations write generated theme files and reload apps; chezmoi keeps their main configs pre-aligned so post-hooks do not cause drift.
+- Noctalia is the Linux wallpaper/theme owner for apps with built-in adapters. App integrations write generated theme files and reload apps; chezmoi keeps their main configs pre-aligned so post-hooks do not cause drift.
 - Noctalia desktop/lockscreen widget placement is generated from monitor roles and ratios in `20-widgets.generated.toml.tmpl`; run `chezmoi apply` after changing the monitor layout.
 - If widgets are edited in Noctalia's GUI, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml` or fold the new ratios back into the template; state overrides win over declarative config.
 
@@ -171,7 +170,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 - [`fish`](https://fishshell.com) — primary shell.
 - [`tmux`](https://github.com/tmux/tmux) — primary multiplexer.
-- [`zellij`](https://zellij.dev) — secondary multiplexer (Catppuccin Mocha built-in theme).
+- [`zellij`](https://zellij.dev) — secondary multiplexer using the generated Noctalia-compatible theme.
 
 ### Editor
 
@@ -181,7 +180,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 - [`kitty`](https://sw.kovidgoyal.net/kitty/) — macOS daily driver (AeroSpace-friendly tabs).
 - [`wezterm`](https://wezterm.org) — cross-platform fallback.
-- [`ghostty`](https://ghostty.org) — newer GPU terminal, Noctalia on Arch and Catppuccin Macchiato elsewhere.
+- [`ghostty`](https://ghostty.org) — newer GPU terminal using the generated Noctalia-compatible theme.
 - [`alacritty`](https://github.com/alacritty/alacritty) — minimal GPU terminal.
 
 ### Wayland stack (Hyprland)
@@ -237,7 +236,6 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 ### Tmux plugins (managed by [`TPM`](https://github.com/tmux-plugins/tpm))
 
-- `catppuccin/tmux` — status-bar theme.
 - `mrjones2014/smart-splits.nvim` — `Ctrl+Arrow` resize, plays nice with neovim.
 - `tmux-plugins/tmux-sensible` — sensible defaults.
 - `tmux-plugins/tmux-continuum` — auto-save/restore on start.
@@ -258,7 +256,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 ```
 home/                            # chezmoi source root (.chezmoiroot=home)
 ├── .chezmoidata/packages.yaml   # canonical package list (paru + apt)
-├── .chezmoiexternal.toml        # external theme files
+├── .chezmoiexternal.toml        # pinned external template inputs
 ├── .chezmoiscripts/             # run_once / run_onchange bootstrap
 ├── .chezmoitemplates/           # macOS install template (Brewfile pass-thru)
 └── dot_config/                  # → ~/.config/...

@@ -1,0 +1,20 @@
+@echo off
+setlocal
+
+if not "%~2"=="" (
+    echo usage: chezmoi theme [IMAGE] 1>&2
+    exit /b 2
+)
+
+if "%~1"=="" (
+    set "IMAGE=%USERPROFILE%\.config\wallpapers\xp_wallpaper.jpg"
+) else (
+    set "IMAGE=%~f1"
+)
+
+if not exist "%IMAGE%" (
+    echo wallpaper not found: %IMAGE% 1>&2
+    exit /b 1
+)
+
+"%USERPROFILE%\.cargo\bin\matugen.exe" image "%IMAGE%" -c "%USERPROFILE%\.config\matugen\config.toml" -m light -t scheme-fidelity --source-color-index 0
