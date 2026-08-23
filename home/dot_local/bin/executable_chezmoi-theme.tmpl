@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eu
+
+if [ "$#" -gt 1 ]; then
+    echo "usage: chezmoi theme [IMAGE]" >&2
+    exit 2
+fi
+
+image=${1:-"$HOME/.config/wallpapers/xp_wallpaper.jpg"}
+case $image in
+    /*) ;;
+    *) image=$PWD/$image ;;
+esac
+
+if [ ! -f "$image" ]; then
+    echo "wallpaper not found: $image" >&2
+    exit 1
+fi
+
+{{- if eq .chezmoi.os "linux" }}
+exec noctalia msg wallpaper-set "$image"
+{{- else if eq .chezmoi.os "darwin" }}
+matugen image "$image" -c "$HOME/.config/matugen/config.toml" -m light -t scheme-fidelity --source-color-index 0
+
+/usr/bin/osascript - "$image" <<'APPLESCRIPT'
+on run argv
+    set wallpaperPath to POSIX file (item 1 of argv)
+    tell application "System Events"
+        repeat with currentDesktop in desktops
+            set picture of currentDesktop to wallpaperPath
+        end repeat
+    end tell
+end run
+APPLESCRIPT
+{{- end }}

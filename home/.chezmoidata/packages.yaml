@@ -180,6 +180,7 @@ packages:
         - openssh
         - podman
         - ripgrep
+        - rustup-msvc
         - tldr
         - tokei
         - typst
