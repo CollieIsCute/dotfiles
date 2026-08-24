@@ -14,6 +14,11 @@ output_path = "~/.config/kitty/themes/noctalia.conf"
 [templates.ghostty]
 input_path = "~/.config/matugen/templates/matugen-themes/ghostty"
 output_path = "~/.config/ghostty/themes/noctalia"
+
+[templates.tmux]
+input_path = "~/.config/matugen/templates/tmux/tmux.conf"
+output_path = "~/.config/tmux/themes/noctalia.conf"
+post_hook = 'bash "$HOME/.config/matugen/templates/tmux/apply.sh"'
 {{ else -}}
 [templates.alacritty]
 input_path = "~/.config/matugen/templates/matugen-themes/alacritty.toml"
