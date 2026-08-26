@@ -55,6 +55,23 @@ enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "hyprland", "kitty", "qt", "wezterm"]
 community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit"]
 
+# Temporary until https://github.com/noctalia-dev/community-templates/pull/101 lands.
+[theme.templates.user.tmux]
+input_path = "$XDG_CACHE_HOME/noctalia/community-templates/tmux-6d7e23d/tmux.conf"
+output_path = "$XDG_CONFIG_HOME/tmux/themes/noctalia.conf"
+pre_hook = '''
+set -eu
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/noctalia/community-templates/tmux-6d7e23d"
+if [ ! -s "$cache/tmux.conf" ] || [ ! -s "$cache/apply.sh" ]; then
+    mkdir -p "$cache"
+    curl -fsSL "https://raw.githubusercontent.com/CollieIsCute/community-templates/6d7e23d9ca015dcdab68d73a896c2f99c9086a92/tmux/tmux.conf" -o "$cache/tmux.conf.tmp"
+    curl -fsSL "https://raw.githubusercontent.com/CollieIsCute/community-templates/6d7e23d9ca015dcdab68d73a896c2f99c9086a92/tmux/apply.sh" -o "$cache/apply.sh.tmp"
+    mv "$cache/tmux.conf.tmp" "$cache/tmux.conf"
+    mv "$cache/apply.sh.tmp" "$cache/apply.sh"
+fi
+'''
+post_hook = 'bash "${XDG_CACHE_HOME:-$HOME/.cache}/noctalia/community-templates/tmux-6d7e23d/apply.sh"'
+
 [notification]
 enable_daemon = true
 show_app_name = true
