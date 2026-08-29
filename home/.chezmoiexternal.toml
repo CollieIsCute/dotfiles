@@ -14,13 +14,13 @@ checksum.sha256 = "65284a68c482fa5226cb937bb7e9fc094e14eb66f2688fc8a646503300a46
 {{ if eq .chezmoi.os "darwin" -}}
 [".config/matugen/templates/tmux/tmux.conf"]
 type = "file"
-url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/12b4e17e371de6aa8ee56303d1d4ee5374ff5565/tmux/tmux.conf"
-checksum.sha256 = "1e0ec6100855f3f303ed02fb22c3cac1d608a06db2ec23b61217b2556800c54a"
+url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/main/tmux/tmux.conf"
+refreshPeriod = "24h"
 
 [".config/matugen/templates/tmux/apply.sh"]
 type = "file"
-url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/12b4e17e371de6aa8ee56303d1d4ee5374ff5565/tmux/apply.sh"
-checksum.sha256 = "8e5e7adaa14588251924e926e4a6378523d8b42d64ba991e9094f0bafe8c3a70"
+url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/main/tmux/apply.sh"
+refreshPeriod = "24h"
 {{ end -}}
 
 [".config/matugen/templates/neovim.lua"]
