@@ -31,7 +31,7 @@ chezmoi init --apply collieiscute -v
 
 - Linux uses Noctalia's wallpaper-derived **light** palette; macOS and Windows use Matugen with the same per-app theme paths.
 - Generated app themes stay outside chezmoi. [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) only pins the Matugen template inputs.
-- Fish and cursor themes stay independent.
+- Fish inherits the terminal ANSI palette; cursor themes stay independent.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
 
 ### chezmoi quirks I keep tripping over (that this repo handles)
@@ -204,7 +204,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 - [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.
 - [`karabiner-elements`](https://karabiner-elements.pqrs.org) — keyboard remapper.
 - [`raycast`](https://raycast.com) — launcher.
-- Desktop wallpaper is deployed by chezmoi to `~/.config/wallpapers` and applied by `run_onchange_after_3-configure-macos-wallpaper.sh.tmpl`.
+- Desktop wallpaper is deployed by chezmoi to `~/.config/wallpapers`; `run_onchange_after_6-apply-theme.sh.tmpl` applies the initial wallpaper and Matugen palette, and `chezmoi theme [IMAGE]` changes both later.
 
 ### CLI tooling
 
@@ -228,7 +228,6 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 ### Fish plugins (managed by [`fisher`](https://github.com/jorgebucaran/fisher))
 
-- `catppuccin/fish` — colour theme.
 - `edc/bass` — run bash scripts in fish.
 - `jorgebucaran/nvm.fish` — Node version manager.
 - `patrickf1/fzf.fish` — fzf integrations.
