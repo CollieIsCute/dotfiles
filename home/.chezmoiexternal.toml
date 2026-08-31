@@ -42,6 +42,14 @@ filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -
 {{ end -}}
 
 {{ if eq .chezmoi.os "linux" -}}
+[".local/libexec/openwhispr"]
+type = "archive"
+url = "https://github.com/OpenWhispr/openwhispr/releases/download/v1.9.2/OpenWhispr-1.9.2-linux-x64.tar.gz"
+exact = true
+stripComponents = 1
+checksum.sha256 = "af97777bc5857e14947aedf08d353dd27fc5d2f10e27a22a3f05f2f5a0f041cd"
+checksum.size = 524376464
+
 [".local/libexec/crispasr"]
 type = "archive"
 url = "https://github.com/CrispStrobe/CrispASR/releases/download/v0.8.28/crispasr-linux-x86_64-vulkan.tar.gz"
@@ -56,6 +64,19 @@ url = "https://github.com/peteonrails/voxtype/releases/download/v0.7.5/voxtype-0
 executable = true
 checksum.sha256 = "12e794655f0e0efadceb92e6313cec2c618c571892490368d0b90194cc27cc6e"
 checksum.size = 24338816
+
+[".local/libexec/openwhispr"]
+type = "archive"
+exact = true
+{{ if eq .chezmoi.arch "arm64" -}}
+url = "https://github.com/OpenWhispr/openwhispr/releases/download/v1.9.2/OpenWhispr-1.9.2-arm64-mac.zip"
+checksum.sha256 = "20f7fdba991f76b2434ddb91084276bf1bb333dd24718acb2dc620946af5c877"
+checksum.size = 330986805
+{{ else -}}
+url = "https://github.com/OpenWhispr/openwhispr/releases/download/v1.9.2/OpenWhispr-1.9.2-mac.zip"
+checksum.sha256 = "6c7a26a4c369514c49f5d39d97f11cb21b7d29c7e14e066e45cc9f8ef60a5a6b"
+checksum.size = 330672539
+{{ end -}}
 
 [".local/libexec/crispasr"]
 type = "archive"

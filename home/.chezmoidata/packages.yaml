@@ -146,6 +146,8 @@ packages:
       - unzip
       - wget
       - wireplumber
+      - wl-clipboard
+      - wtype
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xwayland
