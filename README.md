@@ -205,7 +205,6 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 
 - [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.
 - [`karabiner-elements`](https://karabiner-elements.pqrs.org) — keyboard remapper.
-- [`raycast`](https://raycast.com) — launcher.
 - Desktop wallpaper is deployed by chezmoi to `~/.config/wallpapers`; `run_onchange_after_6-apply-theme.sh.tmpl` applies the initial wallpaper and Matugen palette, and `chezmoi theme [IMAGE]` changes both later.
 
 ### CLI tooling
