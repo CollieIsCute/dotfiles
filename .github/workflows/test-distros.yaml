@@ -27,6 +27,10 @@ jobs:
           grep -Fq openwhispr-binds.lua /home/dev/.config/hypr/hyprland.lua
           command -v wl-copy
           command -v wtype
+          fish -n /home/dev/.config/fish/functions/asr-mode.fish
+          fish -c 'source /home/dev/.config/fish/functions/asr-mode.fish; asr-mode --help' | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
+          ! command -v voxtype
+          test ! -e /home/dev/.config/voxtype
           ! id -nG dev | grep -qw input
           test ! -e /etc/udev/rules.d/70-uinput.rules
           ! command -v ydotoold
@@ -50,6 +54,10 @@ jobs:
           grep -Fq openwhispr-binds.lua /home/ubuntu/.config/hypr/hyprland.lua
           command -v wl-copy
           command -v wtype
+          fish -n /home/ubuntu/.config/fish/functions/asr-mode.fish
+          fish -c 'source /home/ubuntu/.config/fish/functions/asr-mode.fish; asr-mode --help' | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
+          ! command -v voxtype
+          test ! -e /home/ubuntu/.config/voxtype
           ! id -nG ubuntu | grep -qw input
           test ! -e /etc/udev/rules.d/70-uinput.rules
           ! command -v ydotoold
@@ -69,6 +77,10 @@ jobs:
           binary="$HOME/.local/libexec/openwhispr/OpenWhispr.app/Contents/MacOS/OpenWhispr"
           test -x "$binary"
           file "$binary" | grep -q "$(uname -m)"
+          fish -n "$HOME/.config/fish/functions/asr-mode.fish"
+          fish -c "source '$HOME/.config/fish/functions/asr-mode.fish'; asr-mode --help" | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
+          test ! -e "$HOME/.local/libexec/voxtype"
+          test ! -e "$HOME/.config/voxtype"
 
   windows:
     name: windows:latest

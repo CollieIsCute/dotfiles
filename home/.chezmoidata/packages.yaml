@@ -79,7 +79,6 @@ packages:
       - ttf-jetbrains-mono-nerd
       - typst
       - unzip
-      - voxtype-bin
       - wireplumber
       - wget
       - wl-clipboard

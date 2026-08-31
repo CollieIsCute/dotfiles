@@ -2,6 +2,11 @@
 .config/cursor-flags.conf
 .config/alacritty/catppuccin-mocha.toml
 .config/kitty/themes/catppuccin-macchiato.conf
+.config/fish/completions/voxtype-mode.fish
+.config/fish/functions/voxtype-mode.fish
+.config/fish/functions/voxtype-post-process.fish
+.config/voxtype
+.local/libexec/voxtype
 {{ if eq .chezmoi.os "linux" }}
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
@@ -15,7 +20,6 @@
 .config/waybar/themes/frappe.css
 .local/bin/dropbox.py
 .local/lib/dropbox/dropbox.py
-.local/libexec/voxtype
 {{ if eq .chezmoi.osRelease.id "arch" }}
 .config/noctalia/templates/alacritty.toml
 .config/noctalia/templates/ghostty

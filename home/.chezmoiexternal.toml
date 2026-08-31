@@ -58,13 +58,6 @@ include = ["crispasr-linux-x86_64-vulkan/crispasr", "crispasr-linux-x86_64-vulka
 checksum.sha256 = "081e814933ab3d1e1b3ab4da46243d6fc8fe9a6cc89d98ae05b0e2157fe59ad6"
 checksum.size = 70198311
 {{ else if eq .chezmoi.os "darwin" -}}
-[".local/libexec/voxtype/voxtype"]
-type = "file"
-url = "https://github.com/peteonrails/voxtype/releases/download/v0.7.5/voxtype-0.7.5-macos-universal"
-executable = true
-checksum.sha256 = "12e794655f0e0efadceb92e6313cec2c618c571892490368d0b90194cc27cc6e"
-checksum.size = 24338816
-
 [".local/libexec/openwhispr"]
 type = "archive"
 exact = true

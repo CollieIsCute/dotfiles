@@ -84,7 +84,7 @@ chezmoi init --apply collieiscute -v
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
-| hold `F13` | Voxtype push-to-talk dictation |
+| tap `F13` | OpenWhispr dictation toggle |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -105,21 +105,24 @@ chezmoi init --apply collieiscute -v
 | `XF86Audio*` | volume / mute / mic mute |
 | `XF86MonBrightness*` | screen brightness |
 
-Voice dictation supports Arch Linux x86_64 and Apple silicon macOS. Select
-`voxtype-mode sensevoice` for the CPU-only SenseVoice model or
-`voxtype-mode qwen-1.7b` for the GPU-backed Qwen3-ASR model; missing models
-download only when selected. Run `voxtype-mode off` before gaming to stop and
-verify every managed ASR process, releasing the GPU. `voxtype-mode --help`
-lists the same commands in Fish.
+Voice dictation uses OpenWhispr on Arch Linux x86_64 and macOS. Select
+`asr-mode sensevoice` for the CPU-only SenseVoice model or `asr-mode qwen-1.7b`
+for the GPU-backed Qwen3-ASR model; missing models download only when selected.
+Run `asr-mode off` before gaming to stop CrispASR, close port 8080, and release
+its GPU memory. OpenWhispr remains in the tray; quit it separately when its UI
+and shortcut are not needed.
 
-Linux uses the Hyprland `F13` binding. On macOS, `F13` is handled by VoxType;
-allow Microphone and Accessibility access when macOS prompts for them.
+Set OpenWhispr to Self-Hosted `http://127.0.0.1:8080/v1`, model `local-asr`, and
+F13 tap mode. Linux uses its native Hyprland binding and `wtype`; macOS requires
+Microphone and Accessibility access. OpenWhispr 1.9.2 may still show a ydotool
+setup warning on Linux; `wtype` is already preferred, so do not add the `input`
+group or daemon just to dismiss it.
 
 ### AeroSpace (macOS)
 
 | Bind | Action |
 |---|---|
-| hold `F13` | Voxtype push-to-talk dictation |
+| tap `F13` | OpenWhispr dictation toggle |
 | `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |
