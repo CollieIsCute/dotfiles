@@ -343,3 +343,5 @@ hl.window_rule({
 
 -- For Noctalia Color templates
 require("noctalia").apply_theme()
+
+pcall(require, "{{ .chezmoi.homeDir }}/.config/hypr/openwhispr-binds.lua")
