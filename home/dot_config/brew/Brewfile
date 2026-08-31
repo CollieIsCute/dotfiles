@@ -53,7 +53,6 @@ cask "middleclick"
 cask "moonlight"
 cask "nikitabobko/tap/aerospace", trusted: true
 cask "qmk-toolbox"
-cask "raycast"
 cask "signal"
 cask "stats"
 cask "telegram"
