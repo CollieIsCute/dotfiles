@@ -86,6 +86,9 @@ cat > "${tmpdir}/greeter.toml" <<GREETER_TOML
 # noctalia-greeter greeter.toml
 # Managed by chezmoi. Wallpaper/colors are synced by: noctalia msg greeter-sync
 
+[idle]
+timeout = 120
+
 [session]
 default = "Hyprland"
 last = "Hyprland"
