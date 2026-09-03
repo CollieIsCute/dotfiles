@@ -108,15 +108,19 @@ chezmoi init --apply collieiscute -v
 Voice dictation uses OpenWhispr on Arch Linux x86_64 and macOS. Select
 `asr-mode sensevoice` for the CPU-only SenseVoice model or `asr-mode qwen-1.7b`
 for the GPU-backed Qwen3-ASR model; missing models download only when selected.
+Models use `${XDG_CACHE_HOME:-$HOME/.cache}/crispasr` on Linux and
+`${XDG_CACHE_HOME:-$HOME/Library/Caches}/crispasr` on macOS.
 Run `asr-mode off` before gaming to stop CrispASR, close port 8080, and release
 its GPU memory. OpenWhispr remains in the tray; quit it separately when its UI
 and shortcut are not needed.
 
-Set OpenWhispr to Self-Hosted `http://127.0.0.1:8080/v1`, model `local-asr`, and
-F13 tap mode. Linux uses its native Hyprland binding and `wtype`; macOS requires
-Microphone and Accessibility access. OpenWhispr 1.9.2 may still show a ydotool
-setup warning on Linux; `wtype` is already preferred, so do not add the `input`
-group or daemon just to dismiss it.
+For first-time OpenWhispr setup, run `asr-mode qwen-1.7b`, then set Self-Hosted
+to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`. Each
+successful model switch prints its current absolute path for later connection
+tests. Use F13 tap mode. Linux uses its native Hyprland binding and `wtype`;
+macOS requires Microphone and Accessibility access. OpenWhispr 1.9.2 may still
+show a ydotool setup warning on Linux; `wtype` is already preferred, so do not
+add the `input` group or daemon just to dismiss it.
 
 ### AeroSpace (macOS)
 
