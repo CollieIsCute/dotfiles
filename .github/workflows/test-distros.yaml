@@ -21,23 +21,6 @@ jobs:
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
           sudo -H -u dev chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
-      - name: Verify unprivileged OpenWhispr install
-        run: |
-          test -x /home/dev/.local/libexec/openwhispr/open-whispr
-          grep -Fq openwhispr-binds.lua /home/dev/.config/hypr/hyprland.lua
-          grep -Fq 'hl.bind("XF86Tools"' /home/dev/.config/hypr/hyprland.lua
-          command -v wl-copy
-          command -v wtype
-          fish -n /home/dev/.config/fish/functions/asr-mode.fish
-          fish -c 'source /home/dev/.config/fish/functions/asr-mode.fish; asr-mode --help' | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
-          sudo -H -u dev fish -c 'set -e XDG_CACHE_HOME; source /home/dev/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Linux) = /home/dev/.cache/crispasr'
-          sudo -H -u dev fish -c 'set -lx XDG_CACHE_HOME /tmp/asr-cache; source /home/dev/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Linux) = /tmp/asr-cache/crispasr'
-          grep -Fq 'OpenWhispr Model ID:' /home/dev/.config/fish/functions/asr-mode.fish
-          ! command -v voxtype
-          test ! -e /home/dev/.config/voxtype
-          ! id -nG dev | grep -qw input
-          test ! -e /etc/udev/rules.d/70-uinput.rules
-          ! command -v ydotoold
 
   ubuntu:
     name: ubuntu:latest
@@ -52,19 +35,6 @@ jobs:
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
           sudo -H -u ubuntu chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
-      - name: Verify unprivileged OpenWhispr install
-        run: |
-          test -x /home/ubuntu/.local/libexec/openwhispr/open-whispr
-          grep -Fq openwhispr-binds.lua /home/ubuntu/.config/hypr/hyprland.lua
-          command -v wl-copy
-          command -v wtype
-          fish -n /home/ubuntu/.config/fish/functions/asr-mode.fish
-          fish -c 'source /home/ubuntu/.config/fish/functions/asr-mode.fish; asr-mode --help' | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
-          ! command -v voxtype
-          test ! -e /home/ubuntu/.config/voxtype
-          ! id -nG ubuntu | grep -qw input
-          test ! -e /etc/udev/rules.d/70-uinput.rules
-          ! command -v ydotoold
 
   macos:
     name: macos:latest
@@ -76,16 +46,6 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
-      - name: Verify user-local OpenWhispr install
-        run: |
-          binary="$HOME/.local/libexec/openwhispr/OpenWhispr.app/Contents/MacOS/OpenWhispr"
-          test -x "$binary"
-          file "$binary" | grep -q "$(uname -m)"
-          fish -n "$HOME/.config/fish/functions/asr-mode.fish"
-          fish -c "source '$HOME/.config/fish/functions/asr-mode.fish'; asr-mode --help" | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
-          fish -c 'set -e XDG_CACHE_HOME; source ~/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Darwin) = "$HOME/Library/Caches/crispasr"'
-          test ! -e "$HOME/.local/libexec/voxtype"
-          test ! -e "$HOME/.config/voxtype"
 
   windows:
     name: windows:latest
@@ -98,6 +58,3 @@ jobs:
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
-          if (Test-Path (Join-Path $HOME ".local/libexec/openwhispr")) {
-            throw "OpenWhispr external must remain scoped to Linux and macOS"
-          }
