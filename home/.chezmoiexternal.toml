@@ -52,11 +52,10 @@ checksum.size = 524376464
 
 [".local/libexec/crispasr"]
 type = "archive"
-url = "https://github.com/CrispStrobe/CrispASR/releases/download/v0.8.28/crispasr-linux-x86_64-vulkan.tar.gz"
+url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-linux-x86_64-vulkan.tar.gz" | quote }}
+refreshPeriod = "168h"
 stripComponents = 1
 include = ["crispasr-linux-x86_64-vulkan/crispasr", "crispasr-linux-x86_64-vulkan/lib*"]
-checksum.sha256 = "081e814933ab3d1e1b3ab4da46243d6fc8fe9a6cc89d98ae05b0e2157fe59ad6"
-checksum.size = 70198311
 {{ else if eq .chezmoi.os "darwin" -}}
 [".local/libexec/openwhispr"]
 type = "archive"
@@ -73,9 +72,8 @@ checksum.size = 330672539
 
 [".local/libexec/crispasr"]
 type = "archive"
-url = "https://github.com/CrispStrobe/CrispASR/releases/download/v0.8.28/crispasr-macos.tar.gz"
+url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-macos.tar.gz" | quote }}
+refreshPeriod = "168h"
 stripComponents = 1
 include = ["crispasr-macos/crispasr", "crispasr-macos/libc2pa_c.dylib"]
-checksum.sha256 = "1972e6b7df4cf0d62dd458d07e39373db59b612f60949ec389338410bfca20a6"
-checksum.size = 15954747
 {{ end -}}
