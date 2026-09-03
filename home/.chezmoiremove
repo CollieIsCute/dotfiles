@@ -7,6 +7,7 @@
 .config/fish/functions/voxtype-post-process.fish
 .config/voxtype
 .local/libexec/voxtype
+.local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
