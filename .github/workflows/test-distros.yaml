@@ -68,7 +68,7 @@ jobs:
     env:
       HOMEBREW_BUNDLE_NO_JOBS: "1"
     steps:
-      - run: brew install chezmoi
+      - run: brew update && brew install chezmoi
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
