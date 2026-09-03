@@ -6,9 +6,11 @@
 .config/fish/functions/voxtype-mode.fish
 .config/fish/functions/voxtype-post-process.fish
 .config/voxtype
+.cache/voxtype
 .local/libexec/voxtype
 .local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
+.config/systemd/user/voxtype.service
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
 .config/hypr/hyprpaper.conf
@@ -26,4 +28,10 @@
 .config/noctalia/templates/ghostty
 .config/noctalia/templates/kitty.conf
 {{ end }}
+{{ end }}
+{{ if eq .chezmoi.os "darwin" }}
+Library/Application Support/voxtype
+Library/Caches/voxtype
+Library/LaunchAgents/io.voxtype.daemon.plist
+Library/Logs/voxtype
 {{ end }}

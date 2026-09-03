@@ -84,7 +84,8 @@ chezmoi init --apply collieiscute -v
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
-| tap `F13` | OpenWhispr dictation toggle |
+| hold `SHIFT+F13` | OpenWhispr push-to-talk dictation |
+| `SUPER+F13` | OpenWhispr local voice agent |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -117,16 +118,18 @@ and shortcut are not needed.
 For first-time OpenWhispr setup, run `asr-mode qwen-1.7b`, then set Self-Hosted
 to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`. Each
 successful model switch prints its current absolute path for later connection
-tests. Use F13 tap mode. Linux uses its native Hyprland binding and `wtype`;
-macOS requires Microphone and Accessibility access. OpenWhispr 1.9.2 may still
-show a ydotool setup warning on Linux; `wtype` is already preferred, so do not
-add the `input` group or daemon just to dismiss it.
+tests. Chezmoi keeps OpenWhispr in push mode with `SHIFT+F13` for dictation and
+`Meta+F13` for the local voice agent. Linux uses its native Hyprland binding
+and `wtype`; macOS requires Microphone and Accessibility access. OpenWhispr
+1.9.2 may still show a ydotool setup warning on Linux; `wtype` is already
+preferred, so do not add the `input` group or daemon just to dismiss it.
 
 ### AeroSpace (macOS)
 
 | Bind | Action |
 |---|---|
-| tap `F13` | OpenWhispr dictation toggle |
+| hold `Shift+F13` | OpenWhispr push-to-talk dictation |
+| `Cmd+F13` | OpenWhispr local voice agent |
 | `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |
