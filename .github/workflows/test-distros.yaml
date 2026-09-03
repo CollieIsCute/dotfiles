@@ -29,6 +29,9 @@ jobs:
           command -v wtype
           fish -n /home/dev/.config/fish/functions/asr-mode.fish
           fish -c 'source /home/dev/.config/fish/functions/asr-mode.fish; asr-mode --help' | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
+          fish -c 'set -e XDG_CACHE_HOME; source /home/dev/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Linux) = /home/dev/.cache/crispasr'
+          fish -c 'set -lx XDG_CACHE_HOME /tmp/asr-cache; source /home/dev/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Linux) = /tmp/asr-cache/crispasr'
+          grep -Fq 'OpenWhispr Model ID:' /home/dev/.config/fish/functions/asr-mode.fish
           ! command -v voxtype
           test ! -e /home/dev/.config/voxtype
           ! id -nG dev | grep -qw input
@@ -79,6 +82,7 @@ jobs:
           file "$binary" | grep -q "$(uname -m)"
           fish -n "$HOME/.config/fish/functions/asr-mode.fish"
           fish -c "source '$HOME/.config/fish/functions/asr-mode.fish'; asr-mode --help" | grep -Fq 'asr-mode {sensevoice|qwen-1.7b|off}'
+          fish -c 'set -e XDG_CACHE_HOME; source ~/.config/fish/functions/asr-mode.fish; test (__asr_model_dir Darwin) = "$HOME/Library/Caches/crispasr"'
           test ! -e "$HOME/.local/libexec/voxtype"
           test ! -e "$HOME/.config/voxtype"
 

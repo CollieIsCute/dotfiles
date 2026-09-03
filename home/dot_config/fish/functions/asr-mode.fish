@@ -1,3 +1,13 @@
+function __asr_model_dir --argument-names os
+    if test -n "$XDG_CACHE_HOME"
+        printf '%s/crispasr\n' "$XDG_CACHE_HOME"
+    else if test $os = Darwin
+        printf '%s/Library/Caches/crispasr\n' "$HOME"
+    else
+        printf '%s/.cache/crispasr\n' "$HOME"
+    end
+end
+
 function __asr_download_model --argument-names label url file
     test -f "$file"
     and return
@@ -15,8 +25,7 @@ end
 function __asr_stop_managed --argument-names os
     if test $os = Linux
         command systemctl --user stop crispasr.service \
-            voxtype-active.service voxtype-asr.service voxtype-qwen.service voxtype.service \
-            >/dev/null 2>&1
+            voxtype-active.service voxtype-asr.service voxtype-qwen.service voxtype.service >/dev/null 2>&1
     else
         for label in com.collie.crispasr com.collie.voxtype.active com.collie.voxtype.asr
             command launchctl remove $label >/dev/null 2>&1
@@ -39,7 +48,7 @@ function asr-mode --description 'Switch CrispASR model or stop ASR'
             '  qwen-1.7b   Qwen3-ASR 1.7B Q8_0 (GPU)' \
             '  off         Stop CrispASR and verify PID and port 8080 are gone' \
             '' \
-            'OpenWhispr remains running; this command controls CrispASR only.'
+            'OpenWhispr remains running; successful model switches print its Model ID.'
         return
     end
 
@@ -87,11 +96,7 @@ function asr-mode --description 'Switch CrispASR model or stop ASR'
     set -l unit crispasr.service
     set -l label com.collie.crispasr
     set -l health http://127.0.0.1:8080/health
-    set -l data_home "$XDG_DATA_HOME"
-    test -n "$data_home"
-    or set data_home "$HOME/.local/share"
-    # Reuse the existing models; moving 2.76 GB adds no value.
-    set -l model_dir "$data_home/voxtype/models"
+    set -l model_dir (__asr_model_dir $os)
     set -l crisp "$HOME/.local/libexec/crispasr/crispasr"
     set -l process_pattern "^"(string escape --style=regex -- "$crisp")"( |\$)"
 
@@ -171,4 +176,5 @@ function asr-mode --description 'Switch CrispASR model or stop ASR'
         echo 'asr-mode: CrispASR process is not running' >&2
         return 1
     end
+    printf 'OpenWhispr Model ID:\n%s\n' (path resolve "$model")
 end
