@@ -8,7 +8,6 @@ concurrency:
 
 env:
   CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
-  CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   arch:
