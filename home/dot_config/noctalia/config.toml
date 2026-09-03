@@ -53,7 +53,7 @@ wallpaper_scheme = "faithful"
 enable_builtin_templates = true
 enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "hyprland", "kitty", "qt", "wezterm"]
-community_ids = ["opencode", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "bat", "lazygit", "tmux"]
+community_ids = ["claude-code", "codex", "opencode", "brave", "brave-origin", "discord", "telegram", "neovim", "vscode", "steam", "fastfetch", "zellij", "fcitx5", "bat", "fzf", "herdr", "lazygit", "tmux"]
 
 [notification]
 enable_daemon = true
