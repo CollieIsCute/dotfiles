@@ -25,6 +25,7 @@ jobs:
         run: |
           test -x /home/dev/.local/libexec/openwhispr/open-whispr
           grep -Fq openwhispr-binds.lua /home/dev/.config/hypr/hyprland.lua
+          grep -Fq 'hl.bind("XF86Tools"' /home/dev/.config/hypr/hyprland.lua
           command -v wl-copy
           command -v wtype
           fish -n /home/dev/.config/fish/functions/asr-mode.fish
