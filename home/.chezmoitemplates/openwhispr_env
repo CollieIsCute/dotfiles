@@ -1,0 +1,20 @@
+{{- $out := default "" .chezmoi.stdin -}}
+{{- $newline := ternary "\r\n" "\n" (contains "\r\n" $out) -}}
+{{- $settings := list
+  (dict "key" "DICTATION_KEY" "value" "Shift+F13")
+  (dict "key" "VOICE_AGENT_KEY" "value" "Meta+F13")
+  (dict "key" "ACTIVATION_MODE" "value" "push")
+-}}
+{{- range $setting := $settings -}}
+  {{- $pattern := printf `(?m)^%s=[^\r\n]*(\r?)$` $setting.key -}}
+  {{- if regexMatch $pattern $out -}}
+    {{- $replacement := printf `%s=%s${1}` $setting.key $setting.value -}}
+    {{- $out = replaceAllRegex $pattern $replacement $out -}}
+  {{- else -}}
+    {{- if and $out (not (hasSuffix "\n" $out)) -}}
+      {{- $out = printf "%s%s" $out $newline -}}
+    {{- end -}}
+    {{- $out = printf "%s%s=%s%s" $out $setting.key $setting.value $newline -}}
+  {{- end -}}
+{{- end -}}
+{{- $out -}}
