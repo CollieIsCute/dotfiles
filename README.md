@@ -121,6 +121,7 @@ successful model switch prints its current absolute path for later connection
 tests. Chezmoi keeps OpenWhispr in push mode with `SHIFT+F13` for dictation and
 `Meta+F13` for the local voice agent. Linux uses its native Hyprland binding
 and `wtype`; macOS requires Microphone and Accessibility access. OpenWhispr
+loads these shortcuts at startup, so restart it after `chezmoi apply`. Version
 1.9.2 may still show a ydotool setup warning on Linux; `wtype` is already
 preferred, so do not add the `input` group or daemon just to dismiss it.
 

@@ -10,7 +10,6 @@
 .local/libexec/voxtype
 .local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
-.config/systemd/user/voxtype.service
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
 .config/hypr/hyprpaper.conf
@@ -32,6 +31,5 @@
 {{ if eq .chezmoi.os "darwin" }}
 Library/Application Support/voxtype
 Library/Caches/voxtype
-Library/LaunchAgents/io.voxtype.daemon.plist
 Library/Logs/voxtype
 {{ end }}
