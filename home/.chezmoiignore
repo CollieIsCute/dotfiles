@@ -24,6 +24,8 @@ Library/**
 .config/mimeapps.list
 .config/noctalia
 .config/noctalia/**
+.config/open-whispr
+.config/open-whispr/**
 .config/paru
 .config/paru/**
 .local/share/applications

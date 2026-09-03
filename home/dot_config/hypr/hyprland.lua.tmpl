@@ -345,5 +345,5 @@ pcall(require, "{{ .chezmoi.homeDir }}/.config/hypr/openwhispr-binds.lua")
 
 -- evdev exposes KEY_F13 as XF86Tools; OpenWhispr 1.9.2 binds the wrong keysym.
 local openwhisprDbus = "dbus-send --session --type=method_call --dest=com.openwhispr.App /com/openwhispr/App com.openwhispr.App."
-hl.bind("XF86Tools", hl.dsp.exec_cmd(openwhisprDbus .. "PttDown"), { transparent = true })
-hl.bind("XF86Tools", hl.dsp.exec_cmd(openwhisprDbus .. "PttUp"), { release = true, transparent = true })
+hl.bind("SHIFT + XF86Tools", hl.dsp.exec_cmd(openwhisprDbus .. "PttDown"), { transparent = true })
+hl.bind("SHIFT + XF86Tools", hl.dsp.exec_cmd(openwhisprDbus .. "PttUp"), { release = true, transparent = true })
