@@ -21,6 +21,7 @@ packages:
       - fcitx5-configtool
       - fcitx5-gtk
       - fcitx5-mcbopomofo-git
+      - fcitx5-rime
       - fcitx5-skin-ori-git
       - fish
       - fzf
@@ -65,6 +66,7 @@ packages:
       - qt6ct
       - redmine-cli-bin
       - ripgrep
+      - rime-easy-en-git
       - sddm
       - steam
       - telegram-desktop

@@ -4,7 +4,7 @@ Name=Default
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=chewing
+DefaultIM=rime
 
 [Groups/0/Items/0]
 # Name
@@ -21,6 +21,12 @@ Layout=
 [Groups/0/Items/2]
 # Name
 Name=mcbopomofo
+# Layout
+Layout=
+
+[Groups/0/Items/3]
+# Name
+Name=rime
 # Layout
 Layout=
 

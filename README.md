@@ -202,7 +202,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 - [`linux-wallpaperengine`](https://github.com/Almamu/linux-wallpaperengine) — opt-in live wallpapers from Steam Wallpaper Engine assets on Hyprland.
 - [`sddm`](https://github.com/sddm/sddm) — bootstrap and fallback display manager for fresh Arch installs.
 - [`greetd`](https://git.sr.ht/~kennylevinsen/greetd) + [`Noctalia Greeter`](https://github.com/noctalia-dev/noctalia-greeter) — final Wayland login greeter after AUR packages are installed.
-- [`fcitx5`](https://github.com/fcitx/fcitx5) + [McBopomofo](https://github.com/openvanilla/fcitx5-mcbopomofo) + chewing — Chinese input with Hsu keyboard support.
+- [`fcitx5`](https://github.com/fcitx/fcitx5) + [McBopomofo](https://github.com/openvanilla/fcitx5-mcbopomofo) + [Rime](https://rime.im) + chewing — Hsu Bopomofo with sentence and Chinese-English mixed input.
 
 ### Display manager bootstrap and recovery
 

@@ -1,0 +1,4 @@
+patch:
+  schema_list:
+    - schema: bopomofo_hsu
+    - schema: easy_en
