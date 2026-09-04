@@ -21,6 +21,7 @@ packages:
       - fcitx5-chewing
       - fcitx5-configtool
       - fcitx5-gtk
+      - fcitx5-mcbopomofo-git
       - fcitx5-qt
       - fcitx5-skin-ori-git
       - fish
