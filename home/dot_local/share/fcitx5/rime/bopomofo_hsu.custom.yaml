@@ -1,0 +1,12 @@
+patch:
+  # 讓 scheme 知道要載入 easy_en 的字典
+  "schema/dependencies/@after 0": easy_en
+
+  # 把英文翻譯器插到注音翻譯器之前
+  "engine/translators/@after 0": table_translator@easy_en
+
+  # 定義 easy_en 字典（如果 easy_en.schema.yaml 本身已含可略過，但保險起見）
+  easy_en:
+    dictionary: easy_en        # 對應 easy_en.dict.yaml
+    enable_user_dict: false    # 英文一般不造詞
+    initial_quality: 1.1       # 稍微提高英文候選的初始權重

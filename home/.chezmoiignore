@@ -35,10 +35,12 @@ Library/**
 .config/paru/**
 {{- end }}
 
-# McBopomofo is installed from the AUR and configured on Arch only.
+# Fcitx input methods are configured on Arch only.
 {{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) }}
 .config/fcitx5
 .config/fcitx5/**
+.local/share/fcitx5/rime
+.local/share/fcitx5/rime/**
 {{- end }}
 
 # Noctalia-managed Qt colors are Arch-only.
