@@ -5,7 +5,6 @@ packages:
       - bat
       - base-devel
       - blueman
-      - bluez
       - bluez-utils
       - btop
       - brave-origin-bin
@@ -22,7 +21,6 @@ packages:
       - fcitx5-configtool
       - fcitx5-gtk
       - fcitx5-mcbopomofo-git
-      - fcitx5-qt
       - fcitx5-skin-ori-git
       - fish
       - fzf
@@ -39,7 +37,6 @@ packages:
       - keepassxc
       - kitty
       - lazygit
-      - libnewt
       - libreoffice-fresh
       - linux-headers
       - linux-wallpaperengine-git
@@ -68,7 +65,6 @@ packages:
       - qt6ct
       - redmine-cli-bin
       - ripgrep
-      - greetd
       - sddm
       - steam
       - telegram-desktop
@@ -84,10 +80,8 @@ packages:
       - wget
       - wl-clipboard
       - wtype
-      - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xone-dkms
-      - xorg-xwayland
       - zathura-pdf-mupdf
       - zellij
       - zip
@@ -124,7 +118,6 @@ packages:
       - kitty
       - lazygit
       - libfcitx5-qt1
-      - libfcitx5-qt6-1
       - libreoffice
       - nautilus
       - neovim
