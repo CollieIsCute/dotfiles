@@ -62,3 +62,9 @@ jobs:
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+      - name: Test Windows voice lifecycle
+        shell: powershell
+        run: |
+          $chezmoi = Join-Path $env:RUNNER_TEMP "bin\chezmoi.exe"
+          $repo = & $chezmoi execute-template '{{ .chezmoi.workingTree }}'
+          & (Join-Path $repo "tests\windows-voice.ps1")
