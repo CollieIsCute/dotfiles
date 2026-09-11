@@ -68,4 +68,23 @@ url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-macos.tar.
 refreshPeriod = "168h"
 stripComponents = 1
 include = ["crispasr-macos/crispasr", "crispasr-macos/libc2pa_c.dylib"]
+{{ else if eq .chezmoi.os "windows" -}}
+[".local/bin/openwhispr.exe"]
+type = "file"
+url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-[0-9]*.exe" | quote }}
+refreshPeriod = "168h"
+
+[".local/libexec/crispasr/cpu"]
+type = "archive"
+url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-windows-x86_64-cpu.zip" | quote }}
+refreshPeriod = "168h"
+stripComponents = 1
+include = ["crispasr-windows-x86_64-cpu/crispasr.exe", "crispasr-windows-x86_64-cpu/*.dll", "crispasr-windows-x86_64-cpu/LICENSE", "crispasr-windows-x86_64-cpu/THIRD_PARTY_NOTICES.txt"]
+
+[".local/libexec/crispasr/vulkan"]
+type = "archive"
+url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-windows-x86_64-vulkan.zip" | quote }}
+refreshPeriod = "168h"
+stripComponents = 1
+include = ["crispasr-windows-x86_64-vulkan/crispasr.exe", "crispasr-windows-x86_64-vulkan/*.dll", "crispasr-windows-x86_64-vulkan/LICENSE", "crispasr-windows-x86_64-vulkan/THIRD_PARTY_NOTICES.txt"]
 {{ end -}}
