@@ -1,23 +1,18 @@
 #requires -Version 5.1
 [CmdletBinding()]
 param(
-    [Parameter(Position = 0)]
     [ValidateSet("sensevoice", "qwen-1.7b", "off")]
-    [string]$Mode,
-    [Alias("h")][switch]$Help
+    [string]$Mode
 )
 
-if ($Help -or !$Mode) {
+if (!$Mode) {
     Write-Output "Usage: asr-mode {sensevoice|qwen-1.7b|off}"
-    Write-Output "SenseVoice uses CPU; Qwen3-ASR uses Vulkan. off stops ASR; OpenWhispr stays open."
-    if (!$Help) { exit 2 }
-    exit 0
+    exit 2
 }
 
 $ErrorActionPreference = "Stop"
 $lock = $null
 try {
-    if ([Environment]::OSVersion.Platform -ne "Win32NT") { throw "Windows is required." }
     $crispRoot = Join-Path $env:USERPROFILE ".local\libexec\crispasr"
     $cpu = Join-Path $crispRoot "cpu\crispasr.exe"
     $vulkan = Join-Path $crispRoot "vulkan\crispasr.exe"
@@ -66,21 +61,13 @@ try {
     }
     if (!(Test-Path -LiteralPath $crisp)) { throw "Missing CrispASR; run chezmoi apply." }
 
-    $cache = if ($env:XDG_CACHE_HOME) { $env:XDG_CACHE_HOME } else { $env:LOCALAPPDATA }
-    $modelDir = Join-Path $cache "crispasr"
-    [IO.Directory]::CreateDirectory($modelDir) | Out-Null
     if ($Mode -eq "sensevoice") {
-        $backend = "sensevoice"
-        $gpuArgs = "-ng"
-        $model = Join-Path $modelDir "sensevoice-small-q8_0.gguf"
+        $model = Join-Path $stateDir "sensevoice-small-q8_0.gguf"
         $url = "https://huggingface.co/cstr/sensevoice-small-GGUF/resolve/e14d94223aef728879f08dfb4d5f20fe873b22ef/sensevoice-small-q8_0.gguf"
     } else {
-        $backend = "qwen3"
-        $gpuArgs = "--gpu-backend vulkan"
-        $model = Join-Path $modelDir "qwen3-asr-1.7b-q8_0.gguf"
+        $model = Join-Path $stateDir "qwen3-asr-1.7b-q8_0.gguf"
         $url = "https://huggingface.co/cstr/qwen3-asr-1.7b-GGUF/resolve/674df5d44b50a63e7102a18895ed20e3f91de301/qwen3-asr-1.7b-q8_0.gguf"
     }
-    $model = [IO.Path]::GetFullPath($model)
     if (!(Test-Path -LiteralPath $model)) {
         Write-Output "Downloading $Mode..."
         & curl.exe --fail --location --retry 3 --output "$model.part" $url
@@ -96,8 +83,7 @@ try {
     $process = $null
     try {
         $process = Start-Process -FilePath $crisp -PassThru -WindowStyle Hidden `
-            -WorkingDirectory (Split-Path -Parent $crisp) `
-            -ArgumentList "--server --backend $backend $gpuArgs --lid-backend off -m `"$model`" --host 127.0.0.1 --port 8080" `
+            -ArgumentList "--server --lid-backend off -m `"$model`" --host 127.0.0.1 --port 8080" `
             -RedirectStandardOutput (Join-Path $stateDir "server.out.log") `
             -RedirectStandardError (Join-Path $stateDir "server.err.log")
         @{ ProcessId = $process.Id; StartTicks = $process.StartTime.ToUniversalTime().Ticks } |

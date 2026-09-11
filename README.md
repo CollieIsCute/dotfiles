@@ -110,8 +110,8 @@ Voice dictation uses OpenWhispr on Arch Linux x86_64, macOS and Windows x86_64. 
 `asr-mode sensevoice` for the CPU-only SenseVoice model or `asr-mode qwen-1.7b`
 for the GPU-backed Qwen3-ASR model; missing models download only when selected.
 Models use `${XDG_CACHE_HOME:-$HOME/.cache}/crispasr` on Linux and
-`${XDG_CACHE_HOME:-$HOME/Library/Caches}/crispasr` on macOS. Windows uses
-`%XDG_CACHE_HOME%\crispasr`, or `%LOCALAPPDATA%\crispasr` when unset.
+`${XDG_CACHE_HOME:-$HOME/Library/Caches}/crispasr` on macOS, and
+`%LOCALAPPDATA%\crispasr` on Windows.
 Run `asr-mode off` before gaming to stop CrispASR, close port 8080, and release
 its GPU memory. OpenWhispr remains in the tray; quit it separately when its UI
 and shortcut are not needed.
@@ -126,7 +126,7 @@ loads these shortcuts at startup, so restart it after `chezmoi apply`. Version
 1.9.2 may still show a ydotool setup warning on Linux; `wtype` is already
 preferred, so do not add the `input` group or daemon just to dismiss it.
 
-On Windows, reopen your terminal after applying, then run `openwhispr` and
+On Windows x64 with AVX2, reopen your terminal after applying, then run `openwhispr` and
 `asr-mode qwen-1.7b` (GPU) or `asr-mode sensevoice` (CPU).
 Install the [Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist),
 allow microphone access, configure Self-Hosted as above, and install a Vulkan
