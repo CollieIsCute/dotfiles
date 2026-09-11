@@ -10,6 +10,14 @@ Library
 Library/**
 {{- end }}
 
+# Windows voice settings and commands.
+{{- if ne .chezmoi.os "windows" }}
+AppData
+AppData/**
+.local/bin/asr-mode.cmd
+.local/libexec/asr-mode.ps1
+{{- end }}
+
 # Linux desktop / XDG targets.
 {{- if ne .chezmoi.os "linux" }}
 .local/bin/openwhispr
