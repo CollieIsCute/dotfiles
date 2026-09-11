@@ -32,7 +32,6 @@ packages:
       - go
       - gping
       - gpu-screen-recorder
-      - hugo
       - hyprland
       - keepassxc
       - kitty
@@ -111,7 +110,6 @@ packages:
       - glab
       - golang-go
       - gping
-      - hugo
       - hyprland
       - ibus-chewing
       - keepassxc
@@ -167,7 +165,6 @@ packages:
         - glab
         - go
         - gping
-        - hugo
         - llvm
         - neovim
         - ninja
