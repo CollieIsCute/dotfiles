@@ -44,8 +44,7 @@ filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -
 {{ if eq .chezmoi.os "linux" -}}
 [".local/libexec/openwhispr"]
 type = "archive"
-# Paired with 3-fix-openwhispr-hold until upstream fixes startup Hold validation.
-url = "https://github.com/OpenWhispr/openwhispr/releases/download/v1.10.0/OpenWhispr-1.10.0-linux-x64.tar.gz"
+url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-x64.tar.gz" | quote }}
 exact = true
 refreshPeriod = "168h"
 stripComponents = 1

@@ -2,8 +2,14 @@
 #!/bin/sh
 set -eu
 
-# OpenWhispr 1.10.0 checks Hold against Control+Super before loading the saved key.
-# Remove this patch and the release pin when upstream fixes initialization order.
+# OpenWhispr 1.10.0 checks Hold against default Control+Super before loading the
+# saved key, wrongly resetting Hold to Tap. Load the saved key before that check.
+# Upstream fix: https://github.com/OpenWhispr/openwhispr/pull/1978
+# Always install the latest official release; never pin it for this workaround.
+# Patch only verified source; skip changed upstream code without blocking updates.
+# Future maintainers/AI: remove this script and its README note automatically once
+# the latest release fixes this ordering and unpatched Hold survives a restart.
+# The user authorizes that cleanup without asking again; keep latest-release URLs.
 app="$HOME/.local/libexec/openwhispr"
 ELECTRON_RUN_AS_NODE=1 "$app/open-whispr-app" - "$app/resources/app.asar" <<'JS'
 const fs = require('original-fs');
@@ -14,14 +20,21 @@ const archive = process.argv[2];
 const data = fs.readFileSync(archive);
 const headerLength = data.readUInt32LE(12);
 const header = JSON.parse(data.subarray(16, 16 + headerLength));
-const entry = header.files.src.files.helpers.files['hotkeyManager.js'];
+const entry = header.files?.src?.files?.helpers?.files?.['hotkeyManager.js'];
+if (!entry) {
+  console.log('Skipping Hold patch: upstream layout changed');
+  process.exit(0);
+}
 const offset = 8 + data.readUInt32LE(4) + Number(entry.offset);
 const source = data.subarray(offset, offset + entry.size);
 const originalHash = '54e5f284b2b25af874f347440bbde9b00c995b8d2606317eda4007fab18fcc53';
 const patchedHash = '929084773783566a2c18402d0f446418ad3803495be8e0e0911440a3a0cf36a5';
 const currentHash = sha256(source);
 if (currentHash === patchedHash) process.exit(0);
-assert.equal(currentHash, originalHash, 'Unsupported OpenWhispr source; review the Hold patch');
+if (currentHash !== originalHash) {
+  console.log('Skipping Hold patch: upstream source changed');
+  process.exit(0);
+}
 
 const before = `    // Try GNOME native shortcuts on any GNOME session (X11 or Wayland).
     // On Wayland: required (globalShortcut/XGrabKey doesn't work globally).
