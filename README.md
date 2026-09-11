@@ -116,6 +116,8 @@ its GPU memory. OpenWhispr remains in the tray; quit it separately when its UI
 and shortcut are not needed.
 
 On Linux, launch `openwhispr` from your terminal or the application menu.
+Linux pins OpenWhispr 1.10.0 and patches its startup hotkey initialization so
+the saved Hold mode survives restarts.
 
 For first-time OpenWhispr setup, run `asr-mode qwen-1.7b`, then set Self-Hosted
 to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`. Each
