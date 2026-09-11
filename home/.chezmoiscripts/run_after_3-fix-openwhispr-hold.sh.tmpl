@@ -1,0 +1,68 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+set -eu
+
+# OpenWhispr 1.10.0 checks Hold against default Control+Super before loading the
+# saved key, wrongly resetting Hold to Tap. Load the saved key before that check.
+# Upstream fix: https://github.com/OpenWhispr/openwhispr/pull/1978
+# Always install the latest official release; never pin it for this workaround.
+# Patch only verified source; skip changed upstream code without blocking updates.
+# Future maintainers/AI: remove this script and its README note automatically once
+# the latest release fixes this ordering and unpatched Hold survives a restart.
+# The user authorizes that cleanup without asking again; keep latest-release URLs.
+app="$HOME/.local/libexec/openwhispr"
+ELECTRON_RUN_AS_NODE=1 "$app/open-whispr-app" - "$app/resources/app.asar" <<'JS'
+const fs = require('original-fs');
+const { createHash, randomUUID } = require('node:crypto');
+const assert = require('node:assert/strict');
+const sha256 = data => createHash('sha256').update(data).digest('hex');
+const archive = process.argv[2];
+const data = fs.readFileSync(archive);
+const headerLength = data.readUInt32LE(12);
+const header = JSON.parse(data.subarray(16, 16 + headerLength));
+const entry = header.files?.src?.files?.helpers?.files?.['hotkeyManager.js'];
+if (!entry) {
+  console.log('Skipping Hold patch: upstream layout changed');
+  process.exit(0);
+}
+const offset = 8 + data.readUInt32LE(4) + Number(entry.offset);
+const source = data.subarray(offset, offset + entry.size);
+const originalHash = '54e5f284b2b25af874f347440bbde9b00c995b8d2606317eda4007fab18fcc53';
+const patchedHash = '929084773783566a2c18402d0f446418ad3803495be8e0e0911440a3a0cf36a5';
+const currentHash = sha256(source);
+if (currentHash === patchedHash) process.exit(0);
+if (currentHash !== originalHash) {
+  console.log('Skipping Hold patch: upstream source changed');
+  process.exit(0);
+}
+
+const before = `    // Try GNOME native shortcuts on any GNOME session (X11 or Wayland).
+    // On Wayland: required (globalShortcut/XGrabKey doesn't work globally).
+    // On X11: provides conflict detection via gsettings, visible in GNOME Settings.
+`;
+const after = `    this.currentHotkey = parseHotkeyList(await this.getSavedHotkey())[0] || DEFAULT_HOTKEY;
+    // Load the saved key before startup checks Hold support.
+`;
+// Keep file sizes and offsets unchanged; refresh ASAR integrity metadata.
+const patched = Buffer.from(source.toString().replace(before, after.padEnd(before.length)));
+assert.equal(patched.length, source.length);
+assert.equal(sha256(patched), patchedHash);
+assert.equal(entry.integrity.algorithm, 'SHA256');
+assert.ok(entry.size <= entry.integrity.blockSize && entry.integrity.blocks.length === 1);
+entry.integrity.hash = patchedHash;
+entry.integrity.blocks[0] = patchedHash;
+const encodedHeader = Buffer.from(JSON.stringify(header));
+assert.equal(encodedHeader.length, headerLength);
+encodedHeader.copy(data, 16);
+patched.copy(data, offset);
+
+const temporary = `${archive}.${randomUUID()}.tmp`;
+try {
+  fs.writeFileSync(temporary, data, { flag: 'wx', mode: fs.statSync(archive).mode });
+  fs.renameSync(temporary, archive);
+} finally {
+  fs.rmSync(temporary, { force: true });
+}
+console.log('Patched OpenWhispr 1.10.0: preserve Hold at startup');
+JS
+{{ end -}}

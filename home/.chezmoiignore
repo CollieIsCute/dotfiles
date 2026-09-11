@@ -20,6 +20,7 @@ AppData/**
 
 # Linux desktop / XDG targets.
 {{- if ne .chezmoi.os "linux" }}
+.local/bin/openwhispr
 .config/BraveSoftware
 .config/BraveSoftware/**
 .config/brave-origin-flags.conf

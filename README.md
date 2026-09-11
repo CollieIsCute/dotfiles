@@ -116,6 +116,11 @@ Run `asr-mode off` before gaming to stop CrispASR, close port 8080, and release
 its GPU memory. OpenWhispr remains in the tray; quit it separately when its UI
 and shortcut are not needed.
 
+On Linux, launch `openwhispr` from your terminal or the application menu.
+OpenWhispr follows the latest official release; do not pin its version.
+Linux patches the known Hold startup bug only when the source matches;
+changed upstream code is left untouched and does not block updates.
+
 For first-time OpenWhispr setup, run `asr-mode qwen-1.7b`, then set Self-Hosted
 to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`. Each
 successful model switch prints its current absolute path for later connection
@@ -232,7 +237,7 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 - Git: [`lazygit`](https://github.com/jesseduffield/lazygit), [`tig`](https://github.com/jonas/tig), [`gh`](https://cli.github.com), [`glab`](https://gitlab.com/gitlab-org/cli), [`onefetch`](https://github.com/o2sh/onefetch).
 - Build / dev: [`gnu-tar`](https://www.gnu.org/software/tar/), [`bear`](https://github.com/rizsotto/Bear), [`cmake`](https://cmake.org), [`mold`](https://github.com/rui314/mold), [`ninja`](https://ninja-build.org), [`llvm`](https://llvm.org), [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html), [`cppcheck`](https://cppcheck.sourceforge.io), [`uv`](https://github.com/astral-sh/uv).
 - Containers: macOS Apple silicon [`container`](https://github.com/apple/container) + third-party [`container-compose`](https://github.com/Mcrich23/Container-Compose); Linux [`podman`](https://podman.io).
-- Docs: [`hugo`](https://gohugo.io), [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
+- Docs: [`typst`](https://typst.app), [`tldr`](https://tldr.sh).
 - OpenCode zh-TW linting: [`zhtw-mcp`](https://github.com/sysprog21/zhtw-mcp) is configured as a local MCP server at `~/.local/bin/zhtw-mcp`. Until upstream publishes releases, install it from source with `make install` so OpenCode can use the fixed binary path.
 - OpenCode Claude Code plugin: [`@khalilgharbaoui/opencode-claude-code-plugin`](https://github.com/khalilgharbaoui/opencode-claude-code-plugin) is loaded through OpenCode's native npm plugin support; after changing the plugin list, run `chezmoi apply /home/collie/.config/opencode/opencode.json` and restart OpenCode.
 
