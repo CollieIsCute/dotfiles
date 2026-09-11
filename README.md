@@ -1,6 +1,6 @@
 # Collie's Dotfiles
 
-[![CI](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml/badge.svg?branch=main)](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml)
+[![CI](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml/badge.svg?branch=master)](https://github.com/CollieIsCute/dotfiles/actions/workflows/test-distros.yaml)
 ![macOS](https://img.shields.io/badge/macOS-Homebrew-000?logo=apple&logoColor=white)
 ![Arch](https://img.shields.io/badge/Arch-pacman%20%2B%20paru-1793D1?logo=archlinux&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-apt-E95420?logo=ubuntu&logoColor=white)
@@ -24,6 +24,15 @@ chezmoi init --apply collieiscute -v
 | Arch | pacman + paru | daily-driven |
 | Ubuntu / Debian / Linux Mint | apt | CI-tested only |
 | Windows | Scoop | CI-tested only |
+
+On Windows, chezmoi uses native PowerShell bootstrap scripts and skips the Bash
+scripts. AI extension setup also uses non-interactive CLI subcommands.
+
+The interactive `codex` UI requires a real terminal. Windows PowerShell ISE
+captures native-process output and does not provide one, so launch `codex` from
+Windows Terminal, a console-hosted PowerShell, or use `codex exec` for a
+non-interactive run. The GitHub Actions Windows job runs `pwsh`; it does not
+launch PowerShell ISE.
 
 ## Custom touches worth knowing
 

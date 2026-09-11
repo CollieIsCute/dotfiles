@@ -147,6 +147,7 @@ packages:
   windows:
     scoop:
       main:
+        - aria2
         - bat
         - btop
         - chezmoi
@@ -160,6 +161,7 @@ packages:
         - fastfetch
         - fd
         - fzf
+        - gcc
         - gh
         - git
         - glab

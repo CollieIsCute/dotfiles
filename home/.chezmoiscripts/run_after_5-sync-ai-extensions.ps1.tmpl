@@ -1,0 +1,71 @@
+{{- if eq .chezmoi.os "windows" -}}
+$ErrorActionPreference = "Continue"
+$env:GIT_TERMINAL_PROMPT = "0"
+
+function Test-ConfigContains {
+    param(
+        [string]$Path,
+        [string]$Pattern
+    )
+
+    return (Test-Path -LiteralPath $Path) -and
+        [bool](Select-String -LiteralPath $Path -SimpleMatch -Quiet $Pattern)
+}
+
+function Invoke-OptionalCommand {
+    param(
+        [string]$Command,
+        [string[]]$Arguments
+    )
+
+    try {
+        & $Command @Arguments
+        if ($LASTEXITCODE -ne 0) {
+            Write-Warning "$Command $($Arguments -join ' ') exited with code $LASTEXITCODE"
+        }
+    }
+    catch {
+        Write-Warning "$Command $($Arguments -join ' ') failed: $_"
+    }
+}
+
+$claudeConfig = Join-Path $HOME ".claude"
+if (Get-Command claude -ErrorAction SilentlyContinue) {
+{{- range $name, $marketplace := .ai.claude.marketplaces }}
+    $knownMarketplaces = Join-Path $claudeConfig "plugins/known_marketplaces.json"
+    if (-not (Test-ConfigContains $knownMarketplaces '"{{ $name }}"')) {
+        Invoke-OptionalCommand "claude" @("plugin", "marketplace", "add", "{{ $marketplace.source.repo }}", "--scope", "user")
+    }
+{{- end }}
+{{- range $plugin, $enabled := .ai.claude.plugins }}
+{{- if $enabled }}
+    $installedPlugins = Join-Path $claudeConfig "plugins/installed_plugins.json"
+    if (-not (Test-ConfigContains $installedPlugins '"{{ $plugin }}"')) {
+        Invoke-OptionalCommand "claude" @("plugin", "install", "{{ $plugin }}", "--scope", "user")
+    }
+{{- end }}
+{{- end }}
+}
+
+$codexConfig = Join-Path $HOME ".codex/config.toml"
+if (Get-Command codex -ErrorAction SilentlyContinue) {
+{{- range $name, $source := .ai.codex.marketplaces }}
+    if (-not (Test-ConfigContains $codexConfig "[marketplaces.{{ $name }}]")) {
+        Invoke-OptionalCommand "codex" @("plugin", "marketplace", "add", "{{ $source }}", "--json")
+    }
+{{- end }}
+{{- range .ai.codex.plugins }}
+    if (-not (Test-ConfigContains $codexConfig '[plugins."{{ . }}"]')) {
+        Invoke-OptionalCommand "codex" @("plugin", "add", "{{ . }}", "--json")
+    }
+{{- end }}
+
+    $zhtwMcp = Join-Path $HOME ".local/bin/zhtw-mcp"
+    if (Test-Path -LiteralPath $zhtwMcp) {
+        & codex mcp get zhtw-mcp >$null 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Invoke-OptionalCommand "codex" @("mcp", "add", "zhtw-mcp", "--", $zhtwMcp)
+        }
+    }
+}
+{{- end }}
