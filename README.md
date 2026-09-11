@@ -126,25 +126,11 @@ loads these shortcuts at startup, so restart it after `chezmoi apply`. Version
 1.9.2 may still show a ydotool setup warning on Linux; `wtype` is already
 preferred, so do not add the `input` group or daemon just to dismiss it.
 
-On Windows, reopen your terminal after the first apply, then run `openwhispr`
-and `asr-mode qwen-1.7b` (or `asr-mode sensevoice` for CPU). Chezmoi downloads
-the official portable OpenWhispr EXE and separate CrispASR CPU/Vulkan builds
-into `~/.local`; CPU mode needs no Vulkan runtime, and models download only
-when selected. CrispASR requires the
-[Microsoft Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
-and Qwen requires a working Vulkan GPU driver. Allow microphone access for
-desktop apps in Windows settings, and configure Self-Hosted as above. The
-standard `%APPDATA%\open-whispr\.env` location is managed under
-`~/AppData/Roaming/open-whispr`; redirected roaming profiles need the same
-settings in their actual app-data directory.
-
-Windows `asr-mode` uses the built-in Windows PowerShell, keeps its process
-record and logs in `%LOCALAPPDATA%\crispasr`, and stops only the recorded
-process after checking its executable and start time. It refuses an occupied
-port 8080 and runs no administrator service. Run `asr-mode off` and quit
-OpenWhispr before refreshing their binaries with chezmoi. CI exercises CPU
-startup and shutdown; GPU dictation, microphone capture and pasting still
-require a Windows desktop test.
+On Windows, reopen your terminal after applying, then run `openwhispr` and
+`asr-mode qwen-1.7b` (GPU) or `asr-mode sensevoice` (CPU).
+Install the [Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist),
+allow microphone access, configure Self-Hosted as above, and install a Vulkan
+GPU driver for Qwen.
 
 ### AeroSpace (macOS)
 
