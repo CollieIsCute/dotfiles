@@ -36,8 +36,6 @@ packages:
       - keepassxc
       - kitty
       - lazygit
-      # ponytail: explicit LocalSend dependency until AUR .SRCINFO matches its PKGBUILD.
-      - libayatana-indicator
       - libreoffice-fresh
       - linux-headers
       - linux-wallpaperengine-git
