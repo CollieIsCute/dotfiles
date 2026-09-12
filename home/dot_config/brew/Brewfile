@@ -1,3 +1,4 @@
+tap "FelixKratz/formulae", trusted: { formula: "sketchybar" }
 tap "cxwx/cxbrew", trusted: { formula: "matugen" }
 
 brew "bat"
@@ -15,6 +16,7 @@ brew "dos2unix"
 brew "eza"
 brew "fastfetch"
 brew "fd"
+brew "FelixKratz/formulae/sketchybar"
 brew "fish"
 brew "gh"
 brew "git"
@@ -42,6 +44,7 @@ brew "zellij"
 brew "zoxide"
 cask "brave-browser"
 cask "claude-code@latest"
+cask "codexbar"
 cask "flutter"
 cask "font-jetbrains-mono-nerd-font"
 cask "ghostty"

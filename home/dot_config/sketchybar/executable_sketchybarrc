@@ -1,0 +1,137 @@
+#!/bin/sh
+
+CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+# Safe first-run palette; Matugen replaces it and reloads the bar.
+TRANSPARENT=0x00000000
+CAPSULE=0x4d303034
+ON_SURFACE=0xfff2f0f4
+PRIMARY=0xffd0bcff
+ON_PRIMARY=0xff381e72
+test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
+
+sketchybar --bar \
+    position=top \
+    height=36 \
+    color="$TRANSPARENT" \
+    shadow=off \
+    corner_radius=0 \
+    margin=0 \
+    padding_left=5 \
+    padding_right=5 \
+    display=all
+
+sketchybar --default \
+    icon.font="JetBrainsMono Nerd Font:Regular:14.0" \
+    label.font="JetBrainsMono Nerd Font:Regular:13.0" \
+    icon.color="$ON_SURFACE" \
+    label.color="$ON_SURFACE" \
+    icon.padding_left=6 \
+    icon.padding_right=4 \
+    label.padding_left=4 \
+    label.padding_right=6 \
+    background.height=27 \
+    background.corner_radius=9 \
+    background.shadow.drawing=off \
+    padding_left=2 \
+    padding_right=2
+
+sketchybar --add event aerospace_workspace_change
+
+sketchybar --add item clock center \
+    --set clock \
+        update_freq=1 \
+        background.color="$CAPSULE" \
+        background.drawing=on \
+        script="$PLUGIN_DIR/clock.sh"
+
+for sid in 1 2 3 4 5 6 7 8 9 magic; do
+    label=$sid
+    test "$sid" = magic && label=M
+    sketchybar --add item "space.$sid" center \
+        --set "space.$sid" \
+            icon="$label" \
+            label.drawing=off \
+            background.color="$PRIMARY" \
+            background.drawing=off \
+            click_script="aerospace workspace $sid" \
+            script="$PLUGIN_DIR/workspace.sh" \
+        --subscribe "space.$sid" aerospace_workspace_change
+done
+
+sketchybar --add bracket workspaces '/space\..*/' \
+    --set workspaces \
+        background.color="$CAPSULE" \
+        background.height=27 \
+        background.corner_radius=9 \
+        background.drawing=on
+
+sketchybar --add item volume right \
+    --set volume \
+        background.color="$CAPSULE" \
+        background.drawing=on \
+        script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
+
+add_alias() {
+    source=$1
+    name=$2
+    position=$3
+    click_script=${4-}
+
+    sketchybar --add alias "$source" "$position" || return 0
+    sketchybar --rename "$source" "$name"
+    sketchybar --set "$name" \
+        alias.color="$ON_SURFACE" \
+        alias.scale=0.82 \
+        alias.update_freq=2 \
+        click_script="$click_script"
+}
+
+# The query returns only currently available items. Missing apps or permissions
+# therefore leave the rest of the bar usable instead of failing startup.
+menu_items=$(sketchybar --query default_menu_items 2>/dev/null || :)
+printf '%s\n' "$menu_items" \
+    | sed -n 's/^[[:space:]]*"\(.*\)"[,[:space:]]*$/\1/p' \
+    | (
+        index=0
+        codex_added=false
+        while IFS= read -r source; do
+            index=$((index + 1))
+            case "$source" in
+                CodexBar,*)
+                    test "$codex_added" = false || continue
+                    add_alias "$source" codexbar left 'open -b com.steipete.codexbar'
+                    codex_added=true
+                    ;;
+                Stats,*Network*)
+                    add_alias "$source" "stats.net.$index" right 'open -a Stats'
+                    ;;
+                Stats,*CPU*|Stats,*GPU*|Stats,*RAM*|Stats,*Memory*|Stats,*Sensor*|Stats,*Battery*)
+                    add_alias "$source" "stats.sys.$index" right 'open -a Stats'
+                    ;;
+                Stats,*|Control\ Center,*|Control\ Centre,*|SystemUIServer,*|Window\ Server,*|TextInputMenuAgent,*)
+                    ;;
+                *)
+                    add_alias "$source" "tray.$index" left ''
+                    ;;
+            esac
+        done
+    )
+
+for group in tray stats.net stats.sys; do
+    sketchybar --add bracket "$group.group" "/$group\\..*/" \
+        --set "$group.group" \
+            background.color="$CAPSULE" \
+            background.height=27 \
+            background.corner_radius=9 \
+            background.drawing=on
+done
+
+sketchybar --update
+
+if command -v aerospace >/dev/null 2>&1; then
+    focused=$(aerospace list-workspaces --focused 2>/dev/null | head -n 1)
+    test -z "$focused" || sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$focused"
+fi

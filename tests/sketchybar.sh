@@ -1,0 +1,92 @@
+#!/bin/sh
+set -eu
+
+repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+config="$repo/home/dot_config/sketchybar"
+
+grep -Fq 'tap "FelixKratz/formulae", trusted: { formula: "sketchybar" }' "$repo/home/dot_config/brew/Brewfile"
+grep -Fq 'brew "FelixKratz/formulae/sketchybar"' "$repo/home/dot_config/brew/Brewfile"
+grep -Fq 'cask "codexbar"' "$repo/home/dot_config/brew/Brewfile"
+grep -Fq '.config/sketchybar/**' "$repo/home/.chezmoiignore"
+grep -Fq "'exec-and-forget sketchybar'" "$repo/home/dot_config/aerospace/aerospace.toml"
+grep -Fq 'FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE' "$repo/home/dot_config/aerospace/aerospace.toml"
+
+for file in \
+    "$config/executable_sketchybarrc" \
+    "$config/plugins/executable_clock.sh" \
+    "$config/plugins/executable_volume.sh" \
+    "$config/plugins/executable_workspace.sh"; do
+    test -x "$file"
+    sh -n "$file"
+done
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+mkdir "$tmp/bin"
+
+cat >"$tmp/bin/sketchybar" <<'EOF'
+#!/bin/sh
+if test "${1-} ${2-}" = "--query default_menu_items"; then
+    printf '%s\n' "$MOCK_MENU_ITEMS"
+else
+    printf '%s\n' "$*" >>"$MOCK_SKETCHYBAR_LOG"
+fi
+EOF
+
+cat >"$tmp/bin/osascript" <<'EOF'
+#!/bin/sh
+printf '%s\n' "$*" >>"$MOCK_OSASCRIPT_LOG"
+case "$*" in
+    *'output volume of'*) printf '%s\n' "${MOCK_VOLUME:-50}" ;;
+    *'output muted of'*) printf '%s\n' "${MOCK_MUTED:-false}" ;;
+esac
+EOF
+
+chmod +x "$tmp/bin/sketchybar" "$tmp/bin/osascript"
+export PATH="$tmp/bin:$PATH"
+export MOCK_SKETCHYBAR_LOG="$tmp/sketchybar.log"
+export MOCK_OSASCRIPT_LOG="$tmp/osascript.log"
+export MOCK_MENU_ITEMS='[
+  "CodexBar,(1)",
+  "Stats,CPU_Mini(2)",
+  "Stats,Network_Speed(3)",
+  "Control Center,WiFi(4)",
+  "KeePassXC,(5)"
+]'
+
+: >"$MOCK_SKETCHYBAR_LOG"
+CONFIG_DIR="$config" sh "$config/executable_sketchybarrc"
+grep -Fq -- '--add alias CodexBar,(1) left' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias Stats,CPU_Mini(2) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias Stats,Network_Speed(3) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias KeePassXC,(5) left' "$MOCK_SKETCHYBAR_LOG"
+if grep -Fq -- '--add alias Control Center,WiFi(4)' "$MOCK_SKETCHYBAR_LOG"; then
+    echo 'Control Center must not be duplicated in tray aliases' >&2
+    exit 1
+fi
+
+: >"$MOCK_SKETCHYBAR_LOG"
+NAME=space.3 FOCUSED_WORKSPACE=3 sh "$config/plugins/executable_workspace.sh"
+grep -Fq 'background.drawing=on' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq 'icon.color=0xff381e72' "$MOCK_SKETCHYBAR_LOG"
+
+: >"$MOCK_SKETCHYBAR_LOG"
+NAME=space.3 FOCUSED_WORKSPACE=4 sh "$config/plugins/executable_workspace.sh"
+grep -Fq 'background.drawing=off' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq 'icon.color=0xfff2f0f4' "$MOCK_SKETCHYBAR_LOG"
+
+: >"$MOCK_OSASCRIPT_LOG"
+NAME=volume SENDER=mouse.scrolled SCROLL_DELTA=1 MOCK_VOLUME=98 \
+    sh "$config/plugins/executable_volume.sh"
+grep -Fq 'set volume output volume 100' "$MOCK_OSASCRIPT_LOG"
+
+: >"$MOCK_OSASCRIPT_LOG"
+NAME=volume SENDER=mouse.scrolled SCROLL_DELTA=-1 MOCK_VOLUME=2 \
+    sh "$config/plugins/executable_volume.sh"
+grep -Fq 'set volume output volume 0' "$MOCK_OSASCRIPT_LOG"
+
+: >"$MOCK_OSASCRIPT_LOG"
+NAME=volume SENDER=mouse.clicked sh "$config/plugins/executable_volume.sh"
+grep -Fq 'set volume output muted not (output muted of (get volume settings))' "$MOCK_OSASCRIPT_LOG"
+
+echo 'SketchyBar checks passed.'

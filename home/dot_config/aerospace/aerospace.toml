@@ -17,6 +17,16 @@ config-version = 2
 start-at-login = true
 # auto-reload-config = true  # NOTE: requires AeroSpace > v0.20.2-Beta (not yet released)
 
+after-startup-command = [
+    'exec-and-forget open -gja CodexBar',
+    'exec-and-forget open -gja Stats',
+    'exec-and-forget sketchybar',
+]
+
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 # Neutralize macOS "Hide Application" (Cmd+H) since we use Cmd+H for focus
 # AeroSpace intercepts Cmd+H before macOS, but if somehow an app hides, this unhides it
 automatically-unhide-macos-hidden-apps = true
@@ -41,7 +51,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     inner.vertical =   0
     outer.left =       0
     outer.bottom =     0
-    outer.top =        0
+    outer.top =        36
     outer.right =      0
 
 # ────────────────────────────────────────
