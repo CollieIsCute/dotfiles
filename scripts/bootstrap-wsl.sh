@@ -11,6 +11,8 @@ fi
 export PATH="$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # Unattended installs can supply a password without changing sudo policy.
 if [[ -n ${CHEZMOI_WSL_PASSWORD:-} ]]; then
+    # sudo requires DISPLAY to be defined for automatic askpass, even without a GUI.
+    export DISPLAY=${DISPLAY-}
     SUDO_ASKPASS=$(mktemp)
     export SUDO_ASKPASS
     trap 'rm -f -- "$SUDO_ASKPASS"' EXIT

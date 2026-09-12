@@ -97,6 +97,29 @@ for (const [uid, user, password, expected] of [
     assert.equal(result.stdout, expected);
   }
 }
+// The non-graphical askpass must work without DISPLAY and be cleaned up on errors.
+const applyMocks = `
+id() { echo 1000; }
+source() { ID=ubuntu; }
+sudo() { :; }
+chezmoi() {
+  declare -p DISPLAY >/dev/null || return 90
+  [[ -x $SUDO_ASKPASS ]] || return 90
+  [[ $("$SUDO_ASKPASS") == test-password ]] || return 91
+  printf '%s' "$SUDO_ASKPASS"
+  return "$TEST_EXIT"
+}
+`;
+for (const code of [0, 17]) {
+  const result = spawnSync('bash', ['-s', '--', '/mnt/c/test checkout'], {
+    input: applyMocks + readFileSync(`${repo}/scripts/bootstrap-wsl.sh`, 'utf8'), encoding: 'utf8',
+    env: { ...process.env, DISPLAY: undefined, CHEZMOI_WSL_PASSWORD: 'test-password', TEST_EXIT: String(code) },
+  });
+  assert.ifError(result.error);
+  assert.equal(result.status, code, result.stderr);
+  assert.ok(result.stdout.startsWith('/'), 'Expected the temporary helper path');
+  execFileSync('bash', ['-c', 'test ! -e "$1"', '--', result.stdout]);
+}
 const workflow = readFileSync(`${repo}/.github/workflows/test-distros.yaml`, 'utf8');
 const windowsJob = workflow.split('\n  windows:')[1];
 assert.ok(windowsJob.includes('& $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v'));
@@ -190,7 +213,8 @@ function wsl.exe {
         }
         '--cd' {
             if ($global:defaultUid -eq 0) { throw 'Apply must use the configured non-root user' }
-            if ($args.Count -ne 6 -or $args[4] -ne "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl.sh" -or $args[5] -ne "/mnt/c/Users/O'Brien dotfiles") { throw 'Incorrect WSL argv' }
+            $prefix = if ($env:CHEZMOI_WSL_PASSWORD) { '--cd ~ --exec setsid --wait bash' } else { '--cd ~ --exec bash' }
+            if (($args[0..($args.Count - 3)] -join ' ') -ne $prefix -or $args[-2] -ne "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl.sh" -or $args[-1] -ne "/mnt/c/Users/O'Brien dotfiles") { throw 'Incorrect WSL argv or unattended terminal handling' }
             if ($env:WSLENV -notlike '*CHEZMOI_GITHUB_ACCESS_TOKEN/u*') { throw 'Missing WSL environment forwarding' }
             if ($case -eq 'apply-fail') { $global:LASTEXITCODE = 17 }
         }
@@ -205,6 +229,7 @@ foreach ($case in @('ok', 'fresh', 'engine-fail', 'reboot', 'list-fail', 'versio
     $global:userCreated = $false
     $env:USERNAME = 'NewUser'
     $env:CHEZMOI_WSL_USER = if ($case -eq 'invalid-user') { 'root' } else { '' }
+    $env:CHEZMOI_WSL_PASSWORD = if ($case -in @('fresh', 'apply-fail')) { 'test-password' } else { '' }
     $env:WSLENV = 'EXISTING/p'
     $failure = ''
     try { & $entry } catch { $failure = $_.Exception.Message }

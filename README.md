@@ -58,6 +58,8 @@ authentication. Existing non-root default users and existing passwords are prese
 
 For unattended runs, `CHEZMOI_WSL_PASSWORD` supplies the new account's password and
 sudo's native askpass input. Do not save a real password in your profile or repo.
+This mode uses `setsid --wait` so WSL's terminal cannot capture sudo's password prompt;
+normal interactive installs keep their terminal.
 CI supplies only a masked, random test password and invokes the same
 `chezmoi init --apply -v` entry; it does not pre-install WSL or create users itself.
 Its second apply checks repeatability, not an extra endpoint installation step.

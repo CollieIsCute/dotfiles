@@ -11,7 +11,9 @@ try {
     $repo = & wsl.exe --exec wslpath -a $checkout
     if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
     $repo = ($repo -join "").Trim()
-    & wsl.exe --cd '~' --exec bash "$repo/scripts/bootstrap-wsl.sh" $repo
+    # WSL can provide a terminal even in CI; detach only for unattended input.
+    [string[]]$linuxCommand = if ($env:CHEZMOI_WSL_PASSWORD) { @('setsid', '--wait', 'bash') } else { @('bash') }
+    & wsl.exe --cd '~' --exec @linuxCommand "$repo/scripts/bootstrap-wsl.sh" $repo
     if ($LASTEXITCODE -ne 0) { throw "WSL chezmoi apply failed with exit code $LASTEXITCODE." }
 }
 finally {
