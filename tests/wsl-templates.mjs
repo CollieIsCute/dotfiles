@@ -34,6 +34,7 @@ for (const distro of ['ubuntu', 'arch']) {
     assert.ok(/\bfish\b/.test(packages) && /\btmux\b/.test(packages));
     assert.equal(/\bhyprland\b/.test(packages), !wsl);
     assert.equal(/\bsddm\b/.test(packages), !wsl);
+    if (distro === 'arch') assert.ok(packages.includes('--mflags "--syncdeps --noconfirm"'));
     if (distro === 'ubuntu') assert.equal(setup.includes('pkg.noctalia.dev'), !wsl);
     if (wsl) {
       assert.equal(render('.chezmoiexternal.toml', ...args).trim(), '');

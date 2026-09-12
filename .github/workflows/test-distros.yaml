@@ -68,6 +68,7 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
+          $env:PATH = "$binDir;$env:PATH"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply
           if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
