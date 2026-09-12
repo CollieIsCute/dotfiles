@@ -276,10 +276,10 @@
     <h1>SketchyBar 導入計畫</h1>
     <p class="lede">以 SketchyBar 取代原生 menu bar 的主要顯示層，串接 AeroSpace、CodexBar、Stats 與 Matugen；重現 Noctalia 的透明背景、半透明 capsule 與三區配置，而且不停用 SIP。</p>
     <div class="meta" aria-label="計畫摘要">
-      <span class="tag">狀態：待實作</span>
+      <span class="tag">狀態：本機互動已驗證，完整登入／外接螢幕待驗收</span>
       <span class="tag">平台：macOS</span>
       <span class="tag">方案：SketchyBar + AeroSpace + CodexBar</span>
-      <span class="tag">更新：2026-09-12</span>
+      <span class="tag">更新：2026-09-13</span>
     </div>
   </header>
 
@@ -288,8 +288,9 @@
       <div class="section-heading">
         <h2 id="decision-title">決策</h2>
       </div>
-      <p><strong>採用 SketchyBar，並加入 CodexBar meter。</strong>系統監控重用 Stats menu-bar items；Codex 用量優先鏡像 CodexBar 原生 status item。SketchyBar 只負責排列、capsule、AeroSpace workspace、時鐘與音量互動。</p>
+      <p><strong>採用 SketchyBar，並加入 CodexBar meter。</strong>系統監控重用 Stats menu-bar items；bar 上的 Codex 用量鏡像 CodexBar 原生 status item，hover 摘要才讀 CodexBar CLI。SketchyBar 負責排列、Matugen capsule、workspace、時鐘、音量與控制中心入口。</p>
       <p>不採用 Simple Bar、SbarLua、大型第三方設定集或 showy-quota。單一 Codex meter 不值得再加入 Bash 4、獨立 renderer、cache daemon 與第二套主題設定。</p>
+      <p><strong>CI 只驗證安裝：</strong>已移除新增的 <code>tests/sketchybar.sh</code> 與其 CI 步驟。四平台保留 <code>chezmoi init --apply -v</code>；功能在實際 macOS 上操作驗收。最新安裝結果以 <a href="https://github.com/CollieIsCute/dotfiles/pull/155/checks">PR #155 checks</a> 為準，不把上一個 commit 的成功當成本次成功。</p>
     </section>
 
     <section aria-labelledby="scope-title">
@@ -303,7 +304,8 @@
           <ul>
             <li>AeroSpace workspace 1–9 與 <code>magic</code></li>
             <li>Workspace 點擊切換與狀態即時更新</li>
-            <li>CodexBar 原生 Codex meter alias；點擊開啟 CodexBar</li>
+            <li>CodexBar 原生 meter；hover 小摘要、左鍵原生詳細選單、右鍵刷新摘要</li>
+            <li>SketchyBar 最右側控制中心按鈕，開啟 macOS 原生 Wi-Fi／專注模式面板</li>
             <li>時鐘：月份、日期與秒數</li>
             <li>音量顯示、靜音與滾輪每次 3%</li>
             <li>Stats aliases：網路、CPU、GPU、RAM、溫度、電池</li>
@@ -318,7 +320,7 @@
           <ul>
             <li>Media widget</li>
             <li>Notification badges</li>
-            <li>重製 CodexBar popup 或多 provider quota strips</li>
+            <li>重製 CodexBar 完整詳細面板或多 provider quota strips；僅自製 Codex hover 小摘要</li>
             <li>Session popup</li>
             <li>Clipboard history</li>
             <li>Wallpaper Engine／W Engine</li>
@@ -334,7 +336,7 @@
         <h2 id="layout-title">目標配置</h2>
         <small>約 36px 高，外層完全透明</small>
       </div>
-      <div class="bar-preview" role="img" aria-label="左側為 tray aliases 與 CodexBar，中間為時鐘與工作區，右側為音量、網路和系統監控">
+      <div class="bar-preview" role="img" aria-label="左側為 tray aliases 與 CodexBar，時鐘與工作區位於瀏海兩側，右側為系統監控、網路、音量與控制中心">
         <div class="cluster">
           <span class="pill">Tray aliases</span>
           <span class="pill">Codex 72%</span>
@@ -344,12 +346,35 @@
           <span class="pill">1 2 3 4 5 6 7 8 9 M</span>
         </div>
         <div class="cluster right">
-          <span class="pill">Volume</span>
-          <span class="pill">Net ↓ ↑</span>
           <span class="pill">CPU · RAM · GPU · Temp · Battery</span>
+          <span class="pill">Net ↓ ↑</span>
+          <span class="pill">Volume</span>
+          <span class="pill">控制中心</span>
         </div>
       </div>
-      <p class="caption">CodexBar 與 Stats 內容由各自 app 產生；SketchyBar 負責 alias、位置、縮放與群組背景。</p>
+      <p class="caption">圖為區域示意。實機使用 SketchyBar 原生 <code>q/e</code> 將時鐘、workspace 分置瀏海兩側，<code>notch_width=200</code>；內建螢幕瀏海實測 x=646–825 pt，時鐘右緣 630、workspace 左緣 837。Alias 保留原生圖像色彩，避免把不透明 Stats 圖表染成黑塊。</p>
+    </section>
+
+    <section aria-labelledby="interaction-title">
+      <div class="section-heading">
+        <h2 id="interaction-title">CodexBar 互動分工</h2>
+        <small>2026-09-13 使用者確認</small>
+      </div>
+      <p>dotfiles 指定 <code>salemsayed/codexbar-meter:bar</code>。依該 Noctalia 外掛目前程式，hover 是小型用量提示、左鍵切換詳細面板、右鍵刷新；macOS 採用相同分工，但詳細面板沿用 CodexBar 原生介面。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">操作</th><th scope="col">SketchyBar 行為</th><th scope="col">資料與限制</th></tr></thead>
+          <tbody>
+            <tr><td>Hover</td><td>元件下方顯示 Matugen 配色的小摘要，不打開原生選單</td><td>只顯示已讀取的 Codex 額度；缺少的區間略過，不補假數值</td></tr>
+            <tr><td>移開游標</td><td>收起小摘要</td><td>摘要不是可操作的大型面板</td></tr>
+            <tr><td>左鍵</td><td>收起摘要，開啟 CodexBar 原生詳細選單</td><td>完整帳號、重置時間、費用與設定仍由 CodexBar 維護；位置與樣式不完全等同 Noctalia</td></tr>
+            <tr><td>右鍵</td><td>立即刷新小摘要</td><td>只重新讀 CodexBar CLI，不改登入來源或開啟其他視窗</td></tr>
+            <tr><td>背景更新</td><td>每 60 秒及喚醒時刷新</td><td>macOS <code>lockf</code> 避免重複請求；失敗保留舊列並標示未更新</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">使用 macOS 內建 <code>jq</code> 處理既有 CodexBar CLI JSON；只把摘要文字留在 SketchyBar 記憶體，不保存帳號 JSON、token 或額外 quota server。摘要使用不透明的 Matugen surface-variant 底色，避免與下方視窗文字混在一起。</p>
+      <p class="caption">本機檢查：實際 hover、移出、左右鍵及 CLI 暫時不可用／恢復均已驗證。需要手動重跑真實 CLI 更新時，可執行 <code>SENDER=routine NAME=codexbar ~/.config/sketchybar/plugins/codexbar.sh</code>；失敗會回傳非零狀態，不另建功能測試腳本或加入 CI。</p>
     </section>
 
     <section aria-labelledby="architecture-title">
@@ -362,7 +387,7 @@
 ┌────────────┐ native aliases  │ SketchyBar  │
 │ Stats.app  │ ───────────────▶│             │
 └────────────┘                 │             │
-┌────────────┐ status alias    │             │
+┌────────────┐ alias / JSON    │             │
 │ CodexBar   │ ───────────────▶│             │
 └────────────┘                 └──────┬──────┘
                                      ▲
@@ -372,7 +397,7 @@
       <ul>
         <li><strong>AeroSpace：</strong>workspace 真實狀態、切換與變更事件。</li>
         <li><strong>Stats：</strong>系統監控與感測器；不在 SketchyBar 重寫資料採集。</li>
-        <li><strong>CodexBar：</strong>沿用既有 <code>codex = oauth</code> 設定負責登入、用量取得、meter 與 popup；SketchyBar 不讀取 token，也不啟用 browser-cookie source。</li>
+        <li><strong>CodexBar：</strong>沿用既有 <code>codex = oauth</code> 設定負責登入、用量取得、meter 與詳細選單；SketchyBar 以 <code>codexbar usage --provider codex --source oauth --format json --json-only --no-credits</code> 讀取摘要，不直接讀 token 或啟用 browser-cookie source。</li>
         <li><strong>Matugen：</strong>只生成色彩變數，不生成整份 SketchyBar 行為設定。</li>
         <li><strong>SketchyBar：</strong>呈現、排列、capsule、滑鼠互動與 hotload。</li>
       </ul>
@@ -388,7 +413,7 @@
         <li><strong>直接 CodexBar → SketchyBar 的案例很少：</strong><a href="https://github.com/enieuwy/showy-quota">showy-quota</a> 功能完整，但只有 18★、4 位公開貢獻者，而且為多 provider、多宿主需求加入快取、renderer 與本機 serve 管理。</li>
         <li><strong>精簡案例：</strong><a href="https://github.com/fenetikm/dotfiles/blob/master/.config/sketchybar/plugins/agents.sh">fenetikm/dotfiles</a> 每 120 秒執行 CodexBar CLI，以 JSON 檔快取五分鐘，再用 <code>jq</code> 取百分比。</li>
         <li><strong>自行抓 provider 不划算：</strong><a href="https://github.com/frankroeder/dotfiles/tree/master/sketchybar">frankroeder/dotfiles</a> 為 AI usage 維護 Lua popup、Python OAuth clients、快取、節流與測試，規模遠超過目前需求。</li>
-        <li><strong>最符合現有架構：</strong>SketchyBar 官方 alias 已能鏡像第三方 status item；計畫本來就因 Stats aliases 需要 Screen Recording，因此加入 CodexBar 不增加新的權限類型。</li>
+        <li><strong>最符合現有架構：</strong>SketchyBar 官方 alias 鏡像第三方 status item，CodexBar 與 Stats 共用螢幕錄製授權。2026-09-13 補上原生選單操作後，AeroSpace 另需輔助使用及對 System Events 的自動化授權。</li>
       </ul>
 
       <h3>CodexBar 顯示方案</h3>
@@ -396,8 +421,8 @@
         <table>
           <thead><tr><th scope="col">方案</th><th scope="col">新增負擔</th><th scope="col">可靠性</th><th scope="col">決定</th></tr></thead>
           <tbody>
-            <tr><td>CodexBar 原生 item → SketchyBar alias</td><td>CodexBar cask；無 parser、daemon 或額外 script</td><td>沿用 CodexBar 自己的 meter 與資料來源；需原生 item 能被 query</td><td><strong>採用</strong></td></tr>
-            <tr><td>自製 CodexBar CLI item</td><td>一支 shell script、<code>jq</code>、last-known-good cache</td><td>不依賴原生 item；JSON schema 變更時需維護</td><td>只有 alias 實機失敗才做</td></tr>
+            <tr><td>CodexBar 原生 item → SketchyBar alias</td><td>CodexBar cask、原生選單 click helper</td><td>沿用 CodexBar 自己的 meter 與資料來源；需原生 item 能被 query</td><td><strong>bar meter 採用</strong></td></tr>
+            <tr><td>CodexBar CLI → hover 摘要</td><td>一支 shell script、macOS 內建 <code>jq/lockf</code>；舊摘要留在 bar 記憶體</td><td>JSON schema 變更時需維護摘要 parser，不重寫登入與用量抓取</td><td><strong>僅 hover 採用，不替代原生 meter</strong></td></tr>
             <tr><td>showy-quota</td><td>Bash 4、安裝流程、renderer、快取與 serve lifecycle</td><td>多 provider、tmux、Zellij 共用時最完整</td><td>目前不採用</td></tr>
             <tr><td>直接讀 OAuth／私有 endpoint</td><td>自行處理憑證、refresh、schema、429 與 cache</td><td>維護面最大</td><td>排除</td></tr>
           </tbody>
@@ -464,12 +489,14 @@
             <tr><td><code>home/dot_config/sketchybar/colors.sh.tera</code></td><td>新增</td><td>Matugen 輸入模板；輸出為未納管的 <code>colors.sh</code>。</td></tr>
             <tr><td><code>home/dot_config/sketchybar/plugins/executable_clock.sh</code></td><td>新增</td><td>每秒更新 Noctalia 格式時鐘。</td></tr>
             <tr><td><code>home/dot_config/sketchybar/plugins/executable_volume.sh</code></td><td>新增</td><td>處理音量事件、靜音與 3% 滾輪調整。</td></tr>
-            <tr><td><code>home/dot_config/sketchybar/plugins/executable_codexbar.sh</code></td><td>條件式新增</td><td>只有原生 CodexBar alias 在實機不可用時，才以 CLI JSON + last-known-good cache 顯示。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_codexbar.sh</code></td><td>新增</td><td>Hover／左鍵／右鍵分流、每分鐘 CLI 摘要更新；失敗保留舊摘要。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_native-menu.sh</code></td><td>新增</td><td>以 System Events 開啟 CodexBar 詳細選單與原生控制中心。</td></tr>
             <tr><td><code>home/dot_config/codexbar/modify_private_config.json</code></td><td>沿用</td><td>維持 Codex 使用 OAuth、Claude 使用 CLI；不把憑證寫入 dotfiles。</td></tr>
             <tr><td><code>home/dot_config/matugen/config.toml.tmpl</code></td><td>修改</td><td>註冊 SketchyBar 色彩輸出及 reload post-hook。</td></tr>
             <tr><td><code>home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl</code></td><td>修改</td><td>把新 Matugen 模板 hash 納入重跑條件。</td></tr>
             <tr><td><code>home/dot_config/aerospace/aerospace.toml</code></td><td>修改</td><td>啟動 SketchyBar、發出 workspace event、預留頂部高度。</td></tr>
             <tr><td><code>README.md</code></td><td>修改</td><td>記錄 macOS bar、Matugen 與一次性 Stats 設定。</td></tr>
+            <tr><td><code>.github/workflows/test-distros.yaml</code></td><td>移除功能測試步驟</td><td>保留四平台安裝驗證及 <code>-v</code>；刪除 <code>tests/sketchybar.sh</code>。</td></tr>
           </tbody>
         </table>
       </div>
@@ -489,13 +516,13 @@
             <li>將 SketchyBar 與 CodexBar 加入 Brewfile，保留現有 Stats。</li>
             <li>將 SketchyBar 目錄加入 macOS-only ignore 規則。</li>
             <li>建立最小 <code>sketchybarrc</code>：透明 bar、高度 36、JetBrainsMono Nerd Font、測試 clock item。</li>
-            <li>透過 AeroSpace <code>after-startup-command</code> 啟動，避免額外維護一份 LaunchAgent。</li>
+            <li>透過 AeroSpace <code>after-startup-command</code> 啟動，避免額外維護一份 LaunchAgent。先檢查程序是否存在再決定啟動／reload，不能依賴 <code>--reload</code> 的 exit code 判斷。</li>
           </ol>
           <h3>驗收</h3>
           <ul class="checklist">
-            <li><input id="c1" type="checkbox"><label for="c1"><code>chezmoi apply</code> 後 SketchyBar 可執行並顯示。</label></li>
-            <li><input id="c2" type="checkbox"><label for="c2">重新啟動 AeroSpace 不會產生重複 bar process。</label></li>
-            <li><input id="c3" type="checkbox"><label for="c3">SIP 保持 enabled。</label></li>
+            <li><input id="c1" type="checkbox" checked><label for="c1"><code>chezmoi apply</code> 後 SketchyBar 可執行並顯示。</label></li>
+            <li><input id="c2" type="checkbox" checked><label for="c2">重新啟動 AeroSpace 不會產生重複 bar process。</label></li>
+            <li><input id="c3" type="checkbox" checked><label for="c3">SIP 保持 enabled。</label></li>
           </ul>
         </div>
       </details>
@@ -535,8 +562,8 @@
           <h3>驗收</h3>
           <ul class="checklist">
             <li><input id="c7" type="checkbox"><label for="c7"><code>chezmoi theme IMAGE</code> 同時更換 wallpaper 與 bar palette。</label></li>
-            <li><input id="c8" type="checkbox"><label for="c8">整條 bar 透明，capsule 約 30% opacity，無陰影。</label></li>
-            <li><input id="c9" type="checkbox"><label for="c9">Matugen 只覆寫生成色彩，不覆寫 layout 或行為。</label></li>
+            <li><input id="c8" type="checkbox" checked><label for="c8">整條 bar 透明，capsule 約 30% opacity，無陰影。</label></li>
+            <li><input id="c9" type="checkbox" checked><label for="c9">Matugen 只覆寫生成色彩，不覆寫 layout 或行為。</label></li>
           </ul>
         </div>
       </details>
@@ -549,16 +576,19 @@
             <li>啟動 CodexBar，沿用既有 Codex OAuth source、合併多 provider icons，選擇精簡的 meter 或 icon + percent layout。</li>
             <li>在 Stats GUI 一次性啟用實際需要的 CPU、GPU、RAM、Network、Sensors 與 Battery menu items。</li>
             <li>執行 <code>sketchybar --query default_menu_items</code>，取得 CodexBar、Stats 與 tray 的本機真實 owner/name；不要預先猜測名稱。</li>
-            <li>將 CodexBar 原生 item 加為 alias；點擊執行 <code>open -b com.steipete.codexbar</code>，不實作 Accessibility click helper。</li>
+            <li>將 CodexBar 原生 item 加為 alias；左鍵以 System Events 按原生 status item。單純 <code>open -b</code> 不會打開用量選單；0.60 的選單關閉時仍存在，需檢查零尺寸狀態。</li>
             <li>只加入確定存在的 aliases；網路與系統監控分成兩個 bracket capsule。</li>
-            <li>授予 SketchyBar Screen Recording 權限；這同時涵蓋 CodexBar、Stats 與 tray aliases。</li>
-            <li>只有 CodexBar 不出現在 query 結果時，才新增 120 秒 CLI fallback；保留最後一次成功資料，失敗顯示 <code>—</code>，不啟動常駐 server。</li>
+            <li>登入啟動由 AeroSpace 負責，螢幕錄製授權應給 AeroSpace；終端機手動啟動則另需授權該終端機。新授權後完整重啟程序，只有 reload 不夠。</li>
+            <li>Hover 以 60 秒 CLI 更新的小摘要呈現；失敗保留舊摘要並警告，不替代 alias、不啟動常駐 server。</li>
+            <li>具名 alias 移除 query 的變動 <code>(n)</code> 索引，保留原生圖像顏色；實測 Stats 重啟後不需 reload 就能重新綁定。</li>
           </ol>
           <h3>驗收</h3>
           <ul class="checklist">
             <li><input id="c10" type="checkbox"><label for="c10">CodexBar meter 與所有 alias 在登入、喚醒及外接螢幕後仍顯示。</label></li>
-            <li><input id="c11" type="checkbox"><label for="c11">CPU/GPU/RAM/溫度/網路/電池資料由 Stats 提供，沒有重複 polling scripts。</label></li>
-            <li><input id="c12" type="checkbox"><label for="c12">不存在的 alias 不造成整條 bar 啟動失敗；fallback 不讀取或複製 OAuth token。</label></li>
+            <li><input id="c11" type="checkbox" checked><label for="c11">CPU/GPU/RAM/溫度/網路/電池資料由 Stats 提供，沒有重複 polling scripts。</label></li>
+            <li><input id="c12" type="checkbox" checked><label for="c12">不存在的 alias 不造成整條 bar 啟動失敗；CLI 摘要更新失敗不清空舊資料。</label></li>
+            <li><input id="c19" type="checkbox" checked><label for="c19">實際 hover 只顯示 Matugen 小摘要，移開後收起。</label></li>
+            <li><input id="c20" type="checkbox" checked><label for="c20">左鍵只開原生詳細選單，右鍵只刷新摘要。</label></li>
           </ul>
           <p class="caption">CodexBar 與 Stats preferences 先保留為一次性 GUI 設定；只有確認跨機器重建需求後，才考慮納管其偏好檔。</p>
         </div>
@@ -572,14 +602,16 @@
             <li>加入每秒 clock script，格式對齊 <code>%B %d %H:%M:%S</code>。</li>
             <li>volume item 訂閱 <code>volume_change</code> 與 <code>mouse.scrolled</code>。</li>
             <li>滾輪依方向調整 3%，並夾在 0–100；點擊切換靜音。</li>
+            <li>最右側設定按鈕以固定 <code>com.apple.menuextra.controlcenter</code> 識別碼開啟原生控制中心；Wi-Fi／勿擾模式仍使用系統原生面板。</li>
             <li>驗證內建螢幕、外接螢幕、notch、睡眠喚醒與登入啟動。</li>
             <li>隱藏原生 macOS menu bar；只用系統支援的 auto-hide，不加入永久阻擋游標觸發的 hack。</li>
           </ol>
           <h3>驗收</h3>
           <ul class="checklist">
-            <li><input id="c13" type="checkbox"><label for="c13">時鐘、workspace 與右側資料不互相碰撞。</label></li>
+            <li><input id="c13" type="checkbox" checked><label for="c13">內建螢幕的時鐘、workspace 與右側資料不互相碰撞，且避開瀏海。</label></li>
             <li><input id="c14" type="checkbox"><label for="c14">音量滾輪每格恰好 3%，0 與 100 不溢位。</label></li>
             <li><input id="c15" type="checkbox"><label for="c15">睡眠喚醒、重新登入與拔插螢幕後不需手動 reload。</label></li>
+            <li><input id="c21" type="checkbox" checked><label for="c21">實際點擊 SketchyBar 設定按鈕可開控制中心，不切換 Wi-Fi 或勿擾設定。</label></li>
           </ul>
           <div class="checkpoint"><strong>Checkpoint B：</strong>完成後執行 <code>chezmoi diff</code>、<code>chezmoi apply</code>，再進行一次乾淨登入驗證。</div>
         </div>
@@ -593,6 +625,7 @@
             <li>README 記錄 SketchyBar 架構、CodexBar／Stats 一次性設定與 Screen Recording 權限。</li>
             <li>確認 diff 無 token、個人路徑或生成的 <code>colors.sh</code>。</li>
             <li>以小型提交拆分：套件、核心 bar、主題、aliases、文件。</li>
+            <li>同步更新本計畫；四平台 CI 只跑安裝流程，不加入套件功能 mock 測試。保留 <code>-v</code>，確認 PR 最新 commit 的 checks 全過。</li>
           </ol>
           <h3>驗收</h3>
           <ul class="checklist">
@@ -613,11 +646,12 @@
           <thead><tr><th scope="col">風險</th><th scope="col">影響</th><th scope="col">處理方式</th></tr></thead>
           <tbody>
             <tr><td>Stats alias 名稱依機器或版本不同</td><td>中</td><td>在實機 query 後才加入；缺少 alias 時略過，不讓 bar 啟動失敗。</td></tr>
-            <tr><td>CodexBar 原生 status item 在 macOS 26 未出現在 query</td><td>中</td><td>先確認「Allow in the Menu Bar」；仍不可用才啟用 CLI fallback，不修改 Control Center plist、不用私有 API。參見 <a href="https://github.com/steipete/CodexBar/issues/1109">CodexBar #1109</a>。</td></tr>
+            <tr><td>CodexBar 原生 status item 在 macOS 26 未出現在 query</td><td>中</td><td>先確認「Allow in the Menu Bar」與 AeroSpace 螢幕錄製授權；CLI 目前只提供 hover 摘要，不宣稱可取代缺失的原生 item。參見 <a href="https://github.com/steipete/CodexBar/issues/1109">CodexBar #1109</a>。</td></tr>
+            <tr><td>CodexBar CLI 更新失敗或回報缺少額度</td><td>中</td><td>失敗保留舊摘要並警告；成功但沒有某區間時略過該區間，不把未知額度當 0%。</td></tr>
             <tr><td>第三方 showy-quota 維護規模較小且功能過量</td><td>低</td><td>不列為必要相依；只有未來要同時供 SketchyBar、tmux、Zellij 顯示多 provider 時重評。</td></tr>
             <tr><td>內建與外接螢幕 bar 高度不同</td><td>中</td><td>先用 36px；只有測試失敗才加入 per-monitor AeroSpace gap。</td></tr>
             <tr><td>Matugen reload 時色彩檔短暫不存在</td><td>低</td><td>靜態 config 提供最小 fallback palette。</td></tr>
-            <tr><td>原生 menu bar 在游標頂端再次出現</td><td>低</td><td>接受 macOS auto-hide 行為；不使用私有 API 或 SIP hack。</td></tr>
+            <tr><td>原生 menu bar 在游標頂端或控制中心開啟時再次出現</td><td>低</td><td>「永遠自動隱藏」不是永不顯示；原生面板開啟時可能蓋住 bar，先點外部收起。重新開機不會改變此設計，不使用私有 API、滑鼠攔截或 SIP hack。</td></tr>
             <tr><td>Stats GUI state 尚未納入 chezmoi</td><td>低</td><td>README 記錄一次性設定；只有實際跨機重建痛點出現時再自動化。</td></tr>
           </tbody>
         </table>
@@ -629,12 +663,12 @@
         <h2 id="done-title">完成定義</h2>
       </div>
       <ul class="checklist">
-        <li><input id="d1" type="checkbox"><label for="d1">外觀接近目前 Noctalia：透明、無陰影、半透明 capsule、相同字型與間距。</label></li>
+        <li><input id="d1" type="checkbox" checked><label for="d1">外觀接近目前 Noctalia：透明、無陰影、半透明 capsule、相同字型與間距。</label></li>
         <li><input id="d2" type="checkbox"><label for="d2">AeroSpace workspace、CodexBar meter、時鐘、音量與 Stats aliases 全部可用。</label></li>
         <li><input id="d3" type="checkbox"><label for="d3">更換 wallpaper 後 Matugen 自動更新 bar 色彩。</label></li>
         <li><input id="d4" type="checkbox"><label for="d4">內建與外接螢幕、睡眠喚醒、重新登入均通過。</label></li>
-        <li><input id="d5" type="checkbox"><label for="d5">SIP enabled，沒有 yabai scripting addition 或 menu-bar 私有 hack。</label></li>
-        <li><input id="d6" type="checkbox"><label for="d6">除新確認的 CodexBar meter 外，其餘排除項目沒有被加入。</label></li>
+        <li><input id="d5" type="checkbox" checked><label for="d5">SIP enabled，沒有 yabai scripting addition 或 menu-bar 私有 hack。</label></li>
+        <li><input id="d6" type="checkbox" checked><label for="d6">僅新增使用者確認的 CodexBar 摘要與控制中心入口，其餘排除項目未加入。</label></li>
       </ul>
     </section>
 
@@ -647,6 +681,9 @@
         <li><a href="https://felixkratz.github.io/SketchyBar/config/components">SketchyBar components、brackets 與 aliases</a></li>
         <li><a href="https://felixkratz.github.io/SketchyBar/config/querying">SketchyBar 查詢原生 menu item 名稱</a></li>
         <li><a href="https://felixkratz.github.io/SketchyBar/config/events">SketchyBar events</a></li>
+        <li><a href="https://felixkratz.github.io/SketchyBar/config/popups">SketchyBar 原生 popup</a></li>
+        <li><a href="https://github.com/noctalia-dev/community-plugins/tree/main/codexbar-meter">實際使用的 Noctalia CodexBar Meter：hover／左鍵／右鍵行為來源</a></li>
+        <li><a href="https://support.apple.com/en-euro/guide/mac-help/-mchlad96d366/mac">Apple：自動隱藏與顯示選單列</a></li>
         <li><a href="https://nikitabobko.github.io/AeroSpace/goodness#show-aerospace-workspaces-in-sketchybar">AeroSpace 官方 SketchyBar 整合</a></li>
         <li><a href="https://github.com/steipete/CodexBar">CodexBar 官方 repository 與 CLI</a></li>
         <li><a href="https://github.com/steipete/CodexBar/blob/main/docs/codex.md">CodexBar Codex OAuth／CLI 資料來源</a></li>

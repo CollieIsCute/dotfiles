@@ -64,8 +64,9 @@ chezmoi init --apply collieiscute -v
 - Startup checks for the SketchyBar process before starting or reloading it: `sketchybar --reload` can report success even when no bar is running.
 - The transparent bar mirrors Noctalia's 30% `surface_variant` capsules. `chezmoi theme IMAGE` regenerates only `~/.config/sketchybar/colors.sh` and reloads the bar.
 - Left: third-party tray aliases and the first CodexBar status item. The clock sits left of the notch (`q`), with workspaces `1..9` and `M` on its right (`e`); `notch_width=200` reserves the center. Right: Control Center, 3%-step volume, and active Stats CPU/GPU/RAM/network/sensor/battery items.
-- CodexBar remains the OAuth and quota owner; SketchyBar only mirrors its native status item. No browser cookies, tokens, custom quota server, or `showy-quota` config is stored here.
-- Hover or click the CodexBar meter to open its native usage menu. Click the rightmost settings icon to open macOS Control Center (Wi-Fi, Bluetooth, Focus, etc.). These are SketchyBar buttons using System Events accessibility actions; native panels keep their original screen anchors. Control Center can temporarily reveal the system menu bar; click outside to dismiss it before using bar buttons again.
+- CodexBar remains the OAuth and quota owner. SketchyBar mirrors its native meter and reads its CLI JSON for a small Matugen-colored usage tooltip; no browser cookies, tokens, account JSON, custom quota server, or `showy-quota` config is stored here.
+- Hover shows the cached Codex quota summary; leaving hides it. Left-click opens CodexBar's native detailed menu. Right-click refreshes the summary; background updates run every 60 seconds and on wake. Missing quota windows are omitted, and failures keep the previous rows with a warning. macOS-provided `jq` parses the CLI response and `lockf` prevents overlapping refreshes.
+- Click the rightmost settings icon to open macOS Control Center (Wi-Fi, Bluetooth, Focus, etc.). Native menu buttons use System Events accessibility actions; panels keep their original screen anchors. Control Center can temporarily reveal the system menu bar; click outside to dismiss it before using bar buttons again.
 - Named aliases bind without the query's changing `(n)` suffix, so app restarts can reattach them. Alias images keep their native colors; tinting opaque Stats charts would turn the whole image into a solid block. Matugen owns the surrounding capsules and regular bar text.
 
 After the first `chezmoi apply`:
@@ -77,7 +78,7 @@ After the first `chezmoi apply`:
 
 CI validates installation with `chezmoi init --apply -v` across supported operating systems. Bar interactions are checked on the actual Mac, not with mocked feature-test scripts.
 
-If an alias is missing, compare `sketchybar --query default_menu_items` with the app's visible menu-bar item and reload. Missing aliases are skipped without breaking the bar; a CodexBar CLI fallback is intentionally deferred until the native item is proven unavailable on this Mac.
+If an alias is missing, compare `sketchybar --query default_menu_items` with the app's visible menu-bar item and reload. Missing aliases are skipped without breaking the bar. The CLI supplies the hover summary only; it does not replace the native bar meter.
 
 ### Hyprland
 
