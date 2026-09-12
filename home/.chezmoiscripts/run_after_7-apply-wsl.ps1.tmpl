@@ -3,15 +3,14 @@ $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $false
 
 $checkout = '{{ .chezmoi.workingTree | replace "'" "''" }}'
-& (Join-Path $checkout 'scripts/bootstrap-wsl.ps1')
-
-# Pass paths as arguments; never interpolate them into a shell command.
-$repo = & wsl.exe --exec wslpath -a $checkout
-if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
-$repo = ($repo -join "").Trim()
 $savedWSLEnv = $env:WSLENV
 try {
-    $env:WSLENV = (@($savedWSLEnv, "CHEZMOI_GITHUB_ACCESS_TOKEN/u") | Where-Object { $_ }) -join ":"
+    $env:WSLENV = (@($savedWSLEnv, "CHEZMOI_GITHUB_ACCESS_TOKEN/u", "CHEZMOI_WSL_PASSWORD/u") | Where-Object { $_ }) -join ":"
+    & (Join-Path $checkout 'scripts/bootstrap-wsl.ps1')
+    # Pass paths as arguments; never interpolate them into a shell command.
+    $repo = & wsl.exe --exec wslpath -a $checkout
+    if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
+    $repo = ($repo -join "").Trim()
     & wsl.exe --cd '~' --exec bash "$repo/scripts/bootstrap-wsl.sh" $repo
     if ($LASTEXITCODE -ne 0) { throw "WSL chezmoi apply failed with exit code $LASTEXITCODE." }
 }

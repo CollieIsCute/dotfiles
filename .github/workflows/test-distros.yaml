@@ -62,17 +62,18 @@ jobs:
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $env:PATH = "$binDir;$env:PATH"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
-          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" -v
-          & "$env:USERPROFILE/.local/share/chezmoi/scripts/bootstrap-wsl.ps1"
-          # Only the non-interactive test account is CI-specific, not WSL setup.
-          wsl --distribution archlinux --user root --exec bash -c 'pacman -Syu --needed --noconfirm sudo && useradd -m -s /bin/bash dev && printf "dev ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/dev && chmod 440 /etc/sudoers.d/dev'
-          wsl --manage archlinux --set-default-user dev
-          & $chezmoi apply -v
+          # Test input only; the normal entry installs WSL and creates its user.
+          $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
+          Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
+          "CHEZMOI_WSL_PASSWORD=$env:CHEZMOI_WSL_PASSWORD" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
           if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
           node "$env:USERPROFILE/.local/share/chezmoi/tests/wsl-templates.mjs"
       - name: Verify WSL tools and repeat the same Windows entry
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           wsl --exec bash -c 'source /etc/os-release; test "$ID" = arch'
+          wsl --exec bash -c 'test "$(id -u)" -ne 0 && test "$(id -un)" = "$1"' -- $env:USERNAME.ToLowerInvariant()
+          wsl --exec bash -c 'sudo -k; if sudo -n true; then echo "sudo must require authentication" >&2; exit 1; fi'
           wsl --exec fish -c 'for tool in fish tmux nvim claude codex opencode; command -q $tool; or exit 1; end; test ! -d ~/.config/hypr; and test ! -d ~/.local/libexec/openwhispr'
           & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v

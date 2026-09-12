@@ -1,6 +1,6 @@
 // Run with: node tests/wsl-templates.mjs (requires chezmoi and Bash).
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -58,18 +58,58 @@ const windowsPackages = render('.chezmoiscripts/run_onchange_after_0-install-pac
 assert.ok(!windowsPackages.includes('main/claude-code'));
 assert.ok(!windowsPackages.includes('main/opencode'));
 assert.ok(windowsPackages.includes('extras/alacritty'));
-bashCheck(readFileSync(`${repo}/scripts/bootstrap-wsl.sh`, 'utf8'));
-assert.ok(!readFileSync(`${repo}/scripts/bootstrap-wsl.sh`, 'utf8').includes('\r'));
+for (const file of ['bootstrap-wsl.sh', 'bootstrap-wsl-user.sh']) {
+  const script = readFileSync(`${repo}/scripts/${file}`, 'utf8');
+  bashCheck(script);
+  assert.ok(!script.includes('\r'));
+}
+// Run account logic with shell functions replacing every system mutation.
+const userSetup = readFileSync(`${repo}/scripts/bootstrap-wsl-user.sh`, 'utf8');
+const accountMocks = `
+source() { ID=ubuntu; }
+id() {
+  if [[ $1 == -u ]]; then
+    if [[ $# == 1 ]]; then echo 0; else echo "$TEST_UID"; fi
+  else [[ $TEST_UID != new ]]; fi
+}
+apt-get() { :; }
+useradd() { echo created; }
+passwd() { echo prompted; }
+chpasswd() { read -r entry; [[ $entry == 'newuser:test-password' ]]; echo password-set; }
+visudo() { [[ $(< "$2") == 'newuser ALL=(ALL:ALL) ALL' ]]; }
+install() { [[ $1 == -m && $2 == 0440 && $4 == /etc/sudoers.d/90-chezmoi-wsl-newuser ]]; echo sudo-configured; }
+`;
+for (const [uid, user, password, expected] of [
+  ['new', 'newuser', 'test-password', 'created\npassword-set\nsudo-configured\n'],
+  ['new', 'newuser', '', 'created\nprompted\nsudo-configured\n'],
+  ['1000', 'newuser', 'test-password', 'sudo-configured\n'],
+  ['999', 'newuser', '', null],
+  ['new', 'root', '', null],
+  ['new', 'bad;name', '', null],
+  ['new', 'newuser', 'bad\npassword', null],
+]) {
+  const result = spawnSync('bash', ['-s', '--', user], { input: accountMocks + userSetup, encoding: 'utf8',
+    env: { ...process.env, TEST_UID: uid, CHEZMOI_WSL_PASSWORD: password } });
+  assert.ifError(result.error);
+  if (expected === null) assert.notEqual(result.status, 0, 'Reject unsafe account input');
+  else {
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, expected);
+  }
+}
 const workflow = readFileSync(`${repo}/.github/workflows/test-distros.yaml`, 'utf8');
-assert.ok(workflow.includes('/scripts/bootstrap-wsl.ps1'));
-assert.ok(workflow.includes('wsl --manage archlinux --set-default-user dev'));
-assert.ok(!/wsl (?:--install|--set-default-version|--set-default )/.test(workflow));
+const windowsJob = workflow.split('\n  windows:')[1];
+assert.ok(windowsJob.includes('& $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v'));
+assert.ok(!/bootstrap-wsl\.ps1|useradd|pacman|NOPASSWD|wsl --(?:install|manage|set-default)/.test(windowsJob),
+  'CI must use the normal entry without pre-provisioning WSL or its user');
 assert.ok((workflow.match(/chezmoi.* -v/g) ?? []).length >= 5, 'Keep verbose installation logs');
 if (process.platform === 'win32') {
   // Exercise the actual shared bootstrap through the rendered chezmoi entry.
   const checkout = join(scratch, "O'Brien dotfiles");
   mkdirSync(join(checkout, 'scripts'), { recursive: true });
-  copyFileSync(`${repo}/scripts/bootstrap-wsl.ps1`, join(checkout, 'scripts/bootstrap-wsl.ps1'));
+  for (const file of ['bootstrap-wsl.ps1', 'bootstrap-wsl-user.sh']) {
+    copyFileSync(`${repo}/scripts/${file}`, join(checkout, 'scripts', file));
+  }
   const entry = render('.chezmoiscripts/run_after_7-apply-wsl.ps1.tmpl', 'windows', undefined, undefined, checkout);
   const scripts = readdirSync(`${repo}/home/.chezmoiscripts`).filter(f => /\.ps1(\.tmpl)?$/.test(f))
     .map(f => f.endsWith('.tmpl') ? render(`.chezmoiscripts/${f}`, 'windows') : readFileSync(`${repo}/home/.chezmoiscripts/${f}`, 'utf8'));
@@ -106,22 +146,50 @@ function wsl.exe {
             $global:defaultVersionSet = $true
         }
         '--user' {
-            if ($args[3] -eq 'bash') {
-                if ($args[4] -ne '-c' -or $args[5] -notlike '*$ID == arch*first-setup.sh*') { throw 'Unexpected first-login setup' }
-                if ($case -eq 'first-login-fail') { $global:LASTEXITCODE = 1 }
-                return
+            if ($args[1] -ne 'root' -or $args[2] -ne '--exec') { throw 'Unexpected root command' }
+            switch ($args[3]) {
+                'uname' {
+                    if ($args[4] -ne '-r') { throw 'Unexpected kernel probe' }
+                    if ($case -eq 'launch-fail') { $global:LASTEXITCODE = 1; return }
+                    if ($case -eq 'wsl1') { return '4.4.0-Microsoft' }
+                    return '6.6.87.2-microsoft-standard-WSL2'
+                }
+                'printenv' {
+                    if ($args[4] -ne 'WSL_DISTRO_NAME') { throw 'Unexpected environment query' }
+                    if ($case -eq 'distro-name-fail') { $global:LASTEXITCODE = 1; return }
+                    return 'Arch Linux'
+                }
+                'wslpath' {
+                    if ($args[5] -ne (Join-Path $expectedCheckout 'scripts/bootstrap-wsl-user.sh')) { throw 'Incorrect user bootstrap path' }
+                    if ($case -eq 'user-path-fail') { $global:LASTEXITCODE = 1; return }
+                    return "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl-user.sh"
+                }
+                'bash' {
+                    if ($global:defaultUid -ne 0 -or $args.Count -ne 6 -or $args[4] -ne "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl-user.sh" -or $args[5] -ne 'newuser') { throw 'Incorrect user setup arguments' }
+                    if ($env:WSLENV -notlike '*CHEZMOI_WSL_PASSWORD/u*') { throw 'Missing bootstrap input forwarding' }
+                    if ($case -eq 'user-setup-fail') { $global:LASTEXITCODE = 1; return }
+                    $global:userCreated = $true
+                    return
+                }
+                default { throw 'Unexpected root command' }
             }
-            if (($args -join ' ') -ne '--user root --exec uname -r') { throw 'Root is only allowed for the kernel probe' }
-            if ($case -eq 'launch-fail') { $global:LASTEXITCODE = 1; return }
-            if ($case -eq 'wsl1') { return '4.4.0-Microsoft' }
-            return '6.6.87.2-microsoft-standard-WSL2'
+        }
+        '--manage' {
+            if (!$global:userCreated -or $args.Count -ne 4 -or $args[1] -ne 'Arch Linux' -or $args[2] -ne '--set-default-user' -or $args[3] -ne 'newuser') { throw 'Incorrect default user setup' }
+            if ($case -eq 'default-user-fail') { $global:LASTEXITCODE = 1; return }
+            $global:defaultUid = 1000
         }
         '--exec' {
+            if (($args -join ' ') -eq '--exec id -u') {
+                if ($case -eq 'uid-fail') { $global:LASTEXITCODE = 1; return }
+                return [string]$global:defaultUid
+            }
             if ($args[1] -ne 'wslpath' -or $args[3] -ne $expectedCheckout) { throw 'Incorrect Windows path argument' }
             if ($case -eq 'path-fail') { $global:LASTEXITCODE = 1; return }
             return "/mnt/c/Users/O'Brien dotfiles"
         }
         '--cd' {
+            if ($global:defaultUid -eq 0) { throw 'Apply must use the configured non-root user' }
             if ($args.Count -ne 6 -or $args[4] -ne "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl.sh" -or $args[5] -ne "/mnt/c/Users/O'Brien dotfiles") { throw 'Incorrect WSL argv' }
             if ($env:WSLENV -notlike '*CHEZMOI_GITHUB_ACCESS_TOKEN/u*') { throw 'Missing WSL environment forwarding' }
             if ($case -eq 'apply-fail') { $global:LASTEXITCODE = 17 }
@@ -129,17 +197,23 @@ function wsl.exe {
         default { throw 'Unexpected WSL command' }
     }
 }
-foreach ($case in @('ok', 'fresh', 'engine-fail', 'reboot', 'list-fail', 'version-fail', 'install-fail', 'launch-fail', 'wsl1', 'first-login-fail', 'path-fail', 'apply-fail')) {
+foreach ($case in @('ok', 'fresh', 'engine-fail', 'reboot', 'list-fail', 'version-fail', 'install-fail', 'launch-fail', 'wsl1', 'uid-fail', 'invalid-user', 'distro-name-fail', 'user-path-fail', 'user-setup-fail', 'default-user-fail', 'path-fail', 'apply-fail')) {
     $wslCalls = [Collections.Generic.List[string]]::new()
     $global:distroInstalled = $case -notin @('fresh', 'version-fail', 'install-fail')
     $global:defaultVersionSet = $false
+    $global:defaultUid = if ($case -in @('fresh', 'invalid-user', 'distro-name-fail', 'user-path-fail', 'user-setup-fail', 'default-user-fail')) { 0 } else { 1000 }
+    $global:userCreated = $false
+    $env:USERNAME = 'NewUser'
+    $env:CHEZMOI_WSL_USER = if ($case -eq 'invalid-user') { 'root' } else { '' }
     $env:WSLENV = 'EXISTING/p'
     $failure = ''
     try { & $entry } catch { $failure = $_.Exception.Message }
     $expected = switch ($case) {
         'ok' { '^$' }; 'fresh' { '^$' }; 'engine-fail' { 'WSL setup did not complete' }; 'reboot' { 'restart Windows' }
         'list-fail' { 'Cannot list' }; 'version-fail' { 'Cannot enable WSL 2' }; 'install-fail' { 'Arch installation failed' }
-        'first-login-fail' { 'first-login setup failed' }
+        'uid-fail' { 'Cannot determine the default WSL user' }; 'invalid-user' { 'valid non-root Linux username' }
+        'distro-name-fail' { 'Cannot determine the default WSL distribution' }; 'user-path-fail' { 'Cannot access the WSL user bootstrap' }
+        'user-setup-fail' { 'WSL user setup failed' }; 'default-user-fail' { 'Cannot set the default WSL user' }
         'launch-fail' { 'Cannot start' }
         'wsl1' { 'must use WSL 2' }; 'path-fail' { 'Cannot access' }; 'apply-fail' { 'exit code 17' }
     }
@@ -149,9 +223,12 @@ foreach ($case in @('ok', 'fresh', 'engine-fail', 'reboot', 'list-fail', 'versio
     if ($case -eq 'fresh') {
         & $entry
         if (@($wslCalls | Where-Object { $_ -eq '--install --distribution archlinux --no-launch' }).Count -ne 1) { throw 'Repeat entry reinstalled the distro' }
+        if (@($wslCalls | Where-Object { $_ -like '--user root --exec bash *' }).Count -ne 1) { throw 'Repeat entry recreated the user' }
     }
+    if ($case -eq 'ok' -and $global:userCreated) { throw 'Existing default user was changed' }
 }
 `;
-  execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned', '-EncodedCommand', Buffer.from(check, 'utf16le').toString('base64')]);
+  execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned',
+    '-Command', '& ([scriptblock]::Create([Console]::In.ReadToEnd()))'], { input: check });
 }
 console.log('WSL/native templates, shared WSL 2 bootstrap and syntax checks passed.');

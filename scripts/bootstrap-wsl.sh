@@ -3,12 +3,20 @@ set -euo pipefail
 
 repo=${1:?Pass the mounted dotfiles checkout}
 if [[ $(id -u) == 0 ]]; then
-    echo "Create a non-root default WSL user with sudo access before running chezmoi (see README: First Arch login)." >&2
+    echo "The Windows bootstrap must configure a non-root default WSL user before applying dotfiles." >&2
     exit 1
 fi
 
 # Do not let Windows PATH entries select Windows package managers or executables.
 export PATH="$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# Unattended installs can supply a password without changing sudo policy.
+if [[ -n ${CHEZMOI_WSL_PASSWORD:-} ]]; then
+    SUDO_ASKPASS=$(mktemp)
+    export SUDO_ASKPASS
+    trap 'rm -f -- "$SUDO_ASKPASS"' EXIT
+    printf '%s\n' '#!/bin/sh' 'printf "%s\n" "$CHEZMOI_WSL_PASSWORD"' > "$SUDO_ASKPASS"
+    chmod 0700 "$SUDO_ASKPASS"
+fi
 source /etc/os-release
 case "$ID" in
     ubuntu)
@@ -28,4 +36,4 @@ if ! command -v chezmoi >/dev/null; then
 fi
 
 # Share only the checkout. Linux HOME, caches and chezmoi state stay in WSL.
-exec chezmoi --source "$repo" apply
+chezmoi --source "$repo" apply

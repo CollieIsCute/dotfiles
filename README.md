@@ -34,50 +34,35 @@ Alacritty opens fish in WSL. Native Neovim/ripgrep remain on Windows for Neovide
 GCC/Rust remain there to build Matugen. Previously installed Windows CLIs are not
 uninstalled automatically.
 
-The Windows entry calls [scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1),
-the same WSL 2 bootstrap used by CI. To prepare WSL separately from this checkout:
-
-```powershell
-.\scripts\bootstrap-wsl.ps1
-```
-
+The Windows entry calls [scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1).
 It prepares WSL's prerequisites and installs official Arch Linux as WSL 2 only when no
 distribution is registered. A failed distribution listing or launch stops the
 bootstrap; it does not trigger another distro installation. Windows may require
 administrator approval and a reboot; rerun the same command after reboot.
-Create a non-root Linux user as below, then run `chezmoi apply` from Windows.
-CI creates its own disposable test user; endpoints do not receive a
-hardcoded username or passwordless sudo.
+In the same invocation, a root-only distribution gets a normal Linux account,
+password-authenticated sudo and that account as its default user, then Linux
+chezmoi applies the Unix dotfiles. No separate WSL setup or second apply is required.
 Existing default distributions are preserved; they must be Ubuntu or Arch on
 WSL 2, with a normal user able to run `sudo`. No automatic reboot or distro
 conversion is performed. See [Microsoft's WSL setup](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-#### First Arch login
+#### Linux account setup
 
 The [official Arch WSL image](https://wiki.archlinux.org/title/Install_Arch_Linux_on_WSL)
 starts as root; unlike Ubuntu, it does not create your user interactively.
-The shared bootstrap runs Arch's own first-setup script if its pacman keyring is
-missing. Open `wsl -d archlinux -u root`, then create your account (replace
-`yourname` with your Linux username):
+The bootstrap handles this: it runs Arch's own first-setup script if the pacman
+keyring is missing and creates a Linux account using your lowercased Windows
+username. Set `CHEZMOI_WSL_USER` before the Windows entry if you need a different
+valid Linux username. Enter the Linux password when prompted; sudo still requires
+authentication. Existing non-root default users and existing passwords are preserved.
 
-```bash
-pacman -Syu --needed sudo
-useradd -m -G wheel -s /bin/bash yourname
-passwd yourname
-printf '%%wheel ALL=(ALL:ALL) ALL\n' > /etc/sudoers.d/10-wheel
-chmod 440 /etc/sudoers.d/10-wheel
-visudo -c
-exit
-```
+For unattended runs, `CHEZMOI_WSL_PASSWORD` supplies the new account's password and
+sudo's native askpass input. Do not save a real password in your profile or repo.
+CI supplies only a masked, random test password and invokes the same
+`chezmoi init --apply -v` entry; it does not pre-install WSL or create users itself.
+Its second apply checks repeatability, not an extra endpoint installation step.
 
-Back in PowerShell:
-
-```powershell
-wsl --manage archlinux --set-default-user yourname
-chezmoi apply -v
-```
-
-This requires a password for sudo. Existing Ubuntu users keep their current
+Existing Ubuntu users keep their current
 setup and use apt; new Arch installs use pacman/paru. Arch's rolling-release
 maintenance requirements still apply; choosing WSL 2 does not make it an LTS
 distribution. The official Arch WSL image currently targets x64; no automatic
