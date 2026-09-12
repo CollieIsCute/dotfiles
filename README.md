@@ -65,6 +65,7 @@ chezmoi init --apply collieiscute -v
 - The transparent bar mirrors Noctalia's 30% `surface_variant` capsules. `chezmoi theme IMAGE` regenerates only `~/.config/sketchybar/colors.sh` and reloads the bar.
 - Left: third-party tray aliases and the first CodexBar status item. The clock sits left of the notch (`q`), with workspaces `1..9` and `M` on its right (`e`); `notch_width=200` reserves the center. Right: 3%-step volume plus active Stats CPU/GPU/RAM/network/sensor/battery items.
 - CodexBar remains the OAuth and quota owner; SketchyBar only mirrors its native status item. No browser cookies, tokens, custom quota server, or `showy-quota` config is stored here.
+- Named aliases bind without the query's changing `(n)` suffix, so app restarts can reattach them. Alias images keep their native colors; tinting opaque Stats charts would turn the whole image into a solid block. Matugen owns the surrounding capsules and regular bar text.
 
 After the first `chezmoi apply`:
 

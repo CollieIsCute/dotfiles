@@ -89,7 +89,8 @@ export MOCK_MENU_ITEMS='[
   "控制中心,RAM_tachometer(5)",
   "控制中心,codexbar-merged(6)",
   "控制中心,Item-0(7)",
-  "KeePassXC,(8)"
+  "KeePassXC,(8)",
+  "控制中心,CPU_line_chart(109)"
 ]'
 
 : >"$MOCK_SKETCHYBAR_LOG"
@@ -99,10 +100,16 @@ grep -Fq -- '--add item clock q --set clock' "$MOCK_SKETCHYBAR_LOG"
 for sid in 1 2 3 4 5 6 7 8 9 magic; do
     grep -Fq -- "--add item space.$sid e --set space.$sid" "$MOCK_SKETCHYBAR_LOG"
 done
-grep -Fq -- '--add alias 控制中心,codexbar-merged(6) left' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias 控制中心,Sensors_mini(4) right' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias 控制中心,RAM_tachometer(5) right' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias 控制中心,Network_speed(3) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,codexbar-merged left' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,Sensors_mini right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,RAM_tachometer right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,Network_speed right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,CPU_line_chart right' "$MOCK_SKETCHYBAR_LOG"
+if grep -Fq -- 'alias.color=' "$MOCK_SKETCHYBAR_LOG"; then
+    echo 'Tinting opaque Stats chart images turns the whole chart into a solid block' >&2
+    exit 1
+fi
+# Unnamed items still need the index to be addressable.
 grep -Fq -- '--add alias KeePassXC,(8) left' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq -- '--set codexbar padding_left=5 padding_right=5' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq -- '--set workspaces padding_left=5 padding_right=5' "$MOCK_SKETCHYBAR_LOG"

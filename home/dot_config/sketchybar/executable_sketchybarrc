@@ -85,15 +85,17 @@ sketchybar --add item volume right \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
 
 add_alias() {
-    source=$1
+    # The query suffix is a changing list index, not part of a named window.
+    # Keep it only for unnamed items (Owner,(n)); named aliases can rebind natively.
+    source=$(printf '%s\n' "$1" | sed 's/\([^,]\)([0-9][0-9]*)$/\1/')
     name=$2
     position=$3
     click_script=${4-}
 
     sketchybar --add alias "$source" "$position" || return 0
     sketchybar --rename "$source" "$name"
+    # Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
     sketchybar --set "$name" \
-        alias.color="$ON_SURFACE" \
         alias.scale=0.82 \
         alias.update_freq=2 \
         click_script="$click_script"
