@@ -24,7 +24,8 @@ jobs:
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          # Verbose mode prints the full OpenWhispr external (80+ MB) and makes this job flaky.
+          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply
 
   ubuntu:
     name: ubuntu:latest
