@@ -120,9 +120,7 @@ packages:
       - wget
       - zip
       - zoxide
-      - nodejs
       - npm
-      - perl
     desktop:
       - fcitx5-chewing
       - fcitx5-config-qt
@@ -152,7 +150,6 @@ packages:
   windows:
     scoop:
       main:
-        - aria2
         - chezmoi
         - gcc
         - git
