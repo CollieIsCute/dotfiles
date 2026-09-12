@@ -75,6 +75,17 @@ sketchybar --add bracket workspaces '/space\..*/' \
         background.corner_radius=9 \
         background.drawing=on
 
+sketchybar --add item control_center right \
+    --set control_center \
+        icon="󰒓" \
+        label.drawing=off \
+        padding_left=5 \
+        padding_right=5 \
+        background.color="$CAPSULE" \
+        background.drawing=on \
+        script="$PLUGIN_DIR/native-menu.sh" \
+    --subscribe control_center mouse.clicked
+
 sketchybar --add item volume right \
     --set volume \
         padding_left=5 \
@@ -114,13 +125,15 @@ printf '%s\n' "$menu_items" \
             case "$source" in
                 CodexBar,*|*,codexbar-*)
                     test "$codex_added" = false || continue
-                    add_alias "$source" codexbar left 'open -b com.steipete.codexbar'
+                    add_alias "$source" codexbar left ''
                     sketchybar --set codexbar \
                         padding_left=5 \
                         padding_right=5 \
                         alias.scale=1 \
                         background.color="$CAPSULE" \
-                        background.drawing=on
+                        background.drawing=on \
+                        script="$PLUGIN_DIR/native-menu.sh" \
+                        --subscribe codexbar mouse.entered mouse.clicked
                     codex_added=true
                     ;;
                 Stats,*Network*|*,Network_*)

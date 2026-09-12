@@ -63,15 +63,19 @@ chezmoi init --apply collieiscute -v
 - AeroSpace starts SketchyBar, reserves 36 px at the top, and sends workspace changes through the official `aerospace_workspace_change` event.
 - Startup checks for the SketchyBar process before starting or reloading it: `sketchybar --reload` can report success even when no bar is running.
 - The transparent bar mirrors Noctalia's 30% `surface_variant` capsules. `chezmoi theme IMAGE` regenerates only `~/.config/sketchybar/colors.sh` and reloads the bar.
-- Left: third-party tray aliases and the first CodexBar status item. The clock sits left of the notch (`q`), with workspaces `1..9` and `M` on its right (`e`); `notch_width=200` reserves the center. Right: 3%-step volume plus active Stats CPU/GPU/RAM/network/sensor/battery items.
+- Left: third-party tray aliases and the first CodexBar status item. The clock sits left of the notch (`q`), with workspaces `1..9` and `M` on its right (`e`); `notch_width=200` reserves the center. Right: Control Center, 3%-step volume, and active Stats CPU/GPU/RAM/network/sensor/battery items.
 - CodexBar remains the OAuth and quota owner; SketchyBar only mirrors its native status item. No browser cookies, tokens, custom quota server, or `showy-quota` config is stored here.
+- Hover or click the CodexBar meter to open its native usage menu. Click the rightmost settings icon to open macOS Control Center (Wi-Fi, Bluetooth, Focus, etc.). These are SketchyBar buttons using System Events accessibility actions; native panels keep their original screen anchors. Control Center can temporarily reveal the system menu bar; click outside to dismiss it before using bar buttons again.
 - Named aliases bind without the query's changing `(n)` suffix, so app restarts can reattach them. Alias images keep their native colors; tinting opaque Stats charts would turn the whole image into a solid block. Matugen owns the surrounding capsules and regular bar text.
 
 After the first `chezmoi apply`:
 
 1. Open CodexBar and Stats once. In CodexBar, enable Codex with OAuth and use one merged status item if multiple providers are enabled. Select its icon-and-percentage style and weekly metric for a readable quota meter; the default icon alone can be hard to distinguish. In Stats, enable the compact items you actually want mirrored.
 2. Allow **AeroSpace** under **System Settings → Privacy & Security → Screen & System Audio Recording** for login startup. If launching SketchyBar manually from a terminal, allow that terminal too; its permission does not cover AeroSpace. After granting permission, quit SketchyBar and restart AeroSpace to launch a fresh bar; `sketchybar --reload` alone does not refresh TCC permissions.
-3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**. This is required to avoid a second system bar; it does not require a reboot, and SIP stays enabled.
+3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**. This hides the system bar until the pointer touches the top edge; it does not permanently disable it. No reboot or SIP change is needed.
+4. Allow the SketchyBar launcher (AeroSpace, or the terminal for manual launches) to control **System Events** if macOS requests Automation permission. It also needs Accessibility permission for native menu buttons.
+
+CI validates installation with `chezmoi init --apply -v` across supported operating systems. Bar interactions are checked on the actual Mac, not with mocked feature-test scripts.
 
 If an alias is missing, compare `sketchybar --query default_menu_items` with the app's visible menu-bar item and reload. Missing aliases are skipped without breaking the bar; a CodexBar CLI fallback is intentionally deferred until the native item is proven unavailable on this Mac.
 
