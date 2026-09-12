@@ -58,8 +58,8 @@ jobs:
       - name: Prepare a fresh WSL 2 Ubuntu user
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
+          wsl --set-default-version 2
           wsl --install --distribution Ubuntu --no-launch
-          wsl --set-version Ubuntu 2
           wsl --set-default Ubuntu
           wsl --distribution Ubuntu --user root --exec bash -c 'useradd -m -s /bin/bash dev && printf "dev ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/dev && chmod 440 /etc/sudoers.d/dev'
           wsl --manage Ubuntu --set-default-user dev
