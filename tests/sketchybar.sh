@@ -94,6 +94,11 @@ export MOCK_MENU_ITEMS='[
 
 : >"$MOCK_SKETCHYBAR_LOG"
 CONFIG_DIR="$config" sh "$config/executable_sketchybarrc"
+grep -Fq -- 'notch_width=200' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add item clock q --set clock' "$MOCK_SKETCHYBAR_LOG"
+for sid in 1 2 3 4 5 6 7 8 9 magic; do
+    grep -Fq -- "--add item space.$sid e --set space.$sid" "$MOCK_SKETCHYBAR_LOG"
+done
 grep -Fq -- '--add alias 控制中心,codexbar-merged(6) left' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq -- '--add alias 控制中心,Sensors_mini(4) right' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq -- '--add alias 控制中心,RAM_tachometer(5) right' "$MOCK_SKETCHYBAR_LOG"

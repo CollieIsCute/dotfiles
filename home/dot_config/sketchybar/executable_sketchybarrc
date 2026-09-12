@@ -14,6 +14,7 @@ test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
 sketchybar --bar \
     position=top \
     height=36 \
+    notch_width=200 \
     y_offset=0 \
     topmost=off \
     color="$TRANSPARENT" \
@@ -41,7 +42,8 @@ sketchybar --default \
 
 sketchybar --add event aerospace_workspace_change
 
-sketchybar --add item clock center \
+# q/e anchor to either side of the notch instead of drawing through its center.
+sketchybar --add item clock q \
     --set clock \
         update_freq=1 \
         padding_left=5 \
@@ -53,7 +55,7 @@ sketchybar --add item clock center \
 for sid in 1 2 3 4 5 6 7 8 9 magic; do
     label=$sid
     test "$sid" = magic && label=M
-    sketchybar --add item "space.$sid" center \
+    sketchybar --add item "space.$sid" e \
         --set "space.$sid" \
             icon="$label" \
             label.drawing=off \
@@ -114,6 +116,7 @@ printf '%s\n' "$menu_items" \
                     sketchybar --set codexbar \
                         padding_left=5 \
                         padding_right=5 \
+                        alias.scale=1 \
                         background.color="$CAPSULE" \
                         background.drawing=on
                     codex_added=true

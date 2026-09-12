@@ -63,12 +63,12 @@ chezmoi init --apply collieiscute -v
 - AeroSpace starts SketchyBar, reserves 36 px at the top, and sends workspace changes through the official `aerospace_workspace_change` event.
 - Startup checks for the SketchyBar process before starting or reloading it: `sketchybar --reload` can report success even when no bar is running.
 - The transparent bar mirrors Noctalia's 30% `surface_variant` capsules. `chezmoi theme IMAGE` regenerates only `~/.config/sketchybar/colors.sh` and reloads the bar.
-- Left: third-party tray aliases and the first CodexBar status item. Center: `{Month day HH:MM:SS}` plus workspaces `1..9` and `M`. Right: 3%-step volume plus active Stats CPU/GPU/RAM/network/sensor/battery items.
+- Left: third-party tray aliases and the first CodexBar status item. The clock sits left of the notch (`q`), with workspaces `1..9` and `M` on its right (`e`); `notch_width=200` reserves the center. Right: 3%-step volume plus active Stats CPU/GPU/RAM/network/sensor/battery items.
 - CodexBar remains the OAuth and quota owner; SketchyBar only mirrors its native status item. No browser cookies, tokens, custom quota server, or `showy-quota` config is stored here.
 
 After the first `chezmoi apply`:
 
-1. Open CodexBar and Stats once. In CodexBar, enable Codex with OAuth and use one merged status item if multiple providers are enabled. In Stats, enable the compact items you actually want mirrored.
+1. Open CodexBar and Stats once. In CodexBar, enable Codex with OAuth and use one merged status item if multiple providers are enabled. Select its icon-and-percentage style and weekly metric for a readable quota meter; the default icon alone can be hard to distinguish. In Stats, enable the compact items you actually want mirrored.
 2. Allow **AeroSpace** under **System Settings → Privacy & Security → Screen & System Audio Recording** for login startup. If launching SketchyBar manually from a terminal, allow that terminal too; its permission does not cover AeroSpace. After granting permission, quit SketchyBar and restart AeroSpace to launch a fresh bar; `sketchybar --reload` alone does not refresh TCC permissions.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**. This is required to avoid a second system bar; it does not require a reboot, and SIP stays enabled.
 
