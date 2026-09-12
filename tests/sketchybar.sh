@@ -84,12 +84,12 @@ if grep -Fq -- '--add alias Control Center,WiFi(4)' "$MOCK_SKETCHYBAR_LOG"; then
 fi
 
 : >"$MOCK_SKETCHYBAR_LOG"
-NAME=space.3 FOCUSED_WORKSPACE=3 sh "$config/plugins/executable_workspace.sh"
+CONFIG_DIR="$config" NAME=space.3 FOCUSED_WORKSPACE=3 sh "$config/plugins/executable_workspace.sh"
 grep -Fq 'background.drawing=on' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq 'icon.color=0xff381e72' "$MOCK_SKETCHYBAR_LOG"
 
 : >"$MOCK_SKETCHYBAR_LOG"
-NAME=space.3 FOCUSED_WORKSPACE=4 sh "$config/plugins/executable_workspace.sh"
+CONFIG_DIR="$config" NAME=space.3 FOCUSED_WORKSPACE=4 sh "$config/plugins/executable_workspace.sh"
 grep -Fq 'background.drawing=off' "$MOCK_SKETCHYBAR_LOG"
 grep -Fq 'icon.color=0xfff2f0f4' "$MOCK_SKETCHYBAR_LOG"
 
