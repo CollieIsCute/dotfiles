@@ -65,21 +65,28 @@ export PATH="$tmp/bin:$PATH"
 export MOCK_SKETCHYBAR_LOG="$tmp/sketchybar.log"
 export MOCK_OSASCRIPT_LOG="$tmp/osascript.log"
 export MOCK_MENU_ITEMS='[
-  "CodexBar,(1)",
-  "Stats,CPU_Mini(2)",
-  "Stats,Network_Speed(3)",
-  "Control Center,WiFi(4)",
-  "KeePassXC,(5)"
+  "Karabiner-Console-User-Server,(1)",
+  "控制中心,WiFi(2)",
+  "控制中心,Network_speed(3)",
+  "控制中心,Sensors_mini(4)",
+  "控制中心,RAM_tachometer(5)",
+  "控制中心,codexbar-merged(6)",
+  "控制中心,Item-0(7)",
+  "KeePassXC,(8)"
 ]'
 
 : >"$MOCK_SKETCHYBAR_LOG"
 CONFIG_DIR="$config" sh "$config/executable_sketchybarrc"
-grep -Fq -- '--add alias CodexBar,(1) left' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias Stats,CPU_Mini(2) right' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias Stats,Network_Speed(3) right' "$MOCK_SKETCHYBAR_LOG"
-grep -Fq -- '--add alias KeePassXC,(5) left' "$MOCK_SKETCHYBAR_LOG"
-if grep -Fq -- '--add alias Control Center,WiFi(4)' "$MOCK_SKETCHYBAR_LOG"; then
-    echo 'Control Center must not be duplicated in tray aliases' >&2
+grep -Fq -- '--add alias 控制中心,codexbar-merged(6) left' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,Sensors_mini(4) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,RAM_tachometer(5) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias 控制中心,Network_speed(3) right' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--add alias KeePassXC,(8) left' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--set codexbar padding_left=5 padding_right=5' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--set workspaces padding_left=5 padding_right=5' "$MOCK_SKETCHYBAR_LOG"
+grep -Fq -- '--set stats.net.group padding_left=5 padding_right=5' "$MOCK_SKETCHYBAR_LOG"
+if grep -Eq -- '--add alias (控制中心,(WiFi|Item-0)|Karabiner-Console-User-Server)' "$MOCK_SKETCHYBAR_LOG"; then
+    echo 'System menu items must not be duplicated in tray aliases' >&2
     exit 1
 fi
 

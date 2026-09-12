@@ -68,8 +68,8 @@ chezmoi init --apply collieiscute -v
 After the first `chezmoi apply`:
 
 1. Open CodexBar and Stats once. In CodexBar, enable Codex with OAuth and use one merged status item if multiple providers are enabled. In Stats, enable the compact items you actually want mirrored.
-2. Allow SketchyBar under **System Settings → Privacy & Security → Screen & System Audio Recording**, then run `sketchybar --reload`.
-3. Optionally set **System Settings → Control Center → Automatically hide and show the menu bar → Always**. SIP stays enabled.
+2. Allow the terminal that launches SketchyBar under **System Settings → Privacy & Security → Screen & System Audio Recording**, then fully restart SketchyBar; `sketchybar --reload` alone does not refresh TCC permissions.
+3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**. This is required to avoid a second system bar; it does not require a reboot, and SIP stays enabled.
 
 If an alias is missing, compare `sketchybar --query default_menu_items` with the app's visible menu-bar item and reload. Missing aliases are skipped without breaking the bar; a CodexBar CLI fallback is intentionally deferred until the native item is proven unavailable on this Mac.
 
