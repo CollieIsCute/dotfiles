@@ -8,7 +8,7 @@ grep -Fq 'tap "FelixKratz/formulae", trusted: { formula: "sketchybar" }' "$repo/
 grep -Fq 'brew "FelixKratz/formulae/sketchybar"' "$repo/home/dot_config/brew/Brewfile"
 grep -Fq 'cask "codexbar"' "$repo/home/dot_config/brew/Brewfile"
 grep -Fq '.config/sketchybar/**' "$repo/home/.chezmoiignore"
-grep -Fq "'exec-and-forget sketchybar'" "$repo/home/dot_config/aerospace/aerospace.toml"
+grep -Fq 'sleep 3; sketchybar --reload || sketchybar' "$repo/home/dot_config/aerospace/aerospace.toml"
 grep -Fq 'FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE' "$repo/home/dot_config/aerospace/aerospace.toml"
 grep -Fq '[templates.sketchybar]' "$repo/home/dot_config/matugen/config.toml.tmpl"
 grep -Fq '# sketchybar:' "$repo/home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl"
