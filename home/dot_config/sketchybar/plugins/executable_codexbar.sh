@@ -30,20 +30,26 @@ mkdir -p "$cache_dir" || exit 1
 exec 9>"$cache_dir/codexbar.lock"
 /usr/bin/lockf -s -t 0 9 || exit 0
 
-sketchybar --set codexbar.status label="Codex · 更新中…"
-if ! data=$(codexbar usage --provider codex --source oauth --format json --json-only --no-credits 2>/dev/null); then
-    sketchybar --set codexbar.status label="Codex · 更新失敗，資料未更新"
+sketchybar --set codexbar.status label="CodexBar · 更新中…"
+# Both providers keep their own configured source: Codex OAuth, Claude CLI.
+if ! data=$(codexbar usage --provider both --format json --json-only --no-credits 2>/dev/null); then
+    sketchybar --set codexbar.status label="CodexBar · 更新失敗，資料未更新"
     exit 1
 fi
 
 if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
-    (if type == "array" then .[] elif .providers then .providers[] else . end)
-    | select(.provider == "codex" and .error == null and (.usage | type) == "object")
+    [(if type == "array" then .[] elif .providers then .providers[] else . end)
+     | select(.provider == "codex" or .provider == "claude")]
+    | if (map(.provider) | sort) == ["claude", "codex"]
+         and all(.error == null and (.usage | type) == "object")
+      then .[] else error("Incomplete provider response") end
+    | (if .provider == "codex" then "Codex · OAuth" else "Claude · CLI" end) as $provider
     | .usage as $usage
-    | (if .stale == true then "注意：來源回報為快取資料" else empty end),
-      ([{title: "5 小時", window: $usage.primary},
+    | $provider,
+      (if .stale == true then "注意：來源回報為快取資料" else empty end),
+      ([{title: ({"300": "5 小時", "10080": "每週"}[($usage.primary.windowMinutes | tostring)] // "主要額度"), window: $usage.primary},
         {title: "每週", window: $usage.secondary},
-        {title: "每月", window: $usage.tertiary},
+        {title: "其他額度", window: $usage.tertiary},
         ($usage.extraRateWindows[]? | {title: .title, window: (.window // .)}),
         ($usage.windows[]? | {title: (.title // .name), window: (.window // .)})]
        | map(select((.window.usedPercent | type) == "number"))
@@ -54,13 +60,13 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
            | "\($title) · 剩餘 \($remaining)%"
          end)
 '); then
-    sketchybar --set codexbar.status label="Codex · 回應無法讀取，資料未更新"
+    sketchybar --set codexbar.status label="CodexBar · 回應不完整，資料未更新"
     exit 1
 fi
 
 # One IPC batch replaces the tooltip rows without flashing an empty popup.
 set -- --remove '/codexbar\.usage\..*/' \
-    --set codexbar.status "label=Codex · 讀取 $(date +%H:%M:%S)"
+    --set codexbar.status "label=CodexBar · 讀取 $(date +%H:%M:%S)"
 index=0
 while IFS= read -r row; do
     index=$((index + 1))

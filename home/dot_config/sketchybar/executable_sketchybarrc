@@ -145,7 +145,7 @@ printf '%s\n' "$menu_items" \
                         --set codexbar.status \
                             width=330 \
                             icon.drawing=off \
-                            label="Codex · 正在讀取…" \
+                            label="CodexBar · 正在讀取…" \
                             label.color="$PRIMARY" \
                             label.padding_left=12 \
                             label.padding_right=12
