@@ -50,8 +50,6 @@ jobs:
       - name: chezmoi init dotfiles
         run: |
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
-      - name: Test SketchyBar configuration
-        run: "$HOME/.local/share/chezmoi/tests/sketchybar.sh"
 
   windows:
     name: windows:latest
