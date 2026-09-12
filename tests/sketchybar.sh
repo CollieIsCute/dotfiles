@@ -10,6 +10,8 @@ grep -Fq 'cask "codexbar"' "$repo/home/dot_config/brew/Brewfile"
 grep -Fq '.config/sketchybar/**' "$repo/home/.chezmoiignore"
 grep -Fq "'exec-and-forget sketchybar'" "$repo/home/dot_config/aerospace/aerospace.toml"
 grep -Fq 'FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE' "$repo/home/dot_config/aerospace/aerospace.toml"
+grep -Fq '[templates.sketchybar]' "$repo/home/dot_config/matugen/config.toml.tmpl"
+grep -Fq '# sketchybar:' "$repo/home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl"
 
 for file in \
     "$config/executable_sketchybarrc" \
@@ -43,6 +45,22 @@ esac
 EOF
 
 chmod +x "$tmp/bin/sketchybar" "$tmp/bin/osascript"
+
+if command -v matugen >/dev/null 2>&1; then
+    cat >"$tmp/matugen.toml" <<EOF
+[config]
+
+[templates.sketchybar]
+input_path = "$config/colors.sh.tera"
+output_path = "$tmp/colors.sh"
+EOF
+    matugen color hex '#6750a4' -m light -c "$tmp/matugen.toml" >/dev/null
+    grep -Eq '^CAPSULE=0x4d[0-9a-fA-F]{6}$' "$tmp/colors.sh"
+    grep -Eq '^ON_SURFACE=0xff[0-9a-fA-F]{6}$' "$tmp/colors.sh"
+    grep -Eq '^PRIMARY=0xff[0-9a-fA-F]{6}$' "$tmp/colors.sh"
+    grep -Eq '^ON_PRIMARY=0xff[0-9a-fA-F]{6}$' "$tmp/colors.sh"
+fi
+
 export PATH="$tmp/bin:$PATH"
 export MOCK_SKETCHYBAR_LOG="$tmp/sketchybar.log"
 export MOCK_OSASCRIPT_LOG="$tmp/osascript.log"
