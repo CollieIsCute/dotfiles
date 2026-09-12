@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo=${1:?Pass the mounted dotfiles checkout}
 if [[ $(id -u) == 0 ]]; then
-    echo "Choose a non-root default WSL user before running chezmoi." >&2
+    echo "Create a non-root default WSL user with sudo access before running chezmoi (see README: First Arch login)." >&2
     exit 1
 fi
 

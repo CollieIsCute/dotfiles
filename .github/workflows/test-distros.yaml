@@ -52,29 +52,27 @@ jobs:
           chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   windows:
-    name: windows:latest + WSL 2
+    name: windows:latest + Arch WSL 2
     runs-on: windows-latest
     steps:
-      - name: Prepare a fresh WSL 2 Ubuntu user
-        run: |
-          $PSNativeCommandUseErrorActionPreference = $true
-          wsl --set-default-version 2
-          wsl --install --distribution Ubuntu --no-launch
-          wsl --set-default Ubuntu
-          wsl --distribution Ubuntu --user root --exec bash -c 'useradd -m -s /bin/bash dev && printf "dev ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/dev && chmod 440 /etc/sudoers.d/dev'
-          wsl --manage Ubuntu --set-default-user dev
-      - name: Install chezmoi and apply dotfiles
+      - name: Install chezmoi, bootstrap WSL 2 and apply dotfiles
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           $binDir = Join-Path $env:RUNNER_TEMP "bin"
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $env:PATH = "$binDir;$env:PATH"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
-          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" -v
+          & "$env:USERPROFILE/.local/share/chezmoi/scripts/bootstrap-wsl.ps1"
+          # Only the non-interactive test account is CI-specific, not WSL setup.
+          wsl --distribution archlinux --user root --exec bash -c 'pacman -Syu --needed --noconfirm sudo && useradd -m -s /bin/bash dev && printf "dev ALL=(ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/dev && chmod 440 /etc/sudoers.d/dev'
+          wsl --manage archlinux --set-default-user dev
+          & $chezmoi apply -v
           if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
           node "$env:USERPROFILE/.local/share/chezmoi/tests/wsl-templates.mjs"
       - name: Verify WSL tools and repeat the same Windows entry
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
+          wsl --exec bash -c 'source /etc/os-release; test "$ID" = arch'
           wsl --exec fish -c 'for tool in fish tmux nvim claude codex opencode; command -q $tool; or exit 1; end; test ! -d ~/.config/hypr; and test ! -d ~/.local/libexec/openwhispr'
           & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v

@@ -1,23 +1,12 @@
 $ErrorActionPreference = "Stop"
-# Handle native exit codes ourselves, including the expected first-install probe.
+# Handle native exit codes ourselves.
 $PSNativeCommandUseErrorActionPreference = $false
 
-$ErrorActionPreference = "Continue"
-$kernel = & wsl.exe --exec uname -r 2>$null
-$ErrorActionPreference = "Stop"
-if ($LASTEXITCODE -ne 0) {
-    & wsl.exe --install --distribution Ubuntu --no-launch
-    if ($LASTEXITCODE -ne 0) {
-        throw "WSL setup failed. Run 'wsl --install -d Ubuntu' as administrator, finish setup, then rerun 'chezmoi apply'."
-    }
-    throw "WSL installed. Restart Windows if requested, open Ubuntu to create your Linux user, then rerun 'chezmoi apply'."
-}
-if (($kernel -join "") -notmatch '(?i)microsoft.*wsl2') {
-    throw "The default distribution must use WSL 2. Check 'wsl --list --verbose', convert it with 'wsl --set-version <name> 2', then rerun 'chezmoi apply'."
-}
+$checkout = '{{ .chezmoi.workingTree | replace "'" "''" }}'
+& (Join-Path $checkout 'scripts/bootstrap-wsl.ps1')
 
 # Pass paths as arguments; never interpolate them into a shell command.
-$repo = & wsl.exe --exec wslpath -a '{{ .chezmoi.workingTree | replace "'" "''" }}'
+$repo = & wsl.exe --exec wslpath -a $checkout
 if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
 $repo = ($repo -join "").Trim()
 $savedWSLEnv = $env:WSLENV
