@@ -16,17 +16,57 @@ Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several 
 chezmoi init --apply collieiscute -v
 ```
 
+### Windows + WSL: one entry point
+
+From a normal PowerShell terminal (with GitHub SSH access already configured):
+
+```powershell
+chezmoi init --ssh --apply collieiscute -v
+```
+
+For an existing checkout, just run `chezmoi apply` on Windows. It applies Windows
+first, then invokes Linux chezmoi in the default WSL 2 distribution. Git uses SSH;
+no credential helper or copying SSH private keys into WSL is required.
+
+| Windows owns | WSL owns |
+|---|---|
+| Scoop, GUI apps, Alacritty, VS Code, voice, Matugen | apt/paru, fish, tmux, Neovim, AI CLIs and plugins |
+
+Alacritty opens fish in WSL. Native Neovim/ripgrep remain on Windows for Neovide;
+GCC/Rust remain there to build Matugen. Previously installed Windows CLIs are not
+uninstalled automatically.
+
+If WSL is missing, the entry point starts Ubuntu installation and stops with
+setup instructions. Windows may require administrator approval and a reboot;
+open Ubuntu once to create a non-root Linux user, then rerun `chezmoi apply`.
+Existing default distributions are preserved; they must be Ubuntu or Arch on
+WSL 2, with a normal user able to run `sudo`. No automatic reboot or distro
+conversion is performed. See [Microsoft's WSL setup](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+Both applies read the same Windows checkout through `/mnt/c/...`; each keeps its
+own HOME, caches, binaries and chezmoi state. Keep Linux projects under `~/`, not
+on `/mnt/c`. No extra filesystem mount or HOME symlink is needed. The Windows
+entry passes `--source` explicitly; it does not replace an existing WSL chezmoi
+checkout or configuration. For a WSL-only apply, use
+`chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply` inside WSL.
+
+WSL uses [chezmoi's native kernel data](https://www.chezmoi.io/user-guide/machines/windows/)
+to skip Linux desktop, greeter, input-method and voice setup. Existing Unix
+scripts still install fish and sync AI plugins; there is no parallel PowerShell
+implementation. CLI themes use terminal/default colors without Noctalia.
+
+Template regression check: `node tests/wsl-templates.mjs` (chezmoi + Bash required).
+
 ## Supported platforms
 
 | OS | Package manager | Status |
 |---|---|---|
 | macOS | Homebrew | daily-driven |
 | Arch | pacman + paru | daily-driven |
-| Ubuntu / Debian / Linux Mint | apt | CI-tested only |
-| Windows | Scoop | CI-tested only |
+| Ubuntu | apt | CI-tested only |
+| Windows + WSL 2 (Ubuntu or Arch) | Scoop + apt/paru | see current PR checks |
 
-On Windows, chezmoi uses native PowerShell bootstrap scripts and skips the Bash
-scripts. AI extension setup also uses non-interactive CLI subcommands.
+Windows chezmoi runs only PowerShell scripts; Linux chezmoi runs only Unix scripts.
 
 The interactive `codex` UI requires a real terminal. Windows PowerShell ISE
 captures native-process output and does not provide one, so launch `codex` from
@@ -38,7 +78,7 @@ launch PowerShell ISE.
 
 ### Theme
 
-- Linux uses Noctalia's wallpaper-derived **light** palette; macOS and Windows use Matugen with the same per-app theme paths.
+- Desktop Linux uses Noctalia's wallpaper-derived **light** palette; macOS and Windows use Matugen with the same per-app theme paths. WSL uses terminal/default CLI colors.
 - Generated app themes stay outside chezmoi. [`.chezmoiexternal.toml`](home/.chezmoiexternal.toml) only pins the Matugen template inputs.
 - Fish inherits the terminal ANSI palette; cursor themes stay independent.
 - Font: **JetBrainsMono Nerd Font** across every terminal / bar / lock screen.
@@ -46,7 +86,7 @@ launch PowerShell ISE.
 ### chezmoi quirks I keep tripping over (that this repo handles)
 
 - `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
-- All apt-based distros share `.packages.ubuntu.apt` and the lazygit-from-GitHub fallback (lazygit isn't in Ubuntu apt).
+- Ubuntu uses `.packages.ubuntu.apt`; desktop packages are added only outside WSL. Arch follows the same core/desktop split.
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
 
 ### Dropbox

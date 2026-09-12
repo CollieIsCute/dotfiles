@@ -1,41 +1,62 @@
 packages:
   arch:
     paru:
-      - adw-gtk-theme
       - bat
       - base-devel
-      - blueman
-      - bluez-utils
       - btop
-      - brave-origin-bin
-      - catppuccin-cursors-mocha
       - claude-code
       - clang
       - codexbar-cli
       - curl
-      - dropbox-cli
       - eza
       - fastfetch
       - fd
-      - fcitx5-chewing
-      - fcitx5-configtool
-      - fcitx5-gtk
-      - fcitx5-mcbopomofo-git
-      - fcitx5-skin-ori-git
       - fish
       - fzf
       - gef
-      - ghostty
       - git
       - github-cli
       - glab
       - go
       - gping
+      - lazygit
+      - neovim
+      - net-tools
+      - nethogs
+      - openai-codex-bin
+      - opencc
+      - opencode-bin
+      - openssh
+      - podman
+      - redmine-cli-bin
+      - ripgrep
+      - tig
+      - tldr
+      - tmux
+      - tokei
+      - typst
+      - unzip
+      - wget
+      - zellij
+      - zip
+      - zoxide
+    desktop:
+      - adw-gtk-theme
+      - blueman
+      - bluez-utils
+      - brave-origin-bin
+      - catppuccin-cursors-mocha
+      - dropbox-cli
+      - fcitx5-chewing
+      - fcitx5-configtool
+      - fcitx5-gtk
+      - fcitx5-mcbopomofo-git
+      - fcitx5-skin-ori-git
+      - ghostty
       - gpu-screen-recorder
       - hyprland
       - keepassxc
       - kitty
-      - lazygit
       - libreoffice-fresh
       - linux-headers
       - linux-wallpaperengine-git
@@ -44,47 +65,27 @@ packages:
       - mattermost-desktop
       - nautilus
       - neovide-bin
-      - neovim
       - network-manager-applet
-      - net-tools
-      - nethogs
       - noctalia
       - noctalia-greeter
       - nwg-look
-      - openai-codex-bin
-      - opencc
-      - opencode-bin
-      - openssh
       - papers
       - pavucontrol
       - pipewire-alsa
       - pipewire-pulse
-      - podman
       - qpwgraph
       - qt6ct
-      - redmine-cli-bin
-      - ripgrep
       - sddm
       - steam
       - telegram-desktop
-      - tig
-      - tldr
-      - tmux
-      - tokei
       - ttf-input
       - ttf-jetbrains-mono-nerd
-      - typst
-      - unzip
       - wireplumber
-      - wget
       - wl-clipboard
       - wtype
       - xdg-desktop-portal-hyprland
       - xone-dkms
       - zathura-pdf-mupdf
-      - zellij
-      - zip
-      - zoxide
   ubuntu:
     apt:
       - bat
@@ -97,106 +98,77 @@ packages:
       - curl
       - eza
       - fastfetch
-      - fcitx5-chewing
-      - fcitx5-config-qt
-      - fcitx5-frontend-gtk3
-      - fcitx5-frontend-gtk4
       - fd-find
       - fish
       - fzf
       - gh
-      - ghostty
       - git
       - glab
       - golang-go
       - gping
-      - hyprland
-      - ibus-chewing
-      - keepassxc
-      - kitty
       - lazygit
-      - libfcitx5-qt1
-      - libreoffice
-      - nautilus
       - neovim
       - net-tools
       - nethogs
-      - network-manager-applet
-      - noctalia
-      - nwg-look
-      - pavucontrol
-      - pipewire-pulse
       - podman
-      - qpwgraph
       - ripgrep
-      - sddm
       - ssh
       - tig
       - tmux
       - tokei
       - unzip
       - wget
+      - zip
+      - zoxide
+      - nodejs
+      - npm
+      - perl
+    desktop:
+      - fcitx5-chewing
+      - fcitx5-config-qt
+      - fcitx5-frontend-gtk3
+      - fcitx5-frontend-gtk4
+      - ghostty
+      - hyprland
+      - ibus-chewing
+      - keepassxc
+      - kitty
+      - libfcitx5-qt1
+      - libreoffice
+      - nautilus
+      - network-manager-applet
+      - noctalia
+      - nwg-look
+      - pavucontrol
+      - pipewire-pulse
+      - qpwgraph
+      - sddm
       - wireplumber
       - wl-clipboard
       - wtype
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
       - xwayland
-      - zip
-      - zoxide
   windows:
     scoop:
       main:
         - aria2
-        - bat
-        - btop
         - chezmoi
-        - claude-code
-        - cloc
-        - cmake
-        - cppcheck
-        - curl
-        - dos2unix
-        - eza
-        - fastfetch
-        - fd
-        - fzf
         - gcc
-        - gh
         - git
-        - glab
-        - go
-        - gping
-        - llvm
         - neovim
-        - ninja
-        - nodejs
-        - opencode
         - openssh
-        - podman
         - ripgrep
         - rustup-msvc
-        - tldr
-        - tokei
-        - typst
-        - unzip
-        - uv
-        - wget
-        - zellij
-        - zip
-        - zoxide
       extras:
         - alacritty
         - brave
-        - flutter
         - keepassxc
-        - lazygit
         - libreoffice
         - localsend
         - mattermost
         - moonlight
         - neovide
-        - onefetch
         - qmk-toolbox
         - signal
         - telegram

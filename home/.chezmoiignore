@@ -1,3 +1,4 @@
+{{- $isWSL := includeTemplate "is_wsl" . | fromJson -}}
 # macOS-only targets.
 {{- if ne .chezmoi.os "darwin" }}
 .config/aerospace
@@ -19,7 +20,7 @@ AppData/**
 {{- end }}
 
 # Linux desktop / XDG targets.
-{{- if ne .chezmoi.os "linux" }}
+{{- if or (ne .chezmoi.os "linux") $isWSL }}
 .local/bin/openwhispr
 .config/BraveSoftware
 .config/BraveSoftware/**
@@ -35,23 +36,40 @@ AppData/**
 .config/noctalia/**
 .config/open-whispr
 .config/open-whispr/**
-.config/paru
-.config/paru/**
 .local/share/applications
 .local/share/applications/**
-{{- else if ne .chezmoi.osRelease.id "arch" }}
+{{- end }}
+
+{{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) }}
 .config/paru
 .config/paru/**
 {{- end }}
 
+# WSL reuses the Unix CLI setup; the Windows host owns desktop and voice apps.
+{{- if $isWSL }}
+.chezmoiscripts/3-fix-openwhispr-hold.sh
+.chezmoiscripts/4-configure-greetd-noctalia.sh
+.config/alacritty
+.config/alacritty/**
+.config/ghostty
+.config/ghostty/**
+.config/kitty
+.config/kitty/**
+.config/wezterm
+.config/wezterm/**
+.config/fish/functions/asr-mode.fish
+.config/fish/completions/asr-mode.fish
+.local/bin/chezmoi-theme
+{{- end }}
+
 # McBopomofo is installed from the AUR and configured on Arch only.
-{{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) }}
+{{- if or $isWSL (not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch"))) }}
 .config/fcitx5
 .config/fcitx5/**
 {{- end }}
 
 # Noctalia-managed Qt colors are Arch-only.
-{{- if not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch")) }}
+{{- if or $isWSL (not (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "arch"))) }}
 .config/qt6ct
 .config/qt6ct/**
 {{- end }}
