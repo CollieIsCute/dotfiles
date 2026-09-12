@@ -17,8 +17,9 @@ NC='\033[0m'
     {{ if .packages.arch.paru }}
     # Use -Syu to ensure system is up-to-date and libalpm version matches paru
     sudo pacman -Syu --noconfirm
+    # ponytail: localsend-bin's .SRCINFO is stale; sync repo deps from PKGBUILD until upstream regenerates it.
     for attempt in 1 2 3; do
-      paru -S --needed --noconfirm {{ range .packages.arch.paru }}{{ . }} {{ end }}{{ if not $isWSL }}{{ range .packages.arch.desktop }}{{ . }} {{ end }}{{ end }} && break
+      paru -S --needed --noconfirm --mflags "--syncdeps --noconfirm" {{ range .packages.arch.paru }}{{ . }} {{ end }}{{ if not $isWSL }}{{ range .packages.arch.desktop }}{{ . }} {{ end }}{{ end }} && break
       (( attempt == 3 )) && exit 1
       sleep 5
     done
