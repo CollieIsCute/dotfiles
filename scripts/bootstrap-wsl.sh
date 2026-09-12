@@ -28,4 +28,4 @@ if ! command -v chezmoi >/dev/null; then
 fi
 
 # Share only the checkout. Linux HOME, caches and chezmoi state stay in WSL.
-exec chezmoi --source "$repo" apply --verbose
+exec chezmoi --source "$repo" apply
