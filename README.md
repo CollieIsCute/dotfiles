@@ -58,6 +58,21 @@ chezmoi init --apply collieiscute -v
 - `cmd+option`/Alt key bindings deliberately avoided (macOS 26 Tahoe intercepts them).
 - Kitty, Alacritty, and Ghostty point at the fixed `noctalia` theme path; Noctalia or Matugen owns the generated colors.
 
+### SketchyBar (macOS)
+
+- AeroSpace starts SketchyBar, reserves 36 px at the top, and sends workspace changes through the official `aerospace_workspace_change` event.
+- The transparent bar mirrors Noctalia's 30% `surface_variant` capsules. `chezmoi theme IMAGE` regenerates only `~/.config/sketchybar/colors.sh` and reloads the bar.
+- Left: third-party tray aliases and the first CodexBar status item. Center: `{Month day HH:MM:SS}` plus workspaces `1..9` and `M`. Right: 3%-step volume plus active Stats CPU/GPU/RAM/network/sensor/battery items.
+- CodexBar remains the OAuth and quota owner; SketchyBar only mirrors its native status item. No browser cookies, tokens, custom quota server, or `showy-quota` config is stored here.
+
+After the first `chezmoi apply`:
+
+1. Open CodexBar and Stats once. In CodexBar, enable Codex with OAuth and use one merged status item if multiple providers are enabled. In Stats, enable the compact items you actually want mirrored.
+2. Allow SketchyBar under **System Settings → Privacy & Security → Screen & System Audio Recording**, then run `sketchybar --reload`.
+3. Optionally set **System Settings → Control Center → Automatically hide and show the menu bar → Always**. SIP stays enabled.
+
+If an alias is missing, compare `sketchybar --query default_menu_items` with the app's visible menu-bar item and reload. Missing aliases are skipped without breaking the bar; a CodexBar CLI fallback is intentionally deferred until the native item is proven unavailable on this Mac.
+
 ### Hyprland
 
 - Desc-keyed Lua `hl.monitor(...)` overrides plus a fallback that selects the highest resolution and refresh rate available at that resolution.
@@ -227,6 +242,9 @@ AeroSpace restores the swapped root layouts and window states where possible; it
 ### macOS extras
 
 - [`aerospace`](https://github.com/nikitabobko/AeroSpace) — tiling WM.
+- [`sketchybar`](https://github.com/FelixKratz/SketchyBar) — transparent, event-driven status bar.
+- [`CodexBar`](https://github.com/steipete/CodexBar) — Codex quota source and native meter mirrored by SketchyBar.
+- [`Stats`](https://github.com/exelban/stats) — native system metrics mirrored by SketchyBar aliases.
 - [`karabiner-elements`](https://karabiner-elements.pqrs.org) — keyboard remapper.
 - Desktop wallpaper is deployed by chezmoi to `~/.config/wallpapers`; `run_onchange_after_6-apply-theme.sh.tmpl` applies the initial wallpaper and Matugen palette, and `chezmoi theme [IMAGE]` changes both later.
 

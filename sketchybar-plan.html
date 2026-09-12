@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Collie's dotfiles：SketchyBar、AeroSpace、CodexBar、Stats 與 Matugen 導入計畫。">
+  <title>SketchyBar 導入計畫</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f3f7f5;
+      --surface: #ffffff;
+      --surface-alt: #e8efeb;
+      --text: #17211c;
+      --muted: #56635c;
+      --border: #c8d3cd;
+      --accent: #086b4f;
+      --accent-soft: #d8eee5;
+      --warning: #7a4b00;
+      --warning-soft: #fff0cf;
+      --code: #10241d;
+      --code-text: #eaf7f1;
+      --radius: 0.5rem;
+      --max-width: 72rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent); }
+    a:hover { text-decoration-thickness: 0.15em; }
+    a:focus-visible, summary:focus-visible, input:focus-visible {
+      outline: 0.2rem solid var(--accent);
+      outline-offset: 0.2rem;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -5rem;
+      left: 1rem;
+      z-index: 10;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface);
+      border: 0.1rem solid var(--accent);
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    header, main, footer {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+    }
+
+    header { padding: 3rem 0 1.5rem; }
+
+    h1, h2, h3 { line-height: 1.25; }
+    h1 { margin: 0 0 0.5rem; font-size: clamp(2rem, 5vw, 3rem); }
+    h2 { margin: 0; font-size: 1.5rem; }
+    h3 { margin: 0; font-size: 1.1rem; }
+    p { margin: 0.5rem 0 0; }
+    code, pre { font-family: "JetBrainsMono Nerd Font", "SFMono-Regular", Consolas, monospace; }
+    code { font-size: 0.9em; }
+
+    .eyebrow {
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lede { max-width: 52rem; color: var(--muted); font-size: 1.1rem; }
+
+    .meta, .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border: 0.1rem solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 650;
+    }
+
+    main { padding-bottom: 2rem; }
+
+    section {
+      margin-bottom: 1rem;
+      padding: 1.25rem;
+      border: 0.1rem solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-heading small { color: var(--muted); }
+
+    .decision {
+      border-left: 0.3rem solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .decision strong { color: var(--accent); }
+
+    .scope-grid, .file-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .scope-grid article {
+      padding: 1rem;
+      border: 0.1rem solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-alt);
+    }
+
+    ul, ol { margin: 0.5rem 0 0; padding-left: 1.25rem; }
+    li + li { margin-top: 0.3rem; }
+
+    .bar-preview {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 4rem;
+      padding: 0.75rem;
+      overflow-x: auto;
+      border: 0.1rem solid var(--border);
+      background: repeating-linear-gradient(
+        135deg,
+        var(--surface-alt),
+        var(--surface-alt) 0.5rem,
+        var(--surface) 0.5rem,
+        var(--surface) 1rem
+      );
+    }
+
+    .cluster { display: flex; gap: 0.2rem; white-space: nowrap; }
+    .cluster.center { justify-self: center; }
+    .cluster.right { justify-self: end; }
+
+    .pill {
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--text);
+      font: 650 0.75rem "JetBrainsMono Nerd Font", "SFMono-Regular", monospace;
+    }
+
+    .caption { margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+
+    pre {
+      margin: 0.75rem 0 0;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      background: var(--code);
+      color: var(--code-text);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { padding: 0.65rem; border-bottom: 0.1rem solid var(--border); text-align: left; vertical-align: top; }
+    th { background: var(--surface-alt); }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    details {
+      margin-top: 0.75rem;
+      border: 0.1rem solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    summary {
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    details[open] summary { border-bottom: 0.1rem solid var(--border); }
+    .task-body { padding: 1rem; }
+
+    .task-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.55rem; }
+    .checklist input { flex: 0 0 auto; width: 1rem; height: 1rem; margin-top: 0.35rem; accent-color: var(--accent); }
+
+    .checkpoint {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-left: 0.3rem solid var(--warning);
+      background: var(--warning-soft);
+      color: #352400;
+    }
+
+    footer { padding: 0 0 3rem; color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 48rem) {
+      header { padding-top: 2rem; }
+      .scope-grid, .file-grid, .task-meta { grid-template-columns: 1fr; }
+      .section-heading { display: block; }
+      .bar-preview { grid-template-columns: 1fr; }
+      .cluster, .cluster.center, .cluster.right { justify-self: start; flex-wrap: wrap; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101713;
+        --surface: #17211c;
+        --surface-alt: #202e27;
+        --text: #e6efe9;
+        --muted: #aebdb4;
+        --border: #3c4d44;
+        --accent: #79d8b6;
+        --accent-soft: #213f34;
+        --warning: #efc168;
+        --warning-soft: #3d3018;
+        --code: #0a100d;
+        --code-text: #e6efe9;
+      }
+
+      .checkpoint { color: var(--text); }
+    }
+
+    @media print {
+      :root { color-scheme: light; }
+      body { background: white; color: black; }
+      section, details { break-inside: avoid; box-shadow: none; }
+      details > .task-body { display: block; }
+      .skip-link { display: none; }
+      a { color: black; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到主要內容</a>
+
+  <header>
+    <p class="eyebrow">Collie's Dotfiles · macOS</p>
+    <h1>SketchyBar 導入計畫</h1>
+    <p class="lede">以 SketchyBar 取代原生 menu bar 的主要顯示層，串接 AeroSpace、CodexBar、Stats 與 Matugen；重現 Noctalia 的透明背景、半透明 capsule 與三區配置，而且不停用 SIP。</p>
+    <div class="meta" aria-label="計畫摘要">
+      <span class="tag">狀態：待實作</span>
+      <span class="tag">平台：macOS</span>
+      <span class="tag">方案：SketchyBar + AeroSpace + CodexBar</span>
+      <span class="tag">更新：2026-09-12</span>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="decision" aria-labelledby="decision-title">
+      <div class="section-heading">
+        <h2 id="decision-title">決策</h2>
+      </div>
+      <p><strong>採用 SketchyBar，並加入 CodexBar meter。</strong>系統監控重用 Stats menu-bar items；Codex 用量優先鏡像 CodexBar 原生 status item。SketchyBar 只負責排列、capsule、AeroSpace workspace、時鐘與音量互動。</p>
+      <p>不採用 Simple Bar、SbarLua、大型第三方設定集或 showy-quota。單一 Codex meter 不值得再加入 Bash 4、獨立 renderer、cache daemon 與第二套主題設定。</p>
+    </section>
+
+    <section aria-labelledby="scope-title">
+      <div class="section-heading">
+        <h2 id="scope-title">範圍</h2>
+        <small>先把真正會用的部分做好</small>
+      </div>
+      <div class="scope-grid">
+        <article>
+          <h3>要做</h3>
+          <ul>
+            <li>AeroSpace workspace 1–9 與 <code>magic</code></li>
+            <li>Workspace 點擊切換與狀態即時更新</li>
+            <li>CodexBar 原生 Codex meter alias；點擊開啟 CodexBar</li>
+            <li>時鐘：月份、日期與秒數</li>
+            <li>音量顯示、靜音與滾輪每次 3%</li>
+            <li>Stats aliases：網路、CPU、GPU、RAM、溫度、電池</li>
+            <li>必要的第三方 tray/menu extras aliases</li>
+            <li>Matugen wallpaper palette 與即時重載</li>
+            <li>透明 bar、30% surface-variant capsule、無陰影</li>
+            <li>多螢幕、notch 與 AeroSpace 頂部空間</li>
+          </ul>
+        </article>
+        <article>
+          <h3>明確不做</h3>
+          <ul>
+            <li>Media widget</li>
+            <li>Notification badges</li>
+            <li>重製 CodexBar popup 或多 provider quota strips</li>
+            <li>Session popup</li>
+            <li>Clipboard history</li>
+            <li>Wallpaper Engine／W Engine</li>
+            <li>Noctalia lockscreen、dock、launcher 或 notification daemon</li>
+            <li>永久封鎖原生 menu bar 顯示的私有 API／SIP hack</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="layout-title">
+      <div class="section-heading">
+        <h2 id="layout-title">目標配置</h2>
+        <small>約 36px 高，外層完全透明</small>
+      </div>
+      <div class="bar-preview" role="img" aria-label="左側為 tray aliases 與 CodexBar，中間為時鐘與工作區，右側為音量、網路和系統監控">
+        <div class="cluster">
+          <span class="pill">Tray aliases</span>
+          <span class="pill">Codex 72%</span>
+        </div>
+        <div class="cluster center">
+          <span class="pill">September 12 14:32:08</span>
+          <span class="pill">1 2 3 4 5 6 7 8 9 M</span>
+        </div>
+        <div class="cluster right">
+          <span class="pill">Volume</span>
+          <span class="pill">Net ↓ ↑</span>
+          <span class="pill">CPU · RAM · GPU · Temp · Battery</span>
+        </div>
+      </div>
+      <p class="caption">CodexBar 與 Stats 內容由各自 app 產生；SketchyBar 負責 alias、位置、縮放與群組背景。</p>
+    </section>
+
+    <section aria-labelledby="architecture-title">
+      <div class="section-heading">
+        <h2 id="architecture-title">資料流與責任</h2>
+      </div>
+      <pre aria-label="SketchyBar 整合架構圖">┌────────────┐ workspace event ┌─────────────┐
+│ AeroSpace  │ ───────────────▶│             │
+└────────────┘                 │             │
+┌────────────┐ native aliases  │ SketchyBar  │
+│ Stats.app  │ ───────────────▶│             │
+└────────────┘                 │             │
+┌────────────┐ status alias    │             │
+│ CodexBar   │ ───────────────▶│             │
+└────────────┘                 └──────┬──────┘
+                                     ▲
+┌────────────┐ generated colors.sh   │
+│  Matugen   │ ──────────────────────┘
+└────────────┘</pre>
+      <ul>
+        <li><strong>AeroSpace：</strong>workspace 真實狀態、切換與變更事件。</li>
+        <li><strong>Stats：</strong>系統監控與感測器；不在 SketchyBar 重寫資料採集。</li>
+        <li><strong>CodexBar：</strong>沿用既有 <code>codex = oauth</code> 設定負責登入、用量取得、meter 與 popup；SketchyBar 不讀取 token，也不啟用 browser-cookie source。</li>
+        <li><strong>Matugen：</strong>只生成色彩變數，不生成整份 SketchyBar 行為設定。</li>
+        <li><strong>SketchyBar：</strong>呈現、排列、capsule、滑鼠互動與 hotload。</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="research-title">
+      <div class="section-heading">
+        <h2 id="research-title">30 個公開實作調查</h2>
+        <small>GitHub <code>sketchybar</code> topic，依星數排序；2026-09-12 快照</small>
+      </div>
+      <p>檢查前 30 個 repository 的中繼資料、檔案樹與代表性動態 item 後，23 個以 shell 或 Lua 為主。常見做法是低頻資料用 <code>update_freq</code>、狀態變化用事件訂閱、高頻監控才使用 C／Rust helper；沒有理由為單一 Codex meter 先導入完整 Lua 或 helper 架構。</p>
+      <ul>
+        <li><strong>直接 CodexBar → SketchyBar 的案例很少：</strong><a href="https://github.com/enieuwy/showy-quota">showy-quota</a> 功能完整，但只有 18★、4 位公開貢獻者，而且為多 provider、多宿主需求加入快取、renderer 與本機 serve 管理。</li>
+        <li><strong>精簡案例：</strong><a href="https://github.com/fenetikm/dotfiles/blob/master/.config/sketchybar/plugins/agents.sh">fenetikm/dotfiles</a> 每 120 秒執行 CodexBar CLI，以 JSON 檔快取五分鐘，再用 <code>jq</code> 取百分比。</li>
+        <li><strong>自行抓 provider 不划算：</strong><a href="https://github.com/frankroeder/dotfiles/tree/master/sketchybar">frankroeder/dotfiles</a> 為 AI usage 維護 Lua popup、Python OAuth clients、快取、節流與測試，規模遠超過目前需求。</li>
+        <li><strong>最符合現有架構：</strong>SketchyBar 官方 alias 已能鏡像第三方 status item；計畫本來就因 Stats aliases 需要 Screen Recording，因此加入 CodexBar 不增加新的權限類型。</li>
+      </ul>
+
+      <h3>CodexBar 顯示方案</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">方案</th><th scope="col">新增負擔</th><th scope="col">可靠性</th><th scope="col">決定</th></tr></thead>
+          <tbody>
+            <tr><td>CodexBar 原生 item → SketchyBar alias</td><td>CodexBar cask；無 parser、daemon 或額外 script</td><td>沿用 CodexBar 自己的 meter 與資料來源；需原生 item 能被 query</td><td><strong>採用</strong></td></tr>
+            <tr><td>自製 CodexBar CLI item</td><td>一支 shell script、<code>jq</code>、last-known-good cache</td><td>不依賴原生 item；JSON schema 變更時需維護</td><td>只有 alias 實機失敗才做</td></tr>
+            <tr><td>showy-quota</td><td>Bash 4、安裝流程、renderer、快取與 serve lifecycle</td><td>多 provider、tmux、Zellij 共用時最完整</td><td>目前不採用</td></tr>
+            <tr><td>直接讀 OAuth／私有 endpoint</td><td>自行處理憑證、refresh、schema、429 與 cache</td><td>維護面最大</td><td>排除</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details>
+        <summary>查看全部 30 個樣本</summary>
+        <div class="task-body table-wrap">
+          <table>
+            <thead><tr><th scope="col">#</th><th scope="col">Repository</th><th scope="col">★／fork</th><th scope="col">主要做法</th><th scope="col">對本計畫的啟示</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><a href="https://github.com/FelixKratz/SketchyBar">FelixKratz/SketchyBar</a></td><td>12,357／178</td><td>C 核心；官方 shell 範例</td><td>item、event、alias 的語法基準</td></tr>
+              <tr><td>2</td><td><a href="https://github.com/FelixKratz/dotfiles">FelixKratz/dotfiles</a></td><td>2,028／137</td><td>SbarLua + C event providers</td><td>高頻資料才值得 helper；本案先不需要</td></tr>
+              <tr><td>3</td><td><a href="https://github.com/crissNb/Dynamic-Island-Sketchybar">crissNb/Dynamic-Island-Sketchybar</a></td><td>528／32</td><td>Shell + C helper</td><td>動態島特效不在需求內</td></tr>
+              <tr><td>4</td><td><a href="https://github.com/mocki-toki/barik">mocki-toki/barik</a></td><td>522／36</td><td>原生 Swift bar</td><td>屬完整替代品，不是 SketchyBar item 範例</td></tr>
+              <tr><td>5</td><td><a href="https://github.com/m4xshen/dotfiles">m4xshen/dotfiles</a></td><td>438／12</td><td>Nix 管理的 shell plugins</td><td>每個低頻 item 一支小 script</td></tr>
+              <tr><td>6</td><td><a href="https://github.com/hbthen3rd/dotfiles-archived">hbthen3rd/dotfiles-archived</a></td><td>256／8</td><td>Shell polling plugins</td><td>大量獨立 poller 容易累積維護負擔</td></tr>
+              <tr><td>7</td><td><a href="https://github.com/rockyzhang24/dotfiles">rockyzhang24/dotfiles</a></td><td>241／15</td><td>Shell items + C CPU helper</td><td>事件與 helper 可混用，不必全盤 Lua 化</td></tr>
+              <tr><td>8</td><td><a href="https://github.com/mehd-io/dotfiles">mehd-io/dotfiles</a></td><td>186／23</td><td>Shell + AeroSpace events</td><td>workspace 應由 AeroSpace 主動 trigger</td></tr>
+              <tr><td>9</td><td><a href="https://github.com/r17x/universe">r17x/universe</a></td><td>135／12</td><td>Nix 封裝 SbarLua + C helpers</td><td>可重現但超出 chezmoi 所需複雜度</td></tr>
+              <tr><td>10</td><td><a href="https://github.com/marsdevx/macOS-config">marsdevx/macOS-config</a></td><td>91／5</td><td>SbarLua + C event providers</td><td>接近 FelixKratz 完整架構</td></tr>
+              <tr><td>11</td><td><a href="https://github.com/falleco/dotfiles">falleco/dotfiles</a></td><td>84／7</td><td>SbarLua + helpers + AeroSpace</td><td>可借鏡事件接線，不照搬 framework</td></tr>
+              <tr><td>12</td><td><a href="https://github.com/TheGoldenPatrik1/sketchybar-config">TheGoldenPatrik1/sketchybar-config</a></td><td>64／3</td><td>大型 Lua widgets 與 popup</td><td>功能豐富，但包含多個已排除項目</td></tr>
+              <tr><td>13</td><td><a href="https://github.com/slano-ls/SketchyBar">slano-ls/SketchyBar</a></td><td>53／1</td><td>單體 shell config</td><td>小設定可保持直接，不需模組系統</td></tr>
+              <tr><td>14</td><td><a href="https://github.com/joncrangle/sketchybar-system-stats">joncrangle/sketchybar-system-stats</a></td><td>51／6</td><td>Rust event provider</td><td>多項系統 metrics 才值得集中 provider</td></tr>
+              <tr><td>15</td><td><a href="https://github.com/smnatale/dotfiles">smnatale/dotfiles</a></td><td>47／0</td><td>Shell + AeroSpace；CPU／disk／memory pollers</td><td>證明基本 bar 不必使用 Lua</td></tr>
+              <tr><td>16</td><td><a href="https://github.com/haydenrou/dotfiles">haydenrou/dotfiles</a></td><td>44／1</td><td>分離式 shell scripts</td><td>簡單、容易替換，但外部資料各自 polling</td></tr>
+              <tr><td>17</td><td><a href="https://github.com/Kcraft059/sketchybar-config">Kcraft059/sketchybar-config</a></td><td>43／6</td><td>Shell config + macmon</td><td>重用現成資料工具比重寫 sensor 好</td></tr>
+              <tr><td>18</td><td><a href="https://github.com/CCMurphy-dev/Aegis">CCMurphy-dev/Aegis</a></td><td>42／2</td><td>原生 Swift 全包 bar</td><td>完整 shell 替代品；不是可摘取的 Codex item</td></tr>
+              <tr><td>19</td><td><a href="https://github.com/frankroeder/dotfiles">frankroeder/dotfiles</a></td><td>42／8</td><td>SbarLua + Python AI usage clients</td><td>自行抓 OAuth 與畫 popup 的成本過高</td></tr>
+              <tr><td>20</td><td><a href="https://github.com/FelixKratz/SketchyBarHelper">FelixKratz/SketchyBarHelper</a></td><td>36／3</td><td>C 通訊 helper</td><td>只有效能證據出現後才考慮</td></tr>
+              <tr><td>21</td><td><a href="https://github.com/Nikolaidp24/SketchyBar">Nikolaidp24/SketchyBar</a></td><td>34／4</td><td>Shell config</td><td>定時 item 可維持原生 shell</td></tr>
+              <tr><td>22</td><td><a href="https://github.com/Efterklang/sketchybar">Efterklang/sketchybar</a></td><td>34／0</td><td>SbarLua + system-stats provider</td><td>完整 widget suite 才能攤平相依成本</td></tr>
+              <tr><td>23</td><td><a href="https://github.com/fedeoliv/dotfiles">fedeoliv/dotfiles</a></td><td>29／0</td><td>Lua dotfiles；bar 以外部內容管理</td><td>外部設定降低 repo 可讀性，不採用</td></tr>
+              <tr><td>24</td><td><a href="https://github.com/deniserdogan/dotfiles">deniserdogan/dotfiles</a></td><td>26／1</td><td>Shell items 與 theme-change event</td><td>Matugen 完成後只 trigger reload</td></tr>
+              <tr><td>25</td><td><a href="https://github.com/eminarican/dotfiles">eminarican/dotfiles</a></td><td>24／0</td><td>Shell items／plugins</td><td>靜態色彩檔與小型 scripts 足夠</td></tr>
+              <tr><td>26</td><td><a href="https://github.com/DeevsDeevs/dotfiles">DeevsDeevs/dotfiles</a></td><td>20／4</td><td>chezmoi；只納管依賴與 yabai trigger</td><td>bar 本體可與 bootstrap 分離</td></tr>
+              <tr><td>27</td><td><a href="https://github.com/xrce/dots">xrce/dots</a></td><td>19／1</td><td>多套 shell SketchyBar profiles</td><td>多 profile 會複製大量 item；本案只保留一套</td></tr>
+              <tr><td>28</td><td><a href="https://github.com/refcell/dots">refcell/dots</a></td><td>19／0</td><td>Shell bar + Dynamic Island 副本</td><td>一般 bar 與特效層應避免同時維護</td></tr>
+              <tr><td>29</td><td><a href="https://github.com/slashspace/dotfiles">slashspace/dotfiles</a></td><td>19／2</td><td>Shell + AeroSpace + theme renderer</td><td>最接近本案：小 scripts、事件、集中主題輸出</td></tr>
+              <tr><td>30</td><td><a href="https://github.com/jellydn/dotfiles">jellydn/dotfiles</a></td><td>19／3</td><td>SbarLua + C helpers + AeroSpace</td><td>成熟但比需求更重</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <p class="caption">Stars、forks 與排序是調查日快照，會隨 GitHub 狀態變動。另以 CodexBar、showy-quota、fenetikm 與 frankroeder 做焦點抽查，不把低星案例誤當成主要相依。</p>
+    </section>
+
+    <section aria-labelledby="files-title">
+      <div class="section-heading">
+        <h2 id="files-title">預計變更檔案</h2>
+        <small>維持最小檔案集</small>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">檔案</th><th scope="col">動作</th><th scope="col">用途</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>home/dot_config/brew/Brewfile</code></td><td>修改</td><td>加入 FelixKratz tap、SketchyBar formula 與 CodexBar cask。</td></tr>
+            <tr><td><code>home/.chezmoiignore</code></td><td>修改</td><td>將 <code>.config/sketchybar</code> 限定為 macOS。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/executable_sketchybarrc</code></td><td>新增</td><td>bar 外觀、workspace、aliases、groups 與事件訂閱。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/colors.sh.tera</code></td><td>新增</td><td>Matugen 輸入模板；輸出為未納管的 <code>colors.sh</code>。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_clock.sh</code></td><td>新增</td><td>每秒更新 Noctalia 格式時鐘。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_volume.sh</code></td><td>新增</td><td>處理音量事件、靜音與 3% 滾輪調整。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_codexbar.sh</code></td><td>條件式新增</td><td>只有原生 CodexBar alias 在實機不可用時，才以 CLI JSON + last-known-good cache 顯示。</td></tr>
+            <tr><td><code>home/dot_config/codexbar/modify_private_config.json</code></td><td>沿用</td><td>維持 Codex 使用 OAuth、Claude 使用 CLI；不把憑證寫入 dotfiles。</td></tr>
+            <tr><td><code>home/dot_config/matugen/config.toml.tmpl</code></td><td>修改</td><td>註冊 SketchyBar 色彩輸出及 reload post-hook。</td></tr>
+            <tr><td><code>home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl</code></td><td>修改</td><td>把新 Matugen 模板 hash 納入重跑條件。</td></tr>
+            <tr><td><code>home/dot_config/aerospace/aerospace.toml</code></td><td>修改</td><td>啟動 SketchyBar、發出 workspace event、預留頂部高度。</td></tr>
+            <tr><td><code>README.md</code></td><td>修改</td><td>記錄 macOS bar、Matugen 與一次性 Stats 設定。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="tasks-title">
+      <div class="section-heading">
+        <h2 id="tasks-title">實作階段</h2>
+        <small>依風險與相依性排序</small>
+      </div>
+
+      <details open>
+        <summary>階段 1：安裝與最小可見 bar</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：小</span><span>相依：無</span><span>目標：先確認平台可用</span></div>
+          <ol>
+            <li>將 SketchyBar 與 CodexBar 加入 Brewfile，保留現有 Stats。</li>
+            <li>將 SketchyBar 目錄加入 macOS-only ignore 規則。</li>
+            <li>建立最小 <code>sketchybarrc</code>：透明 bar、高度 36、JetBrainsMono Nerd Font、測試 clock item。</li>
+            <li>透過 AeroSpace <code>after-startup-command</code> 啟動，避免額外維護一份 LaunchAgent。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c1" type="checkbox"><label for="c1"><code>chezmoi apply</code> 後 SketchyBar 可執行並顯示。</label></li>
+            <li><input id="c2" type="checkbox"><label for="c2">重新啟動 AeroSpace 不會產生重複 bar process。</label></li>
+            <li><input id="c3" type="checkbox"><label for="c3">SIP 保持 enabled。</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <details open>
+        <summary>階段 2：AeroSpace workspace 垂直切片</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：中</span><span>相依：階段 1</span><span>目標：先完成核心互動</span></div>
+          <ol>
+            <li>建立 workspace items：<code>1 2 3 4 5 6 7 8 9 magic</code>。</li>
+            <li>加入 <code>aerospace_workspace_change</code> custom event。</li>
+            <li>讓 AeroSpace 的 <code>exec-on-workspace-change</code> 傳遞 focused workspace。</li>
+            <li>點擊 workspace 時呼叫 <code>aerospace workspace</code>。</li>
+            <li>設定 <code>outer.top = 36</code>；多螢幕有差異時才改成 per-monitor gap。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c4" type="checkbox"><label for="c4">鍵盤與滑鼠切換 workspace 時，高亮立即同步。</label></li>
+            <li><input id="c5" type="checkbox"><label for="c5"><code>magic</code> workspace 可切換且標示為 <code>M</code>。</label></li>
+            <li><input id="c6" type="checkbox"><label for="c6">視窗不會蓋住 bar，也沒有多餘頂部空白。</label></li>
+          </ul>
+          <div class="checkpoint"><strong>Checkpoint A：</strong>若 workspace、多螢幕或 top gap 不穩定，先修正；在此之前不接 Matugen 或 Stats。</div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>階段 3：Matugen 與 Noctalia 視覺</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：中</span><span>相依：階段 2</span><span>目標：配色單一來源</span></div>
+          <ol>
+            <li>新增 Matugen 的 <code>colors.sh.tera</code>，只輸出 SketchyBar 需要的 Material tokens。</li>
+            <li>將 <code>surface_variant</code> 轉成約 30% alpha 的 ARGB，文字使用 <code>on_surface</code>。</li>
+            <li>讓靜態 <code>sketchybarrc</code> source 生成的 <code>colors.sh</code>；檔案不存在時使用少量安全預設色。</li>
+            <li>Matugen post-hook 呼叫 <code>sketchybar --reload</code>。</li>
+            <li>將模板 hash 加入既有 apply-theme onchange script。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c7" type="checkbox"><label for="c7"><code>chezmoi theme IMAGE</code> 同時更換 wallpaper 與 bar palette。</label></li>
+            <li><input id="c8" type="checkbox"><label for="c8">整條 bar 透明，capsule 約 30% opacity，無陰影。</label></li>
+            <li><input id="c9" type="checkbox"><label for="c9">Matugen 只覆寫生成色彩，不覆寫 layout 或行為。</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <details open>
+        <summary>階段 4：CodexBar、Stats aliases 與 tray</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：中</span><span>相依：階段 3</span><span>目標：重用既有監控</span></div>
+          <ol>
+            <li>啟動 CodexBar，沿用既有 Codex OAuth source、合併多 provider icons，選擇精簡的 meter 或 icon + percent layout。</li>
+            <li>在 Stats GUI 一次性啟用實際需要的 CPU、GPU、RAM、Network、Sensors 與 Battery menu items。</li>
+            <li>執行 <code>sketchybar --query default_menu_items</code>，取得 CodexBar、Stats 與 tray 的本機真實 owner/name；不要預先猜測名稱。</li>
+            <li>將 CodexBar 原生 item 加為 alias；點擊執行 <code>open -b com.steipete.codexbar</code>，不實作 Accessibility click helper。</li>
+            <li>只加入確定存在的 aliases；網路與系統監控分成兩個 bracket capsule。</li>
+            <li>授予 SketchyBar Screen Recording 權限；這同時涵蓋 CodexBar、Stats 與 tray aliases。</li>
+            <li>只有 CodexBar 不出現在 query 結果時，才新增 120 秒 CLI fallback；保留最後一次成功資料，失敗顯示 <code>—</code>，不啟動常駐 server。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c10" type="checkbox"><label for="c10">CodexBar meter 與所有 alias 在登入、喚醒及外接螢幕後仍顯示。</label></li>
+            <li><input id="c11" type="checkbox"><label for="c11">CPU/GPU/RAM/溫度/網路/電池資料由 Stats 提供，沒有重複 polling scripts。</label></li>
+            <li><input id="c12" type="checkbox"><label for="c12">不存在的 alias 不造成整條 bar 啟動失敗；fallback 不讀取或複製 OAuth token。</label></li>
+          </ul>
+          <p class="caption">CodexBar 與 Stats preferences 先保留為一次性 GUI 設定；只有確認跨機器重建需求後，才考慮納管其偏好檔。</p>
+        </div>
+      </details>
+
+      <details open>
+        <summary>階段 5：時鐘、音量與多螢幕收尾</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：中</span><span>相依：階段 4</span><span>目標：完成日常使用</span></div>
+          <ol>
+            <li>加入每秒 clock script，格式對齊 <code>%B %d %H:%M:%S</code>。</li>
+            <li>volume item 訂閱 <code>volume_change</code> 與 <code>mouse.scrolled</code>。</li>
+            <li>滾輪依方向調整 3%，並夾在 0–100；點擊切換靜音。</li>
+            <li>驗證內建螢幕、外接螢幕、notch、睡眠喚醒與登入啟動。</li>
+            <li>隱藏原生 macOS menu bar；只用系統支援的 auto-hide，不加入永久阻擋游標觸發的 hack。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c13" type="checkbox"><label for="c13">時鐘、workspace 與右側資料不互相碰撞。</label></li>
+            <li><input id="c14" type="checkbox"><label for="c14">音量滾輪每格恰好 3%，0 與 100 不溢位。</label></li>
+            <li><input id="c15" type="checkbox"><label for="c15">睡眠喚醒、重新登入與拔插螢幕後不需手動 reload。</label></li>
+          </ul>
+          <div class="checkpoint"><strong>Checkpoint B：</strong>完成後執行 <code>chezmoi diff</code>、<code>chezmoi apply</code>，再進行一次乾淨登入驗證。</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>階段 6：文件與提交</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：小</span><span>相依：階段 5</span><span>目標：可重建、可回復</span></div>
+          <ol>
+            <li>README 記錄 SketchyBar 架構、CodexBar／Stats 一次性設定與 Screen Recording 權限。</li>
+            <li>確認 diff 無 token、個人路徑或生成的 <code>colors.sh</code>。</li>
+            <li>以小型提交拆分：套件、核心 bar、主題、aliases、文件。</li>
+          </ol>
+          <h3>驗收</h3>
+          <ul class="checklist">
+            <li><input id="c16" type="checkbox"><label for="c16">新 macOS 主機依 README 能完成重建。</label></li>
+            <li><input id="c17" type="checkbox"><label for="c17">Linux 與 Windows 不會收到 SketchyBar 檔案或 package。</label></li>
+            <li><input id="c18" type="checkbox"><label for="c18">每個提交只有一個邏輯變更且可獨立回復。</label></li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section aria-labelledby="risks-title">
+      <div class="section-heading">
+        <h2 id="risks-title">風險與處理</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">風險</th><th scope="col">影響</th><th scope="col">處理方式</th></tr></thead>
+          <tbody>
+            <tr><td>Stats alias 名稱依機器或版本不同</td><td>中</td><td>在實機 query 後才加入；缺少 alias 時略過，不讓 bar 啟動失敗。</td></tr>
+            <tr><td>CodexBar 原生 status item 在 macOS 26 未出現在 query</td><td>中</td><td>先確認「Allow in the Menu Bar」；仍不可用才啟用 CLI fallback，不修改 Control Center plist、不用私有 API。參見 <a href="https://github.com/steipete/CodexBar/issues/1109">CodexBar #1109</a>。</td></tr>
+            <tr><td>第三方 showy-quota 維護規模較小且功能過量</td><td>低</td><td>不列為必要相依；只有未來要同時供 SketchyBar、tmux、Zellij 顯示多 provider 時重評。</td></tr>
+            <tr><td>內建與外接螢幕 bar 高度不同</td><td>中</td><td>先用 36px；只有測試失敗才加入 per-monitor AeroSpace gap。</td></tr>
+            <tr><td>Matugen reload 時色彩檔短暫不存在</td><td>低</td><td>靜態 config 提供最小 fallback palette。</td></tr>
+            <tr><td>原生 menu bar 在游標頂端再次出現</td><td>低</td><td>接受 macOS auto-hide 行為；不使用私有 API 或 SIP hack。</td></tr>
+            <tr><td>Stats GUI state 尚未納入 chezmoi</td><td>低</td><td>README 記錄一次性設定；只有實際跨機重建痛點出現時再自動化。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="done-title">
+      <div class="section-heading">
+        <h2 id="done-title">完成定義</h2>
+      </div>
+      <ul class="checklist">
+        <li><input id="d1" type="checkbox"><label for="d1">外觀接近目前 Noctalia：透明、無陰影、半透明 capsule、相同字型與間距。</label></li>
+        <li><input id="d2" type="checkbox"><label for="d2">AeroSpace workspace、CodexBar meter、時鐘、音量與 Stats aliases 全部可用。</label></li>
+        <li><input id="d3" type="checkbox"><label for="d3">更換 wallpaper 後 Matugen 自動更新 bar 色彩。</label></li>
+        <li><input id="d4" type="checkbox"><label for="d4">內建與外接螢幕、睡眠喚醒、重新登入均通過。</label></li>
+        <li><input id="d5" type="checkbox"><label for="d5">SIP enabled，沒有 yabai scripting addition 或 menu-bar 私有 hack。</label></li>
+        <li><input id="d6" type="checkbox"><label for="d6">除新確認的 CodexBar meter 外，其餘排除項目沒有被加入。</label></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="references-title">
+      <div class="section-heading">
+        <h2 id="references-title">實作參考與來源</h2>
+      </div>
+      <ul>
+        <li><a href="https://felixkratz.github.io/SketchyBar/">SketchyBar 官方文件</a></li>
+        <li><a href="https://felixkratz.github.io/SketchyBar/config/components">SketchyBar components、brackets 與 aliases</a></li>
+        <li><a href="https://felixkratz.github.io/SketchyBar/config/querying">SketchyBar 查詢原生 menu item 名稱</a></li>
+        <li><a href="https://felixkratz.github.io/SketchyBar/config/events">SketchyBar events</a></li>
+        <li><a href="https://nikitabobko.github.io/AeroSpace/goodness#show-aerospace-workspaces-in-sketchybar">AeroSpace 官方 SketchyBar 整合</a></li>
+        <li><a href="https://github.com/steipete/CodexBar">CodexBar 官方 repository 與 CLI</a></li>
+        <li><a href="https://github.com/steipete/CodexBar/blob/main/docs/codex.md">CodexBar Codex OAuth／CLI 資料來源</a></li>
+        <li><a href="https://github.com/steipete/CodexBar/blob/main/docs/ui.md">CodexBar menu-bar layout 與 meter tokens</a></li>
+        <li><a href="https://github.com/enieuwy/showy-quota">showy-quota：完整 CodexBar → SketchyBar adapter（未採用）</a></li>
+        <li><a href="https://github.com/topics/sketchybar">GitHub sketchybar topic：30 個樣本母體</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>實作已在 <code>feature/sketchybar</code> 分支進行；此文件保留調查依據、階段與實機驗收項目。</p>
+  </footer>
+</body>
+</html>
