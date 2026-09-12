@@ -8,10 +8,27 @@ grep -Fq 'tap "FelixKratz/formulae", trusted: { formula: "sketchybar" }' "$repo/
 grep -Fq 'brew "FelixKratz/formulae/sketchybar"' "$repo/home/dot_config/brew/Brewfile"
 grep -Fq 'cask "codexbar"' "$repo/home/dot_config/brew/Brewfile"
 grep -Fq '.config/sketchybar/**' "$repo/home/.chezmoiignore"
-grep -Fq 'sleep 3; sketchybar --reload || sketchybar' "$repo/home/dot_config/aerospace/aerospace.toml"
 grep -Fq 'FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE' "$repo/home/dot_config/aerospace/aerospace.toml"
 grep -Fq '[templates.sketchybar]' "$repo/home/dot_config/matugen/config.toml.tmpl"
 grep -Fq '# sketchybar:' "$repo/home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl"
+
+# SketchyBar --reload returns success even when no bar is running.
+startup=$(sed -n 's/.*exec-and-forget \/bin\/sh -c "\(sleep 3;.*\)".*/\1/p' "$repo/home/dot_config/aerospace/aerospace.toml")
+test -n "$startup"
+for running in 0 1; do
+    calls=$(
+        pgrep() { return "$running"; }
+        sleep() { :; }
+        sketchybar() { printf 'sketchybar%s\n' "${1:+ $1}"; }
+        eval "$startup"
+    )
+    expected=sketchybar
+    test "$running" -ne 0 || expected='sketchybar --reload'
+    if test "$calls" != "$expected"; then
+        printf 'Startup (pgrep exit %s): expected "%s", got "%s"\n' "$running" "$expected" "$calls" >&2
+        exit 1
+    fi
+done
 
 for file in \
     "$config/executable_sketchybarrc" \
