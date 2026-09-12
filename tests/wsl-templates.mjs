@@ -1,13 +1,13 @@
 // Run with: node tests/wsl-templates.mjs (requires chezmoi and Bash).
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, readFileSync, readdirSync, mkdtempSync, rmSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, readdirSync, mkdtempSync, realpathSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repo = fileURLToPath(new URL('../', import.meta.url));
-const scratch = mkdtempSync(join(tmpdir(), 'chezmoi-wsl-test-'));
+const scratch = realpathSync(mkdtempSync(join(tmpdir(), 'chezmoi-wsl-test-')));
 process.on('exit', () => rmSync(scratch, { recursive: true, force: true }));
 function render(file, os, distro = 'ubuntu', kernel = '6.6.87.2-microsoft-standard-WSL2', workingTree = "C:/Users/O'Brien dotfiles") {
   return execFileSync('chezmoi', ['--source', repo, '--config', join(scratch, 'chezmoi.toml'),
@@ -183,7 +183,8 @@ function wsl.exe {
                     return 'Arch Linux'
                 }
                 'wslpath' {
-                    if ($args[5] -ne (Join-Path $expectedCheckout 'scripts/bootstrap-wsl-user.sh')) { throw 'Incorrect user bootstrap path' }
+                    $expectedSetup = Join-Path (Join-Path $expectedCheckout 'scripts') 'bootstrap-wsl-user.sh'
+                    if ([IO.Path]::GetFullPath($args[5]) -ne [IO.Path]::GetFullPath($expectedSetup)) { throw "Incorrect user bootstrap path: $($args[5]) != $expectedSetup" }
                     if ($case -eq 'user-path-fail') { $global:LASTEXITCODE = 1; return }
                     return "/mnt/c/Users/O'Brien dotfiles/scripts/bootstrap-wsl-user.sh"
                 }
