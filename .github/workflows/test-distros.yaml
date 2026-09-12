@@ -24,7 +24,7 @@ jobs:
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply
+          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   ubuntu:
     name: ubuntu:latest
@@ -38,7 +38,7 @@ jobs:
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply
+          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   macos:
     name: macos:latest
@@ -49,7 +49,7 @@ jobs:
       - run: brew update && brew install chezmoi
       - name: chezmoi init dotfiles
         run: |
-          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply
+          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
 
   windows:
     name: windows:latest + WSL 2
@@ -70,11 +70,11 @@ jobs:
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
           $env:PATH = "$binDir;$env:PATH"
           $chezmoi = Join-Path $binDir "chezmoi.exe"
-          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply
+          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
           if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
           node "$env:USERPROFILE/.local/share/chezmoi/tests/wsl-templates.mjs"
       - name: Verify WSL tools and repeat the same Windows entry
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           wsl --exec fish -c 'for tool in fish tmux nvim claude codex opencode; command -q $tool; or exit 1; end; test ! -d ~/.config/hypr; and test ! -d ~/.local/libexec/openwhispr'
-          & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply
+          & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v
