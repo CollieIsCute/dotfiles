@@ -75,17 +75,6 @@ sketchybar --add bracket workspaces '/space\..*/' \
         background.corner_radius=9 \
         background.drawing=on
 
-sketchybar --add item control_center right \
-    --set control_center \
-        icon="󰒓" \
-        label.drawing=off \
-        padding_left=5 \
-        padding_right=5 \
-        background.color="$CAPSULE" \
-        background.drawing=on \
-        script="$PLUGIN_DIR/native-menu.sh" \
-    --subscribe control_center mouse.clicked
-
 sketchybar --add item volume right \
     --set volume \
         padding_left=5 \
@@ -107,6 +96,10 @@ add_alias() {
     sketchybar --rename "$source" "$name"
     # Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
     sketchybar --set "$name" \
+        icon.drawing=off \
+        label.drawing=off \
+        padding_left=1 \
+        padding_right=1 \
         alias.scale=0.82 \
         alias.update_freq=2 \
         click_script="$click_script"
@@ -151,11 +144,8 @@ printf '%s\n' "$menu_items" \
                             label.padding_right=12
                     codex_added=true
                     ;;
-                Stats,*Network*|*,Network_*)
-                    add_alias "$source" "stats.net.$index" right 'open -a Stats'
-                    ;;
-                Stats,*CPU*|Stats,*GPU*|Stats,*RAM*|Stats,*Memory*|Stats,*Sensor*|*,CPU_*|*,GPU_*|*,RAM_*|*,Memory_*|*,Sensor*)
-                    add_alias "$source" "stats.sys.$index" right 'open -a Stats'
+                Stats,*Network*|*,Network_*|Stats,*CPU*|Stats,*GPU*|Stats,*RAM*|Stats,*Memory*|Stats,*Sensor*|*,CPU_*|*,GPU_*|*,RAM_*|*,Memory_*|*,Sensor*)
+                    add_alias "$source" "stats.$index" right 'open -a Stats'
                     ;;
                 Stats,*|Karabiner-Console-User-Server,*|Control\ Center,*|Control\ Centre,*|SystemUIServer,*|Window\ Server,*|TextInputMenuAgent,*|*,Clock*|*,Siri*|*,BentoBox-*|*,WiFi*|*,Battery*|*,AudioVideoModule*|*,Item-*)
                     ;;
@@ -166,7 +156,7 @@ printf '%s\n' "$menu_items" \
         done
     )
 
-for group in tray stats.net stats.sys; do
+for group in tray stats; do
     sketchybar --add bracket "$group.group" "/$group\\..*/" \
         --set "$group.group" \
             padding_left=5 \
