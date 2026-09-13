@@ -2,6 +2,9 @@
 
 CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+# Brackets absorb member padding; normal capsules own the full gap on the left.
+# https://github.com/FelixKratz/SketchyBar/blob/v2.24.0/src/group.c
+CAPSULE_GAP=8
 
 # Safe first-run palette; Matugen replaces it and reloads the bar.
 TRANSPARENT=0x00000000
@@ -21,8 +24,8 @@ sketchybar --bar \
     shadow=off \
     corner_radius=0 \
     margin=0 \
-    padding_left=5 \
-    padding_right=5 \
+    padding_left="$CAPSULE_GAP" \
+    padding_right="$CAPSULE_GAP" \
     display=all
 
 sketchybar --default \
@@ -46,8 +49,8 @@ sketchybar --add event aerospace_workspace_change
 sketchybar --add item clock q \
     --set clock \
         update_freq=1 \
-        padding_left=5 \
-        padding_right=5 \
+        padding_left="$CAPSULE_GAP" \
+        padding_right=0 \
         background.color="$CAPSULE" \
         background.drawing=on \
         script="$PLUGIN_DIR/clock.sh"
@@ -72,8 +75,6 @@ sketchybar --add item workspace.observer e \
 
 sketchybar --add bracket workspaces '/space\..*/' \
     --set workspaces \
-        padding_left=5 \
-        padding_right=5 \
         background.color="$CAPSULE" \
         background.height=27 \
         background.corner_radius=9 \
@@ -81,8 +82,8 @@ sketchybar --add bracket workspaces '/space\..*/' \
 
 sketchybar --add item volume right \
     --set volume \
-        padding_left=5 \
-        padding_right=5 \
+        padding_left="$CAPSULE_GAP" \
+        padding_right=0 \
         background.color="$CAPSULE" \
         background.drawing=on \
         script="$PLUGIN_DIR/volume.sh" \
@@ -142,7 +143,7 @@ printf '%s\n' "$menu_items" \
                     name="meter.${window#codexbar-}"
                     add_alias "$source" "$name" left ''
                     sketchybar --set "$name" \
-                        alias.scale=1 \
+                        alias.scale=0.85 padding_left=0 padding_right=0 \
                         script="$PLUGIN_DIR/codexbar.sh" \
                         --subscribe "$name" mouse.entered mouse.exited mouse.clicked
                     ;;
@@ -163,7 +164,7 @@ printf '%s\n' "$menu_items" \
                 com.apple.TextInputMenuAgent)
                     add_alias "$source" input_source right "$click"
                     sketchybar --set input_source background.color="$CAPSULE" background.drawing=on \
-                        padding_left=5 padding_right=5 alias.scale=1 \
+                        padding_left="$CAPSULE_GAP" padding_right=0 alias.scale=1 \
                         --move input_source before volume
                     ;;
             esac
@@ -173,8 +174,6 @@ printf '%s\n' "$menu_items" \
 for group in meter stats; do
     sketchybar --add bracket "$group.group" "/$group\\..*/" \
         --set "$group.group" \
-            padding_left=5 \
-            padding_right=5 \
             background.color="$CAPSULE" \
             background.height=27 \
             background.corner_radius=9 \
