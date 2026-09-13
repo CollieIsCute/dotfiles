@@ -276,7 +276,7 @@
     <h1>SketchyBar 導入計畫</h1>
     <p class="lede">以 SketchyBar 取代原生 menu bar 的主要顯示層，串接 AeroSpace、CodexBar、Stats 與 Matugen；重現 Noctalia 的透明背景、半透明 capsule 與三區配置，而且不停用 SIP。</p>
     <div class="meta" aria-label="計畫摘要">
-      <span class="tag">狀態：Codex／Claude 互動已驗證；App 選單／雙 bar 共存待決策</span>
+      <span class="tag">狀態：交替顯示已接線；Stats CPU／RAM 與 App 按鈕待實作</span>
       <span class="tag">平台：macOS</span>
       <span class="tag">方案：SketchyBar + AeroSpace + CodexBar</span>
       <span class="tag">更新：2026-09-13</span>
@@ -289,6 +289,7 @@
         <h2 id="decision-title">決策</h2>
       </div>
       <p><strong>採用 SketchyBar，並加入 CodexBar meter。</strong>系統監控重用 Stats menu-bar items；bar 上鏡像 CodexBar 單一原生 status item，hover 摘要才讀 CLI，分段顯示 Codex OAuth 與 Claude CLI 用量。SketchyBar 負責排列、Matugen capsule、workspace、時鐘、音量與控制中心入口。</p>
+      <p><strong>2026-09-13 新增已確認範圍：</strong>點 CPU／RAM 開啟各自的 Stats 詳細面板、從 SketchyBar 操作前景 App 選單，且原生選單列與 SketchyBar 不互相覆蓋。交替顯示已透過公開 Carbon 事件接線；CPU／RAM 詳細面板與 App 按鈕仍待實作。控制中心替代品比較見<a href="#control-center-research-title">下方調查</a>：保留原生控制中心，不新增第三方套件。交替顯示不等於原生列永遠不出現。</p>
       <p>不採用 Simple Bar、SbarLua、大型第三方設定集或 showy-quota。單一 Codex meter 不值得再加入 Bash 4、獨立 renderer、cache daemon 與第二套主題設定。</p>
       <p><strong>CI 只驗證安裝：</strong>已移除新增的 <code>tests/sketchybar.sh</code> 與其 CI 步驟。四平台保留 <code>chezmoi init --apply -v</code>；功能在實際 macOS 上操作驗收。最新安裝結果以 <a href="https://github.com/CollieIsCute/dotfiles/pull/155/checks">PR #155 checks</a> 為準，不把上一個 commit 的成功當成本次成功。</p>
       <p><strong>依賴清理：</strong>移除本 MR 額外列出的 <code>libayatana-indicator</code> 與註解。<a href="https://github.com/CollieIsCute/dotfiles/commit/e8eb5f768f1660e8f7786976e160125672b72faf">master 已加入</a> <code>paru --mflags "--syncdeps --noconfirm"</code>，由安裝流程依 PKGBUILD 解決缺漏；本 MR 不再重複指定傳遞依賴。AUR 的 PKGBUILD 與 .SRCINFO 當次仍不一致，這不是宣稱 AUR 中繼資料已修復。</p>
@@ -310,6 +311,9 @@
             <li>時鐘：月份、日期與秒數</li>
             <li>音量顯示、靜音與滾輪每次 3%</li>
             <li>Stats aliases：網路、CPU、GPU、RAM、溫度、電池</li>
+            <li>補完 CPU／RAM 點擊：打開對應 Stats 原生詳細面板，不只是啟動 Stats</li>
+            <li>前景 App 按鈕：按需顯示 Apple／kitty／Shell／Edit／Window／Help 等真實選單</li>
+            <li>原生選單列與 SketchyBar 互斥顯示，涵蓋滑鼠、鍵盤及各原生面板入口</li>
             <li>必要的第三方 tray/menu extras aliases</li>
             <li>Matugen wallpaper palette 與即時重載</li>
             <li>透明 bar、30% surface-variant capsule、無陰影</li>
@@ -337,8 +341,9 @@
         <h2 id="layout-title">目標配置</h2>
         <small>約 36px 高，外層完全透明</small>
       </div>
-      <div class="bar-preview" role="img" aria-label="左側為 tray aliases 與 CodexBar，時鐘與工作區位於瀏海兩側，右側為系統監控、網路、音量與控制中心">
+      <div class="bar-preview" role="img" aria-label="左側規劃前景 App 選單入口、tray aliases 與 CodexBar，時鐘與工作區位於瀏海兩側，右側為系統監控、網路、音量與控制中心">
         <div class="cluster">
+          <span class="pill">App 選單 ▾</span>
           <span class="pill">Tray aliases</span>
           <span class="pill">Codex 72%</span>
         </div>
@@ -354,6 +359,7 @@
         </div>
       </div>
       <p class="caption">圖為區域示意。實機使用 SketchyBar 原生 <code>q/e</code> 將時鐘、workspace 分置瀏海兩側，<code>notch_width=200</code>；內建螢幕瀏海實測 x=646–825 pt，時鐘右緣 630、workspace 左緣 837。Alias 保留原生圖像色彩，避免把不透明 Stats 圖表染成黑塊。</p>
+      <p class="caption">App 選單入口是新增規劃，尚未出現在實機；只保留一個精簡按鈕，長選單按需展開，不把整排選單常駐塞到瀏海旁。新增後須重新量測空間，不能沿用舊截圖宣稱驗收完成。</p>
     </section>
 
     <section aria-labelledby="interaction-title">
@@ -403,6 +409,7 @@
         <li><strong>CodexBar：</strong>來源設定為 <code>codex = oauth</code>、<code>claude = cli</code>；以 <code>codexbar usage --provider both --format json --json-only --no-credits</code> 讀取兩者摘要。0.60 的 CLI 會沿用各自 config source，不套同一個全域 source；SketchyBar 不直接讀 token 或啟用 browser-cookie source。<a href="https://github.com/steipete/CodexBar/blob/v0.60.0/Sources/CodexBarCLI/CLIUsageCommand.swift#L477">來源選擇實作</a>、<a href="https://github.com/steipete/CodexBar/blob/v0.60.0/docs/claude.md">Claude CLI 限制</a>。</li>
         <li><strong>Matugen：</strong>只生成色彩變數，不生成整份 SketchyBar 行為設定。</li>
         <li><strong>SketchyBar：</strong>呈現、排列、capsule、滑鼠互動與 hotload。</li>
+        <li><strong>原生互動接線：</strong>沿用 <code>native-menu.sh</code> 作為面板入口；<code>sb-menu-events</code> 獨立接收 macOS 原生列顯示／隱藏事件，所以鍵盤與頂端滑鼠也能交替。Stats CPU／RAM 與 App 按鈕尚未接完；詳細內容仍交由原生面板維護。</li>
       </ul>
     </section>
 
@@ -480,8 +487,8 @@
         <h2 id="native-menu-research-title">App 選單與雙 bar 共存：30 份來源比較</h2>
         <small>2026-09-13；20 份 dotfiles ＋ 10 份工具／官方參考</small>
       </div>
-      <p><strong>App 選單可另外提供入口，兩條 bar 也不必重疊；但這是兩個不同問題。</strong>目前設定只鏡像 CodexBar／Stats 等 status items，沒有把前景 App 的 File、Edit、Window、Help 搬進 SketchyBar，也沒有實作原生列展開時的互斥顯示。此部分仍待選定方案，不能算成「完整取代 macOS menu bar」。</p>
-      <p>本機唯讀查詢已取得 Kitty 的 Apple、kitty、Shell、Edit、Window、Help，證明資料可以經由輔助使用取得。接下來需要決定的是入口、呈現方式與維護者，而不是把選單命令硬編碼。原生 alias 的範圍可見 <a href="https://felixkratz.github.io/SketchyBar/config/components#item-alias----mirror-items-of-the-original-macos-status-bar-into-sketchybar">官方 components 文件</a>。</p>
+      <p><strong>App 選單入口與兩條 bar 不重疊，已由使用者確認都要做。</strong>交替顯示現已接線，原生列展開時 SketchyBar 暫時隱藏；不是把原生控制中心變成脫離選單列的獨立視窗。App 按鈕仍未實作，CPU／RAM 點擊仍是 <code>open -a Stats</code>。以下保留方案依據，進度見<a href="#native-integration-tasks">階段 4A–4D</a>。</p>
+      <p>本機唯讀查詢已取得 Kitty 的 Apple、kitty、Shell、Edit、Window、Help，證明資料可以經由輔助使用取得。規劃採前景 App 按鈕按需列出真實選單，再開原生子選單；不硬編碼命令，也不將 alias 誤當 App 選單 API。原生 alias 的範圍可見 <a href="https://felixkratz.github.io/SketchyBar/config/components#item-alias----mirror-items-of-the-original-macos-status-bar-into-sketchybar">官方 components 文件</a>。</p>
 
       <h3>樣本顯示什麼</h3>
       <p>20 份 dotfiles 中，8 份含 App 選單相關程式，但多份沿用 Felix 的同一套 helper，而且部分切換入口已註解。其餘 12 份的抽查 bar 入口未見完整 App 選單映射；這不表示其作者不用 App 選單，也不能推論他們全部接受重疊。下表是固定 commit 的靜態查核，不是 20 套在本機逐一安裝的相容性認證。</p>
@@ -507,12 +514,13 @@
       <p><code>topmost=window</code> 與 <code>topmost=on</code> 不同：本機同版本 2.24.0 原始碼分別設定 floating-window 與 status-window 圖層。它們只改誰畫在上面，不會隱藏下層文字，也不會接管 App 選單。透明 bar 即使畫到最上層，仍可能透出原生文字；改不透明背景則會犧牲現有透明視覺。見 <a href="https://github.com/FelixKratz/SketchyBar/blob/v2.24.0/src/bar_manager.c#L291">版本相符的實作</a>與<a href="https://felixkratz.github.io/SketchyBar/config/bar">官方設定</a>。</p>
       <p><code>sketchybar-toggle</code> 的 README 把 window 模式描述成位於原生選單列之上，不能照單全收。它的<a href="https://github.com/malpern/sketchybar-toggle/blob/b4a963e96d65156b32d92af3682d9a9b024a3b1d/Sources/SketchyBarToggleCore/EventTap.swift">實作</a>每約 16 ms 讀游標位置與按鍵，不查原生選單是否真的開啟；因此鍵盤或目前 Control Center 按鈕叫出面板時，不一定觸發隱藏。<a href="https://github.com/malpern/sketchybar-toggle/blob/b4a963e96d65156b32d92af3682d9a9b024a3b1d/Sources/SketchyBarToggleCore/SketchyBarController.swift">顯示控制</a>也會操作整條 bar 並把 y_offset 重設為 0；多螢幕與自訂位移需要另行驗收。</p>
       <p>此工具當次為 21★、2 個公開 contributor 帳號，不足以證明多人持續維護或全面相容。它證明「不重疊的交替策略有人做」，但不是可直接宣稱成熟、完整、零副作用的答案。滑鼠位置輪詢也不同於攔截滑鼠事件；兩者都不應在未選定方案前加入登入流程。</p>
+      <p><strong>永久隱藏的查核補充：</strong>yabai 的 <a href="https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/doc/yabai.asciidoc#L146"><code>menubar_opacity 0.0</code></a>使原生列不回應滑鼠，但原生全螢幕有恢復顯示的例外；<a href="https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/window_manager.c#L796">實作直接呼叫私有 SkyLight API</a>，不能一概說這項功能需要停用 SIP。它在本機 SIP 啟用下的相容性尚未驗證，也不會自動移植選單，因此不列入預設方案。<a href="https://github.com/kaynetik/zapmenu">zapmenu</a>則限制游標進入頂端 4 px；當次只有 4★、1 個公開貢獻帳號，且仍保留鍵盤叫出原生列的路徑，不是完整互斥方案。</p>
 
       <h3>對目前設定的建議</h3>
-      <p><strong>若維持頂端單條、透明、避開瀏海：優先考慮按需 App 選單入口，且把原生列互斥列為獨立驗收。</strong>不要把整排 File／Edit／View／Window／Help 永久塞進目前時鐘與 workspace 旁。若最優先是現成產品與低維護，Menuwhere 類階層 popup 比自行重製完整選單更符合需求；若最優先是零新常駐程序與穩定不重疊，則改採上下分離。這些選擇各有取捨，目前不擅自改 bar 位置、安裝工具或加入私有 API。</p>
+      <p><strong>採用方向：按需 App 選單入口，原生列展開期間與 SketchyBar 交替顯示。</strong>實機確認公開 Carbon 的 <code>kEventMenuBarShown</code>／<code>kEventMenuBarHidden</code> 會通知背景程序，已用於交替接線；不改 topmost、不封鎖游標。Menuwhere 保留為 App 選單入口的候選，不預先加入依賴。多螢幕／重新登入等尚未實際完成的驗收仍保留未勾選。</p>
       <ul class="checklist">
-        <li><input id="c22" type="checkbox"><label for="c22">選定 App 選單入口；Kitty、瀏覽器與長選單 App 可操作 Edit／Help／子選單。</label></li>
-        <li><input id="c23" type="checkbox"><label for="c23">原生列從頂端、鍵盤、CodexBar／控制中心按鈕開啟時不與 SketchyBar 重疊；關閉後正確恢復。</label></li>
+        <li><input id="c22" type="checkbox"><label for="c22">完成按需 App 選單入口；Apple、Kitty、瀏覽器與長選單 App 的 Edit／Help／深層子選單可操作。</label></li>
+        <li><input id="c23" type="checkbox"><label for="c23">原生列從頂端、鍵盤、Stats／CodexBar／控制中心／App 選單按鈕開啟時不與 SketchyBar 重疊；關閉後正確恢復。</label></li>
         <li><input id="c24" type="checkbox"><label for="c24">多螢幕、瀏海、全螢幕、Esc／點外部關閉均完成實機驗收。</label></li>
       </ul>
 
@@ -559,6 +567,33 @@
       <p class="caption">GitHub 數據為 2026-09-13 快照。Dotfiles 連結固定在本次檢查的 commit；星數代表 repository，不代表 menu helper 單獨的使用量或維護人數。未設定原生列偏好的 repository，不推測作者的系統偏好。</p>
     </section>
 
+    <section aria-labelledby="control-center-research-title">
+      <div class="section-heading">
+        <h2 id="control-center-research-title">控制中心替代品：8 條路線比較</h2>
+        <small>2026-09-13；官方文件／上游原始碼查核，未安裝候選</small>
+      </div>
+      <p><strong>結論：尚未找到同時比原生面板好串、功能不缺、又不增加明顯維護負擔的完整替代品。</strong>OnlySwitch 最接近現成開源控制面板；BetterTouchTool 的外部呼叫介面較完整，但需要自行組裝面板。現階段建議維持「SketchyBar 按鈕 → 原生控制中心」，把精力放在互斥顯示，而不是再維護一套系統控制介面。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">候選</th><th scope="col">如何接 SketchyBar</th><th scope="col">完整度／缺口</th><th scope="col">維護與決定</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://support.apple.com/en-euro/guide/mac-help/mchl50f94f8f/mac">macOS 控制中心</a></td><td>沿用現有 AXIdentifier 點擊入口；系統另有 <a href="https://support.apple.com/en-ca/102650">Fn-C</a>。</td><td>保留 Wi-Fi、Bluetooth、Focus、音量、顯示器、螢幕鏡像等原生操作與隱私狀態；面板位置／外觀由 macOS 決定。兩種入口在本機都會帶出原生列。</td><td>Apple 隨系統維護、零新增第三方套件。<strong>保留</strong>；由小型 Carbon listener 協調交替顯示。</td></tr>
+            <tr><td><a href="https://github.com/jacklandrin/OnlySwitch">OnlySwitch／Only Control</a></td><td><a href="https://github.com/jacklandrin/OnlySwitch/blob/80a6a85a30c79180181d4f369d424a655a23b5f1/OnlySwitch/AppDelegate.swift">deep link 可執行開關，另可設定全域快捷鍵開面板</a>；SketchyBar 需送此快捷鍵或做 AX 點擊。未找到文件化的「直接顯示面板」URL；不能把執行開關當成開啟面板。</td><td>有 Bluetooth、音訊及外觀開關；Wi-Fi Switch 在 Evolution gallery、勿擾在 Shortcuts gallery，不等於完整 Wi-Fi 網路選擇／Focus 面板。沒有查到 Matugen 匯入介面。</td><td>5,914★、25 個公開貢獻帳號；<a href="https://github.com/jacklandrin/OnlySwitch/releases/tag/release_2.7.4">2.7.4，2026-09-11</a>。主要提交仍集中作者，貢獻者含翻譯。<strong>保留候選，不預設安裝</strong>。</td></tr>
+            <tr><td><a href="https://fireball.studio/oneswitch">One Switch</a></td><td>原生 status item／快捷操作；本次官方產品頁未找到可直接叫出面板的文件化 CLI／URL。</td><td>現成開關集合：AirPods、深色模式、防睡眠等；沒有足夠證據視為完整網路／Focus／控制中心替代。</td><td>商業產品，無可比的核心原始碼 stars／貢獻人數。不為未證實的串接優勢付出新依賴。</td></tr>
+            <tr><td><a href="https://docs.folivora.ai/docs/floating-menus/overview/">BetterTouchTool Floating Menus</a></td><td><a href="https://docs.folivora.ai/docs/scripting/overview/">btt://、AppleScript</a> 可觸發已設定的<a href="https://docs.folivora.ai/docs/floating-menus/showing-hiding/">顯示／隱藏面板動作</a>；可指定游標或螢幕位置。</td><td>可自訂按鈕、slider、子選單；不是裝好就有完整控制中心。資料、動作、Matugen 同步與面板設定仍要自行組裝。</td><td>商業產品、文件完整，但目前未安裝。只有未來另需大量 BTT 自動化時才值得重評。</td></tr>
+            <tr><td><a href="https://manual.raycast.com/system-commands">Raycast</a></td><td><a href="https://developers.raycast.com/information/lifecycle/deeplinks">raycast:// 可叫出已啟用命令</a>；文件列有執行確認提示，不能假設無提示。</td><td>有音量、Bluetooth 等命令；核心是搜尋／執行操作，不是一個完整控制中心。Wi-Fi／Focus 等需逐項確認命令、extension 或 Shortcuts。</td><td>核心為商業產品，extension 社群不等於面板核心維護人數。只為控制中心引入 launcher 不划算。</td></tr>
+            <tr><td><a href="https://sindresorhus.com/supercharge">Supercharge</a></td><td>官方建議透過 Shortcuts 執行動作；目前 FAQ 明確表示自訂 URL scheme 尚未支援。</td><td>音訊裝置切換、靜音、顯示開關等便利功能，不是完整控制中心；官方也不打算做成完整 toggler。</td><td>獨立開發者商業產品，無可比核心 stars。與本案需求差距較大，不採用。</td></tr>
+            <tr><td>SketchyBar 自繪 popup<br><a href="https://github.com/FelixKratz/dotfiles/blob/67ad686ea6d4c29ccd54fdaa42cdf35f37a7219c/.config/sketchybar/items/widgets/wifi.lua">Felix Wi-Fi</a>／<a href="https://github.com/deniserdogan/dotfiles/blob/9c43a5bc063e9b4bcb5b4cf667f1efb639338e4e/.config/sketchybar/sketchybarrc">deniserdogan 控制中心</a></td><td>直接使用原生 popup／slider，與現有 Matugen 色彩最容易整合。</td><td>Felix 的 Wi-Fi 是資訊／複製；denis 的 Network 是開系統設定、CPU／RAM 開 Activity Monitor，另有音量 slider。不是完整 Wi-Fi／Bluetooth 選擇器。</td><td>前者個人 dotfiles 2,028★、後者 26★；不是獨立控制中心產品。重寫採集還會重複 Stats；不整套搬入。</td></tr>
+            <tr><td><a href="https://github.com/CCMurphy-dev/Aegis">Aegis</a></td><td>本身就是 menu bar／notch shell，非 SketchyBar 控制中心插件。</td><td>提供 workspace、系統狀態與 HUD；與已選的 SketchyBar 架構重疊，還包含不需要的 media／notification 功能。</td><td>42★、1 個公開貢獻帳號；最後 push 2026-08-20。排除整套換 bar 的路線。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Stars／公開貢獻帳號來自當日 GitHub API，並不等於持續核心維護人數；商業產品不拿無關的 extensions repository 星數充數。以上是文件與原始碼比較，尚未逐一做本機相容性測試；不承諾所有候選功能只用公開 API 或免額外授權。SIP 必須保持啟用。</p>
+      <h3>OnlySwitch 是否真的更省事？</h3>
+      <p>若只需要幾個開關，它有價值；但目前需求是從 SketchyBar 進入完整設定面板。上游<a href="https://github.com/jacklandrin/OnlySwitch/blob/80a6a85a30c79180181d4f369d424a655a23b5f1/OnlySwitch/StatusBar/StatusBarController.swift">面板仍有自己的 status item、快捷鍵與顯示生命週期</a>，不會替我們協調 App 選單、Stats 和原生列。若之後只缺一個快捷動作，先用 Apple 內建 <a href="https://support.apple.com/guide/shortcuts-mac/run-shortcuts-from-the-command-line-apd455c82f02/mac"><code>shortcuts run</code></a>，不為此安裝另一個常駐程式；目前不新增任何快捷動作。</p>
+      <p><strong>替換門檻：</strong>有可靠的面板呼叫方式、在本機 SIP 啟用時可用、Wi-Fi 網路／Bluetooth 裝置／Focus 模式與期限／音訊輸出／亮度及鏡像等實際需要的操作逐項無缺漏，而且比保留原生面板更省維護。任何缺項要明列原生備援，不能宣稱完全取代。原生詳細面板沿用系統外觀；Matugen 僅保證 SketchyBar 自有按鈕與 popup。</p>
+    </section>
+
     <section aria-labelledby="files-title">
       <div class="section-heading">
         <h2 id="files-title">預計變更檔案</h2>
@@ -577,7 +612,9 @@
             <tr><td><code>home/dot_config/sketchybar/plugins/executable_clock.sh</code></td><td>新增</td><td>每秒更新 Noctalia 格式時鐘。</td></tr>
             <tr><td><code>home/dot_config/sketchybar/plugins/executable_volume.sh</code></td><td>新增</td><td>處理音量事件、靜音與 3% 滾輪調整。</td></tr>
             <tr><td><code>home/dot_config/sketchybar/plugins/executable_codexbar.sh</code></td><td>新增</td><td>Hover／左鍵／右鍵分流、每分鐘 CLI 額度與重置倒數更新；失敗保留舊摘要。</td></tr>
-            <tr><td><code>home/dot_config/sketchybar/plugins/executable_native-menu.sh</code></td><td>新增</td><td>以 System Events 開啟 CodexBar 詳細選單與原生控制中心。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/plugins/executable_native-menu.sh</code></td><td>沿用並擴充</td><td>目前開 CodexBar／控制中心；接下來加入 Stats CPU／RAM、App 選單。交替顯示由共用 listener 處理。</td></tr>
+            <tr><td><code>home/dot_config/sketchybar/menu-bar-events.swift</code></td><td>新增</td><td>公開 Carbon 事件 listener；操作 SketchyBar hidden，重載／喚醒同步，不攔截滑鼠。</td></tr>
+            <tr><td><code>home/.chezmoiscripts/run_onchange_after_3-build-sketchybar-menu.sh.tmpl</code></td><td>新增</td><td>僅 macOS 編譯至 <code>~/.local/bin/sb-menu-events</code>，由現有四平台安裝 CI 覆蓋編譯流程。</td></tr>
             <tr><td><code>home/dot_config/codexbar/modify_private_config.json</code></td><td>沿用</td><td>維持 Codex 使用 OAuth、Claude 使用 CLI；不把憑證寫入 dotfiles。</td></tr>
             <tr><td><code>home/dot_config/matugen/config.toml.tmpl</code></td><td>修改</td><td>註冊 SketchyBar 色彩輸出及 reload post-hook。</td></tr>
             <tr><td><code>home/.chezmoiscripts/run_onchange_after_6-apply-theme.sh.tmpl</code></td><td>修改</td><td>把新 Matugen 模板 hash 納入重跑條件。</td></tr>
@@ -685,16 +722,65 @@
       </details>
 
       <details open>
+        <summary id="native-integration-tasks">階段 4A–4D：補完原生互動與不重疊（4A 已接線，其餘仍待完成）</summary>
+        <div class="task-body">
+          <div class="task-meta"><span>規模：中；互斥偵測有未知風險</span><span>相依：現有 aliases 可見</span><span>目標：能操作且不覆蓋</span></div>
+          <h3>4A：公開事件交替顯示（已接線）</h3>
+          <ol>
+            <li><code>menu-bar-events.swift</code> 接收公開 Carbon <code>kEventMenuBarShown</code>／<code>kEventMenuBarHidden</code>，分別隱藏／恢復 SketchyBar；Apple SDK 的 <code>CarbonEvents.h</code> 明確記載這兩種事件會通知所有已註冊程序。本機 Fn-C、頂端滑鼠、Control-F2／Esc 已取得成對事件。</li>
+            <li>初始、reload、喚醒、Space／螢幕變更時，用公開 <a href="https://developer.apple.com/documentation/coregraphics/cgwindowlistcopywindowinfo(_:_:)">CGWindowListCopyWindowInfo</a> 同步目前可見的 Window Server Menubar。<code>NSMenu.menuBarVisible()</code> 只描述呼叫的 App，本機背景查詢始終為 false，不能用來判斷前景列。</li>
+            <li>由 SketchyBar 設定檔啟動一個有 <code>lockf</code> 鎖的 listener，包含父程序並選最早啟動的 SketchyBar PID；不把短命 CLI 當主程序。主 bar 退出時 listener 也退出，外層 shell 在 helper 錯誤／崩潰時恢復 bar；正常 reload 不建立重複 listener。</li>
+          </ol>
+          <p class="caption">檔案：<code>menu-bar-events.swift</code>、<code>executable_sketchybarrc</code> 與 macOS-only 編譯 hook；原有按鈕腳本不必各加一份判斷。無固定頻率輪詢、無 event tap、無私有 SkyLight、無新增第三方套件或 LaunchAgent。listener 在本機閒置時觀察到 CPU 0.0%、RSS 約 31 MiB；這是一次觀察，不是效能保證。</p>
+          <div class="checkpoint"><strong>Checkpoint C：</strong>原生列是否可見才是恢復依據。Esc 有時只關面板、未收起原生列，此時維持 SketchyBar 隱藏是正確行為；游標離開、系統收起後才恢復。任何螢幕仍顯示原生列時，先讓所有 SketchyBar 顯示區一起暫避；多螢幕實際驗收仍待完成。helper 崩潰時優先恢復可用的 bar，需 reload 才重新啟動交替。</div>
+          <ul class="checklist">
+            <li><input id="c30" type="checkbox" checked><label for="c30">macOS 26.6.2 內建螢幕實測：控制中心按鈕／Fn-C、頂端滑鼠、Fn-Control-F2、瀏覽器「編輯」原生選單可交替，原生列收起後恢復。</label></li>
+            <li><input id="c31" type="checkbox" checked><label for="c31">原生列開啟時 reload 仍保持隱藏且只留一個 listener；強制結束 helper 後 bar 恢復，reload 後交替重新正常。</label></li>
+            <li><input id="c32" type="checkbox" checked><label for="c32">CodexBar hover 摘要與左鍵詳細選單正常；本機詳細面板可在原生列未出現時開啟，此時保留 SketchyBar，不因「開面板」一律隱藏。</label></li>
+          </ul>
+          <p class="caption">以上是實機操作與畫面／狀態查核，不宣稱 compositor 層級逐幀原子切換。外接螢幕、全螢幕、睡眠喚醒、重新登入與主 bar 重啟仍列後續驗收；既有四平台安裝 CI 不替代這些操作。</p>
+
+          <h3>4B：Stats CPU／RAM 接完整</h3>
+          <ol>
+            <li>取得本機 CPU／RAM 對應 status item 的穩定識別資訊，優先使用上游既有入口；需要 AX 點擊時不依賴易變索引，名稱相同／模組缺少時不得點到其他項目。</li>
+            <li>取代目前 CPU／RAM 的 <code>open -a Stats</code>：CPU 開 CPU 詳細面板、RAM 開記憶體詳細面板，保留 Stats 原本提供的圖表、詳細數據與設定入口。不新增 CPU／mem polling 或自行重製面板。</li>
+            <li>整合 4A 的互斥方式，驗證開啟、切換、關閉與 Stats 重啟後重新綁定；不得影響其他 Stats aliases 或 Codex／Claude hover。</li>
+          </ol>
+          <p class="caption">相依：4A；檔案：<code>executable_sketchybarrc</code>、<code>plugins/executable_native-menu.sh</code>。本階段只補 CPU／RAM 互動，不順帶擴大其他監控模組。</p>
+          <ul class="checklist">
+            <li><input id="c28" type="checkbox"><label for="c28">實際點 CPU／RAM 都開正確詳細面板，內容與 Stats 原生入口一致，並可正常關閉。</label></li>
+            <li><input id="c29" type="checkbox"><label for="c29">Stats 重啟／模組順序變更後不點錯；缺少模組或權限不足時有明確失敗訊息且 bar 仍可用。</label></li>
+          </ul>
+
+          <h3>4C：接入前景 App 選單</h3>
+          <ol>
+            <li>新增單一前景 App 按鈕，隨 App 切換更新；點擊按需顯示真實頂層選單，含 Apple 與 App 自身選單，不硬編碼 Kitty 專用清單。</li>
+            <li>選擇標題後操作原生子選單，保留深層項目、Help、快捷鍵、停用狀態與 Option 替代項目。不得因入口取得焦點而誤操作另一個 App；長標題／多項目不能靜默截斷。</li>
+            <li>接上 4A 互斥，保留 Control-F2 作為完整原生備援。若現有公開 AX 路線在特定 App 失效，先列出缺口，再決定是否改用 Menuwhere；不直接複製 Felix 的私有 API helper。</li>
+          </ol>
+          <p class="caption">相依：4A，接線與 4B 共用；檔案：<code>executable_sketchybarrc</code>、<code>plugins/executable_native-menu.sh</code>。驗收使用 c22；至少涵蓋 Kitty、目前使用的瀏覽器及一個長／深層選單 App，並實際執行安全命令確認不是只有標題能顯示。</p>
+
+          <h3>4D：整體互斥、控制中心與恢復驗收</h3>
+          <ol>
+            <li>依本次比較暫保留原生控制中心，整合既有設定按鈕；實際確認 Wi-Fi 網路清單、Focus 模式／期限、Bluetooth／音訊輸出等入口，不為驗收任意切斷網路或更動專注模式。</li>
+            <li>逐一操作頂端滑鼠、App 按鈕、CPU／RAM、CodexBar、控制中心及系統快捷鍵；以螢幕錄影／截圖檢查開啟、深層選單、Esc、點外部、命令執行後、切換 App 的所有狀態，不只拍靜態成功畫面。</li>
+            <li>內建／外接螢幕、瀏海、全螢幕進出、喚醒及重新登入後重做；驗證錯誤或程序退出不會讓 SketchyBar 永久消失，且失敗時仍有原生選單可操作。</li>
+          </ol>
+          <p class="caption">相依：4B＋4C；驗收使用 c23／c24。登入接線只有在 4A 證實需要時才改 AeroSpace；不得另起重複 bar。功能以實機使用驗證，不新增功能測試腳本。</p>
+        </div>
+      </details>
+
+      <details open>
         <summary>階段 5：時鐘、音量與多螢幕收尾</summary>
         <div class="task-body">
-          <div class="task-meta"><span>規模：中</span><span>相依：階段 4</span><span>目標：完成日常使用</span></div>
+          <div class="task-meta"><span>規模：中</span><span>相依：階段 4 與 4A–4D</span><span>目標：完成日常使用</span></div>
           <ol>
             <li>加入每秒 clock script，格式對齊 <code>%B %d %H:%M:%S</code>。</li>
             <li>volume item 訂閱 <code>volume_change</code> 與 <code>mouse.scrolled</code>。</li>
             <li>滾輪依方向調整 3%，並夾在 0–100；點擊切換靜音。</li>
             <li>最右側設定按鈕以固定 <code>com.apple.menuextra.controlcenter</code> 識別碼開啟原生控制中心；Wi-Fi／勿擾模式仍使用系統原生面板。</li>
             <li>驗證內建螢幕、外接螢幕、notch、睡眠喚醒與登入啟動。</li>
-            <li>隱藏原生 macOS menu bar；只用系統支援的 auto-hide，不加入永久阻擋游標觸發的 hack。</li>
+            <li>保留系統 auto-hide，搭配階段 4A–4D 的互斥顯示；auto-hide 本身不算完成不重疊，不加入永久阻擋游標觸發的 hack。</li>
           </ol>
           <h3>驗收</h3>
           <ul class="checklist">
@@ -714,7 +800,7 @@
           <ol>
             <li>README 記錄 SketchyBar 架構、CodexBar／Stats 一次性設定與 Screen Recording 權限。</li>
             <li>確認 diff 無 token、個人路徑或生成的 <code>colors.sh</code>。</li>
-            <li>以小型提交拆分：套件、核心 bar、主題、aliases、文件。</li>
+            <li>延續 PR #155，以小型提交拆分已驗證的邏輯變更；階段是工作順序，不代表每階段自動另開 MR。未完成的實機驗收保持未勾選。</li>
             <li>同步更新本計畫；四平台 CI 只跑安裝流程，不加入套件功能 mock 測試。保留 <code>-v</code>，確認 PR 最新 commit 的 checks 全過。</li>
           </ol>
           <h3>驗收</h3>
@@ -741,7 +827,8 @@
             <tr><td>第三方 showy-quota 維護規模較小且功能過量</td><td>低</td><td>不列為必要相依；只有未來要同時供 SketchyBar、tmux、Zellij 顯示多 provider 時重評。</td></tr>
             <tr><td>內建與外接螢幕 bar 高度不同</td><td>中</td><td>先用 36px；只有測試失敗才加入 per-monitor AeroSpace gap。</td></tr>
             <tr><td>Matugen reload 時色彩檔短暫不存在</td><td>低</td><td>靜態 config 提供最小 fallback palette。</td></tr>
-            <tr><td>原生 menu bar 在頂端、鍵盤或控制中心開啟時重疊</td><td>中</td><td>尚未解決；不把重疊當成完成狀態。依<a href="#native-menu-research-title">30 份來源比較</a>選定 App 選單入口與互斥／位置分離策略，再驗收；SIP 保持啟用。</td></tr>
+            <tr><td>原生 menu bar 與 SketchyBar 的狀態不同步</td><td>中</td><td><a href="#native-integration-tasks">4A</a> 已接公開 Carbon 事件與 reload／喚醒同步。CGWindow 的 Menubar 名稱已在 macOS 26.6.2 查核，跨版本仍需實機驗收；helper 崩潰先恢復 bar，reload 重啟交替；SIP 保持啟用。</td></tr>
+            <tr><td>替代控制中心只有快捷開關，缺少完整操作</td><td>中</td><td>按<a href="#control-center-research-title">替換門檻</a>逐項查核；目前保留原生面板，不以 Wi-Fi 開關冒充網路選擇器，也不宣稱原生面板能套完整 Matugen。</td></tr>
             <tr><td>Stats GUI state 尚未納入 chezmoi</td><td>低</td><td>README 記錄一次性設定；只有實際跨機重建痛點出現時再自動化。</td></tr>
           </tbody>
         </table>
@@ -754,11 +841,13 @@
       </div>
       <ul class="checklist">
         <li><input id="d1" type="checkbox" checked><label for="d1">外觀接近目前 Noctalia：透明、無陰影、半透明 capsule、相同字型與間距。</label></li>
-        <li><input id="d2" type="checkbox"><label for="d2">AeroSpace workspace、CodexBar meter、時鐘、音量與 Stats aliases 全部可用。</label></li>
+        <li><input id="d2" type="checkbox"><label for="d2">AeroSpace workspace、CodexBar meter、時鐘、音量與 Stats aliases 全部可用；CPU／RAM 可開各自詳細面板。</label></li>
         <li><input id="d3" type="checkbox"><label for="d3">更換 wallpaper 後 Matugen 自動更新 bar 色彩。</label></li>
         <li><input id="d4" type="checkbox"><label for="d4">內建與外接螢幕、睡眠喚醒、重新登入均通過。</label></li>
         <li><input id="d5" type="checkbox" checked><label for="d5">SIP enabled，沒有 yabai scripting addition 或 menu-bar 私有 hack。</label></li>
         <li><input id="d6" type="checkbox" checked><label for="d6">僅新增使用者確認的 Codex／Claude 用量摘要與控制中心入口，其餘排除項目未加入。</label></li>
+        <li><input id="d7" type="checkbox"><label for="d7">SketchyBar 可操作前景 App／Apple 選單，不遺漏已驗收 App 的深層與替代項目，並保留原生備援。</label></li>
+        <li><input id="d8" type="checkbox"><label for="d8">所有已列滑鼠／鍵盤／面板入口皆不造成雙 bar 覆蓋；關閉、錯誤及登入後正確恢復。</label></li>
       </ul>
     </section>
 

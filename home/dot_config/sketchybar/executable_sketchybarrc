@@ -179,6 +179,23 @@ done
 
 sketchybar --update
 
+# One event listener survives reloads; the lock covers its fail-open supervisor.
+menu_helper="$HOME/.local/bin/sb-menu-events"
+# macOS pgrep excludes ancestors unless -a is set; the bar launches this rc.
+# Clients share its name, so select the oldest instance including our parent.
+bar_pid=$(pgrep -a -o -x -u "$(id -u)" sketchybar)
+if test -x "$menu_helper" && test -n "$bar_pid"; then
+    mkdir -p "$HOME/.cache/sketchybar"
+    lockf -kst 0 "$HOME/.cache/sketchybar/menu-events.lock" /bin/sh -c '
+        "$1" watch "$2" "$3"
+        "$2" --bar hidden=off
+    ' sh "$menu_helper" "$(command -v sketchybar)" "$bar_pid" &
+    "$menu_helper" sync "$(command -v sketchybar)" "$bar_pid"
+else
+    sketchybar --bar hidden=off
+    printf '%s\n' 'SketchyBar menu coordination is unavailable; run chezmoi apply.' >&2
+fi
+
 if command -v aerospace >/dev/null 2>&1; then
     focused=$(aerospace list-workspaces --focused 2>/dev/null | head -n 1)
     test -z "$focused" || sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$focused"
