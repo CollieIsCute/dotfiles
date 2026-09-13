@@ -1,28 +1,5 @@
 #!/bin/sh
 
-case "${SENDER:-}" in
-    mouse.entered)
-        sketchybar --set codexbar popup.drawing=on
-        exit 0
-        ;;
-    mouse.exited)
-        sketchybar --set codexbar popup.drawing=off
-        exit 0
-        ;;
-    mouse.clicked)
-        case "${BUTTON:-left}" in
-            left)
-                sketchybar --set codexbar popup.drawing=off
-                exec "${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins/native-menu.sh"
-                ;;
-            right) ;;
-            *) exit 0 ;;
-        esac
-        ;;
-    forced|routine|system_woke) ;;
-    *) exit 0 ;;
-esac
-
 # Keep only rendered labels in SketchyBar, not account JSON or credentials.
 # macOS lockf prevents overlapping refreshes and releases on process exit.
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/sketchybar"
@@ -39,9 +16,7 @@ fi
 
 if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
     now as $now
-    | [(if type == "array" then .[] elif .providers then .providers[] else . end)
-     | select(.provider == "codex" or .provider == "claude")]
-    | if (map(.provider) | sort) == ["claude", "codex"]
+    | if type == "array" and (map(.provider) | sort) == ["claude", "codex"]
          and all(.error == null and (.usage | type) == "object")
       then .[] else error("Incomplete provider response") end
     | (if .provider == "codex" then "Codex · OAuth" else "Claude · CLI" end) as $provider
@@ -51,8 +26,7 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
       ([{title: ({"300": "5 小時", "10080": "每週"}[($usage.primary.windowMinutes | tostring)] // "主要額度"), window: $usage.primary},
         {title: "每週", window: $usage.secondary},
         {title: "其他額度", window: $usage.tertiary},
-        ($usage.extraRateWindows[]? | {title: .title, window: (.window // .)}),
-        ($usage.windows[]? | {title: (.title // .name), window: (.window // .)})]
+        $usage.extraRateWindows[]?]
        | map(select((.window.usedPercent | type) == "number"))
        | if length == 0 then ["note", "目前沒有回報額度區間"]
          else .[]

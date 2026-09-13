@@ -40,6 +40,10 @@ sketchybar --default \
     background.height=27 \
     background.corner_radius=9 \
     background.shadow.drawing=off \
+    popup.height=28 \
+    popup.background.color="0xff${CAPSULE#????}" \
+    popup.background.border_width=1 \
+    popup.background.border_color="0x33${ON_SURFACE#????}" \
     padding_left=2 \
     padding_right=2
 
@@ -47,13 +51,7 @@ sketchybar --add event aerospace_workspace_change
 
 # q/e anchor to either side of the notch instead of drawing through its center.
 sketchybar --add item clock q \
-    --set clock \
-        update_freq=1 \
-        padding_left="$CAPSULE_GAP" \
-        padding_right=0 \
-        background.color="$CAPSULE" \
-        background.drawing=on \
-        script="$PLUGIN_DIR/clock.sh"
+    --set clock update_freq=1 script="$PLUGIN_DIR/clock.sh"
 
 for sid in 1 2 3 4 5 6 7 8 9 magic; do
     label=$sid
@@ -73,20 +71,10 @@ sketchybar --add item workspace.observer e \
         script="$PLUGIN_DIR/workspace.sh" \
     --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
 
-sketchybar --add bracket workspaces '/space\..*/' \
-    --set workspaces \
-        background.color="$CAPSULE" \
-        background.height=27 \
-        background.corner_radius=9 \
-        background.drawing=on
+sketchybar --add bracket workspaces '/space\..*/'
 
 sketchybar --add item volume right \
-    --set volume \
-        padding_left="$CAPSULE_GAP" \
-        padding_right=0 \
-        background.color="$CAPSULE" \
-        background.drawing=on \
-        script="$PLUGIN_DIR/volume.sh" \
+    --set volume script="$PLUGIN_DIR/volume.sh" \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
 
 add_alias() {
@@ -95,32 +83,16 @@ add_alias() {
         *,Item-0\(*|*,\(*) source=$1 ;;
         *) source=$(printf '%s\n' "$1" | sed 's/([0-9][0-9]*)$//') ;;
     esac
-    name=$2
-    position=$3
-    click_script=${4-}
-
-    sketchybar --add alias "$source" "$position" || return 0
-    sketchybar --rename "$source" "$name"
-    # Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
-    sketchybar --set "$name" \
-        icon.drawing=off \
-        label.drawing=off \
-        padding_left=1 \
-        padding_right=1 \
-        alias.scale=0.82 \
-        alias.update_freq=2 \
-        click_script="$click_script"
+    sketchybar --add alias "$source" "$3" || return 0
+    sketchybar --rename "$source" "$2" --set "$2" "click_script=${4-}"
 }
 
 # A zero-width anchor gives both provider icons one shared hover popup.
 sketchybar --add item codexbar left \
     --set codexbar width=0 padding_left=0 padding_right=0 \
         icon.drawing=off label.drawing=off \
-        popup.align=left popup.height=28 \
-        popup.background.color="0xff${CAPSULE#????}" \
+        popup.align=left \
         popup.background.corner_radius=10 \
-        popup.background.border_width=1 \
-        popup.background.border_color="0x33${ON_SURFACE#????}" \
         update_freq=60 script="$PLUGIN_DIR/codexbar.sh" \
     --subscribe codexbar system_woke
 sketchybar --add item codexbar.status popup.codexbar \
@@ -143,18 +115,14 @@ printf '%s\n' "$menu_items" \
                     name="meter.${window#codexbar-}"
                     add_alias "$source" "$name" left ''
                     sketchybar --set "$name" \
-                        alias.scale=0.85 padding_left=0 padding_right=0 \
-                        script="$PLUGIN_DIR/codexbar.sh" \
+                        script="$PLUGIN_DIR/native-menu.sh" \
                         --subscribe "$name" mouse.entered mouse.exited mouse.clicked
                     ;;
                 eu.exelban.Stats)
                     add_alias "$source" "stats.$window" right "$click"
                     sketchybar --set "stats.$window" \
-                        popup.align=right popup.height=28 \
-                        popup.background.color="0xff${CAPSULE#????}" \
+                        popup.align=right \
                         popup.background.corner_radius=6 \
-                        popup.background.border_width=1 \
-                        popup.background.border_color="0x33${ON_SURFACE#????}" \
                         script="$PLUGIN_DIR/native-menu.sh" \
                         --subscribe "stats.$window" mouse.entered mouse.exited mouse.clicked \
                         --add item "hint.$window" "popup.stats.$window" \
@@ -163,21 +131,28 @@ printf '%s\n' "$menu_items" \
                     ;;
                 com.apple.TextInputMenuAgent)
                     add_alias "$source" input_source right "$click"
-                    sketchybar --set input_source background.color="$CAPSULE" background.drawing=on \
-                        padding_left="$CAPSULE_GAP" padding_right=0 alias.scale=1 \
-                        --move input_source before volume
+                    sketchybar --move input_source before volume
                     ;;
             esac
         done
     )
 
+# Style aliases before adding their brackets, which absorb member padding.
+# Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
+for aliases in '/^meter\./' '/^stats\./' '/^input_source$/'; do
+    sketchybar --set "$aliases" icon.drawing=off label.drawing=off \
+        padding_left=1 padding_right=1 alias.scale=0.82 alias.update_freq=2
+done
+sketchybar --set '/^meter\./' alias.scale=0.85 padding_left=0 padding_right=0 \
+    --set '/^input_source$/' alias.scale=1
 for group in meter stats; do
-    sketchybar --add bracket "$group.group" "/$group\\..*/" \
-        --set "$group.group" \
-            background.color="$CAPSULE" \
-            background.height=27 \
-            background.corner_radius=9 \
-            background.drawing=on
+    sketchybar --add bracket "$group.group" "/$group\\..*/"
+done
+for capsule in clock volume '/^input_source$/' workspaces '/\.group$/'; do
+    sketchybar --set "$capsule" background.color="$CAPSULE" background.drawing=on
+done
+for capsule in clock volume '/^input_source$/'; do
+    sketchybar --set "$capsule" padding_left="$CAPSULE_GAP" padding_right=0
 done
 
 sketchybar --update
@@ -197,9 +172,4 @@ if test -x "$menu_helper" && test -n "$bar_pid"; then
 else
     sketchybar --bar hidden=off
     printf '%s\n' 'SketchyBar menu coordination is unavailable; run chezmoi apply.' >&2
-fi
-
-if command -v aerospace >/dev/null 2>&1; then
-    focused=$(aerospace list-workspaces --focused 2>/dev/null | head -n 1)
-    test -z "$focused" || sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$focused"
 fi
