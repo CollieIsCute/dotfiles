@@ -38,7 +38,8 @@ if ! data=$(codexbar usage --provider both --format json --json-only --no-credit
 fi
 
 if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
-    [(if type == "array" then .[] elif .providers then .providers[] else . end)
+    now as $now
+    | [(if type == "array" then .[] elif .providers then .providers[] else . end)
      | select(.provider == "codex" or .provider == "claude")]
     | if (map(.provider) | sort) == ["claude", "codex"]
          and all(.error == null and (.usage | type) == "object")
@@ -57,7 +58,18 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
          else .[]
            | ((.title // "額度") | tostring | gsub("[\r\n\t]"; " ")) as $title
            | ([100, ([0, (100 - .window.usedPercent)] | max)] | min | round) as $remaining
-           | "\($title) · 剩餘 \($remaining)%"
+           | (try (.window.resetsAt | fromdateiso8601) catch null) as $reset
+           | "\($title) · 剩餘 \($remaining)%",
+             (if $reset == null then empty
+              elif $reset <= $now then "↳ 重置時間已到，等待來源更新"
+              else (($reset - $now) / 60 | ceil) as $minutes
+                | (if $minutes >= 1440 then
+                     "\(($minutes / 1440) | floor) 天 \((($minutes % 1440) / 60) | floor) 小時 \($minutes % 60) 分"
+                   elif $minutes >= 60 then
+                     "\(($minutes / 60) | floor) 小時 \($minutes % 60) 分"
+                   else "\($minutes) 分" end) as $duration
+                | "↳ 約 \($duration)後重置"
+              end)
          end)
 '); then
     sketchybar --set codexbar.status label="CodexBar · 回應不完整，資料未更新"
