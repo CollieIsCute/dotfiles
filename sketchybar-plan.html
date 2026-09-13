@@ -366,7 +366,7 @@
         <table>
           <thead><tr><th scope="col">操作</th><th scope="col">SketchyBar 行為</th><th scope="col">資料與限制</th></tr></thead>
           <tbody>
-            <tr><td>Hover</td><td>元件下方顯示 Matugen 配色的小摘要；各額度下一行顯示重置倒數，不打開原生選單</td><td>分段顯示 Codex OAuth 與 Claude CLI；缺少的區間或重置時間略過，不補假數值</td></tr>
+            <tr><td>Hover</td><td>元件下方顯示 Matugen 配色的小摘要；各額度以框線分格，格內上行是剩餘比例、下行是重置倒數，不打開原生選單</td><td>以粗體標題分組 Codex OAuth 與 Claude CLI；缺少的區間或重置時間略過，不補假數值</td></tr>
             <tr><td>移開游標</td><td>收起小摘要</td><td>摘要不是可操作的大型面板</td></tr>
             <tr><td>左鍵</td><td>收起摘要，開啟 CodexBar 原生詳細選單，可切 Codex／Claude 分頁</td><td>帳號、重置時間、費用與設定仍由 CodexBar 維護；CLI 來源能提供的細節以套件為準</td></tr>
             <tr><td>右鍵</td><td>立即刷新小摘要</td><td>只重新讀 CodexBar CLI，不改登入來源或開啟其他視窗</td></tr>
@@ -376,6 +376,7 @@
       </div>
       <p class="caption">使用 macOS 內建 <code>jq</code> 處理既有 CodexBar CLI JSON；只把摘要文字留在 SketchyBar 記憶體，不保存帳號 JSON、token 或額外 quota server。摘要使用不透明的 Matugen surface-variant 底色，避免與下方視窗文字混在一起。</p>
       <p class="caption">重置倒數使用 CodexBar 的 <a href="https://github.com/steipete/CodexBar/blob/v0.60.0/Sources/CodexBarCore/UsageFetcher.swift#L3"><code>RateWindow.resetsAt</code></a> 與 <a href="https://jqlang.org/manual/v1.7/#dates">jq 的 UTC 日期函式</a>計算，向上取整到分鐘，隨既有 60 秒排程更新。例如「↳ 約 4 小時 30 分後重置」；維持 330 px 寬度，以獨立下一行避免長名稱擠掉倒數。無法解析的時間不顯示；期限已過則顯示「重置時間已到，等待來源更新」，不自行推定額度已恢復。</p>
+      <p class="caption">每個額度使用一個 <a href="https://felixkratz.github.io/SketchyBar/config/items#background-properties">SketchyBar 原生 item 的背景與框線</a>，透過 icon／label 的垂直偏移放入兩行文字；不是另外開視窗或畫圖片。方格採 1 pt 框線、6 pt 圓角及 Matugen 衍生色，倒數字級較小；沒有重置時間時收成單行格。外框寬度保持不變。</p>
       <p class="caption">本機檢查：Codex／Claude 的 hover 摘要與原生分頁均已實際開啟並比對；Claude 當次 5 小時剩餘 100%、每週 96%，兩邊一致。移出、左右鍵及 CLI 暫時不可用／恢復也已驗證。需要手動重跑真實 CLI 更新時，可執行 <code>SENDER=routine NAME=codexbar ~/.config/sketchybar/plugins/codexbar.sh</code>；失敗會回傳非零狀態，不另建功能測試腳本或加入 CI。</p>
     </section>
 
@@ -677,6 +678,7 @@
             <li><input id="c20" type="checkbox" checked><label for="c20">左鍵只開原生詳細選單，右鍵只刷新摘要。</label></li>
             <li><input id="c25" type="checkbox" checked><label for="c25">同一 hover 分段顯示 Codex OAuth／Claude CLI；點擊後切換 Claude 原生分頁，額度與摘要一致。</label></li>
             <li><input id="c26" type="checkbox" checked><label for="c26">Codex／Claude 各額度的重置倒數完整可見；缺少／無效時間不顯示假倒數，已過期則等待來源更新。</label></li>
+            <li><input id="c27" type="checkbox" checked><label for="c27">實機 hover 的各額度以雙行框線格呈現，兩組標題清楚；六格長名稱／倒數均完整可見，移開收起與左鍵詳細面板正常。</label></li>
           </ul>
           <p class="caption">CodexBar 與 Stats preferences 先保留為一次性 GUI 設定；只有確認跨機器重建需求後，才考慮納管其偏好檔。</p>
         </div>
