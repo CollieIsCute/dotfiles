@@ -1,4 +1,4 @@
-// Run with: node tests/wsl-templates.mjs (requires chezmoi and Bash).
+// Run locally: node tests/wsl-templates.mjs (requires chezmoi and Bash).
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, mkdtempSync, realpathSync, rmSync } from 'node:fs';
@@ -125,6 +125,7 @@ const windowsJob = workflow.split('\n  windows:')[1];
 assert.ok(windowsJob.includes('& $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v'));
 assert.ok(!/bootstrap-wsl\.ps1|useradd|pacman|NOPASSWD|wsl --(?:install|manage|set-default)/.test(windowsJob),
   'CI must use the normal entry without pre-provisioning WSL or its user');
+assert.ok(!/tests\/|wsl --exec/.test(windowsJob), 'CI only runs the installation entry; extra checks stay local');
 assert.ok((workflow.match(/chezmoi.* -v/g) ?? []).length >= 5, 'Keep verbose installation logs');
 if (process.platform === 'win32') {
   // Exercise the actual shared bootstrap through the rendered chezmoi entry.

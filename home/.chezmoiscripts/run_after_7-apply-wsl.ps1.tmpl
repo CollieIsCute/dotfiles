@@ -1,21 +1,3 @@
 $ErrorActionPreference = "Stop"
-# Handle native exit codes ourselves.
-$PSNativeCommandUseErrorActionPreference = $false
-
-$checkout = '{{ .chezmoi.workingTree | replace "'" "''" }}'
-$savedWSLEnv = $env:WSLENV
-try {
-    $env:WSLENV = (@($savedWSLEnv, "CHEZMOI_GITHUB_ACCESS_TOKEN/u", "CHEZMOI_WSL_PASSWORD/u") | Where-Object { $_ }) -join ":"
-    & (Join-Path $checkout 'scripts/bootstrap-wsl.ps1')
-    # Pass paths as arguments; never interpolate them into a shell command.
-    $repo = & wsl.exe --exec wslpath -a $checkout
-    if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
-    $repo = ($repo -join "").Trim()
-    # WSL can provide a terminal even in CI; detach only for unattended input.
-    [string[]]$linuxCommand = if ($env:CHEZMOI_WSL_PASSWORD) { @('setsid', '--wait', 'bash') } else { @('bash') }
-    & wsl.exe --cd '~' --exec @linuxCommand "$repo/scripts/bootstrap-wsl.sh" $repo
-    if ($LASTEXITCODE -ne 0) { throw "WSL chezmoi apply failed with exit code $LASTEXITCODE." }
-}
-finally {
-    $env:WSLENV = $savedWSLEnv
-}
+# Runs automatically on the first init --apply and every later Windows apply.
+& (Join-Path '{{ .chezmoi.workingTree | replace "'" "''" }}' 'scripts/bootstrap-wsl.ps1')

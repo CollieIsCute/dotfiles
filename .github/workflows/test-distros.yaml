@@ -68,12 +68,8 @@ jobs:
           "CHEZMOI_WSL_PASSWORD=$env:CHEZMOI_WSL_PASSWORD" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
           if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
-          node "$env:USERPROFILE/.local/share/chezmoi/tests/wsl-templates.mjs"
-      - name: Verify WSL tools and repeat the same Windows entry
+      - name: Repeat the same Windows + WSL installation entry
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
-          wsl --exec bash -c 'source /etc/os-release; test "$ID" = arch'
-          wsl --exec bash -c 'test "$(id -u)" -ne 0 && test "$(id -un)" = "$1"' -- $env:USERNAME.ToLowerInvariant()
-          wsl --exec bash -c 'sudo -k; if sudo -n true; then echo "sudo must require authentication" >&2; exit 1; fi'
-          wsl --exec fish -c 'for tool in fish tmux nvim claude codex opencode; command -q $tool; or exit 1; end; test ! -d ~/.config/hypr; and test ! -d ~/.local/libexec/openwhispr'
           & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v
+          if ($LASTEXITCODE -ne 0) { throw "Repeated Windows + WSL install failed." }

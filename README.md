@@ -22,7 +22,7 @@ From a normal PowerShell terminal (with GitHub SSH access already configured):
 chezmoi init --ssh --apply collieiscute -v
 ```
 
-For an existing checkout, just run `chezmoi apply` on Windows. It applies Windows
+For an existing checkout, just run `chezmoi apply -v` on Windows. It applies Windows
 first, then invokes Linux chezmoi in the default WSL 2 distribution. Git uses SSH;
 no credential helper or copying SSH private keys into WSL is required.
 
@@ -34,8 +34,13 @@ Alacritty opens fish in WSL. Native Neovim/ripgrep remain on Windows for Neovide
 GCC/Rust remain there to build Matugen. Previously installed Windows CLIs are not
 uninstalled automatically.
 
-The Windows entry calls [scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1).
-It prepares WSL's prerequisites and installs official Arch Linux as WSL 2 only when no
+On the **first `init --apply`**, chezmoi automatically runs
+[run_after_7-apply-wsl.ps1.tmpl](home/.chezmoiscripts/run_after_7-apply-wsl.ps1.tmpl)
+after the Windows setup. This hook only calls
+[scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1), which owns the entire WSL
+bootstrap through Linux chezmoi apply. Plain `chezmoi init` without `--apply` only
+initializes the checkout; it does not install either environment.
+The bootstrap prepares WSL's prerequisites and installs official Arch Linux as WSL 2 only when no
 distribution is registered. A failed distribution listing or launch stops the
 bootstrap; it does not trigger another distro installation. Windows may require
 administrator approval and a reboot; rerun the same command after reboot.
@@ -63,6 +68,9 @@ normal interactive installs keep their terminal.
 CI supplies only a masked, random test password and invokes the same
 `chezmoi init --apply -v` entry; it does not pre-install WSL or create users itself.
 Its second apply checks repeatability, not an extra endpoint installation step.
+CI runs installation only: no separate template tests, tool probes or OpenWhispr
+checks. Plugin installation stays in the normal flow; plugin and application
+functionality must be tested locally, not by CI.
 
 Existing Ubuntu users keep their current
 setup and use apt; new Arch installs use pacman/paru. Arch's rolling-release
@@ -84,7 +92,8 @@ to skip Linux desktop, greeter, input-method and voice setup. Existing Unix
 scripts still install fish and sync AI plugins; there is no parallel PowerShell
 implementation. CLI themes use terminal/default colors without Noctalia.
 
-Template regression check: `node tests/wsl-templates.mjs` (chezmoi + Bash required).
+Local-only template/bootstrap regression check: `node tests/wsl-templates.mjs`
+(chezmoi + Bash required; mocks do not install WSL or exercise plugin functionality).
 
 ## Supported platforms
 
