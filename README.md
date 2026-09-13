@@ -46,7 +46,7 @@ chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply
 | macOS | Homebrew | daily-driven |
 | Arch | pacman + paru | daily-driven |
 | Ubuntu | apt | CI-tested only |
-| Windows + WSL 2 (Ubuntu or Arch) | Scoop + apt/paru | see current PR checks |
+| Windows + Arch WSL 2 | Scoop + pacman/paru | see current PR checks |
 
 Windows chezmoi runs only PowerShell scripts; Linux chezmoi runs only Unix scripts.
 
@@ -68,7 +68,7 @@ launch PowerShell ISE.
 ### chezmoi quirks I keep tripping over (that this repo handles)
 
 - `run_onchange_*` scripts only re-run when their **rendered** content changes. Manifest files (`fish_plugins`, `Brewfile`) that aren't templated into the script bodies don't trigger reruns. Both are pinned via embedded sha256 hash comments — see `run_onchange_after_1-setup-fish-and-its-plugins.sh.tmpl` and `install-packages_darwin.tmpl`.
-- Ubuntu uses `.packages.ubuntu.apt`; desktop packages are added only outside WSL. Arch follows the same core/desktop split.
+- Ubuntu uses `.packages.ubuntu.apt` and `.packages.ubuntu.desktop`. Arch skips its desktop packages on WSL 2.
 - Fonts use the Nerd Font patched family (`JetBrainsMono Nerd Font`), not the un-patched JetBrains Mono — drop that distinction and bar icons disappear.
 
 ### Dropbox
