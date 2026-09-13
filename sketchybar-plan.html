@@ -292,6 +292,7 @@
       <p><strong>2026-09-13 新增已確認範圍：</strong>點 CPU／RAM 開啟各自的 Stats 詳細面板、從 SketchyBar 操作前景 App 選單，且原生選單列與 SketchyBar 不互相覆蓋。交替顯示已透過公開 Carbon 事件接線；CPU／RAM 詳細面板與 App 按鈕仍待實作。控制中心替代品比較見<a href="#control-center-research-title">下方調查</a>：保留原生控制中心，不新增第三方套件。交替顯示不等於原生列永遠不出現。</p>
       <p>不採用 Simple Bar、SbarLua、大型第三方設定集或 showy-quota。單一 Codex meter 不值得再加入 Bash 4、獨立 renderer、cache daemon 與第二套主題設定。</p>
       <p><strong>CI 只驗證安裝：</strong>已移除新增的 <code>tests/sketchybar.sh</code> 與其 CI 步驟。四平台保留 <code>chezmoi init --apply -v</code>；功能在實際 macOS 上操作驗收。最新安裝結果以 <a href="https://github.com/CollieIsCute/dotfiles/pull/155/checks">PR #155 checks</a> 為準，不把上一個 commit 的成功當成本次成功。</p>
+      <p><strong>本次 macOS 安裝修正：</strong>第一輪 CI 卡在明列的 <code>brew tap</code> 驗證未信任的其他 formula，尚未執行 helper 編譯。移除兩個多餘 tap 宣告，改在完整名稱的 SketchyBar／Matugen <code>brew</code> 項目上使用 <a href="https://docs.brew.sh/Brew-Bundle-and-Brewfile#trusted"><code>trusted: true</code></a>；由 Homebrew 原生安裝路徑取得 tap，只信任這兩個套件，不信任整個 tap，也不關閉信任檢查。</p>
       <p><strong>依賴清理：</strong>移除本 MR 額外列出的 <code>libayatana-indicator</code> 與註解。<a href="https://github.com/CollieIsCute/dotfiles/commit/e8eb5f768f1660e8f7786976e160125672b72faf">master 已加入</a> <code>paru --mflags "--syncdeps --noconfirm"</code>，由安裝流程依 PKGBUILD 解決缺漏；本 MR 不再重複指定傳遞依賴。AUR 的 PKGBUILD 與 .SRCINFO 當次仍不一致，這不是宣稱 AUR 中繼資料已修復。</p>
     </section>
 
