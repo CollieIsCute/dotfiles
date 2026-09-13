@@ -92,9 +92,6 @@ to skip Linux desktop, greeter, input-method and voice setup. Existing Unix
 scripts still install fish and sync AI plugins; there is no parallel PowerShell
 implementation. CLI themes use terminal/default colors without Noctalia.
 
-Local-only template/bootstrap regression check: `node tests/wsl-templates.mjs`
-(chezmoi + Bash required; mocks do not install WSL or exercise plugin functionality).
-
 ## Supported platforms
 
 | OS | Package manager | Status |
