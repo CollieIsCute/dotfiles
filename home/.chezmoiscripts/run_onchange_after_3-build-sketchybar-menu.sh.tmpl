@@ -2,12 +2,16 @@
 #!/bin/sh
 set -eu
 # helper: {{ include "dot_config/sketchybar/menu-bar-events.swift" | sha256sum }}
+# status items: {{ include "dot_config/sketchybar/status-items.swift" | sha256sum }}
 
 mkdir -p "$HOME/.local/bin" "$HOME/.cache/sketchybar"
 menu_build=$(mktemp "$HOME/.local/bin/.sb-menu-events.XXXXXX")
 trap 'rm -f "$menu_build"' EXIT HUP INT TERM
 xcrun swiftc -O "$HOME/.config/sketchybar/menu-bar-events.swift" -o "$menu_build"
 mv "$menu_build" "$HOME/.local/bin/sb-menu-events"
+menu_build=$(mktemp "$HOME/.local/bin/.sb-status-items.XXXXXX")
+xcrun swiftc -O "$HOME/.config/sketchybar/status-items.swift" -o "$menu_build"
+mv "$menu_build" "$HOME/.local/bin/sb-status-items"
 
 # Restart only our helper; a running bar reloads after its supervisor exits.
 pkill -x -u "$(id -u)" sb-menu-events || :

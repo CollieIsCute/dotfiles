@@ -62,9 +62,13 @@ for sid in 1 2 3 4 5 6 7 8 9 magic; do
             background.color="$PRIMARY" \
             background.drawing=off \
             click_script="aerospace workspace $sid" \
-            script="$PLUGIN_DIR/workspace.sh" \
-        --subscribe "space.$sid" aerospace_workspace_change
+            drawing=off
 done
+
+sketchybar --add item workspace.observer e \
+    --set workspace.observer drawing=off updates=on update_freq=2 \
+        script="$PLUGIN_DIR/workspace.sh" \
+    --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
 
 sketchybar --add bracket workspaces '/space\..*/' \
     --set workspaces \
@@ -85,9 +89,11 @@ sketchybar --add item volume right \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
 
 add_alias() {
-    # The query suffix is a changing list index, not part of a named window.
-    # Keep it only for unnamed items (Owner,(n)); named aliases can rebind natively.
-    source=$(printf '%s\n' "$1" | sed 's/\([^,]\)([0-9][0-9]*)$/\1/')
+    # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.
+    case "$1" in
+        *,Item-0\(*|*,\(*) source=$1 ;;
+        *) source=$(printf '%s\n' "$1" | sed 's/([0-9][0-9]*)$//') ;;
+    esac
     name=$2
     position=$3
     click_script=${4-}
@@ -105,58 +111,66 @@ add_alias() {
         click_script="$click_script"
 }
 
-# The query returns only currently available items. Missing apps or permissions
-# therefore leave the rest of the bar usable instead of failing startup.
-menu_items=$(sketchybar --query default_menu_items 2>/dev/null || :)
+# A zero-width anchor gives both provider icons one shared hover popup.
+sketchybar --add item codexbar left \
+    --set codexbar width=0 padding_left=0 padding_right=0 \
+        icon.drawing=off label.drawing=off \
+        popup.align=left popup.height=28 \
+        popup.background.color="0xff${CAPSULE#????}" \
+        popup.background.corner_radius=10 \
+        popup.background.border_width=1 \
+        popup.background.border_color="0x33${ON_SURFACE#????}" \
+        update_freq=60 script="$PLUGIN_DIR/codexbar.sh" \
+    --subscribe codexbar system_woke
+sketchybar --add item codexbar.status popup.codexbar \
+    --set codexbar.status width=330 icon.drawing=off \
+        label="CodexBar · 正在讀取…" label.color="$PRIMARY" \
+        label.padding_left=12 label.padding_right=12
+
+# Only Stats, CodexBar and the input source are included; there is no App tray.
+status_helper="$HOME/.local/bin/sb-status-items"
+menu_items=$("$status_helper" list) || menu_items='[]'
 printf '%s\n' "$menu_items" \
-    | sed -n 's/^[[:space:]]*"\(.*\)"[,[:space:]]*$/\1/p' \
+    | /usr/bin/jq -r '.[] | [.bundle, .source, .window, .help] | @tsv' \
     | (
-        index=0
-        codex_added=false
-        while IFS= read -r source; do
-            index=$((index + 1))
-            case "$source" in
-                CodexBar,*|*,codexbar-*)
-                    test "$codex_added" = false || continue
-                    add_alias "$source" codexbar left ''
-                    sketchybar --set codexbar \
-                        padding_left=5 \
-                        padding_right=5 \
+        while IFS="$(printf '\t')" read -r bundle source window help; do
+            click=$(/usr/bin/jq -nr --arg helper "$status_helper" --arg bundle "$bundle" --arg window "$window" \
+                '[$helper, "click", $bundle, $window] | @sh')
+            case "$bundle" in
+                com.steipete.codexbar)
+                    case "$window" in codexbar-codex|codexbar-claude) ;; *) continue ;; esac
+                    name="meter.${window#codexbar-}"
+                    add_alias "$source" "$name" left ''
+                    sketchybar --set "$name" \
                         alias.scale=1 \
-                        background.color="$CAPSULE" \
-                        background.drawing=on \
-                        popup.align=left \
-                        popup.height=28 \
+                        script="$PLUGIN_DIR/codexbar.sh" \
+                        --subscribe "$name" mouse.entered mouse.exited mouse.clicked
+                    ;;
+                eu.exelban.Stats)
+                    add_alias "$source" "stats.$window" right "$click"
+                    sketchybar --set "stats.$window" \
+                        popup.align=right popup.height=28 \
                         popup.background.color="0xff${CAPSULE#????}" \
-                        popup.background.corner_radius=10 \
+                        popup.background.corner_radius=6 \
                         popup.background.border_width=1 \
                         popup.background.border_color="0x33${ON_SURFACE#????}" \
-                        update_freq=60 \
-                        script="$PLUGIN_DIR/codexbar.sh" \
-                        --subscribe codexbar mouse.entered mouse.exited mouse.clicked system_woke
-                    sketchybar --add item codexbar.status popup.codexbar \
-                        --set codexbar.status \
-                            width=330 \
-                            icon.drawing=off \
-                            label="CodexBar · 正在讀取…" \
-                            label.color="$PRIMARY" \
-                            label.padding_left=12 \
-                            label.padding_right=12
-                    codex_added=true
+                        script="$PLUGIN_DIR/native-menu.sh" \
+                        --subscribe "stats.$window" mouse.entered mouse.exited mouse.clicked \
+                        --add item "hint.$window" "popup.stats.$window" \
+                        --set "hint.$window" icon.drawing=off \
+                            label="${help:-$window}" label.padding_left=10 label.padding_right=10
                     ;;
-                Stats,*Network*|*,Network_*|Stats,*CPU*|Stats,*GPU*|Stats,*RAM*|Stats,*Memory*|Stats,*Sensor*|*,CPU_*|*,GPU_*|*,RAM_*|*,Memory_*|*,Sensor*)
-                    add_alias "$source" "stats.$index" right 'open -a Stats'
-                    ;;
-                Stats,*|Karabiner-Console-User-Server,*|Control\ Center,*|Control\ Centre,*|SystemUIServer,*|Window\ Server,*|TextInputMenuAgent,*|*,Clock*|*,Siri*|*,BentoBox-*|*,WiFi*|*,Battery*|*,AudioVideoModule*|*,Item-*)
-                    ;;
-                *)
-                    add_alias "$source" "tray.$index" left ''
+                com.apple.TextInputMenuAgent)
+                    add_alias "$source" input_source right "$click"
+                    sketchybar --set input_source background.color="$CAPSULE" background.drawing=on \
+                        padding_left=5 padding_right=5 alias.scale=1 \
+                        --move input_source before volume
                     ;;
             esac
         done
     )
 
-for group in tray stats; do
+for group in meter stats; do
     sketchybar --add bracket "$group.group" "/$group\\..*/" \
         --set "$group.group" \
             padding_left=5 \

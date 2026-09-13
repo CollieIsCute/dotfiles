@@ -34,13 +34,13 @@
     <small>Collie's dotfiles · macOS · 更新 2026-09-13</small>
     <h1>SketchyBar 計畫</h1>
     <p>保留目前好用的原生列／SketchyBar 交替顯示。只補齊日常資訊，不重做 macOS 的選單和控制中心。</p>
-    <p class="muted">本輪狀態：實作中；下列驗收完成後才標示通過。</p>
+    <p class="muted">本輪狀態：已套用本機並完成下列功能驗收；安裝 CI 以 MR 最新 commit 的 checks 為準。</p>
   </header>
   <section aria-labelledby="layout-title">
     <h2 id="layout-title">目標配置</h2>
     <div class="layout">
-      <div class="region"><strong>左側</strong><span class="pill">App tray</span> <span class="pill">GPT 圖示＋用量 · Claude 圖示＋用量</span></div>
-      <div class="region"><strong>瀏海兩側</strong><span class="pill">月份／日期／時鐘</span> <span class="pill">1 2 3 4 5 6 7 8 9 M</span></div>
+      <div class="region"><strong>左側</strong><span class="pill">GPT 圖示＋用量 · Claude 圖示＋用量</span></div>
+      <div class="region"><strong>瀏海兩側</strong><span class="pill">月份／日期／時鐘</span> <span class="pill">有視窗的 workspace ＋目前所在 workspace</span></div>
       <div class="region"><strong>右側</strong><span class="pill">Stats：CPU · RAM · 感測器 · 網路</span> <span class="pill">音量</span> <span class="pill">目前輸入法</span></div>
     </div>
     <p class="muted">區域示意，不是完成截圖。Stats 只顯示實際啟用的模組，全部共用一個緊密背景框；GPT／Claude 同樣共用一組。透明列、高 36 pt、Matugen 半透明 capsule 與瀏海保留區不變。</p>
@@ -50,9 +50,9 @@
     <div class="table-wrap"><table>
       <thead><tr><th scope="col">項目</th><th scope="col">行為</th></tr></thead>
       <tbody>
-        <tr><td>App tray</td><td>顯示實際執行中的常駐 App 圖示，點擊開原生 status 選單；不是 File／Edit／Help 的移植。</td></tr>
+        <tr><td>Workspace</td><td>動態顯示有視窗的工作區；目前所在工作區即使空白也保留。其他空工作區隱藏，數字順序與 <code>magic → M</code> 不變；鍵盤仍能切到未顯示的工作區。</td></tr>
         <tr><td>GPT／Claude</td><td>同一組同時顯示兩個原生圖示與用量；hover 共用分格摘要與重置倒數；左鍵開原生詳細選單，右鍵刷新兩者。</td></tr>
-        <tr><td>Stats</td><td>重用原生資料與圖示，縮減空白、合成一組；點擊對應模組開原生詳細面板。</td></tr>
+        <tr><td>Stats</td><td>重用原生資料與圖示，縮減空白、合成一組。Hover 顯示 Stats 原生名稱提示（例如「CPU：線狀圖」），移開收起；點擊開對應詳細面板。</td></tr>
         <tr><td>輸入法</td><td>顯示目前輸入法的原生圖示，切換語言／中英文模式後同步。</td></tr>
         <tr><td>App 選單</td><td>游標到頂端，或 <kbd>Fn</kbd>＋<kbd>Control</kbd>＋<kbd>F2</kbd>，使用完整原生選單。</td></tr>
         <tr><td>控制中心</td><td><kbd>Fn</kbd>＋<kbd>C</kbd>。SketchyBar 不再放控制中心按鈕。</td></tr>
@@ -63,11 +63,12 @@
   <section aria-labelledby="tasks-title">
     <h2 id="tasks-title">本輪任務與驗收</h2>
     <ol>
-      <li><strong>精簡：</strong>移除控制中心按鈕及腳本分支，刪除舊方案比較與取消的待辦；保留目前交替功能。</li>
-      <li><strong>Tray／輸入法：</strong>修正 macOS 把圖示統一命名為 <code>Item-0</code> 所造成的遺漏；實測 App 圖示、點擊及輸入法切換。</li>
-      <li><strong>Stats：</strong>共用一個背景框並縮減 padding；實際點擊 CPU／RAM 驗證對應面板。</li>
-      <li><strong>雙 AI 圖示：</strong>使用 CodexBar 既有原生 meter，不新增圖片 renderer 或用量服務；實測兩端 hover／click 與倒數。</li>
-      <li><strong>交付：</strong>套用本機、擷取畫面；推送現有 <a href="https://github.com/CollieIsCute/dotfiles/pull/155">MR #155</a>，等待最新 commit 的四平台安裝 CI 全部通過。</li>
+      <li><strong>已驗收・精簡：</strong>控制中心按鈕與 App tray 均已移除；原生列從頂端出現／收起時，SketchyBar 交替隱藏／恢復。</li>
+      <li><strong>已驗收・輸入法：</strong>ABC 與唯音繁體之間切換，原生圖示同步變化，測試後已恢復原來來源。</li>
+      <li><strong>已驗收・Stats：</strong>共用一個緊密背景框；CPU／RAM／感測器／網路各有原生 hover 名稱提示，CPU／RAM 實際點擊開正確詳細面板。</li>
+      <li><strong>已驗收・雙 AI 圖示：</strong>兩個原生 meter 同組；兩端 hover 都能看 Codex／Claude 分格摘要及重置倒數，左鍵開各自的原生詳細選單。</li>
+      <li><strong>已驗收・動態 Workspace：</strong>專用測試視窗移至 9／<code>magic</code> 時顯示，移走／關閉後隱藏；目前空工作區仍顯示並高亮。事件更新加上每 2 秒校正，涵蓋背景視窗搬移。</li>
+      <li><strong>安裝 CI：</strong>沿用 <a href="https://github.com/CollieIsCute/dotfiles/pull/155">MR #155</a>；以最新 commit 的 macOS／Arch／Ubuntu／Windows 四平台 <a href="https://github.com/CollieIsCute/dotfiles/pull/155/checks">checks</a> 為交付依據。</li>
     </ol>
     <p>不新增功能測試腳本。CI 維持 <code>chezmoi init --apply -v</code> 的安裝驗證；介面在實機操作，不以 CI 綠燈代替功能驗收。</p>
     <p class="muted">外接螢幕、睡眠及重新登入屬實際使用驗收；未在本輪操作的情境不標記通過。</p>
@@ -76,7 +77,7 @@
     <h2 id="maintenance-title">維護邊界</h2>
     <p>App 擁有資料與詳細面板；SketchyBar 只負責排列、摘要及入口；Matugen 只更新配色。保留登入與授權設定，不存取或納管 token、cookie、帳號用量 JSON。</p>
     <p>安裝與權限步驟見 <a href="README.md#sketchybar-macos">README</a>；最新結果見 <a href="https://github.com/CollieIsCute/dotfiles/pull/155/checks">MR checks</a>。</p>
-    <p class="muted">依據：<a href="https://felixkratz.github.io/SketchyBar/config/components">SketchyBar bracket／alias</a>、<a href="https://github.com/steipete/CodexBar/blob/v0.60.1/Sources/CodexBar/PreferencesMenuBarPane.swift">CodexBar 原生圖示設定</a>。</p>
+    <p class="muted">依據：<a href="https://felixkratz.github.io/SketchyBar/config/components">SketchyBar bracket／alias</a>、<a href="https://github.com/steipete/CodexBar/blob/v0.60.1/Sources/CodexBar/PreferencesMenuBarPane.swift">CodexBar 原生圖示</a>、<a href="https://github.com/exelban/stats/blob/v3.0.15/Kit/module/widget.swift#L344">Stats 原生 tooltip</a>、<a href="https://nikitabobko.github.io/AeroSpace/commands#list-workspaces">AeroSpace 工作區查詢</a>。</p>
   </section>
 </main>
 </body>
