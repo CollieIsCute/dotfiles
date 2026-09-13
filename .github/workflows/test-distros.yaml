@@ -55,21 +55,10 @@ jobs:
     name: windows:latest + Arch WSL 2
     runs-on: windows-latest
     steps:
-      - name: Install chezmoi, bootstrap WSL 2 and apply dotfiles
+      - name: Install Windows + Arch WSL 2 and repeat apply
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
-          $binDir = Join-Path $env:RUNNER_TEMP "bin"
-          iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$binDir'"
-          $env:PATH = "$binDir;$env:PATH"
-          $chezmoi = Join-Path $binDir "chezmoi.exe"
-          # Test input only; the normal entry installs WSL and creates its user.
+          iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$env:RUNNER_TEMP/bin'"
           $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
           Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
-          "CHEZMOI_WSL_PASSWORD=$env:CHEZMOI_WSL_PASSWORD" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          & $chezmoi init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
-          if ($LASTEXITCODE -ne 0) { throw "Windows + WSL install failed." }
-      - name: Repeat the same Windows + WSL installation entry
-        run: |
-          $PSNativeCommandUseErrorActionPreference = $true
-          & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v
-          if ($LASTEXITCODE -ne 0) { throw "Repeated Windows + WSL install failed." }
+          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v && & "$env:RUNNER_TEMP/bin/chezmoi.exe" apply -v

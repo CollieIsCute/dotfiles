@@ -14,7 +14,7 @@ Personal dotfiles managed with [chezmoi](https://chezmoi.io). One repo, several 
 chezmoi init --apply collieiscute -v
 ```
 
-### Windows + WSL: one entry point
+### Windows + Arch WSL 2
 
 From a normal PowerShell terminal (with GitHub SSH access already configured):
 
@@ -22,77 +22,22 @@ From a normal PowerShell terminal (with GitHub SSH access already configured):
 chezmoi init --ssh --apply collieiscute -v
 ```
 
-For an existing checkout, just run `chezmoi apply -v` on Windows. It applies Windows
-first, then invokes Linux chezmoi in the default WSL 2 distribution. Git uses SSH;
-no credential helper or copying SSH private keys into WSL is required.
+This installs Windows dotfiles and Arch on WSL 2. An existing default WSL
+distribution must be Arch on WSL 2, with a normal user able to run `sudo`.
+Enter the Linux password when prompted. If Windows requests administrator
+approval or a reboot, complete it and rerun the same command.
 
-| Windows owns | WSL owns |
-|---|---|
-| Scoop, GUI apps, Alacritty, VS Code, voice, Matugen | apt/paru, fish, tmux, Neovim, AI CLIs and plugins |
+Update both environments from Windows with `chezmoi apply -v`.
 
-Alacritty opens fish in WSL. Native Neovim/ripgrep remain on Windows for Neovide;
-GCC/Rust remain there to build Matugen. Previously installed Windows CLIs are not
-uninstalled automatically.
+Optional: set `CHEZMOI_WSL_USER` to choose the initial Linux username.
+For unattended installs, set `CHEZMOI_WSL_PASSWORD`; do not store a real password
+in your profile or repo.
 
-On the **first `init --apply`**, chezmoi automatically runs
-[run_after_7-apply-wsl.ps1.tmpl](home/.chezmoiscripts/run_after_7-apply-wsl.ps1.tmpl)
-after the Windows setup. This hook only calls
-[scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1), which owns the entire WSL
-bootstrap through Linux chezmoi apply. It calls [scripts/bootstrap-wsl.sh](scripts/bootstrap-wsl.sh)
-for root-only account setup when needed, then again as the normal user to apply
-dotfiles. Plain `chezmoi init` without `--apply` only initializes the checkout;
-it does not install either environment.
-The bootstrap prepares WSL's prerequisites and installs official Arch Linux as WSL 2 only when no
-distribution is registered. A failed distribution listing or launch stops the
-bootstrap; it does not trigger another distro installation. Windows may require
-administrator approval and a reboot; rerun the same command after reboot.
-In the same invocation, a root-only distribution gets a normal Linux account,
-password-authenticated sudo and that account as its default user, then Linux
-chezmoi applies the Unix dotfiles. No separate WSL setup or second apply is required.
-Existing default distributions are preserved; they must be Ubuntu or Arch on
-WSL 2, with a normal user able to run `sudo`. No automatic reboot or distro
-conversion is performed. See [Microsoft's WSL setup](https://learn.microsoft.com/en-us/windows/wsl/install).
+To apply only inside WSL:
 
-#### Linux account setup
-
-The [official Arch WSL image](https://wiki.archlinux.org/title/Install_Arch_Linux_on_WSL)
-starts as root; unlike Ubuntu, it does not create your user interactively.
-The bootstrap handles this: it runs Arch's own first-setup script if the pacman
-keyring is missing and creates a Linux account using your lowercased Windows
-username. Set `CHEZMOI_WSL_USER` before the Windows entry if you need a different
-valid Linux username. Enter the Linux password when prompted; sudo still requires
-authentication. Existing non-root default users and existing passwords are preserved.
-
-For unattended runs, `CHEZMOI_WSL_PASSWORD` supplies the new account's password and
-sudo's native askpass input. Do not save a real password in your profile or repo.
-This mode uses `setsid --wait` so WSL's terminal cannot capture sudo's password prompt;
-normal interactive installs keep their terminal.
-CI supplies only a masked, random test password and invokes the same
-`chezmoi init --apply -v` entry; it does not pre-install WSL or create users itself.
-Its second apply checks repeatability, not an extra endpoint installation step.
-CI runs installation only: no separate template tests, tool probes or OpenWhispr
-checks. Plugin installation stays in the normal flow; plugin and application
-functionality must be tested locally, not by CI.
-
-Existing Ubuntu users keep their current
-setup and use apt; new Arch installs use pacman/paru. Arch's rolling-release
-maintenance requirements still apply; choosing WSL 2 does not make it an LTS
-distribution. The official Arch WSL image currently targets x64; no automatic
-Ubuntu or WSL 1 fallback is provided.
-
-#### Shared checkout
-
-Both applies read the same Windows checkout through `/mnt/c/...`; each keeps its
-own HOME, caches, binaries and chezmoi state. Keep Linux projects under `~/`, not
-on `/mnt/c`. No extra filesystem mount or HOME symlink is needed. The Windows
-entry passes `--source` explicitly; it does not replace an existing WSL chezmoi
-checkout or configuration. For a WSL-only apply, use
-`chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply` inside WSL.
-
-WSL uses [chezmoi's native kernel data](https://www.chezmoi.io/user-guide/machines/windows/)
-to skip Linux desktop, greeter, input-method and voice setup. Existing Unix
-scripts still install fish and sync AI plugins; there is no parallel PowerShell
-implementation. CLI themes use terminal/default colors without Noctalia.
+```sh
+chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply
+```
 
 ## Supported platforms
 
