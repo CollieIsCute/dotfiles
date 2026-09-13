@@ -29,6 +29,10 @@ try {
         throw "The default distribution must use WSL 2. Check 'wsl --list --verbose', convert it with 'wsl --set-version <name> 2', then rerun this bootstrap."
     }
 
+    # Both Linux stages use the same script and mounted checkout.
+    $repo = & wsl.exe --user root --exec wslpath -a $checkout
+    if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
+    $repo = ($repo -join "").Trim()
     $uid = & wsl.exe --exec id -u
     if ($LASTEXITCODE -ne 0) { throw "Cannot determine the default WSL user." }
     if (($uid -join "").Trim() -eq "0") {
@@ -39,18 +43,12 @@ try {
         $distro = & wsl.exe --user root --exec printenv WSL_DISTRO_NAME
         if ($LASTEXITCODE -ne 0) { throw "Cannot determine the default WSL distribution." }
         $distro = ($distro -join "").Trim()
-        $setup = & wsl.exe --user root --exec wslpath -a (Join-Path $PSScriptRoot 'bootstrap-wsl-user.sh')
-        if ($LASTEXITCODE -ne 0) { throw "Cannot access the WSL user bootstrap." }
-        & wsl.exe --user root --exec bash ($setup -join "").Trim() $linuxUser
+        & wsl.exe --user root --exec bash "$repo/scripts/bootstrap-wsl.sh" $repo $linuxUser
         if ($LASTEXITCODE -ne 0) { throw "WSL user setup failed with exit code $LASTEXITCODE." }
         & wsl.exe --manage $distro --set-default-user $linuxUser
         if ($LASTEXITCODE -ne 0) { throw "Cannot set the default WSL user." }
     }
 
-    # Pass paths as arguments; never interpolate them into a shell command.
-    $repo = & wsl.exe --exec wslpath -a $checkout
-    if ($LASTEXITCODE -ne 0) { throw "Cannot access the dotfiles checkout from WSL." }
-    $repo = ($repo -join "").Trim()
     # WSL can provide a terminal even in CI; detach only for unattended input.
     [string[]]$linuxCommand = if ($env:CHEZMOI_WSL_PASSWORD) { @('setsid', '--wait', 'bash') } else { @('bash') }
     & wsl.exe --cd '~' --exec @linuxCommand "$repo/scripts/bootstrap-wsl.sh" $repo

@@ -38,8 +38,10 @@ On the **first `init --apply`**, chezmoi automatically runs
 [run_after_7-apply-wsl.ps1.tmpl](home/.chezmoiscripts/run_after_7-apply-wsl.ps1.tmpl)
 after the Windows setup. This hook only calls
 [scripts/bootstrap-wsl.ps1](scripts/bootstrap-wsl.ps1), which owns the entire WSL
-bootstrap through Linux chezmoi apply. Plain `chezmoi init` without `--apply` only
-initializes the checkout; it does not install either environment.
+bootstrap through Linux chezmoi apply. It calls [scripts/bootstrap-wsl.sh](scripts/bootstrap-wsl.sh)
+for root-only account setup when needed, then again as the normal user to apply
+dotfiles. Plain `chezmoi init` without `--apply` only initializes the checkout;
+it does not install either environment.
 The bootstrap prepares WSL's prerequisites and installs official Arch Linux as WSL 2 only when no
 distribution is registered. A failed distribution listing or launch stops the
 bootstrap; it does not trigger another distro installation. Windows may require
