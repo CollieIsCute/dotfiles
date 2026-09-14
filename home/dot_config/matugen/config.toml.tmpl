@@ -19,6 +19,11 @@ output_path = "~/.config/ghostty/themes/noctalia"
 input_path = "~/.config/matugen/templates/tmux/tmux.conf"
 output_path = "~/.config/tmux/themes/noctalia.conf"
 post_hook = 'bash "$HOME/.config/matugen/templates/tmux/apply.sh"'
+
+[templates.sketchybar]
+input_path = "~/.config/sketchybar/colors.sh.tera"
+output_path = "~/.config/sketchybar/colors.sh"
+post_hook = 'command -v sketchybar >/dev/null 2>&1 && sketchybar --reload || true'
 {{ else -}}
 [templates.alacritty]
 input_path = "~/.config/matugen/templates/matugen-themes/alacritty.toml"
