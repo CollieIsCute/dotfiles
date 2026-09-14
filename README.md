@@ -49,12 +49,12 @@ chezmoi theme IMAGE
 
 ## SketchyBar (macOS)
 
-After the first `chezmoi apply`:
+After the first `chezmoi apply`, AeroSpace opens automatically:
 
-1. Open CodexBar and Stats. In CodexBar, enable Codex with OAuth and Claude with CLI, and select an icon-and-percentage style. Relaunch CodexBar if it was already open during apply. In Stats, enable the items you want displayed.
-2. Under **System Settings → Privacy & Security**, allow AeroSpace in **Screen & System Audio Recording** and **Accessibility**. If launching SketchyBar from a terminal, allow that terminal too.
+1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
+2. Open CodexBar and Stats. In CodexBar, enable Codex with OAuth and Claude with CLI, and select an icon-and-percentage style. Relaunch CodexBar if it was already open during apply. In Stats, enable the items you want displayed.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
-4. After granting permissions, quit SketchyBar and restart AeroSpace. Reloading SketchyBar alone does not apply new permissions.
+4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
 
 Daily use:
 
