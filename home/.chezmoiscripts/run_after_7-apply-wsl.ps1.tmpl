@@ -1,0 +1,3 @@
+$ErrorActionPreference = "Stop"
+# Runs automatically on the first init --apply and every later Windows apply.
+& (Join-Path '{{ .chezmoi.workingTree | replace "'" "''" }}' 'scripts/bootstrap-wsl.ps1')
