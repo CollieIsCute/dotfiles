@@ -17,6 +17,18 @@ config-version = 2
 start-at-login = true
 # auto-reload-config = true  # NOTE: requires AeroSpace > v0.20.2-Beta (not yet released)
 
+after-startup-command = [
+    'exec-and-forget open -gja CodexBar',
+    'exec-and-forget open -gja Stats',
+    # ponytail: one delayed reload covers login-item startup; add an app event helper only if three seconds proves insufficient.
+    # --reload returns success even without a running bar; check the process first.
+    'exec-and-forget /bin/sh -c "sleep 3; if pgrep -x sketchybar >/dev/null; then sketchybar --reload; else sketchybar; fi"',
+]
+
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
 # Neutralize macOS "Hide Application" (Cmd+H) since we use Cmd+H for focus
 # AeroSpace intercepts Cmd+H before macOS, but if somehow an app hides, this unhides it
 automatically-unhide-macos-hidden-apps = true
@@ -41,7 +53,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     inner.vertical =   0
     outer.left =       0
     outer.bottom =     0
-    outer.top =        0
+    outer.top =        36
     outer.right =      0
 
 # ────────────────────────────────────────
