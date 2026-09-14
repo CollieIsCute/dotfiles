@@ -7,6 +7,8 @@
 .config/brew/**
 .config/karabiner
 .config/karabiner/**
+.config/sketchybar
+.config/sketchybar/**
 Library
 Library/**
 {{- end }}

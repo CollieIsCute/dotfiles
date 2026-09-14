@@ -1,0 +1,176 @@
+#!/bin/sh
+
+CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+# Brackets absorb member padding; normal capsules own the full gap on the left.
+# https://github.com/FelixKratz/SketchyBar/blob/v2.24.0/src/group.c
+CAPSULE_GAP=8
+
+# Safe first-run palette; Matugen replaces it and reloads the bar.
+TRANSPARENT=0x00000000
+CAPSULE=0x4d303034
+ON_SURFACE=0xfff2f0f4
+PRIMARY=0xffd0bcff
+ON_PRIMARY=0xff381e72
+test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
+
+sketchybar --bar \
+    position=top \
+    height=36 \
+    notch_width=200 \
+    y_offset=0 \
+    topmost=off \
+    color="$TRANSPARENT" \
+    shadow=off \
+    corner_radius=0 \
+    margin=0 \
+    padding_left="$CAPSULE_GAP" \
+    padding_right="$CAPSULE_GAP" \
+    display=all
+
+sketchybar --default \
+    icon.font="JetBrainsMono Nerd Font:Regular:14.0" \
+    label.font="JetBrainsMono Nerd Font:Regular:13.0" \
+    icon.color="$ON_SURFACE" \
+    label.color="$ON_SURFACE" \
+    icon.padding_left=6 \
+    icon.padding_right=4 \
+    label.padding_left=4 \
+    label.padding_right=6 \
+    background.height=27 \
+    background.corner_radius=9 \
+    background.shadow.drawing=off \
+    popup.height=28 \
+    popup.background.color="0xff${CAPSULE#????}" \
+    popup.background.border_width=1 \
+    popup.background.border_color="0x33${ON_SURFACE#????}" \
+    padding_left=2 \
+    padding_right=2
+
+sketchybar --add event aerospace_workspace_change
+
+# q/e anchor to either side of the notch instead of drawing through its center.
+sketchybar --add item clock q \
+    --set clock update_freq=1 script="$PLUGIN_DIR/clock.sh"
+
+for sid in 1 2 3 4 5 6 7 8 9 magic; do
+    label=$sid
+    test "$sid" = magic && label=M
+    sketchybar --add item "space.$sid" e \
+        --set "space.$sid" \
+            icon="$label" \
+            icon.highlight_color="$ON_PRIMARY" \
+            label.drawing=off \
+            background.color="$PRIMARY" \
+            background.drawing=off \
+            click_script="aerospace workspace $sid" \
+            drawing=off
+done
+
+sketchybar --add item workspace.observer e \
+    --set workspace.observer drawing=off updates=on update_freq=2 \
+        script="$PLUGIN_DIR/workspace.sh" \
+    --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
+
+sketchybar --add bracket workspaces '/space\..*/'
+
+sketchybar --add item volume right \
+    --set volume script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
+
+add_alias() {
+    # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.
+    case "$1" in
+        *,Item-0\(*|*,\(*) source=$1 ;;
+        *) source=$(printf '%s\n' "$1" | sed 's/([0-9][0-9]*)$//') ;;
+    esac
+    sketchybar --add alias "$source" "$3" || return 0
+    sketchybar --rename "$source" "$2" --set "$2" "click_script=${4-}"
+}
+
+# A zero-width anchor gives both provider icons one shared hover popup.
+sketchybar --add item codexbar left \
+    --set codexbar width=0 padding_left=0 padding_right=0 \
+        icon.drawing=off label.drawing=off \
+        popup.align=left \
+        popup.background.corner_radius=10 \
+        update_freq=60 script="$PLUGIN_DIR/codexbar.sh" \
+    --subscribe codexbar system_woke
+sketchybar --add item codexbar.status popup.codexbar \
+    --set codexbar.status width=330 icon.drawing=off \
+        label="CodexBar · 正在讀取…" label.color="$PRIMARY" \
+        label.padding_left=12 label.padding_right=12
+
+# Only Stats, CodexBar and the input source are included; there is no App tray.
+status_helper="$HOME/.local/bin/sb-status-items"
+menu_items=$("$status_helper" list) || menu_items='[]'
+printf '%s\n' "$menu_items" \
+    | /usr/bin/jq -r '.[] | [.bundle, .source, .window, .help] | @tsv' \
+    | (
+        while IFS="$(printf '\t')" read -r bundle source window help; do
+            click=$(/usr/bin/jq -nr --arg helper "$status_helper" --arg bundle "$bundle" --arg window "$window" \
+                '[$helper, "click", $bundle, $window] | @sh')
+            case "$bundle" in
+                com.steipete.codexbar)
+                    case "$window" in codexbar-codex|codexbar-claude) ;; *) continue ;; esac
+                    name="meter.${window#codexbar-}"
+                    add_alias "$source" "$name" left ''
+                    sketchybar --set "$name" \
+                        script="$PLUGIN_DIR/native-menu.sh" \
+                        --subscribe "$name" mouse.entered mouse.exited mouse.clicked
+                    ;;
+                eu.exelban.Stats)
+                    add_alias "$source" "stats.$window" right "$click"
+                    sketchybar --set "stats.$window" \
+                        popup.align=right \
+                        popup.background.corner_radius=6 \
+                        script="$PLUGIN_DIR/native-menu.sh" \
+                        --subscribe "stats.$window" mouse.entered mouse.exited mouse.clicked \
+                        --add item "hint.$window" "popup.stats.$window" \
+                        --set "hint.$window" icon.drawing=off \
+                            label="${help:-$window}" label.padding_left=10 label.padding_right=10
+                    ;;
+                com.apple.TextInputMenuAgent)
+                    add_alias "$source" input_source right "$click"
+                    sketchybar --move input_source before volume
+                    ;;
+            esac
+        done
+    )
+
+# Style aliases before adding their brackets, which absorb member padding.
+# Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
+for aliases in '/^meter\./' '/^stats\./' '/^input_source$/'; do
+    sketchybar --set "$aliases" icon.drawing=off label.drawing=off \
+        padding_left=1 padding_right=1 alias.scale=0.82 alias.update_freq=2
+done
+sketchybar --set '/^meter\./' alias.scale=0.85 padding_left=0 padding_right=0 \
+    --set '/^input_source$/' alias.scale=1
+for group in meter stats; do
+    sketchybar --add bracket "$group.group" "/$group\\..*/"
+done
+for capsule in clock volume '/^input_source$/' workspaces '/\.group$/'; do
+    sketchybar --set "$capsule" background.color="$CAPSULE" background.drawing=on
+done
+for capsule in clock volume '/^input_source$/'; do
+    sketchybar --set "$capsule" padding_left="$CAPSULE_GAP" padding_right=0
+done
+
+sketchybar --update
+
+# One event listener survives reloads; the lock covers its fail-open supervisor.
+menu_helper="$HOME/.local/bin/sb-menu-events"
+# macOS pgrep excludes ancestors unless -a is set; the bar launches this rc.
+# Clients share its name, so select the oldest instance including our parent.
+bar_pid=$(pgrep -a -o -x -u "$(id -u)" sketchybar)
+if test -x "$menu_helper" && test -n "$bar_pid"; then
+    mkdir -p "$HOME/.cache/sketchybar"
+    lockf -kst 0 "$HOME/.cache/sketchybar/menu-events.lock" /bin/sh -c '
+        "$1" watch "$2" "$3"
+        "$2" --bar hidden=off
+    ' sh "$menu_helper" "$(command -v sketchybar)" "$bar_pid" &
+    "$menu_helper" sync "$(command -v sketchybar)" "$bar_pid"
+else
+    sketchybar --bar hidden=off
+    printf '%s\n' 'SketchyBar menu coordination is unavailable; run chezmoi apply.' >&2
+fi

@@ -1,0 +1,7 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+# Two upstream meters share one SketchyBar group and hover summary.
+# CodexBar reads this setting on launch; no account preferences are changed.
+defaults write com.steipete.codexbar mergeIcons -bool false
+{{- end }}
