@@ -7,3 +7,6 @@ tmux-client-*.log
 .opencode/bun.lock
 .opencode/opencode-loop/
 /sketchybar-plan.html
+/plan.html
+/test/
+/tests/
