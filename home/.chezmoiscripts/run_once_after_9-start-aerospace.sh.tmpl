@@ -1,0 +1,9 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+
+# AeroSpace requests Accessibility before starting SketchyBar; CI has no GUI setup.
+if test -z "${CI:-}"; then
+    /usr/bin/open -gja AeroSpace
+fi
+{{- end }}
