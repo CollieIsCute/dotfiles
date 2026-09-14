@@ -41,7 +41,7 @@ filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -
 {{ end -}}
 {{ end -}}
 
-{{ if eq .chezmoi.os "linux" -}}
+{{ if and (eq .chezmoi.os "linux") (not (includeTemplate "is_wsl" . | fromJson)) -}}
 [".local/libexec/openwhispr"]
 type = "archive"
 url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-x64.tar.gz" | quote }}

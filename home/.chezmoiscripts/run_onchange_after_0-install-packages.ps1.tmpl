@@ -13,7 +13,10 @@ function Invoke-Scoop {
     }
 }
 
-Invoke-Scoop install main/git
+# Install aria2 before the bulk package list. Scoop automatically uses it for
+# large downloads, which avoids Windows PowerShell's single-connection downloader
+# stalling indefinitely on assets such as QMK Toolbox.
+Invoke-Scoop install main/git main/aria2
 Invoke-Scoop update
 
 foreach ($bucket in @("extras", "games", "nerd-fonts")) {
@@ -32,13 +35,28 @@ $packages = @(
 
 Invoke-Scoop install @packages
 
-$cargoBin = Join-Path $scoopRoot "apps\rustup-msvc\current\.cargo\bin"
-& (Join-Path $cargoBin "rustup.exe") default stable
-if ($LASTEXITCODE -ne 0) { throw "rustup default stable failed with exit code $LASTEXITCODE." }
-& (Join-Path $cargoBin "cargo.exe") install matugen --locked
+$cargoHome = [Environment]::GetEnvironmentVariable("CARGO_HOME", "User")
+$rustupHome = [Environment]::GetEnvironmentVariable("RUSTUP_HOME", "User")
+if (!$cargoHome) { $cargoHome = Join-Path $scoopRoot "persist\rustup-msvc\.cargo" }
+if (!$rustupHome) { $rustupHome = Join-Path $scoopRoot "persist\rustup-msvc\.rustup" }
+
+# Environment changes made by Scoop do not propagate back into this running
+# chezmoi process, so refresh them explicitly. The GNU target plus Scoop's GCC
+# provides a user-space linker and does not require Visual Studio Build Tools.
+$env:CARGO_HOME = $cargoHome
+$env:RUSTUP_HOME = $rustupHome
+$env:Path = "$(Join-Path $scoopRoot 'apps\gcc\current\bin');$(Join-Path $cargoHome 'bin');$env:Path"
+
+$rustup = Join-Path $cargoHome "bin\rustup.exe"
+$cargo = Join-Path $cargoHome "bin\cargo.exe"
+$gnuToolchain = "stable-x86_64-pc-windows-gnu"
+$localRoot = Join-Path $env:USERPROFILE ".local"
+$localBin = Join-Path $localRoot "bin"
+& $rustup toolchain install $gnuToolchain
+if ($LASTEXITCODE -ne 0) { throw "rustup toolchain install $gnuToolchain failed with exit code $LASTEXITCODE." }
+& $cargo "+$gnuToolchain" install matugen --locked --root $localRoot
 if ($LASTEXITCODE -ne 0) { throw "cargo install matugen failed with exit code $LASTEXITCODE." }
 
-$localBin = Join-Path $env:USERPROFILE ".local\bin"
 $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 if ($localBin -notin ($userPath -split ";")) {
     [Environment]::SetEnvironmentVariable("Path", $(if ($userPath) { "$userPath;$localBin" } else { $localBin }), "User")

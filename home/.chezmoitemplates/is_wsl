@@ -1,0 +1,1 @@
+{{- and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
