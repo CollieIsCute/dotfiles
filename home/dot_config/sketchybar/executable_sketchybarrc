@@ -103,6 +103,8 @@ sketchybar --add item codexbar.status popup.codexbar \
 
 # Only Stats, CodexBar and the input source are included; there is no App tray.
 status_helper="$HOME/.local/bin/sb-status-items"
+# Request Screen Recording before missing permissions can hide native items.
+sketchybar --query default_menu_items >/dev/null
 menu_items=$("$status_helper" list) || menu_items='[]'
 printf '%s\n' "$menu_items" \
     | /usr/bin/jq -r '.[] | [.bundle, .source, .window, .help] | @tsv' \
