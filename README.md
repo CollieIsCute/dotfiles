@@ -2,7 +2,7 @@
 
 ## Install
 
-On macOS, Arch Linux, Ubuntu / Debian / Linux Mint, or Windows:
+On macOS, Arch Linux, or Ubuntu:
 
 ```bash
 chezmoi init --apply collieiscute -v
@@ -12,6 +12,31 @@ Apply local configuration changes:
 
 ```bash
 chezmoi apply -v
+```
+
+### Windows + Arch WSL 2
+
+From a normal PowerShell terminal (with GitHub SSH access already configured):
+
+```powershell
+chezmoi init --ssh --apply collieiscute -v
+```
+
+This installs Windows dotfiles and Arch on WSL 2. An existing default WSL
+distribution must be Arch on WSL 2, with a normal user able to run `sudo`.
+Enter the Linux password when prompted. If Windows requests administrator
+approval or a reboot, complete it and rerun the same command.
+
+Update both environments from Windows with `chezmoi apply -v`.
+
+Optional: set `CHEZMOI_WSL_USER` to choose the initial Linux username.
+For unattended installs, set `CHEZMOI_WSL_PASSWORD`; do not store a real password
+in your profile or repo.
+
+To apply only inside WSL:
+
+```sh
+chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply
 ```
 
 ## Theme
