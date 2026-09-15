@@ -52,7 +52,7 @@ chezmoi theme IMAGE
 After the first `chezmoi apply`, AeroSpace opens automatically:
 
 1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
-2. Open CodexBar and Stats. Sign in to the providers you use (defaults: Codex OAuth, Claude CLI), disable unused providers in CodexBar, and select an icon-and-percentage style. Relaunch CodexBar if it was already open during apply. Stats starts with CPU, RAM, sensors, and network speed; customize its modules in Stats settings.
+2. Open CodexBar and Stats. In CodexBar, enable and sign in to the providers you use, disable unused providers, and select an icon-and-percentage style. Applying dotfiles preserves these toggles, sets existing Codex to OAuth and Claude to CLI, and adds no missing providers. Relaunch CodexBar if it was already open during apply. Stats starts with CPU, RAM, sensors, and network speed; customize its modules in Stats settings.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
 4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
 
