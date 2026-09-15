@@ -2,13 +2,20 @@
 {{- $config := fromJson (default "{\"version\":1,\"providers\":[]}" .chezmoi.stdin) -}}
 {{- $providers := list -}}
 {{- $sourceByID := dict "codex" "oauth" "claude" "cli" -}}
+{{- $seen := dict -}}
 {{- range $provider := (get $config "providers" | default (list)) -}}
   {{- $source := get $sourceByID (get $provider "id") -}}
   {{- if $source -}}
-    {{- $_ := set $provider "enabled" true -}}
-    {{- $_ := set $provider "source" $source -}}
+    {{- $_ := set $seen (get $provider "id") true -}}
+    {{- if not (hasKey $provider "enabled") -}}{{- $_ := set $provider "enabled" true -}}{{- end -}}
+    {{- if not (hasKey $provider "source") -}}{{- $_ := set $provider "source" $source -}}{{- end -}}
   {{- end -}}
   {{- $providers = append $providers $provider -}}
+{{- end -}}
+{{- range $id := list "codex" "claude" -}}
+  {{- if not (hasKey $seen $id) -}}
+    {{- $providers = append $providers (dict "id" $id "enabled" true "source" (get $sourceByID $id)) -}}
+  {{- end -}}
 {{- end -}}
 {{- $_ := set $config "providers" $providers -}}
 {{ toJson $config }}

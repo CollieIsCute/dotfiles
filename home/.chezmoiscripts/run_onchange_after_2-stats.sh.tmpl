@@ -1,0 +1,21 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+
+# Stats caches UserDefaults; close it before applying the four-module profile.
+if test -z "${CI:-}" && pgrep -x Stats >/dev/null; then
+    /usr/bin/osascript -e 'tell application "Stats" to quit'
+    trap '/usr/bin/open -gja Stats' EXIT
+fi
+for module in CPU RAM Sensors Network; do
+    defaults write eu.exelban.Stats "${module}_state" -bool true
+done
+defaults write eu.exelban.Stats CPU_widget -string line_chart
+defaults write eu.exelban.Stats RAM_widget -string tachometer
+defaults write eu.exelban.Stats Sensors_widget -string mini
+defaults write eu.exelban.Stats Network_widget -string speed
+defaults write eu.exelban.Stats CombinedModules -bool false
+defaults write eu.exelban.Stats pause -bool false
+# The first-run wizard otherwise delays mounting all menu items.
+defaults write eu.exelban.Stats setupProcess -bool true
+{{- end }}

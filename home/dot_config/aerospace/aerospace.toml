@@ -20,9 +20,8 @@ start-at-login = true
 after-startup-command = [
     'exec-and-forget open -gja CodexBar',
     'exec-and-forget open -gja Stats',
-    # ponytail: one delayed reload covers login-item startup; add an app event helper only if three seconds proves insufficient.
     # --reload returns success even without a running bar; check the process first.
-    'exec-and-forget /bin/sh -c "sleep 3; if pgrep -x sketchybar >/dev/null; then sketchybar --reload; else sketchybar; fi"',
+    'exec-and-forget /bin/sh -c "if pgrep -x sketchybar >/dev/null; then sketchybar --reload; else sketchybar; fi"',
 ]
 
 exec-on-workspace-change = ['/bin/bash', '-c',
