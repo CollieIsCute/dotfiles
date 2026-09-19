@@ -36,6 +36,8 @@ AppData/**
 .config/mimeapps.list
 .config/noctalia
 .config/noctalia/**
+.local/state/noctalia
+.local/state/noctalia/**
 .config/open-whispr
 .config/open-whispr/**
 .local/share/applications

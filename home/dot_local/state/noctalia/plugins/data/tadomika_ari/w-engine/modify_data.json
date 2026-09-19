@@ -1,0 +1,10 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* automute 會開 PipeWire 連線卻不讀，塞爆後整個音訊堆疊不收新 client */ -}}
+{{- /* data.json 是外掛會改寫的狀態檔，所以只強制這個 key */ -}}
+{{- $data := fromJson (default "{}" .chezmoi.stdin) -}}
+{{- $defaults := get $data "defaults" | default dict -}}
+{{- $engine := get $defaults "engine" | default dict -}}
+{{- $_ := set $engine "noautomute" true -}}
+{{- $_ := set $defaults "engine" $engine -}}
+{{- $_ := set $data "defaults" $defaults -}}
+{{ toJson $data }}
