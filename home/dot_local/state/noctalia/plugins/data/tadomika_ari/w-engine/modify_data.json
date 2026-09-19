@@ -1,0 +1,23 @@
+{{- /* linux-wallpaperengine 的 automute（預設開啟）會建立                    */ -}}
+{{- /* PulseAudioPlayingDetector 常駐監看有沒有其他程式在播音訊。它訂閱了     */ -}}
+{{- /* 事件卻不消化，佇列塞爆後整個 PipeWire 不再接受新 client：pactl、      */ -}}
+{{- /* wpctl、pw-cli 全部 hang，已在播的照常，新開的 app 全部拿不到音訊。    */ -}}
+{{- /*                                                                       */ -}}
+{{- /* 因果已用 SIGKILL 驗證：殺掉這三個行程後 PipeWire 未重啟即自行恢復。   */ -}}
+{{- /* 最小修法是 --noautomute，三次開機對照：                               */ -}}
+{{- /*   --volume 0                        → 約 +120s 塞爆                   */ -}}
+{{- /*   --volume 0 --no-audio-processing  → 約 +120s 塞爆                   */ -}}
+{{- /*   --volume 0 --noautomute           → 430s 全程乾淨                   */ -}}
+{{- /*                                                                       */ -}}
+{{- /* --no-audio-processing 對這台是 no-op：它關的 Recorder 還要桌布宣告    */ -}}
+{{- /* supportsAudioProcessing 才會建立，video 類桌布不宣告，本來就是空殼。  */ -}}
+{{- /* 見 WallpaperApplication.cpp:689 setupAudio()。                        */ -}}
+{{- /*                                                                       */ -}}
+{{- /* 這是狀態檔，外掛會持續改寫，所以用 modify_ 只強制這一個 key。         */ -}}
+{{- $data := fromJson (default "{}" .chezmoi.stdin) -}}
+{{- $defaults := get $data "defaults" | default dict -}}
+{{- $engine := get $defaults "engine" | default dict -}}
+{{- $_ := set $engine "noautomute" true -}}
+{{- $_ := set $defaults "engine" $engine -}}
+{{- $_ := set $data "defaults" $defaults -}}
+{{ toJson $data }}
