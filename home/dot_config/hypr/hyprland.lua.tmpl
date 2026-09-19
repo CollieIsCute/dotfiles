@@ -73,7 +73,6 @@ hl.on("hyprland.start", function()
     )
     -- Run Dropbox without its optional tray UI.
     hl.exec_cmd("/usr/bin/sh -lc 'if command -v dropbox-cli >/dev/null 2>&1; then exec env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start; fi'")
-    hl.exec_cmd("blueman-applet")
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("noctalia")
 end)

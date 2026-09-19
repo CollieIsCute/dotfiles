@@ -152,7 +152,7 @@ capsule_opacity = 0.3
 color = "on_surface"
 start = ["tray", "w-engine", "codexbar-meter", "media"]
 center = ["clock", "workspaces"]
-end = ["volume", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
+end = ["volume", "bluetooth", "group:net-status", "group:sys-status", "notifications", "clipboard", "session"]
 
 [[bar.main.capsule_group]]
 id = "net-status"
