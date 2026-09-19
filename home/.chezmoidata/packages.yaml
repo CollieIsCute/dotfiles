@@ -42,7 +42,6 @@ packages:
       - zoxide
     desktop:
       - adw-gtk-theme
-      - blueman
       - bluez-utils
       - brave-origin-bin
       - catppuccin-cursors-mocha
