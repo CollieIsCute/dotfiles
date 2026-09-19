@@ -46,7 +46,6 @@ packages:
       - brave-origin-bin
       - catppuccin-cursors-mocha
       - dropbox-cli
-      - fcitx5-chewing
       - fcitx5-configtool
       - fcitx5-gtk
       - fcitx5-mcbopomofo-git
