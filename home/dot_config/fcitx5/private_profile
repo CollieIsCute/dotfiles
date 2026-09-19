@@ -4,25 +4,20 @@ Name=Default
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=chewing
+DefaultIM=mcbopomofo
 
 [Groups/0/Items/0]
 # Name
 Name=keyboard-us
 # Layout
-Layout=
+# Layout=
 
 [Groups/0/Items/1]
 # Name
-Name=chewing
-# Layout
-Layout=
-
-[Groups/0/Items/2]
-# Name
 Name=mcbopomofo
 # Layout
-Layout=
+# Layout=
 
 [GroupOrder]
 0=Default
+
