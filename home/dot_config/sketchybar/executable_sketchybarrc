@@ -2,13 +2,10 @@
 
 CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-# Brackets absorb member padding; normal capsules own the full gap on the left.
-# https://github.com/FelixKratz/SketchyBar/blob/v2.24.0/src/group.c
-CAPSULE_GAP=8
 
 # Safe first-run palette; Matugen replaces it and reloads the bar.
 TRANSPARENT=0x00000000
-CAPSULE=0x4d303034
+POPUP_BG=0xff303034
 ON_SURFACE=0xfff2f0f4
 PRIMARY=0xffd0bcff
 ON_PRIMARY=0xff381e72
@@ -24,8 +21,8 @@ sketchybar --bar \
     shadow=off \
     corner_radius=0 \
     margin=0 \
-    padding_left="$CAPSULE_GAP" \
-    padding_right="$CAPSULE_GAP" \
+    padding_left=8 \
+    padding_right=8 \
     display=all
 
 sketchybar --default \
@@ -41,7 +38,7 @@ sketchybar --default \
     background.corner_radius=9 \
     background.shadow.drawing=off \
     popup.height=28 \
-    popup.background.color="0xff${CAPSULE#????}" \
+    popup.background.color="$POPUP_BG" \
     popup.background.border_width=1 \
     popup.background.border_color="0x33${ON_SURFACE#????}" \
     padding_left=2 \
@@ -72,8 +69,6 @@ sketchybar --add item workspace.observer e \
         script="$PLUGIN_DIR/workspace.sh" \
     --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
 
-sketchybar --add bracket workspaces '/space\..*/'
-
 sketchybar --add item volume right \
     --set volume script="$PLUGIN_DIR/volume.sh" \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
@@ -85,7 +80,9 @@ add_alias() {
         *) source=$(printf '%s\n' "$1" | sed 's/([0-9][0-9]*)$//') ;;
     esac
     sketchybar --add alias "$source" "$3" || return 0
-    sketchybar --rename "$source" "$2" --set "$2" "click_script=${4-}"
+    # Keep captured menu items at native size and preserve their raster colors.
+    sketchybar --rename "$source" "$2" --set "$2" "click_script=${4-}" \
+        icon.drawing=off label.drawing=off alias.scale=1 alias.update_freq=2
 }
 
 # A zero-width anchor gives both provider icons one shared hover popup.
@@ -144,24 +141,6 @@ printf '%s\n' "$menu_items" \
             esac
         done
     )
-
-# Style aliases before adding their brackets, which absorb member padding.
-# Preserve raster colors: tinting an opaque chart makes it a solid rectangle.
-for aliases in '/^meter\./' '/^stats\./' '/^input_source$/'; do
-    sketchybar --set "$aliases" icon.drawing=off label.drawing=off \
-        padding_left=1 padding_right=1 alias.scale=0.82 alias.update_freq=2
-done
-sketchybar --set '/^meter\./' alias.scale=0.85 padding_left=0 padding_right=0 \
-    --set '/^input_source$/' alias.scale=1
-for group in meter stats; do
-    sketchybar --add bracket "$group.group" "/$group\\..*/"
-done
-for capsule in clock volume '/^input_source$/' workspaces '/\.group$/'; do
-    sketchybar --set "$capsule" background.color="$CAPSULE" background.drawing=on
-done
-for capsule in clock volume '/^input_source$/'; do
-    sketchybar --set "$capsule" padding_left="$CAPSULE_GAP" padding_right=0
-done
 
 sketchybar --update
 
