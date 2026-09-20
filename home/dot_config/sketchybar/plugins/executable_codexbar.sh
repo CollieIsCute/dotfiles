@@ -8,20 +8,20 @@ exec 9>"$cache_dir/codexbar.lock"
 /usr/bin/lockf -s -t 0 9 || exit 0
 
 sketchybar --set codexbar.status label="CodexBar · 更新中…"
-# Both providers keep their own configured source: Codex OAuth, Claude CLI.
-if ! data=$(codexbar usage --provider both --format json --json-only --no-credits 2>/dev/null); then
-    sketchybar --set codexbar.status label="CodexBar · 更新失敗，資料未更新"
-    exit 1
-fi
+# The CLI still returns healthy providers when another provider fails (nonzero exit).
+data=$(codexbar usage --format json --json-only --no-credits 2>/dev/null) || :
 
 if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
     now as $now
-    | if type == "array" and (map(.provider) | sort) == ["claude", "codex"]
-         and all(.error == null and (.usage | type) == "object")
-      then .[] else error("Incomplete provider response") end
-    | (if .provider == "codex" then "Codex · OAuth" else "Claude · CLI" end) as $provider
+    | if type == "array" then map(select(.provider == "codex" or .provider == "claude"))
+      else error("Invalid provider response") end
+    | if length == 0 then ["note", "尚未啟用 Codex／Claude"] else .[]
+    | (if .provider == "codex" then "Codex" else "Claude" end) as $provider
     | .usage as $usage
     | (["header", $provider],
+      (if .error != null or ($usage | type) != "object" then
+         ["note", "未登入或讀取失敗，請點擊圖示查看"]
+       else
       (if .stale == true then ["note", "注意：來源回報為快取資料"] else empty end),
       ([{title: ({"300": "5 小時", "10080": "每週"}[($usage.primary.windowMinutes | tostring)] // "主要額度"), window: $usage.primary},
         {title: "每週", window: $usage.secondary},
@@ -44,7 +44,7 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
                    else "\($minutes) 分" end) as $duration
                 | "↳ 約 \($duration)後重置"
               end)]
-         end))
+         end) end)) end
     | join("\t")
 '); then
     sketchybar --set codexbar.status label="CodexBar · 回應不完整，資料未更新"

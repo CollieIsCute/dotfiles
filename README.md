@@ -52,21 +52,21 @@ chezmoi theme IMAGE
 After the first `chezmoi apply`, AeroSpace opens automatically:
 
 1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
-2. Open CodexBar and Stats. In CodexBar, enable Codex with OAuth and Claude with CLI, and select an icon-and-percentage style. Relaunch CodexBar if it was already open during apply. In Stats, enable the items you want displayed.
+2. Open CodexBar and Stats. In CodexBar, enable and sign in to the providers you use, disable unused providers, and select an icon-and-percentage style. Applying dotfiles preserves these toggles, sets existing Codex to OAuth and Claude to CLI, and adds no missing providers. Relaunch CodexBar if it was already open during apply. Stats starts with CPU, RAM, sensors, and network speed; customize its modules in Stats settings.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
 4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
 
 Daily use:
 
 - **Workspaces:** click a number to switch. Only occupied workspaces and the current workspace are shown; keyboard shortcuts still reach hidden workspaces.
-- **GPT / Claude:** hover for both providers' usage and reset countdowns; left-click for that provider's details; right-click to refresh.
+- **GPT / Claude:** hover for enabled providers' usage and reset countdowns; a failed provider does not hide the other. Left-click for that provider's details; right-click to refresh.
 - **Stats:** hover for the module name; click for its detailed panel.
 - **Input source:** click to open the input-method menu.
 - **Volume:** click to toggle mute; scroll to adjust by 3%.
 - **Control Center:** press `Fn+C`.
 - **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
 
-If icons disappear after restarting an app or rearranging native menu-bar items:
+Once apps finish starting, SketchyBar checks for new or removed native icons every five seconds. If icons are still missing or incorrect after rearranging native menu-bar items:
 
 ```bash
 sketchybar --reload
