@@ -24,7 +24,7 @@ EOF
 sketchybar() { printf '%s\n' "$*"; }
 
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --push stats.ram 0.5000 --set stats.ram label=50%'
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%'
 
 # A missing second CPU sample must not push a misleading value.
 iostat() { printf '%s\n' '  1  1 98  2.25 2.61 2.69'; }

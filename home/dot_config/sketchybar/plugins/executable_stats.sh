@@ -21,11 +21,8 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
     END {
         ratio = total > 0 ? used * page_size / total : -1
         if (fields != 7 || page_size <= 0 || ratio < 0 || ratio > 1) exit 1
-        printf "%.4f %.0f%%", ratio, ratio * 100
+        printf "%.0f%%", ratio * 100
     }
 ')
 
-# RAM also returns a percentage label; CPU is graph-only.
-set -- $ram
-sketchybar --push stats.cpu "$cpu" \
-    --push stats.ram "$1" --set stats.ram label="$2"
+sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram"
