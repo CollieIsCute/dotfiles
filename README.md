@@ -52,7 +52,7 @@ chezmoi theme IMAGE
 After the first `chezmoi apply`, AeroSpace opens automatically:
 
 1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
-2. Open CodexBar and Stats. In CodexBar, enable and sign in to the providers you use, and disable unused providers. Relaunch CodexBar if it was already open during apply. Customize Stats modules in Stats settings.
+2. Open CodexBar, enable and sign in to the providers you use, and disable unused providers. Relaunch CodexBar if it was already open during apply.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
 4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
 
@@ -60,19 +60,19 @@ Daily use:
 
 - **Workspaces:** click a number to switch.
 - **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
-- **Stats:** hover for the module name; click for its detailed panel.
+- **CPU / RAM:** graphs and percentages refresh every 5 seconds; click to open Activity Monitor.
 - **Input source:** click to open the input-method menu.
 - **Volume:** click to toggle mute; scroll to adjust by 3%.
 - **Control Center:** press `Fn+C`.
 - **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
 
-If Stats or input-source icons are missing or incorrect after rearranging native menu-bar items:
+If the input-source icon is missing or incorrect after rearranging native menu-bar items:
 
 ```bash
 sketchybar --reload
 ```
 
-If they are still missing, check the permissions above and inspect the available items:
+If it is still missing, check the permissions above and inspect the available items:
 
 ```bash
 sb-status-items list
