@@ -1,9 +1,23 @@
 #!/bin/sh
 set -eu
 
-case ${SENDER:-} in
-    mouse.clicked)
+case "${SENDER:-}:${NAME:-}" in
+    mouse.exited.global:volume)
+        sketchybar --set volume popup.drawing=off
+        exit 0
+        ;;
+    mouse.clicked:volume)
+        sketchybar --set volume popup.drawing=toggle
+        ;;
+    mouse.clicked:volume.mute)
         osascript -e 'set volume output muted not (output muted of (get volume settings))' >/dev/null
+        ;;
+    mouse.clicked:volume.slider)
+        case ${PERCENTAGE:-} in
+            [0-9]|[0-9][0-9]|100) ;;
+            *) exit 1 ;;
+        esac
+        osascript -e "set volume output volume $PERCENTAGE output muted false" >/dev/null
         ;;
 esac
 case ${SENDER:-} in
@@ -37,4 +51,6 @@ else
     icon='󰕾'
 fi
 
-sketchybar --set "$NAME" icon="$icon" label="$volume%"
+sketchybar --set volume icon="$icon" label="$volume%" \
+    --set volume.slider slider.percentage="$volume" \
+    --set volume.mute icon="$icon"
