@@ -14,6 +14,7 @@ struct StatusItem {
     let source: String
     let window: String
     let help: String
+    let identifier: String
     let element: AXUIElement
 }
 
@@ -46,11 +47,16 @@ func statusItems(bundle: String? = nil) -> [StatusItem] {
             let center = CGPoint(x: origin.x + dimensions.width / 2, y: origin.y + dimensions.height / 2)
             // Zero-size AX placeholders and non-status windows never match.
             let matches = windows.enumerated().filter { bounds($0.element).contains(center) }
-            guard matches.count == 1, let match = matches.first,
-                  let owner = match.element[kCGWindowOwnerName as String] as? String,
-                  let name = match.element[kCGWindowName as String] as? String else { continue }
-            result.append(StatusItem(bundle: id, source: "\(owner),\(name)(\(match.offset + 1))",
-                                     window: name, help: attribute(element, kAXHelpAttribute) as? String ?? "",
+            var source = "", name = ""
+            if matches.count == 1, let match = matches.first,
+               let owner = match.element[kCGWindowOwnerName as String] as? String,
+               let window = match.element[kCGWindowName as String] as? String {
+                source = "\(owner),\(window)(\(match.offset + 1))"
+                name = window
+            }
+            result.append(StatusItem(bundle: id, source: source, window: name,
+                                     help: attribute(element, kAXHelpAttribute) as? String ?? "",
+                                     identifier: attribute(element, "AXIdentifier") as? String ?? "",
                                      element: element))
         }
     }
@@ -68,23 +74,28 @@ guard AXIsProcessTrusted() else {
     exit(1)
 }
 if arguments.count == 2 && arguments[1] == "list" {
-    let rows = statusItems().map { ["bundle": $0.bundle, "source": $0.source, "window": $0.window, "help": $0.help] }
+    // Only items with a capturable window can become a SketchyBar alias.
+    let rows = statusItems().filter { !$0.source.isEmpty }
+        .map { ["bundle": $0.bundle, "source": $0.source, "window": $0.window, "help": $0.help] }
     do {
         let data = try JSONSerialization.data(withJSONObject: rows, options: [.sortedKeys])
         print(String(decoding: data, as: UTF8.self))
     } catch { fputs("sb-status-items: \(error)\n", stderr); exit(1) }
 } else if arguments.count == 4 && arguments[1] == "click" {
-    let matches = statusItems(bundle: arguments[2]).filter { $0.window == arguments[3] }
+    // Pressing needs only the AX element, so match the identifier when no window exists.
+    let matches = statusItems(bundle: arguments[2])
+        .filter { $0.window == arguments[3] || $0.identifier == arguments[3] }
     guard matches.count == 1, let item = matches.first else {
         fputs("sb-status-items: missing or ambiguous status item; reload SketchyBar.\n", stderr)
         exit(1)
     }
+    // An opened menu tracks modally, so the AX reply times out even on success.
     let status = AXUIElementPerformAction(item.element, kAXPressAction as CFString)
-    guard status == .success else {
+    guard status == .success || status == .cannotComplete else {
         fputs("sb-status-items: native click failed (\(status.rawValue)).\n", stderr)
         exit(1)
     }
 } else {
-    fputs("usage: sb-status-items list | click BUNDLE_ID WINDOW_NAME\n", stderr)
+    fputs("usage: sb-status-items list | click BUNDLE_ID WINDOW_NAME_OR_AX_IDENTIFIER\n", stderr)
     exit(64)
 }

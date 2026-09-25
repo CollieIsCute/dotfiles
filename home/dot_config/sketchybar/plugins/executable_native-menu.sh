@@ -12,7 +12,7 @@ case "${SENDER:-}:$popup:${BUTTON:-left}" in
     mouse.exited:*|mouse.clicked:stats.*:*) sketchybar --set "$popup" popup.drawing=off ;;
     mouse.clicked:codexbar:left)
         sketchybar --set codexbar popup.drawing=off
-        exec "$HOME/.local/bin/sb-status-items" click com.steipete.codexbar "codexbar-${NAME#meter.}"
+        exec "$HOME/.local/bin/sb-status-items" click com.steipete.codexbar "CodexBar.StatusItem.${NAME#meter.}"
         ;;
     mouse.clicked:codexbar:right)
         exec "${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins/codexbar.sh"
