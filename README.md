@@ -49,36 +49,17 @@ chezmoi theme IMAGE
 
 ## SketchyBar (macOS)
 
-After the first `chezmoi apply`, AeroSpace opens automatically:
-
-1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
-2. Open CodexBar, enable and sign in to the providers you use, and disable unused providers. Relaunch CodexBar if it was already open during apply.
+1. In **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. Quit SketchyBar, then reopen AeroSpace.
+2. Open CodexBar and sign in to the providers you use. Keep Stats installed for CPU temperature.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
-4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
-
-Daily use:
 
 - **Workspaces:** click a number to switch.
 - **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
-- **System monitor:** CPU graph → RAM % → CPU temperature → battery %. Refreshes every 5 seconds; click to open Activity Monitor. On M2 Macs, keep Stats installed for its bundled temperature reader; Stats does not need to be running.
-- **Network:** download `↓` and upload `↑` speeds refresh every 5 seconds; click to open Activity Monitor.
+- **System monitor / Network:** click to open Activity Monitor.
 - **Input source:** click to open the input-method menu.
-- **Volume:** click to open the slider; drag to adjust, or click its speaker button to toggle mute. Scroll to adjust by 3%; move outside the bar/popup to close it.
+- **Volume:** click for the slider; drag or scroll to adjust. Click the popup's speaker to mute; move away to close.
 - **Control Center:** press `Fn+C`.
 - **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
-
-If the input-source icon is missing or incorrect after rearranging native menu-bar items:
-
-```bash
-sketchybar --reload
-```
-
-If it is still missing, check the permissions above and inspect the available items:
-
-```bash
-sb-status-items list
-sketchybar --query default_menu_items
-```
 
 ## Dropbox (Linux)
 
@@ -113,7 +94,6 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 
 - **macOS:** grant Microphone and Accessibility permissions.
 - **Windows:** reopen the terminal after applying; install the [Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist), allow microphone access, and install a Vulkan GPU driver for Qwen.
-- **Linux:** if OpenWhispr 1.9.2 shows a ydotool setup warning, do not add the `input` group or daemon just to dismiss it; `wtype` is already selected.
 - Run `asr-mode off` before gaming to stop recognition and release GPU memory. Quit OpenWhispr separately if you also want to disable its UI and shortcut.
 
 ## AI extensions
