@@ -74,9 +74,9 @@ sketchybar --add item volume right \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
 
 # Right-positioned items are added in reverse visual order.
-for metric in battery temp vram gpu ram cpu; do
+for metric in battery temp ram cpu; do
     case "$metric" in
-        cpu|gpu)
+        cpu)
             sketchybar --add graph "stats.$metric" right 40 \
                 --set "stats.$metric" label.drawing=off \
                     graph.color="$PRIMARY" graph.fill_color="0x33${PRIMARY#????}" graph.line_width=1 \
@@ -98,7 +98,7 @@ sketchybar --add item stats.network right \
     --subscribe stats.network system_woke
 sketchybar --move volume after stats.network \
     --add bracket stats.net stats.network \
-    --add bracket stats.system stats.cpu stats.ram stats.gpu stats.vram stats.temp stats.battery
+    --add bracket stats.system stats.cpu stats.ram stats.temp stats.battery
 for group in net system; do
     sketchybar --set "stats.$group" background.drawing=on \
         background.color="0x4d${POPUP_BG#????}" background.height=27 background.corner_radius=9

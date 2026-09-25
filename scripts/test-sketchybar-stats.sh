@@ -21,8 +21,6 @@ sysctl() {
         machdep.cpu.brand_string) printf '%s\n' 'Apple M2' ;;
     esac
 }
-ioreg() { printf '%s\n' '{"Device Utilization %":25,"In use system memory":1610612736}'; }
-plutil() { cat; }
 pmset() { printf '%s\n' '-InternalBattery-0 (id=1) 43%; discharging; 4:03 remaining present: true'; }
 vm_stat() {
     cat <<'EOF'
@@ -40,18 +38,15 @@ EOF
 sketchybar() { printf '%s\n' "$*"; }
 
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50% --set stats.vram label=—
---push stats.gpu 0.25 --set stats.gpu drawing=on
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
 --set stats.temp label=50°C
 --set stats.battery drawing=on label=43%'
 
 # Optional sensors do not suppress the CPU/RAM update or invent zero readings.
-ioreg() { printf '%s\n' '{}'; }
 pmset() { :; }
 STATS_SMC="$scratch/missing"
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50% --set stats.vram label=—
---set stats.gpu drawing=off
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
 --set stats.temp label=—
 --set stats.battery drawing=off'
 

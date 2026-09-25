@@ -25,18 +25,7 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
     }
 ')
 
-sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram" --set stats.vram label='—'
-
-# Noctalia gpu_vram is unavailable on unified-memory GPUs; keep its label as —.
-gpu=$(ioreg -r -c IOAccelerator -a | plutil -extract 0.PerformanceStatistics json -o - - 2>/dev/null |
-    jq -er '
-        ."Device Utilization %" | select(type == "number" and . >= 0 and . <= 100) / 100
-    ') || gpu=''
-if test -n "$gpu"; then
-    sketchybar --push stats.gpu "$gpu" --set stats.gpu drawing=on
-else
-    sketchybar --set stats.gpu drawing=off
-fi
+sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram"
 
 temp='—'
 smc=${STATS_SMC:-/Applications/Stats.app/Contents/Resources/smc}
