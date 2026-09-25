@@ -70,8 +70,44 @@ sketchybar --add item workspace.observer e \
     --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
 
 sketchybar --add item volume right \
-    --set volume script="$PLUGIN_DIR/volume.sh" \
-    --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
+    --set volume script="$PLUGIN_DIR/volume.sh" popup.horizontal=on \
+        popup.align=center popup.height=36 popup.background.corner_radius=9 \
+    --subscribe volume volume_change mouse.scrolled mouse.clicked mouse.exited.global system_woke
+sketchybar --add item volume.mute popup.volume \
+    --set volume.mute label.drawing=off icon='󰕾' script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume.mute mouse.clicked
+sketchybar --add slider volume.slider popup.volume 140 \
+    --set volume.slider icon.drawing=off label.drawing=off padding_left=8 padding_right=12 \
+        slider.highlight_color="$PRIMARY" slider.background.color="0x33${ON_SURFACE#????}" \
+        slider.background.height=5 slider.background.corner_radius=3 \
+        slider.knob='●' slider.knob.color="$PRIMARY" \
+        script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume.slider mouse.clicked mouse.scrolled
+
+# Right-positioned items are added in reverse visual order.
+for metric in battery temp ram cpu; do
+    case "$metric" in
+        cpu)
+            sketchybar --add graph "stats.$metric" right 40 \
+                --set "stats.$metric" label.drawing=off \
+                    graph.color="$PRIMARY" graph.fill_color="0x33${PRIMARY#????}" graph.line_width=1 \
+                    background.drawing=on background.color="$TRANSPARENT" background.height=20
+            ;;
+        *) sketchybar --add item "stats.$metric" right \
+            --set "stats.$metric" label='—' label.width=40 ;;
+    esac
+    sketchybar --set "stats.$metric" icon.drawing=off \
+        click_script="open -a 'Activity Monitor'"
+done
+sketchybar --set stats.battery icon='󰁹' icon.drawing=on \
+    --set stats.cpu padding_left=6 update_freq=5 script="$PLUGIN_DIR/stats.sh" \
+    --subscribe stats.cpu system_woke
+sketchybar --add item stats.network right \
+    --set stats.network icon.drawing=off label='↓— ↑—' label.width=155 padding_left=8 padding_right=8 \
+        click_script="open -a 'Activity Monitor'" \
+        update_freq=5 script="$PLUGIN_DIR/network.sh" \
+    --subscribe stats.network system_woke
+sketchybar --move volume after stats.network
 
 add_alias() {
     # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.
@@ -109,7 +145,7 @@ for provider in codex claude; do
         --subscribe "meter.$provider" mouse.entered mouse.exited mouse.clicked
 done
 
-# Mirror Stats and the input source from the native menu bar.
+# Mirror the input source from the native menu bar.
 status_helper="$HOME/.local/bin/sb-status-items"
 # Request Screen Recording before missing permissions can hide native items.
 sketchybar --query default_menu_items >/dev/null
@@ -126,17 +162,6 @@ printf '%s\n' "$menu_items" \
             click=$(/usr/bin/jq -nr --arg helper "$status_helper" --arg bundle "$bundle" --arg window "$window" \
                 '[$helper, "click", $bundle, $window] | @sh')
             case "$bundle" in
-                eu.exelban.Stats)
-                    add_alias "$source" "stats.$window" right "$click"
-                    sketchybar --set "stats.$window" \
-                        popup.align=right \
-                        popup.background.corner_radius=6 \
-                        script="$PLUGIN_DIR/native-menu.sh" \
-                        --subscribe "stats.$window" mouse.entered mouse.exited mouse.clicked \
-                        --add item "hint.$window" "popup.stats.$window" \
-                        --set "hint.$window" icon.drawing=off \
-                            label="${help:-$window}" label.padding_left=10 label.padding_right=10
-                    ;;
                 com.apple.TextInputMenuAgent)
                     add_alias "$source" input_source right "$click"
                     sketchybar --move input_source before volume
