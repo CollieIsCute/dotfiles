@@ -73,21 +73,36 @@ sketchybar --add item volume right \
     --set volume script="$PLUGIN_DIR/volume.sh" \
     --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
 
-sketchybar --add item stats.ram right \
-    --set stats.ram icon.drawing=off label='—' label.width=45 \
+# Right-positioned items are added in reverse visual order.
+for metric in battery temp vram gpu ram cpu; do
+    case "$metric" in
+        cpu|gpu)
+            sketchybar --add graph "stats.$metric" right 40 \
+                --set "stats.$metric" label.drawing=off \
+                    graph.color="$PRIMARY" graph.fill_color="0x33${PRIMARY#????}" graph.line_width=1 \
+                    background.drawing=on background.color="$TRANSPARENT" background.height=20
+            ;;
+        *) sketchybar --add item "stats.$metric" right \
+            --set "stats.$metric" label='—' label.width=40 ;;
+    esac
+    sketchybar --set "stats.$metric" icon.drawing=off \
         click_script="open -a 'Activity Monitor'"
-sketchybar --add graph stats.cpu right 40 \
-    --set stats.cpu icon.drawing=off label.drawing=off \
-        graph.color="$PRIMARY" graph.fill_color="0x33${PRIMARY#????}" graph.line_width=1 \
-        background.drawing=on background.color="$TRANSPARENT" background.height=20 \
-        click_script="open -a 'Activity Monitor'" \
-        update_freq=5 script="$PLUGIN_DIR/stats.sh" \
+done
+sketchybar --set stats.battery icon='󰁹' icon.drawing=on \
+    --set stats.cpu padding_left=6 update_freq=5 script="$PLUGIN_DIR/stats.sh" \
     --subscribe stats.cpu system_woke
 sketchybar --add item stats.network right \
-    --set stats.network icon.drawing=off label='↓— ↑—' label.width=180 \
+    --set stats.network icon.drawing=off label='↓— ↑—' label.width=155 padding_left=8 padding_right=8 \
         click_script="open -a 'Activity Monitor'" \
         update_freq=5 script="$PLUGIN_DIR/network.sh" \
     --subscribe stats.network system_woke
+sketchybar --move volume after stats.network \
+    --add bracket stats.net stats.network \
+    --add bracket stats.system stats.cpu stats.ram stats.gpu stats.vram stats.temp stats.battery
+for group in net system; do
+    sketchybar --set "stats.$group" background.drawing=on \
+        background.color="0x4d${POPUP_BG#????}" background.height=27 background.corner_radius=9
+done
 
 add_alias() {
     # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.

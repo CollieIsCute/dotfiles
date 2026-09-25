@@ -2,12 +2,28 @@
 # Run from the repository root: sh scripts/test-sketchybar-stats.sh
 set -eu
 plugin=home/dot_config/sketchybar/plugins/executable_stats.sh
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+STATS_SMC="$scratch/smc"
+cat >"$STATS_SMC" <<'EOF'
+#!/bin/sh
+printf '%s\n' '[Tp01] 40' '[Tp05] 60' '[Tp09] 0' '[Tg0f] 90'
+EOF
+chmod +x "$STATS_SMC"
 
 iostat() {
     printf '%s\n' '      cpu    load average' ' us sy id   1m   5m   15m'
     printf '%s\n' '  1  1 98  2.25 2.61 2.69' ' 13 25 62  2.25 2.61 2.69'
 }
-sysctl() { printf '%s\n' 16384000; }
+sysctl() {
+    case "$2" in
+        hw.memsize) printf '%s\n' 16384000 ;;
+        machdep.cpu.brand_string) printf '%s\n' 'Apple M2' ;;
+    esac
+}
+ioreg() { printf '%s\n' '{"Device Utilization %":25,"In use system memory":1610612736}'; }
+plutil() { cat; }
+pmset() { printf '%s\n' '-InternalBattery-0 (id=1) 43%; discharging; 4:03 remaining present: true'; }
 vm_stat() {
     cat <<'EOF'
 Mach Virtual Memory Statistics: (page size of 16384 bytes)
@@ -24,7 +40,20 @@ EOF
 sketchybar() { printf '%s\n' "$*"; }
 
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%'
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
+--push stats.gpu 0.25 --set stats.gpu drawing=on --set stats.vram drawing=on label=1.5G
+--set stats.temp label=50°C
+--set stats.battery drawing=on label=43%'
+
+# Optional sensors do not suppress the CPU/RAM update or invent zero readings.
+ioreg() { printf '%s\n' '{}'; }
+pmset() { :; }
+STATS_SMC="$scratch/missing"
+result=$(. "$plugin")
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
+--set stats.gpu drawing=off --set stats.vram drawing=off
+--set stats.temp label=—
+--set stats.battery drawing=off'
 
 # A missing second CPU sample must not push a misleading value.
 iostat() { printf '%s\n' '  1  1 98  2.25 2.61 2.69'; }

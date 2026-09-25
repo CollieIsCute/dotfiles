@@ -60,7 +60,7 @@ Daily use:
 
 - **Workspaces:** click a number to switch.
 - **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
-- **CPU / RAM:** CPU shows only a graph; RAM shows only a percentage. Both refresh every 5 seconds; click to open Activity Monitor.
+- **System monitor:** CPU graph → RAM % → GPU graph → GPU shared memory (GiB) → CPU temperature → battery %. Refreshes every 5 seconds; click to open Activity Monitor. On M2 Macs, keep Stats installed for its bundled temperature reader; Stats does not need to be running.
 - **Network:** download `↓` and upload `↑` speeds refresh every 5 seconds; click to open Activity Monitor.
 - **Input source:** click to open the input-method menu.
 - **Volume:** click to toggle mute; scroll to adjust by 3%.

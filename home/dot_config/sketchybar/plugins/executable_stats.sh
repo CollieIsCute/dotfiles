@@ -26,3 +26,40 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
 ')
 
 sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram"
+
+# Apple Silicon exposes GPU usage and shared memory through IORegistry.
+gpu=$(ioreg -r -c IOAccelerator -a | plutil -extract 0.PerformanceStatistics json -o - - 2>/dev/null |
+    jq -er '
+        [."Device Utilization %", ."In use system memory"] |
+        select(all(.[]; type == "number" and . >= 0) and .[0] <= 100) |
+        [.[0] / 100, "\(.[1] / 1073741824 * 10 | round / 10)G"] | @tsv
+    ') || gpu=''
+if test -n "$gpu"; then
+    set -- $gpu
+    sketchybar --push stats.gpu "$1" --set stats.gpu drawing=on \
+        --set stats.vram drawing=on label="$2"
+else
+    sketchybar --set stats.gpu drawing=off --set stats.vram drawing=off
+fi
+
+temp='—'
+smc=${STATS_SMC:-/Applications/Stats.app/Contents/Resources/smc}
+# M2 CPU sensor keys from Stats Modules/Sensors/values.swift.
+case "$(sysctl -n machdep.cpu.brand_string)" in
+    'Apple M2'*)
+        if test -x "$smc"; then
+            temp=$("$smc" list -t | awk '
+                /^\[Tp(1[htpl]|0[159DXbfj])\]/ && $2 > 0 && $2 < 128 { sum += $2; n++ }
+                END { if (n) printf "%.0f°C", sum / n; else print "—" }
+            ')
+        fi
+        ;;
+esac
+sketchybar --set stats.temp label="$temp"
+
+battery=$(pmset -g batt | awk 'match($0, /[0-9]+%/) { print substr($0, RSTART, RLENGTH); exit }')
+if test -n "$battery"; then
+    sketchybar --set stats.battery drawing=on label="$battery"
+else
+    sketchybar --set stats.battery drawing=off
+fi
