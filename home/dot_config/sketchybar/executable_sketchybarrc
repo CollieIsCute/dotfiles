@@ -98,7 +98,18 @@ sketchybar --add item codexbar.status popup.codexbar \
         label="CodexBar · 正在讀取…" label.color="$PRIMARY" \
         label.padding_left=12 label.padding_right=12
 
-# Only Stats, CodexBar and the input source are included; there is no App tray.
+# CodexBar has no aliasable per-provider window on macOS 27.
+for provider in codex claude; do
+    sketchybar --add item "meter.$provider" left \
+        --set "meter.$provider" drawing=off icon=' ' icon.width=18 \
+            icon.background.drawing=on \
+            icon.background.image="$CONFIG_DIR/icons/$provider.png" \
+            icon.background.image.scale=0.18 \
+            script="$PLUGIN_DIR/native-menu.sh" \
+        --subscribe "meter.$provider" mouse.entered mouse.exited mouse.clicked
+done
+
+# Mirror Stats and the input source from the native menu bar.
 status_helper="$HOME/.local/bin/sb-status-items"
 # Request Screen Recording before missing permissions can hide native items.
 sketchybar --query default_menu_items >/dev/null
@@ -115,14 +126,6 @@ printf '%s\n' "$menu_items" \
             click=$(/usr/bin/jq -nr --arg helper "$status_helper" --arg bundle "$bundle" --arg window "$window" \
                 '[$helper, "click", $bundle, $window] | @sh')
             case "$bundle" in
-                com.steipete.codexbar)
-                    case "$window" in codexbar-codex|codexbar-claude) ;; *) continue ;; esac
-                    name="meter.${window#codexbar-}"
-                    add_alias "$source" "$name" left ''
-                    sketchybar --set "$name" \
-                        script="$PLUGIN_DIR/native-menu.sh" \
-                        --subscribe "$name" mouse.entered mouse.exited mouse.clicked
-                    ;;
                 eu.exelban.Stats)
                     add_alias "$source" "stats.$window" right "$click"
                     sketchybar --set "stats.$window" \
