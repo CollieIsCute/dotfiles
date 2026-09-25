@@ -27,19 +27,15 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
 
 sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram"
 
-# Apple Silicon exposes GPU usage and shared memory through IORegistry.
+# Noctalia gpu_vram is unavailable on unified-memory GPUs; keep its label as —.
 gpu=$(ioreg -r -c IOAccelerator -a | plutil -extract 0.PerformanceStatistics json -o - - 2>/dev/null |
     jq -er '
-        [."Device Utilization %", ."In use system memory"] |
-        select(all(.[]; type == "number" and . >= 0) and .[0] <= 100) |
-        [.[0] / 100, "\(.[1] / 1073741824 * 10 | round / 10)G"] | @tsv
+        ."Device Utilization %" | select(type == "number" and . >= 0 and . <= 100) / 100
     ') || gpu=''
 if test -n "$gpu"; then
-    set -- $gpu
-    sketchybar --push stats.gpu "$1" --set stats.gpu drawing=on \
-        --set stats.vram drawing=on label="$2"
+    sketchybar --push stats.gpu "$gpu" --set stats.gpu drawing=on
 else
-    sketchybar --set stats.gpu drawing=off --set stats.vram drawing=off
+    sketchybar --set stats.gpu drawing=off
 fi
 
 temp='—'
