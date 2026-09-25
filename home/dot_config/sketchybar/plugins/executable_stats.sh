@@ -25,7 +25,7 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
     }
 ')
 
-sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram"
+sketchybar --push stats.cpu "$cpu" --set stats.ram label="$ram" --set stats.vram label='—'
 
 # Noctalia gpu_vram is unavailable on unified-memory GPUs; keep its label as —.
 gpu=$(ioreg -r -c IOAccelerator -a | plutil -extract 0.PerformanceStatistics json -o - - 2>/dev/null |

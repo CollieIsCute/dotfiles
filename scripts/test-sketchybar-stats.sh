@@ -40,7 +40,7 @@ EOF
 sketchybar() { printf '%s\n' "$*"; }
 
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50% --set stats.vram label=—
 --push stats.gpu 0.25 --set stats.gpu drawing=on
 --set stats.temp label=50°C
 --set stats.battery drawing=on label=43%'
@@ -50,7 +50,7 @@ ioreg() { printf '%s\n' '{}'; }
 pmset() { :; }
 STATS_SMC="$scratch/missing"
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50%
+test "$result" = '--push stats.cpu 0.3800 --set stats.ram label=50% --set stats.vram label=—
 --set stats.gpu drawing=off
 --set stats.temp label=—
 --set stats.battery drawing=off'
