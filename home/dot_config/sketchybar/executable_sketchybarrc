@@ -70,8 +70,19 @@ sketchybar --add item workspace.observer e \
     --subscribe workspace.observer aerospace_workspace_change space_windows_change front_app_switched system_woke
 
 sketchybar --add item volume right \
-    --set volume script="$PLUGIN_DIR/volume.sh" \
-    --subscribe volume volume_change mouse.scrolled mouse.clicked system_woke
+    --set volume script="$PLUGIN_DIR/volume.sh" popup.horizontal=on \
+        popup.align=center popup.height=36 popup.background.corner_radius=9 \
+    --subscribe volume volume_change mouse.scrolled mouse.clicked mouse.exited.global system_woke
+sketchybar --add item volume.mute popup.volume \
+    --set volume.mute label.drawing=off icon='󰕾' script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume.mute mouse.clicked
+sketchybar --add slider volume.slider popup.volume 140 \
+    --set volume.slider icon.drawing=off label.drawing=off padding_left=8 padding_right=12 \
+        slider.highlight_color="$PRIMARY" slider.background.color="0x33${ON_SURFACE#????}" \
+        slider.background.height=5 slider.background.corner_radius=3 \
+        slider.knob='●' slider.knob.color="$PRIMARY" \
+        script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume.slider mouse.clicked mouse.scrolled
 
 # Right-positioned items are added in reverse visual order.
 for metric in battery temp ram cpu; do
@@ -96,13 +107,7 @@ sketchybar --add item stats.network right \
         click_script="open -a 'Activity Monitor'" \
         update_freq=5 script="$PLUGIN_DIR/network.sh" \
     --subscribe stats.network system_woke
-sketchybar --move volume after stats.network \
-    --add bracket stats.net stats.network \
-    --add bracket stats.system stats.cpu stats.ram stats.temp stats.battery
-for group in net system; do
-    sketchybar --set "stats.$group" background.drawing=on \
-        background.color="0x4d${POPUP_BG#????}" background.height=27 background.corner_radius=9
-done
+sketchybar --move volume after stats.network
 
 add_alias() {
     # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.

@@ -63,7 +63,7 @@ Daily use:
 - **System monitor:** CPU graph → RAM % → CPU temperature → battery %. Refreshes every 5 seconds; click to open Activity Monitor. On M2 Macs, keep Stats installed for its bundled temperature reader; Stats does not need to be running.
 - **Network:** download `↓` and upload `↑` speeds refresh every 5 seconds; click to open Activity Monitor.
 - **Input source:** click to open the input-method menu.
-- **Volume:** click to toggle mute; scroll to adjust by 3%.
+- **Volume:** click to open the slider; drag to adjust, or click its speaker button to toggle mute. Scroll to adjust by 3%; move outside the bar/popup to close it.
 - **Control Center:** press `Fn+C`.
 - **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
 
