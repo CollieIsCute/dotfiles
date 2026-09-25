@@ -13,7 +13,12 @@ data=$(codexbar usage --format json --json-only --no-credits 2>/dev/null) || :
 
 if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
     now as $now
-    | if type == "array" then map(select(.provider == "codex" or .provider == "claude"))
+    | def countdown($reset):
+        (([$reset - $now, 0] | max) / 60 | ceil) as $minutes
+        | if $minutes >= 1440 then
+            "\(($minutes / 1440) | floor)d\((($minutes % 1440) / 60) | floor)h"
+          else "\(($minutes / 60) | floor)h\($minutes % 60)m" end;
+    if type == "array" then map(select(.provider == "codex" or .provider == "claude"))
       else error("Invalid provider response") end
     | if length == 0 then ["note", "尚未啟用 Codex／Claude"] else .[]
     | .provider as $id
@@ -33,11 +38,7 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
     | (if ($quotas | length) == 0 then "--"
        else $quotas[0] as $quota
        | (if $quota.reset == null then ""
-          else (([$quota.reset - $now, 0] | max) / 60 | ceil) as $minutes
-          | " \(if $minutes >= 1440 then
-                   "\(($minutes / 1440) | floor)d\((($minutes % 1440) / 60) | floor)h"
-                 else "\(($minutes / 60) | floor)h\($minutes % 60)m"
-                 end)"
+          else " \(countdown($quota.reset))"
           end) as $deadline
        | "\($quota.remaining)%\($deadline)"
        end) as $meter
@@ -48,17 +49,9 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
       (if .stale == true then ["note", "注意：來源回報為快取資料"] else empty end),
       (if ($quotas | length) == 0 then ["note", "目前沒有回報額度區間"]
        else $quotas[]
-         | ["quota", "\(.title) · 剩餘 \(.remaining)%",
-           (if .reset == null then ""
-            elif .reset <= $now then "↳ 重置時間已到，等待來源更新"
-            else ((.reset - $now) / 60 | ceil) as $minutes
-              | (if $minutes >= 1440 then
-                   "\(($minutes / 1440) | floor) 天 \((($minutes % 1440) / 60) | floor) 小時 \($minutes % 60) 分"
-                 elif $minutes >= 60 then
-                   "\(($minutes / 60) | floor) 小時 \($minutes % 60) 分"
-                 else "\($minutes) 分" end) as $duration
-              | "↳ 約 \($duration)後重置"
-            end)]
+         | ["quota", "\(.title) · 剩餘 \(.remaining)%\(if .reset == null then ""
+             elif .reset <= $now then " · 等待重置資料更新"
+             else " · \(countdown(.reset)) 後重置" end)"]
        end) end)) end
     | join("\t")
 '); then
@@ -67,12 +60,9 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
 fi
 
 CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
-ON_SURFACE=0xfff2f0f4
 PRIMARY=0xffd0bcff
 test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
 
-# One native item holds both lines, so its border encloses the whole quota.
-# https://felixkratz.github.io/SketchyBar/config/items#background-properties
 # One IPC batch replaces the tooltip without flashing an empty popup.
 # Providers missing from this response stay hidden rather than keeping stale numbers.
 set -- --remove '/codexbar\.usage\..*/' --set '/^meter\./' drawing=off \
@@ -89,24 +79,7 @@ while IFS="$(printf '\t')" read -r kind title reset; do
         --set "codexbar.usage.$index" width=314 padding_left=10 padding_right=10 \
         icon.drawing=off "label=$title" label.max_chars=40 \
         label.padding_left=10 label.padding_right=10
-    case "$kind" in
-        header)
-            set -- "$@" label.color="$PRIMARY" label.font.style=Bold
-            ;;
-        quota)
-            set -- "$@" icon.drawing=on "icon=$title" \
-                icon.font="JetBrainsMono Nerd Font:Regular:13.0" \
-                icon.width=0 icon.padding_left=10 icon.padding_right=0 icon.max_chars=40 \
-                label="$reset" label.font.size=12 label.color="0xcc${ON_SURFACE#????}" \
-                background.drawing=on background.color="0x08${ON_SURFACE#????}" \
-                background.border_width=1 background.border_color="0x55${ON_SURFACE#????}" \
-                background.corner_radius=6 background.height=52 \
-                icon.y_offset=11 label.y_offset=-11
-            if test -z "$reset"; then
-                set -- "$@" icon.y_offset=0 label.drawing=off background.height=32
-            fi
-            ;;
-    esac
+    test "$kind" = header && set -- "$@" label.color="$PRIMARY" label.font.style=Bold
 done <<EOF
 $rows
 EOF

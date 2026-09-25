@@ -52,21 +52,21 @@ chezmoi theme IMAGE
 After the first `chezmoi apply`, AeroSpace opens automatically:
 
 1. Follow the macOS permission prompts. Under **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. If you previously denied a request, enable it there manually. If launching SketchyBar from a terminal, allow that terminal too.
-2. Open CodexBar and Stats. In CodexBar, enable and sign in to the providers you use, and disable unused providers. Applying dotfiles preserves these toggles, sets existing Codex to OAuth and Claude to CLI, and adds no missing providers. Relaunch CodexBar if it was already open during apply. Stats starts with CPU, RAM, sensors, and network speed; customize its modules in Stats settings.
+2. Open CodexBar and Stats. In CodexBar, enable and sign in to the providers you use, and disable unused providers. Relaunch CodexBar if it was already open during apply. Customize Stats modules in Stats settings.
 3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
 4. After granting permissions, quit SketchyBar, then quit and reopen AeroSpace. Reloading SketchyBar alone does not apply new permissions.
 
 Daily use:
 
-- **Workspaces:** click a number to switch. Only occupied workspaces and the current workspace are shown; keyboard shortcuts still reach hidden workspaces.
-- **GPT / Claude:** the bar shows each provider's icon, remaining percentage, and reset countdown. Hover for detailed usage; a failed provider does not hide the other. Left-click for that provider's details; right-click to refresh.
+- **Workspaces:** click a number to switch.
+- **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
 - **Stats:** hover for the module name; click for its detailed panel.
 - **Input source:** click to open the input-method menu.
 - **Volume:** click to toggle mute; scroll to adjust by 3%.
 - **Control Center:** press `Fn+C`.
 - **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
 
-Once apps finish starting, SketchyBar checks for new or removed Stats and input-source icons every five seconds. If icons are still missing or incorrect after rearranging native menu-bar items:
+If Stats or input-source icons are missing or incorrect after rearranging native menu-bar items:
 
 ```bash
 sketchybar --reload
@@ -106,7 +106,7 @@ sketchybar --query default_menu_items
 On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 
 1. Launch OpenWhispr (`openwhispr` on Linux / Windows).
-2. Run `asr-mode sensevoice` for CPU-only recognition or `asr-mode qwen-1.7b` for GPU-backed recognition. Missing models download when selected.
+2. Run `asr-mode sensevoice` for CPU-only recognition or `asr-mode qwen-1.7b` for GPU-backed recognition.
 3. In OpenWhispr, set Self-Hosted to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`.
 4. Restart OpenWhispr after `chezmoi apply` to load its shortcuts.
 

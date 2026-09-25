@@ -98,8 +98,7 @@ sketchybar --add item codexbar.status popup.codexbar \
         label="CodexBar · 正在讀取…" label.color="$PRIMARY" \
         label.padding_left=12 label.padding_right=12
 
-# macOS 27 composites every menu extra into one MenuBarAgent window, so there is
-# no per-item window left to alias; codexbar.sh renders the usage itself.
+# CodexBar has no aliasable per-provider window on macOS 27.
 for provider in codex claude; do
     sketchybar --add item "meter.$provider" left \
         --set "meter.$provider" drawing=off icon=' ' icon.width=18 \
@@ -110,7 +109,7 @@ for provider in codex claude; do
         --subscribe "meter.$provider" mouse.entered mouse.exited mouse.clicked
 done
 
-# Only Stats, CodexBar and the input source are included; there is no App tray.
+# Mirror Stats and the input source from the native menu bar.
 status_helper="$HOME/.local/bin/sb-status-items"
 # Request Screen Recording before missing permissions can hide native items.
 sketchybar --query default_menu_items >/dev/null

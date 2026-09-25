@@ -45,8 +45,7 @@ func statusItems(bundle: String? = nil) -> [StatusItem] {
                   AXValueGetValue(size as! AXValue, .cgSize, &dimensions),
                   dimensions.width > 0, dimensions.height > 0 else { continue }
             let center = CGPoint(x: origin.x + dimensions.width / 2, y: origin.y + dimensions.height / 2)
-            // Zero-size AX placeholders and non-status windows never match. macOS 27
-            // composites every extra into one window, leaving no alias source at all.
+            // Zero-size AX placeholders and non-status windows never match.
             let matches = windows.enumerated().filter { bounds($0.element).contains(center) }
             var source = "", name = ""
             if matches.count == 1, let match = matches.first,
