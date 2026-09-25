@@ -7,7 +7,7 @@ cpu=$(iostat -c 2 -w 1 -n 0 | awk '
     NF == 6 && $3 ~ /^[0-9]+$/ { idle = $3; samples++ }
     END {
         if (samples != 2 || idle < 0 || idle > 100) exit 1
-        printf "%.4f %.0f%%", (100 - idle) / 100, 100 - idle
+        printf "%.4f", (100 - idle) / 100
     }
 ')
 
@@ -25,7 +25,7 @@ ram=$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
     }
 ')
 
-# Both samplers return a normalized graph value and a percentage label.
-set -- $cpu $ram
-sketchybar --push stats.cpu "$1" --set stats.cpu label="$2" \
-    --push stats.ram "$3" --set stats.ram label="$4"
+# RAM also returns a percentage label; CPU is graph-only.
+set -- $ram
+sketchybar --push stats.cpu "$cpu" \
+    --push stats.ram "$1" --set stats.ram label="$2"

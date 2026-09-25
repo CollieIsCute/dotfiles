@@ -24,7 +24,7 @@ EOF
 sketchybar() { printf '%s\n' "$*"; }
 
 result=$(. "$plugin")
-test "$result" = '--push stats.cpu 0.3800 --set stats.cpu label=38% --push stats.ram 0.5000 --set stats.ram label=50%'
+test "$result" = '--push stats.cpu 0.3800 --push stats.ram 0.5000 --set stats.ram label=50%'
 
 # A missing second CPU sample must not push a misleading value.
 iostat() { printf '%s\n' '  1  1 98  2.25 2.61 2.69'; }
@@ -44,4 +44,30 @@ status=$?
 set -e
 test "$status" -ne 0
 test -z "$result"
+
+plugin=home/dot_config/sketchybar/plugins/executable_network.sh
+route() { printf '%s\n' '  interface: en0'; }
+sleep() { :; }
+net_calls=0
+down=1500000 up=250000
+netstat() {
+    test "$*" = '-ibn -I en0' || return 1
+    printf 'en0 1500 <Link#11> aa:bb:cc:dd:ee:ff 100 0 %s 50 0 %s 0\n' \
+        "$((1000000 + net_calls * down))" "$((1000000 + net_calls * up))"
+    printf '%s\n' 'en0 1500 10.0.0/24 10.0.0.1 100 0 9999999 50 0 9999999 0'
+    net_calls=$((net_calls + 1))
+}
+result=$(. "$plugin")
+test "$result" = '--set stats.network label=↓1.5MB/s ↑250.0KB/s'
+
+# Large transfers and idle links retain meaningful units.
+down=2000000000 up=0
+result=$(. "$plugin")
+test "$result" = '--set stats.network label=↓2.0GB/s ↑0B/s'
+
+# An offline machine clears the old rate without polling an arbitrary interface.
+route() { return 1; }
+netstat() { return 1; }
+result=$(. "$plugin")
+test "$result" = '--set stats.network label=↓— ↑—'
 printf '%s\n' 'SketchyBar stats checks passed.'

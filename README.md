@@ -60,7 +60,8 @@ Daily use:
 
 - **Workspaces:** click a number to switch.
 - **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
-- **CPU / RAM:** graphs and percentages refresh every 5 seconds; click to open Activity Monitor.
+- **CPU / RAM:** CPU shows a graph; RAM shows a graph and percentage. Both refresh every 5 seconds; click to open Activity Monitor.
+- **Network:** download `↓` and upload `↑` speeds refresh every 5 seconds; click to open Activity Monitor.
 - **Input source:** click to open the input-method menu.
 - **Volume:** click to toggle mute; scroll to adjust by 3%.
 - **Control Center:** press `Fn+C`.
