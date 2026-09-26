@@ -1,0 +1,4 @@
+[tools]
+shfmt = "3.14.1"
+stylua = "2.5.2"
+yamlfmt = "0.21.0"
