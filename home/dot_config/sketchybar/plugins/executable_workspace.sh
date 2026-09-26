@@ -14,10 +14,10 @@ set -- --set '/^space\./' drawing=off background.drawing=off icon.highlight=off
 IFS='
 '
 for sid in $occupied "$focused"; do
-  case "$sid" in [1-9] | magic) ;; *) continue ;; esac
-  set -- "$@" --set "space.$sid" drawing=on
-  if test "$sid" = "$focused"; then
-    set -- "$@" background.drawing=on icon.highlight=on
-  fi
+    case "$sid" in [1-9]|magic) ;; *) continue ;; esac
+    set -- "$@" --set "space.$sid" drawing=on
+    if test "$sid" = "$focused"; then
+        set -- "$@" background.drawing=on icon.highlight=on
+    fi
 done
 sketchybar "$@"
