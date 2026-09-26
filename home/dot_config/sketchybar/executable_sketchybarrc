@@ -100,12 +100,12 @@ for metric in battery temp ram cpu; do
     click_script="open -a 'Activity Monitor'"
 done
 sketchybar --set stats.battery icon='󰁹' icon.drawing=on \
-  --set stats.cpu padding_left=6 update_freq=5 script="$PLUGIN_DIR/stats.sh" \
+  --set stats.cpu padding_left=6 update_freq=2 script="$PLUGIN_DIR/stats.sh" \
   --subscribe stats.cpu system_woke
 sketchybar --add item stats.network right \
-  --set stats.network icon.drawing=off label='↓— ↑—' label.width=155 padding_left=8 padding_right=8 \
+  --set stats.network icon.drawing=off label='↓0B/s ↑0B/s' label.width=155 padding_left=8 padding_right=8 \
   click_script="open -a 'Activity Monitor'" \
-  update_freq=5 script="$PLUGIN_DIR/network.sh" \
+  update_freq=2 script="$PLUGIN_DIR/network.sh" \
   --subscribe stats.network system_woke
 sketchybar --move volume after stats.network
 

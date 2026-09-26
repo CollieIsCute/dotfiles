@@ -5,7 +5,7 @@ export LC_ALL=C
 interface=$({ route -n get default 2>/dev/null || route -n get -inet6 default 2>/dev/null; } |
   awk '/interface:/ { print $2; exit }')
 if test -z "$interface"; then
-  sketchybar --set stats.network label='↓— ↑—'
+  sketchybar --set stats.network label='↓0B/s ↑0B/s'
   exit 0
 fi
 
@@ -30,5 +30,5 @@ sample=$({
         printf "↓%s ↑%s\n", rate(down), rate(up)
     }
     END { if (samples != 2) exit 1 }
-')
+') || sample='↓0B/s ↑0B/s'
 sketchybar --set stats.network label="$sample"
