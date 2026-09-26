@@ -1,6 +1,9 @@
 name: Deploy Dotfiles on Different OS
 
-on: [push]
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,10 +14,56 @@ concurrency:
 
 env:
   CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
+  CHEZMOI_REVISION: ${{ github.sha }}
 
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changes_detected || 'false' }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install formatters
+        run: |
+          mkdir -p "$RUNNER_TEMP/format-bin"
+          cd "$RUNNER_TEMP/format-bin"
+          curl -fsSL https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_linux_amd64 -o shfmt
+          curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/download/v2.5.2/stylua-linux-x86_64.zip -o stylua.zip
+          unzip stylua.zip
+          curl -fsSL https://github.com/google/yamlfmt/releases/download/v0.21.0/yamlfmt_0.21.0_Linux_x86_64.tar.gz | tar -xz yamlfmt
+          curl -fsSL https://github.com/fish-shell/fish-shell/releases/download/4.9.3/fish-4.9.3-linux-x86_64.tar.xz | tar -xJ fish
+          ln -s fish fish_indent
+          chmod +x shfmt stylua yamlfmt fish
+          echo "$RUNNER_TEMP/format-bin" >> "$GITHUB_PATH"
+
+      - name: Format sources
+        run: bash scripts/format.sh
+
+      - name: Check master formatting
+        if: github.ref == 'refs/heads/master'
+        run: git diff --exit-code
+
+      - uses: stefanzweifel/git-auto-commit-action@v7
+        if: github.ref != 'refs/heads/master'
+        id: commit
+        with:
+          commit_message: 'style: format dotfiles'
+          branch: ${{ github.ref_name }}
+          tracked_files_only: true
+
+      - name: Run CI on the formatted commit
+        if: steps.commit.outputs.changes_detected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test-distros.yaml --ref "$GITHUB_REF_NAME"
+
   arch:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: archlinux:latest
     runs-on: ubuntu-latest
     container: archlinux:latest
@@ -24,9 +73,11 @@ jobs:
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
 
   ubuntu:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: ubuntu:latest
     runs-on: ubuntu-latest
     # Keep this floating on purpose to catch upstream breaking changes early; do not pin it.
@@ -38,9 +89,11 @@ jobs:
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
 
   macos:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: macos:latest
     runs-on: macos-latest
     env:
@@ -49,9 +102,11 @@ jobs:
       - run: brew update && brew install chezmoi
       - name: chezmoi init dotfiles
         run: |
-          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
 
   windows:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: windows:latest + Arch WSL 2
     runs-on: windows-latest
     steps:
@@ -61,4 +116,4 @@ jobs:
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$env:RUNNER_TEMP/bin'"
           $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
           Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
-          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --revision "$env:CHEZMOI_REVISION" --apply -v

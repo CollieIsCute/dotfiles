@@ -14,6 +14,15 @@ Apply local configuration changes:
 chezmoi apply -v
 ```
 
+### Format source files
+
+Install `shfmt`, `fish`, `stylua`, and `yamlfmt` (macOS: `brew install shfmt fish stylua yamlfmt`), then run from this checkout:
+
+```bash
+bash scripts/format.sh
+bash scripts/format.sh --check
+```
+
 ### Windows + Arch WSL 2
 
 From a normal PowerShell terminal (with GitHub SSH access already configured):
