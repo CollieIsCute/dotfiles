@@ -55,8 +55,8 @@ if ! rows=$(printf '%s\n' "$data" | /usr/bin/jq -er '
        end) end)) end
     | join("\t")
 '); then
-    sketchybar --set codexbar.status label="CodexBar · 回應不完整，資料未更新"
-    exit 1
+  sketchybar --set codexbar.status label="CodexBar · 回應不完整，資料未更新"
+  exit 1
 fi
 
 CONFIG_DIR=${CONFIG_DIR:-"$HOME/.config/sketchybar"}
@@ -66,20 +66,20 @@ test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
 # One IPC batch replaces the tooltip without flashing an empty popup.
 # Providers missing from this response stay hidden rather than keeping stale numbers.
 set -- --remove '/codexbar\.usage\..*/' --set '/^meter\./' drawing=off \
-    --set codexbar.status "label=CodexBar · 讀取 $(date +%H:%M:%S)"
+  --set codexbar.status "label=CodexBar · 讀取 $(date +%H:%M:%S)"
 index=0
 # meter rows carry the provider id and its bar label; the rest build the popup.
 while IFS="$(printf '\t')" read -r kind title reset; do
-    if test "$kind" = meter; then
-        set -- "$@" --set "meter.$title" drawing=on "label=$reset"
-        continue
-    fi
-    index=$((index + 1))
-    set -- "$@" --add item "codexbar.usage.$index" popup.codexbar \
-        --set "codexbar.usage.$index" width=314 padding_left=10 padding_right=10 \
-        icon.drawing=off "label=$title" label.max_chars=40 \
-        label.padding_left=10 label.padding_right=10
-    test "$kind" = header && set -- "$@" label.color="$PRIMARY" label.font.style=Bold
+  if test "$kind" = meter; then
+    set -- "$@" --set "meter.$title" drawing=on "label=$reset"
+    continue
+  fi
+  index=$((index + 1))
+  set -- "$@" --add item "codexbar.usage.$index" popup.codexbar \
+    --set "codexbar.usage.$index" width=314 padding_left=10 padding_right=10 \
+    icon.drawing=off "label=$title" label.max_chars=40 \
+    label.padding_left=10 label.padding_right=10
+  test "$kind" = header && set -- "$@" label.color="$PRIMARY" label.font.style=Bold
 done <<EOF
 $rows
 EOF

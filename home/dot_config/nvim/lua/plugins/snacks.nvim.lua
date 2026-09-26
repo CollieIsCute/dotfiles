@@ -21,4 +21,3 @@ return {
     image = { enabled = true },
   },
 }
-
