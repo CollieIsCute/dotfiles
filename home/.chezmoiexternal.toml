@@ -56,12 +56,6 @@ refreshPeriod = "168h"
 stripComponents = 1
 include = ["crispasr-linux-x86_64-vulkan/crispasr", "crispasr-linux-x86_64-vulkan/lib*"]
 {{ else if eq .chezmoi.os "darwin" -}}
-[".local/libexec/openwhispr"]
-type = "archive"
-exact = true
-url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-arm64-mac.zip" | quote }}
-refreshPeriod = "168h"
-
 [".local/libexec/crispasr"]
 type = "archive"
 url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-macos.tar.gz" | quote }}
@@ -69,11 +63,6 @@ refreshPeriod = "168h"
 stripComponents = 1
 include = ["crispasr-macos/crispasr", "crispasr-macos/libc2pa_c.dylib"]
 {{ else if eq .chezmoi.os "windows" -}}
-[".local/bin/openwhispr.exe"]
-type = "file"
-url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-[0-9]*.exe" | quote }}
-refreshPeriod = "168h"
-
 [".local/libexec/crispasr/cpu"]
 type = "archive"
 url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-windows-x86_64-cpu.zip" | quote }}

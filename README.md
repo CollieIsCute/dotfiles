@@ -96,7 +96,7 @@ chezmoi theme IMAGE
 
 On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 
-1. Launch OpenWhispr (`openwhispr` on Linux / Windows).
+1. Launch OpenWhispr from Applications on macOS, the Start menu on Windows, or `openwhispr` on Linux.
 2. Run `asr-mode sensevoice` for CPU-only recognition or `asr-mode qwen-1.7b` for GPU-backed recognition.
 3. In OpenWhispr, set Self-Hosted to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`.
 4. Restart OpenWhispr after `chezmoi apply` to load its shortcuts.

@@ -2,14 +2,10 @@
 #!/bin/sh
 set -eu
 
-# OpenWhispr 1.10.0 checks Hold against default Control+Super before loading the
-# saved key, wrongly resetting Hold to Tap. Load the saved key before that check.
-# Upstream fix: https://github.com/OpenWhispr/openwhispr/pull/1978
-# Always install the latest official release; never pin it for this workaround.
-# Patch only verified source; skip changed upstream code without blocking updates.
-# Future maintainers/AI: remove this script and its README note automatically once
-# the latest release fixes this ordering and unpatched Hold survives a restart.
-# The user authorizes that cleanup without asking again; keep latest-release URLs.
+# Bug: startup checks the default key, resetting saved Hold to Tap.
+# Track: https://github.com/OpenWhispr/openwhispr/pull/2326
+# Remove automatically once the latest release preserves Hold after restart without this patch.
+# Keep latest releases; patch only known hashes.
 app="$HOME/.local/libexec/openwhispr"
 ELECTRON_RUN_AS_NODE=1 "$app/open-whispr-app" - "$app/resources/app.asar" <<'JS'
 const fs = require('original-fs');
