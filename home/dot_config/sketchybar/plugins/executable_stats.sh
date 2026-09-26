@@ -31,20 +31,20 @@ temp='—'
 smc=${STATS_SMC:-/Applications/Stats.app/Contents/Resources/smc}
 # M2 CPU sensor keys from Stats Modules/Sensors/values.swift.
 case "$(sysctl -n machdep.cpu.brand_string)" in
-    'Apple M2'*)
-        if test -x "$smc"; then
-            temp=$("$smc" list -t | awk '
+'Apple M2'*)
+  if test -x "$smc"; then
+    temp=$("$smc" list -t | awk '
                 /^\[Tp(1[htpl]|0[159DXbfj])\]/ && $2 > 0 && $2 < 128 { sum += $2; n++ }
                 END { if (n) printf "%.0f°C", sum / n; else print "—" }
             ')
-        fi
-        ;;
+  fi
+  ;;
 esac
 sketchybar --set stats.temp label="$temp"
 
 battery=$(pmset -g batt | awk 'match($0, /[0-9]+%/) { print substr($0, RSTART, RLENGTH); exit }')
 if test -n "$battery"; then
-    sketchybar --set stats.battery drawing=on label="$battery"
+  sketchybar --set stats.battery drawing=on label="$battery"
 else
-    sketchybar --set stats.battery drawing=off
+  sketchybar --set stats.battery drawing=off
 fi
