@@ -44,6 +44,12 @@ NC='\033[0m'
     sudo apt-get -o Acquire::Retries=3 update
     sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}{{ range .packages.ubuntu.desktop }}{{ . }} {{ end }}
     {{ end }}
+    {{ if not $isWSL }}
+    download=$(mktemp -d)
+    trap 'rm -rf "$download"' EXIT HUP INT TERM
+    curl -fL {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-amd64.deb" | quote }} -o "$download/openwhispr.deb"
+    sudo apt-get install -y "$download/openwhispr.deb"
+    {{ end }}
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1
