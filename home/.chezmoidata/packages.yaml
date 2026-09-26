@@ -164,6 +164,7 @@ packages:
         - mattermost
         - moonlight
         - neovide
+        - openwhispr
         - qmk-toolbox
         - signal
         - telegram
