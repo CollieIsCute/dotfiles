@@ -22,15 +22,11 @@ jobs:
       changed: ${{ steps.commit.outputs.changes_detected || 'false' }}
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
 
       - uses: jdx/mise-action@v4
       - uses: fish-shop/install-fish-shell@v2
 
       - name: Format sources
-        env:
-          FORMAT_BASE: ""
         run: bash .github/scripts/format.sh
 
       - name: Check master formatting

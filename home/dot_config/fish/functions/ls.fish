@@ -5,3 +5,4 @@ function ls --description 'eza (fallback to ls)' --wraps eza
         command ls $argv
     end
 end
+
