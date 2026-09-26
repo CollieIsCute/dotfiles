@@ -109,18 +109,6 @@ sketchybar --add item stats.network right \
   --subscribe stats.network system_woke
 sketchybar --move volume after stats.network
 
-add_alias() {
-  # Item-0 is shared by unrelated macOS 26 items: retain its resolved index.
-  case "$1" in
-  *,Item-0\(* | *,\(*) source=$1 ;;
-  *) source=$(printf '%s\n' "$1" | sed 's/([0-9][0-9]*)$//') ;;
-  esac
-  sketchybar --add alias "$source" "$3" || return 0
-  # Keep captured menu items at native size and preserve their raster colors.
-  sketchybar --rename "$source" "$2" --set "$2" "click_script=${4-}" \
-    icon.drawing=off label.drawing=off alias.scale=1 alias.update_freq=2
-}
-
 # A zero-width anchor gives both provider icons one shared hover popup.
 sketchybar --add item codexbar left \
   --set codexbar width=0 padding_left=0 padding_right=0 \
@@ -145,30 +133,14 @@ for provider in codex claude; do
     --subscribe "meter.$provider" mouse.entered mouse.exited mouse.clicked
 done
 
-# Mirror the input source from the native menu bar.
-status_helper="$HOME/.local/bin/sb-status-items"
-# Request Screen Recording before missing permissions can hide native items.
-sketchybar --query default_menu_items >/dev/null
-menu_items=$("$status_helper" list) || menu_items='[]'
-sketchybar --add item native.observer left \
-  --set native.observer drawing=off updates=on update_freq=5 \
-  "label=$(printf '%s\n' "$menu_items" | /usr/bin/jq -r '[.[] | [.bundle, .window]] | sort | @base64')" \
-  script="$PLUGIN_DIR/native-items.sh" \
-  --subscribe native.observer system_woke
-printf '%s\n' "$menu_items" |
-  /usr/bin/jq -r '.[] | [.bundle, .source, .window, .help] | @tsv' |
-  (
-    while IFS="$(printf '\t')" read -r bundle source window help; do
-      click=$(/usr/bin/jq -nr --arg helper "$status_helper" --arg bundle "$bundle" --arg window "$window" \
-        '[$helper, "click", $bundle, $window] | @sh')
-      case "$bundle" in
-      com.apple.TextInputMenuAgent)
-        add_alias "$source" input_source right "$click"
-        sketchybar --move input_source before volume
-        ;;
-      esac
-    done
-  )
+sketchybar --add event input_source_changed com.apple.Carbon.TISNotifySelectedKeyboardInputSourceChanged
+sketchybar --add item input_source right \
+  --set input_source icon='⌨' icon.font='SF Pro:Semibold:15.0' \
+  icon.width=36 icon.padding_left=4 icon.padding_right=4 label.drawing=off \
+  update_freq=1 script="$PLUGIN_DIR/input-source.sh" \
+  click_script='"$HOME/.local/bin/sb-status-items" input-menu' \
+  --subscribe input_source input_source_changed system_woke
+sketchybar --move input_source before volume
 
 sketchybar --update
 
