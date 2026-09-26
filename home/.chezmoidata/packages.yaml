@@ -67,6 +67,7 @@ packages:
       - noctalia
       - noctalia-greeter
       - nwg-look
+      - openwhispr-bin
       - papers
       - pavucontrol
       - pipewire-alsa

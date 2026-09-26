@@ -10,6 +10,9 @@
 .local/libexec/voxtype
 .local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
+.local/bin/openwhispr
+.local/libexec/openwhispr
+.local/share/applications/open-whispr.desktop
 .config/hypr/hypridle.conf
 .config/hypr/hyprlock.conf
 .config/hypr/hyprpaper.conf

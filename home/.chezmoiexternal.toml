@@ -42,13 +42,6 @@ filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -
 {{ end -}}
 
 {{ if and (eq .chezmoi.os "linux") (not (includeTemplate "is_wsl" . | fromJson)) -}}
-[".local/libexec/openwhispr"]
-type = "archive"
-url = {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-x64.tar.gz" | quote }}
-exact = true
-refreshPeriod = "168h"
-stripComponents = 1
-
 [".local/libexec/crispasr"]
 type = "archive"
 url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-linux-x86_64-vulkan.tar.gz" | quote }}
