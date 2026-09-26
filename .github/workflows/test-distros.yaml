@@ -29,18 +29,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install formatters
-        run: |
-          mkdir -p "$RUNNER_TEMP/format-bin"
-          cd "$RUNNER_TEMP/format-bin"
-          curl -fsSL https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_linux_amd64 -o shfmt
-          curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/download/v2.5.2/stylua-linux-x86_64.zip -o stylua.zip
-          unzip stylua.zip
-          curl -fsSL https://github.com/google/yamlfmt/releases/download/v0.21.0/yamlfmt_0.21.0_Linux_x86_64.tar.gz | tar -xz yamlfmt
-          curl -fsSL https://github.com/fish-shell/fish-shell/releases/download/4.9.3/fish-4.9.3-linux-x86_64.tar.xz | tar -xJ fish
-          ln -s fish fish_indent
-          chmod +x shfmt stylua yamlfmt fish
-          echo "$RUNNER_TEMP/format-bin" >> "$GITHUB_PATH"
+      - uses: jdx/mise-action@v4
+      - uses: fish-shop/install-fish-shell@v2
 
       - name: Format sources
         env:
