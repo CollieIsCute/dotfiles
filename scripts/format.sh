@@ -4,8 +4,8 @@ cd "$(git rev-parse --show-toplevel)"
 
 shell_args=(-w)
 fish_args=(-w)
-lua_args=(--config-path home/dot_config/stylua/stylua.toml)
-yaml_args=(-conf home/dot_config/yamlfmt/dot_yamlfmt)
+lua_args=(--config-path stylua.toml)
+yaml_args=(-conf .yamlfmt)
 case "${1:-}" in
 '') ;;
 --check)
@@ -30,7 +30,7 @@ while IFS= read -r -d '' file; do
   *.tmpl | *.tera | */.chezmoitemplates/* | */modify_* | */remove_*) continue ;;
   .github/workflows/*)
     if [[ ${CI:-} == true ]]; then
-      yamlfmt -conf home/dot_config/yamlfmt/dot_yamlfmt -lint "$file"
+      yamlfmt -conf .yamlfmt -lint "$file"
       continue
     fi
     ;;
@@ -42,5 +42,5 @@ while IFS= read -r -d '' file; do
   *) yamlfmt "${yaml_args[@]}" "$file" ;;
   esac
 done < <("${files[@]}" -- '*.sh' '*.fish' '*.lua' '*.yaml' '*.yml' \
-  home/dot_clang-format home/dot_config/yamlfmt/dot_yamlfmt \
+  home/dot_clang-format .yamlfmt \
   home/dot_config/sketchybar/executable_sketchybarrc home/dot_local/bin/executable_openwhispr)

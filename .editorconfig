@@ -1,1 +1,6 @@
-home/dot_editorconfig
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
