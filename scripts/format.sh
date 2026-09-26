@@ -20,6 +20,11 @@ case "${1:-}" in
   ;;
 esac
 
+files=(git ls-files -z)
+if [[ -n ${FORMAT_BASE:-} ]]; then
+  files=(git diff --name-only --diff-filter=ACMR -z "${FORMAT_BASE}...HEAD")
+fi
+
 while IFS= read -r -d '' file; do
   case "$file" in
   *.tmpl | *.tera | */.chezmoitemplates/* | */modify_* | */remove_*) continue ;;
@@ -36,6 +41,6 @@ while IFS= read -r -d '' file; do
   *.lua) stylua "${lua_args[@]}" "$file" ;;
   *) yamlfmt "${yaml_args[@]}" "$file" ;;
   esac
-done < <(git ls-files -z -- '*.sh' '*.fish' '*.lua' '*.yaml' '*.yml' \
+done < <("${files[@]}" -- '*.sh' '*.fish' '*.lua' '*.yaml' '*.yml' \
   home/dot_clang-format home/dot_config/yamlfmt/dot_yamlfmt \
   home/dot_config/sketchybar/executable_sketchybarrc home/dot_local/bin/executable_openwhispr)
