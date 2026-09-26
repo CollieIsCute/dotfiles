@@ -23,7 +23,6 @@ AppData/**
 
 # Linux desktop / XDG targets.
 {{- if or (ne .chezmoi.os "linux") $isWSL }}
-.local/bin/openwhispr
 .config/BraveSoftware
 .config/BraveSoftware/**
 .config/brave-origin-flags.conf
@@ -51,7 +50,6 @@ AppData/**
 
 # WSL reuses the Unix CLI setup; the Windows host owns desktop and voice apps.
 {{- if $isWSL }}
-.chezmoiscripts/3-fix-openwhispr-hold.sh
 .chezmoiscripts/4-configure-greetd-noctalia.sh
 .config/alacritty
 .config/alacritty/**

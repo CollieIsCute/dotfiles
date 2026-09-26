@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.os "linux" -}}
+{{ if and (eq .chezmoi.os "linux") (not (includeTemplate "is_wsl" . | fromJson)) -}}
 #!/bin/sh
 set -eu
 
@@ -6,8 +6,12 @@ set -eu
 # Track: https://github.com/OpenWhispr/openwhispr/pull/2326
 # Remove automatically once the latest release preserves Hold after restart without this patch.
 # Keep latest releases; patch only known hashes.
-app="$HOME/.local/libexec/openwhispr"
-ELECTRON_RUN_AS_NODE=1 "$app/open-whispr-app" - "$app/resources/app.asar" <<'JS'
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+app="/opt/openwhispr"
+{{ else -}}
+app="/opt/OpenWhispr"
+{{ end -}}
+sudo env ELECTRON_RUN_AS_NODE=1 "$app/open-whispr-app" - "$app/resources/app.asar" <<'JS'
 const fs = require('original-fs');
 const { createHash, randomUUID } = require('node:crypto');
 const assert = require('node:assert/strict');

@@ -1,0 +1,9 @@
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") (not (includeTemplate "is_wsl" . | fromJson)) -}}
+#!/bin/sh
+set -eu
+
+download=$(mktemp -d)
+trap 'rm -rf "$download"' EXIT HUP INT TERM
+curl -fL {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-amd64.deb" | quote }} -o "$download/openwhispr.deb"
+sudo apt-get install -y "$download/openwhispr.deb"
+{{ end -}}
