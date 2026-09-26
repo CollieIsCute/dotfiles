@@ -3,18 +3,18 @@ set -eu
 export LC_ALL=C
 
 interface=$({ route -n get default 2>/dev/null || route -n get -inet6 default 2>/dev/null; } |
-    awk '/interface:/ { print $2; exit }')
+  awk '/interface:/ { print $2; exit }')
 if test -z "$interface"; then
-    sketchybar --set stats.network label='↓— ↑—'
-    exit 0
+  sketchybar --set stats.network label='↓— ↑—'
+  exit 0
 fi
 
 # Finite snapshots also work when SketchyBar makes children ignore SIGPIPE.
 # ponytail: approximate one-second rates; timestamp samples if finer timing is needed.
 sample=$({
-    netstat -ibn -I "$interface"
-    sleep 1
-    netstat -ibn -I "$interface"
+  netstat -ibn -I "$interface"
+  sleep 1
+  netstat -ibn -I "$interface"
 } | awk '
     function rate(bytes) {
         if (bytes < 1000) return sprintf("%.0fB/s", bytes)
