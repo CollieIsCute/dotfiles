@@ -30,7 +30,7 @@ jobs:
 
       - name: Format sources
         env:
-          FORMAT_BASE: ${{ github.ref == 'refs/heads/master' && (github.event.before || 'HEAD^') || 'origin/master' }}
+          FORMAT_BASE: ""
         run: bash .github/scripts/format.sh
 
       - name: Check master formatting
