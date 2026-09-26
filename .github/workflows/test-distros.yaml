@@ -47,7 +47,8 @@ jobs:
         with:
           commit_message: 'style: format dotfiles'
           branch: ${{ github.ref_name }}
-          tracked_files_only: true
+          add_options: '-u'
+          status_options: '--untracked-files=no'
 
       - name: Run CI on the formatted commit
         if: steps.commit.outputs.changes_detected == 'true'
