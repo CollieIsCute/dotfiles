@@ -50,6 +50,7 @@ cask "keepassxc"
 cask "kitty"
 cask "middleclick"
 cask "moonlight"
+cask "openwhispr"
 cask "nikitabobko/tap/aerospace", trusted: true
 cask "qmk-toolbox"
 cask "signal"

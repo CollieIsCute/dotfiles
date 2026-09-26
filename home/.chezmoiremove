@@ -29,7 +29,11 @@
 {{ end }}
 {{ end }}
 {{ if eq .chezmoi.os "darwin" }}
+.local/libexec/openwhispr
 Library/Application Support/voxtype
 Library/Caches/voxtype
 Library/Logs/voxtype
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+.local/bin/openwhispr.exe
 {{ end }}
