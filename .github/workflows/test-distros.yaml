@@ -1,6 +1,9 @@
 name: Deploy Dotfiles on Different OS
 
-on: [push]
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -9,56 +12,110 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CHEZMOI_BRANCH: ${{ github.head_ref || github.ref_name }}
-
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changes_detected || 'false' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: jdx/mise-action@v4
+      - uses: fish-shop/install-fish-shell@v2
+
+      - name: Format sources
+        env:
+          FORMAT_BASE: ${{ github.ref == 'refs/heads/master' && (github.event.before || 'HEAD^') || 'origin/master' }}
+        run: bash .github/scripts/format.sh
+
+      - name: Check master formatting
+        if: github.ref == 'refs/heads/master'
+        run: git diff --exit-code
+
+      - uses: stefanzweifel/git-auto-commit-action@v7
+        if: github.ref != 'refs/heads/master'
+        id: commit
+        with:
+          commit_message: 'style: format dotfiles'
+          branch: ${{ github.ref_name }}
+          add_options: '-u'
+          status_options: '--untracked-files=no'
+
+      - name: Run CI on the formatted commit
+        if: steps.commit.outputs.changes_detected == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test-distros.yaml --ref "$GITHUB_REF_NAME"
+
   arch:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: archlinux:latest
     runs-on: ubuntu-latest
     container: archlinux:latest
     steps:
       - name: Install chezmoi and apply dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   ubuntu:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: ubuntu:latest
     runs-on: ubuntu-latest
     # Keep this floating on purpose to catch upstream breaking changes early; do not pin it.
     container: ubuntu:latest
     steps:
       - name: Install chezmoi and apply dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           apt-get update
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   macos:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: macos:latest
     runs-on: macos-latest
-    env:
-      HOMEBREW_BUNDLE_NO_JOBS: "1"
     steps:
       - run: brew update && brew install chezmoi
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: chezmoi init dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_BUNDLE_NO_JOBS: "1"
         run: |
-          chezmoi init collieiscute --branch "$CHEZMOI_BRANCH" --apply -v
+          chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   windows:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
     name: windows:latest + Arch WSL 2
     runs-on: windows-latest
     steps:
       - name: Install Windows + Arch WSL 2
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCOOP_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$env:RUNNER_TEMP/bin'"
           $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
           Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
-          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --branch "$env:CHEZMOI_BRANCH" --apply -v
+          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --revision "${{ github.sha }}" --apply -v
