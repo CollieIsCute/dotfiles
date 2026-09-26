@@ -15,7 +15,7 @@ case "${1:-}" in
   yaml_args+=(-lint)
   ;;
 *)
-  echo "Usage: bash scripts/format.sh [--check]" >&2
+  echo "Usage: bash .github/scripts/format.sh [--check]" >&2
   exit 2
   ;;
 esac

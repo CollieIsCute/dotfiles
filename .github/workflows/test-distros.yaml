@@ -12,12 +12,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  SCOOP_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CHEZMOI_REVISION: ${{ github.sha }}
-
 jobs:
   format:
     runs-on: ubuntu-latest
@@ -37,7 +31,7 @@ jobs:
       - name: Format sources
         env:
           FORMAT_BASE: ${{ github.ref == 'refs/heads/master' && (github.event.before || 'HEAD^') || 'origin/master' }}
-        run: bash scripts/format.sh
+        run: bash .github/scripts/format.sh
 
       - name: Check master formatting
         if: github.ref == 'refs/heads/master'
@@ -66,11 +60,13 @@ jobs:
     container: archlinux:latest
     steps:
       - name: Install chezmoi and apply dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pacman -Syu --noconfirm sudo git chezmoi
           useradd -m dev
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
-          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
+          sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   ubuntu:
     needs: format
@@ -81,25 +77,31 @@ jobs:
     container: ubuntu:latest
     steps:
       - name: Install chezmoi and apply dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           apt-get update
           apt-get install -y sudo git curl
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
           echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
-          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
+          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   macos:
     needs: format
     if: needs.format.outputs.changed == 'false'
     name: macos:latest
     runs-on: macos-latest
-    env:
-      HOMEBREW_BUNDLE_NO_JOBS: "1"
     steps:
       - run: brew update && brew install chezmoi
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: chezmoi init dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_BUNDLE_NO_JOBS: "1"
         run: |
-          chezmoi init collieiscute --revision "$CHEZMOI_REVISION" --apply -v
+          chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
   windows:
     needs: format
@@ -108,9 +110,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Install Windows + Arch WSL 2
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCOOP_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $PSNativeCommandUseErrorActionPreference = $true
           iex "&{$(irm 'https://get.chezmoi.io/ps1')} -b '$env:RUNNER_TEMP/bin'"
           $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
           Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
-          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --revision "$env:CHEZMOI_REVISION" --apply -v
+          & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --revision "${{ github.sha }}" --apply -v
