@@ -1,21 +1,20 @@
 ai:
   claude:
     marketplaces:
-      ponytail:
+      i-have-adhd:
         source:
           source: github
-          repo: DietrichGebert/ponytail
+          repo: ayghri/i-have-adhd
         autoUpdate: true
     plugins:
-      ponytail@ponytail: true
+      i-have-adhd@i-have-adhd: true
 
   codex:
     marketplaces:
-      ponytail: DietrichGebert/ponytail
+      i-have-adhd: ayghri/i-have-adhd
     plugins:
-      - ponytail@ponytail
+      - i-have-adhd@i-have-adhd
 
   opencode:
     plugins:
       - "@khalilgharbaoui/opencode-claude-code-plugin"
-      - "@dietrichgebert/ponytail"
