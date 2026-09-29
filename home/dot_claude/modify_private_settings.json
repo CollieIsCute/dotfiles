@@ -20,7 +20,9 @@
   "verbose" true
   "skipAutoPermissionPrompt" true
 -}}
-{{- $patched := mergeOverwrite (deepCopy $current) $managed -}}
+{{- /* 整個取代，否則從 ai.yaml 移除的 plugin 會被深層合併留下 */ -}}
+{{- $base := omit (deepCopy $current) "enabledPlugins" "extraKnownMarketplaces" -}}
+{{- $patched := mergeOverwrite $base $managed -}}
 {{- if eq (toJson $current) (toJson $patched) -}}
 {{ $in }}
 {{- else -}}
