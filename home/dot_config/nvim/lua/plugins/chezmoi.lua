@@ -3,6 +3,13 @@
 -- https://github.com/alker0/chezmoi.vim#scaletreesitter-nvim-treesitter
 return {
   {
+    "alker0/chezmoi.vim",
+    init = function()
+      -- Let chezmoi.vim resolve .chezmoiroot instead of LazyVim's repo-root path.
+      vim.g["chezmoi#use_tmp_buffer"] = 1
+    end,
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
