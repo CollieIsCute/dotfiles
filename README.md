@@ -72,16 +72,16 @@ chezmoi theme IMAGE
 - If widget edits in Noctalia's GUI override your dotfiles, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml`, or copy those choices into your template before applying.
 - Enable live wallpapers through Noctalia's **W Engine** bar widget.
 
-### Display manager recovery (Arch)
+### Greeter setup (Arch)
 
-- Select **SDDM** during `archinstall`; apply the dotfiles to set up Noctalia Greeter.
-- If Noctalia Greeter shows a black screen, switch to a TTY with `Ctrl+Alt+F2` and run:
+- Apply the dotfiles to configure greetd + Noctalia Greeter, then reboot.
+- If Noctalia Greeter shows a black screen, switch to a TTY with `Ctrl+Alt+F2` and check:
 
   ```bash
-  sudo systemctl disable --now greetd.service && sudo systemctl enable --now sddm.service
+  sudo journalctl -u greetd.service -b
   ```
 
-- If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB, then run the same command.
+- If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB to reach a console.
 
 ## Voice dictation
 

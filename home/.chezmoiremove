@@ -10,6 +10,8 @@
 .local/libexec/voxtype
 .local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
+.config/environment.d/10-nvidia-sync.conf
+.local/share/applications/mattermost-desktop.desktop
 .local/bin/openwhispr
 .local/libexec/openwhispr
 .local/share/applications/open-whispr.desktop
@@ -32,6 +34,7 @@
 {{ end }}
 {{ end }}
 {{ if eq .chezmoi.os "darwin" }}
+.config/sketchybar/plugins/native-items.sh
 .local/libexec/openwhispr
 Library/Application Support/voxtype
 Library/Caches/voxtype

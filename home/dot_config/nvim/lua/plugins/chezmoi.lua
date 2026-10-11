@@ -3,24 +3,26 @@
 -- https://github.com/alker0/chezmoi.vim#scaletreesitter-nvim-treesitter
 return {
   {
+    "alker0/chezmoi.vim",
+    init = function()
+      -- Let chezmoi.vim resolve .chezmoiroot instead of LazyVim's repo-root path.
+      vim.g["chezmoi#use_tmp_buffer"] = 1
+    end,
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      local original_disable = opts.highlight and opts.highlight.disable
-      opts.highlight = opts.highlight or {}
-      opts.highlight.disable = function(lang, buf)
-        -- Check original disable function first
-        if type(original_disable) == "function" and original_disable(lang, buf) then
-          return true
-        elseif type(original_disable) == "table" and vim.tbl_contains(original_disable, lang) then
-          return true
-        end
-        -- Disable treesitter for chezmoi template files
-        local ft = vim.bo[buf].filetype
-        if string.find(ft, "chezmoitmpl") then
-          return true
-        end
-        return false
-      end
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "chezmoitmpl", "*.chezmoitmpl" },
+        callback = function(ev)
+          -- Run after LazyVim's FileType callback starts the highlighter.
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(ev.buf) and vim.bo[ev.buf].filetype:match("chezmoitmpl$") then
+              vim.treesitter.stop(ev.buf)
+            end
+          end)
+        end,
+      })
     end,
   },
 }

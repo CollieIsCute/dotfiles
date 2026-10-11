@@ -74,7 +74,6 @@ packages:
       - pipewire-pulse
       - qpwgraph
       - qt6ct
-      - sddm
       - steam
       - telegram-desktop
       - ttf-input
@@ -139,7 +138,6 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - qpwgraph
-      - sddm
       - wireplumber
       - wl-clipboard
       - wtype
