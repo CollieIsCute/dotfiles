@@ -138,7 +138,6 @@ packages:
       - pavucontrol
       - pipewire-pulse
       - qpwgraph
-      - sddm
       - wireplumber
       - wl-clipboard
       - wtype
