@@ -74,7 +74,6 @@ packages:
       - pipewire-pulse
       - qpwgraph
       - qt6ct
-      - sddm
       - steam
       - telegram-desktop
       - ttf-input

@@ -8,47 +8,14 @@ export NC='\033[0m'
 
 echo -e "${GREEN}Configuring greetd + Noctalia Greeter...${NC}"
 
-enable_sddm_fallback() {
-  if [ -d /run/systemd/system ]; then
-    sudo systemctl disable greetd.service >/dev/null 2>&1 || true
-    sudo systemctl enable sddm.service >/dev/null 2>&1 || true
-  fi
-}
-
 setup_script="/usr/share/noctalia-greeter/setup_greeter_system.sh"
 greeter_state_dir="/var/lib/noctalia-greeter"
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-# Noctalia 1.6+ securely syncs as greeter and manages its state directory.
-sudo rm -f /etc/pacman.d/hooks/99-noctalia-greeter-state-dir.hook
-
-if ! command -v noctalia-greeter-session >/dev/null 2>&1; then
-  echo -e "${YELLOW}Warning: noctalia-greeter-session not found; keeping SDDM enabled.${NC}"
-  enable_sddm_fallback
-  exit 0
-fi
-
-if ! getent passwd greeter >/dev/null 2>&1; then
-  echo -e "${YELLOW}Warning: greeter user is missing; keeping SDDM enabled.${NC}"
-  enable_sddm_fallback
-  exit 0
-fi
-
 session_bin="$(command -v noctalia-greeter-session)"
-
-if [ ! -x "$setup_script" ]; then
-  echo -e "${YELLOW}Warning: ${setup_script} not found; keeping SDDM enabled.${NC}"
-  enable_sddm_fallback
-  exit 0
-fi
-
-if ! sudo env GREETER_USER=greeter "$setup_script"; then
-  echo -e "${YELLOW}Warning: Noctalia Greeter setup failed; keeping SDDM enabled.${NC}"
-  enable_sddm_fallback
-  exit 0
-fi
+sudo env GREETER_USER=greeter "$setup_script"
 
 sudo install -d -o root -g root -m 0755 /etc/greetd
 
@@ -103,13 +70,8 @@ sudo install -o root -g root -m 0644 "${tmpdir}/config.toml" /etc/greetd/config.
 
 if [ -d /run/systemd/system ]; then
   # Do not stop/start display managers here; that can kill the current session.
-  sudo systemctl disable sddm.service >/dev/null 2>&1 || true
-  if sudo systemctl enable greetd.service; then
-    echo -e "${GREEN}greetd is enabled. Reboot to switch from SDDM to Noctalia Greeter.${NC}"
-  else
-    echo -e "${YELLOW}Warning: failed to enable greetd; keeping SDDM enabled.${NC}"
-    enable_sddm_fallback
-  fi
+  sudo systemctl enable greetd.service
+  echo -e "${GREEN}greetd is enabled. Reboot to use Noctalia Greeter.${NC}"
 else
   echo -e "${YELLOW}systemd is not running; skipping display-manager service switch.${NC}"
 fi
