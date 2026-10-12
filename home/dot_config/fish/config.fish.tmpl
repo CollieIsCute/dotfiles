@@ -35,5 +35,17 @@ command -q nvim && alias vi nvim
 # 載入本地設定
 test -f ~/.config/fish/local.fish && source ~/.config/fish/local.fish
 
+# Use gh only when chezmoi has no explicit GitHub credentials.
+if command -q gh \
+        && test -z "$CHEZMOI_GITHUB_ACCESS_TOKEN" \
+        && test -z "$CHEZMOI_GITHUB_TOKEN" \
+        && test -z "$GITHUB_ACCESS_TOKEN" \
+        && test -z "$GITHUB_TOKEN"
+    set -l github_token (command gh auth token --hostname github.com 2>/dev/null)
+    if test $status -eq 0; and test -n "$github_token"
+        set -gx CHEZMOI_GITHUB_ACCESS_TOKEN "$github_token"
+    end
+end
+
 # zoxide 初始化
 command -q zoxide && zoxide init fish | source

@@ -14,6 +14,11 @@ Apply local configuration changes:
 chezmoi apply -v
 ```
 
+After applying, open a new fish session to let chezmoi use your GitHub CLI login
+when available. Existing GitHub token variables take precedence; without a login,
+chezmoi keeps its default behavior. The token stays in the shell environment.
+This does not authenticate the first apply, before the fish configuration is installed.
+
 ### Windows + Arch WSL 2
 
 From a normal PowerShell terminal (with GitHub SSH access already configured):
