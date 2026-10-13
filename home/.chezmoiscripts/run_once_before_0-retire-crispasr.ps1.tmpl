@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.os "windows" -}}
+$ErrorActionPreference = "Stop"
+$crispRoot = Join-Path $env:USERPROFILE ".local\libexec\crispasr"
+$prefix = $crispRoot + [IO.Path]::DirectorySeparatorChar
+
+# Only stop processes from the retired chezmoi installation.
+foreach ($process in @(Get-Process -Name crispasr -ErrorAction SilentlyContinue)) {
+    if ($process.Path -and $process.Path.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+        Stop-Process -InputObject $process
+        if (!$process.WaitForExit(5000)) {
+            throw "CrispASR did not stop; leaving its files in place."
+        }
+    }
+}
+{{ end -}}

@@ -9,7 +9,18 @@
 .cache/voxtype
 .local/libexec/voxtype
 .local/share/voxtype
+.config/fish/completions/asr-mode.fish
+.config/fish/functions/asr-mode.fish
+.local/bin/asr-mode.cmd
+.local/libexec/asr-mode.ps1
+.local/libexec/crispasr
 {{ if eq .chezmoi.os "linux" }}
+.cache/crispasr
+.config/open-whispr/.env
+.config/hypr/openwhispr-binds.conf
+.config/hypr/openwhispr-binds.lua
+.config/autostart/OpenWhispr.desktop
+.config/autostart/open-whispr.desktop
 .config/environment.d/10-nvidia-sync.conf
 .local/share/applications/mattermost-desktop.desktop
 .local/bin/openwhispr
@@ -39,7 +50,11 @@
 Library/Application Support/voxtype
 Library/Caches/voxtype
 Library/Logs/voxtype
+Library/Application Support/open-whispr/.env
+Library/Caches/crispasr
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 .local/bin/openwhispr.exe
+AppData/Local/crispasr
+AppData/Roaming/open-whispr/.env
 {{ end }}

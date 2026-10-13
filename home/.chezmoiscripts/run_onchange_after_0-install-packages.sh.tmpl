@@ -7,6 +7,9 @@ NC='\033[0m'
 {{ if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}Installing MacOS packages${NC}"
   {{- template "install-packages_darwin.tmpl" . -}}
+  if brew list --cask openwhispr >/dev/null 2>&1; then
+    brew uninstall --cask openwhispr
+  fi
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
@@ -25,6 +28,9 @@ NC='\033[0m'
     {{ end }}
     
     {{ if not $isWSL }}
+    if pacman -Qq openwhispr-bin >/dev/null 2>&1; then
+      sudo pacman -R --noconfirm openwhispr-bin
+    fi
     if command -v flatpak > /dev/null; then
       echo -e "${GREEN}Setting up Flatpak and installing applications...${NC}"
       
@@ -42,12 +48,19 @@ NC='\033[0m'
     echo -e "${GREEN}Installing packages for Ubuntu...${NC}"
     {{ if .packages.ubuntu.apt }}
     sudo apt-get -o Acquire::Retries=3 update
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}{{ range .packages.ubuntu.desktop }}{{ . }} {{ end }}
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 install -y {{ range .packages.ubuntu.apt }}{{ . }} {{ end }}{{ if not $isWSL }}{{ range .packages.ubuntu.desktop }}{{ . }} {{ end }}{{ end }}
     {{ end }}
+    {{ if not $isWSL }}
     download=$(mktemp -d)
     trap 'rm -rf "$download"' EXIT HUP INT TERM
-    curl -fL {{ gitHubLatestReleaseAssetURL "OpenWhispr/openwhispr" "OpenWhispr-*-linux-amd64.deb" | quote }} -o "$download/openwhispr.deb"
-    sudo apt-get install -y "$download/openwhispr.deb"
+    curl --fail --location --retry 3 {{ gitHubLatestReleaseAssetURL "cjpais/Handy" "Handy_*_amd64.deb" | quote }} -o "$download/handy.deb"
+    sudo apt-get install -y "$download/handy.deb"
+    for retired_package in open-whispr openwhispr; do
+      if dpkg-query -W -f='${Status}' "$retired_package" 2>/dev/null | grep -q '^install ok installed$'; then
+        sudo apt-get remove -y "$retired_package"
+      fi
+    done
+    {{ end }}
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"
     exit 1

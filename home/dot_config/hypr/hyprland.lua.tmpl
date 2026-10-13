@@ -75,6 +75,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/bin/sh -lc 'if command -v dropbox-cli >/dev/null 2>&1; then exec env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start; fi'")
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("noctalia")
+    hl.exec_cmd("handy --start-hidden")
 end)
 
 
@@ -202,8 +203,6 @@ hl.config({
 
 hl.config({
     input = {
-        -- OpenWhispr workaround: map evdev F13 to F13; remove once upstream handles XF86Tools.
-        kb_options = "fkeys:basic_13-24",
         natural_scroll = true,
         accel_profile  = "flat",
         touchpad = {
@@ -241,6 +240,11 @@ hl.bind(secondMod .. " + L",      hl.dsp.exec_cmd(noctalia .. " session lock"))
 hl.bind(mainMod   .. " + N",      hl.dsp.exec_cmd(noctalia .. " panel-toggle control-center notifications"))
 hl.bind(thirdMod  .. " + RETURN", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod   .. " + RETURN", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+
+-- Handy: compositor-owned push-to-talk. F13 is evdev 183 / XKB 191,
+-- so binding its keycode also works when XKB names it XF86Tools.
+hl.bind("SHIFT + code:191", hl.dsp.exec_cmd("handy --toggle-transcription"))
+hl.bind("SHIFT + code:191", hl.dsp.exec_cmd("handy --toggle-transcription"), { release = true })
 
 -- Screenshot
 hl.bind(secondMod .. " + P", hl.dsp.exec_cmd(noctalia .. " screenshot-region"))
@@ -341,6 +345,3 @@ hl.window_rule({
 
 -- For Noctalia Color templates
 require("noctalia").apply_theme()
-
--- Keep last: OpenWhispr otherwise relocates it by rewriting this file.
-pcall(require, "{{ .chezmoi.homeDir }}/.config/hypr/openwhispr-binds.lua")

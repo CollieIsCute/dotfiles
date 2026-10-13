@@ -85,16 +85,19 @@ chezmoi theme IMAGE
 
 ## Voice dictation
 
-On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
+Handy runs recognition inside the desktop app on Arch Linux, Ubuntu, macOS, and Windows. It is installed through paru (`handy-bin`), APT (the upstream `.deb`), Homebrew, or Scoop.
 
-1. Launch OpenWhispr from Applications on macOS, the Start menu on Windows, or `openwhispr` on Linux.
-2. Run `asr-mode sensevoice` for CPU-only recognition or `asr-mode qwen-1.7b` for GPU-backed recognition.
-3. In OpenWhispr, set Self-Hosted to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`.
-4. Restart OpenWhispr after `chezmoi apply` to load its shortcuts.
+1. Launch Handy from Applications on macOS, the Start menu on Windows, or `handy` on Linux.
+2. Complete onboarding, then download **SenseVoice Small** (the initial selection) and **Qwen3-ASR 1.7B** in Models. Expand the full model list if needed.
+3. Select either model and hold `Shift+F13` to dictate; release to paste the transcript. Chinese output uses Traditional Chinese.
+4. Quit Handy before `chezmoi apply`, then reopen it to load settings. Model selection and unrelated settings are preserved.
 
+- Handy manages model downloads; `chezmoi update` does not download recognition engines or models. Its GGUF exports replace the old model files.
+- **Hyprland:** Handy starts with the session. Hyprland owns the press/release shortcut and `wtype` inserts the text; the recording overlay is hidden to keep focus on the target app.
 - **macOS:** grant Microphone and Accessibility permissions.
-- **Windows:** reopen the terminal after applying; install the [Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist), allow microphone access, and install a Vulkan GPU driver for Qwen.
-- Run `asr-mode off` before gaming to stop recognition and release GPU memory. Quit OpenWhispr separately if you also want to disable its UI and shortcut.
+- **Windows/Linux:** install a Vulkan GPU driver to use GPU acceleration.
+- Set Handy's Model Unload Timeout to **Immediately**, or quit Handy before gaming, to release model memory.
+- Migration stops the old CrispASR server and removes its binaries, model caches, `asr-mode`, and OpenWhispr shortcut settings. The package installer removes OpenWhispr after installing Handy. Quit OpenWhispr before applying the migration.
 
 ## AI extensions
 
@@ -116,8 +119,7 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
-| hold `SHIFT+F13` | OpenWhispr push-to-talk dictation |
-| `SUPER+F13` | OpenWhispr local voice agent |
+| hold `SHIFT+F13` | Handy push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -142,8 +144,7 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 
 | Bind | Action |
 |---|---|
-| hold `Shift+F13` | OpenWhispr push-to-talk dictation |
-| `Cmd+F13` | OpenWhispr local voice agent |
+| hold `Shift+F13` | Handy push-to-talk dictation |
 | `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |
