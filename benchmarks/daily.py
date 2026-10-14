@@ -145,13 +145,21 @@ if args.clean:
         run('seed-download-'+name, ['curl', '-fL', '--retry', '2', '-H', 'Authorization: Bearer QQ==', f'https://ghcr.io/v2/homebrew/core/{name}/blobs/sha256:{digest}', '-o', str(bottle)])
         if hashlib.sha256(bottle.read_bytes()).hexdigest() != digest:
             raise RuntimeError('Old bottle checksum mismatch: '+name)
+        current_receipts = list((PREFIX/'Cellar'/name).glob('*/INSTALL_RECEIPT.json'))
+        if len(current_receipts) != 1:
+            raise RuntimeError('Expected one current receipt before fixture setup: '+name)
+        receipt = json.loads(current_receipts[0].read_text())
         run('seed-remove-'+name, [str(PREFIX/'bin/brew'), 'uninstall', '--force', '--ignore-dependencies', name])
         # Homebrew 7 removed installing arbitrary local bottle paths. Untimed
-        # fixture setup pours the checksum-verified real old payload/receipt,
+        # fixture setup pours the checksum-verified real old payload,
         # then uses normal Homebrew linking and verifies the actual executable.
         run('seed-pour-'+name, ['/usr/bin/tar', '-xzf', str(bottle), '-C', str(PREFIX/'Cellar')])
         receipt_path = PREFIX/'Cellar'/name/version/'INSTALL_RECEIPT.json'
-        receipt = json.loads(receipt_path.read_text())
+        # Bottles omit INSTALL_RECEIPT. Preserve normal installation settings;
+        # these two releases have the same runtime dependencies as the current
+        # releases, and both actual older executables are verified below.
+        receipt['source']['versions']['stable'] = version
+        receipt['source']['path'] = str(PREFIX/'Cellar'/name/version/'.brew'/(name+'.rb'))
         receipt.update(poured_from_bottle=True, installed_on_request=True, installed_as_dependency=False, time=int(time.time()))
         receipt_path.write_text(json.dumps(receipt, indent=2)+'\n')
         run('seed-link-'+name, [str(PREFIX/'bin/brew'), 'link', name])
