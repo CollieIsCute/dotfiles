@@ -19,6 +19,7 @@ parser.add_argument('--backend', required=True, choices=['homebrew', 'queries', 
 parser.add_argument('--revision', required=True)
 parser.add_argument('--base-revision', required=True)
 parser.add_argument('--output-dir', required=True, type=pathlib.Path)
+parser.add_argument('--clean', action='store_true', help='Remove runner packages, then seed the real local three-package update.')
 args = parser.parse_args()
 if os.environ.get('GITHUB_ACTIONS') != 'true' or platform.system() != 'Darwin' or platform.machine() != 'arm64':
     parser.error('Run only on an ephemeral Apple Silicon GitHub Actions runner; this installs and upgrades every declared package.')
@@ -45,6 +46,7 @@ report = {
         'Formula/cask inventories and outdated lists must be checked for equivalent work before reporting a speedup.',
     ],
     'steps': [],
+    'clean_prefix': args.clean,
 }
 
 
@@ -94,6 +96,15 @@ def outdated(name):
     return json.loads(result.stdout)
 
 
+if args.clean:
+    report['runner_preinstalled_inventory'] = inventory()
+    casks = subprocess.check_output([str(PREFIX/'bin/brew'), 'list', '--cask', '-1'], env=env, text=True).splitlines()
+    if casks:
+        run('prepare-remove-runner-casks', [str(PREFIX/'bin/brew'), 'uninstall', '--cask', '--force', *casks])
+    formulae = subprocess.check_output([str(PREFIX/'bin/brew'), 'list', '--formula', '-1'], env=env, text=True).splitlines()
+    if formulae:
+        run('prepare-remove-runner-formulae', [str(PREFIX/'bin/brew'), 'uninstall', '--formula', '--force', '--ignore-dependencies', *formulae])
+    report['limitations'][0] = 'Starts with an empty default-prefix Cellar/Caskroom. Homebrew itself and the runner OS/Xcode are preinstalled.'
 report['initial_inventory'] = inventory()
 # Each measurement starts with an empty API/bottle cache. Never clear a user's cache.
 cache = pathlib.Path.home()/'Library/Caches/Homebrew'
@@ -123,6 +134,40 @@ if args.backend == 'native-experiment':
 # Homebrew Bundle handles the same trusted taps, casks, and service declarations.
 run('apply-dotfiles', [str(PREFIX/'bin/chezmoi'), 'init', 'collieiscute', '--revision', revision, '--apply', '-v'])
 report['first_install_seconds'] = time.perf_counter()-bootstrap_start
+if args.clean:
+    fixture = json.loads((pathlib.Path(__file__).parent/'fixtures/2026-10-14-upgrade.json').read_text())
+    report['upgrade_fixture'] = fixture
+    previous_auto = env.get('HOMEBREW_NO_AUTO_UPDATE')
+    env['HOMEBREW_NO_AUTO_UPDATE'] = '1'
+    for package in fixture['formulae']:
+        name, version, tag, digest = (package[k] for k in ['name', 'version', 'tag', 'sha256'])
+        bottle = OUTPUT/f'{name}--{version}.{tag}.bottle.tar.gz'
+        run('seed-download-'+name, ['curl', '-fL', '--retry', '2', '-H', 'Authorization: Bearer QQ==', f'https://ghcr.io/v2/homebrew/core/{name}/blobs/sha256:{digest}', '-o', str(bottle)])
+        if hashlib.sha256(bottle.read_bytes()).hexdigest() != digest:
+            raise RuntimeError('Old bottle checksum mismatch: '+name)
+        run('seed-remove-'+name, [str(PREFIX/'bin/brew'), 'uninstall', '--force', '--ignore-dependencies', name])
+        run('seed-install-'+name, [str(PREFIX/'bin/brew'), 'install', '--force-bottle', '--ignore-dependencies', str(bottle)])
+        run('seed-smoke-'+name, [str(PREFIX/'bin'/name), '--version'])
+    cask = fixture['cask']
+    definition = OUTPUT/'old-vchewing.rb'
+    run('seed-download-cask-definition', ['curl', '-fL', cask['definition_url'], '-o', str(definition)])
+    # Same tap identity and real old pkg; restore its normal current definition before buu.
+    tap_definition = PREFIX/'Library/Taps/windwords/homebrew-vchewing/Casks/vchewing.rb'
+    current_definition = tap_definition.read_text()
+    tap_definition.write_text(definition.read_text().replace('https://gitee.com/', 'https://github.com/'))
+    try:
+        run('seed-install-vchewing', [str(PREFIX/'bin/brew'), 'reinstall', '--cask', '--yes', 'windwords/vchewing/vchewing'])
+    finally:
+        tap_definition.write_text(current_definition)
+    if previous_auto is None:
+        env.pop('HOMEBREW_NO_AUTO_UPDATE', None)
+    else:
+        env['HOMEBREW_NO_AUTO_UPDATE'] = previous_auto
+    # Keep ordinary warm API metadata, but force all new bottle/pkg downloads in buu.
+    downloads = cache/'downloads'
+    if downloads.exists():
+        shutil.rmtree(downloads)
+    report['buu_download_cache'] = 'empty; metadata remains from the first installation'
 report['before_buu_inventory'] = inventory()
 report['before_buu_outdated'] = outdated('before-buu-outdated')
 fish = PREFIX/'bin/fish'

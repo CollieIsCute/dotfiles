@@ -1,0 +1,27 @@
+{
+  "method": "Real older releases matching the local outdated packages observed on 2026-10-14; seed outside timing, then clear all bottle/cask downloads before the complete buu.",
+  "formulae": [
+    {
+      "name": "bear",
+      "version": "4.2.2",
+      "tag": "arm64_tahoe",
+      "sha256": "d9dc45bb5c7eff6eee31605eefee286ba5d9a1240fc758a72da81ea0e0e7170c",
+      "source": "https://github.com/Homebrew/homebrew-core/blob/2d2111eacc33284b2af60e9d8613ebe970850f9b/Formula/b/bear.rb"
+    },
+    {
+      "name": "fastfetch",
+      "version": "2.69.0",
+      "tag": "arm64_tahoe",
+      "sha256": "932f519f9eae54ef60d47881e4d528b9381117299eee04d93e3bb4bf3541c3c3",
+      "source": "https://github.com/Homebrew/homebrew-core/blob/79061a0a6e304d41c599270198b634ea5b72921d/Formula/f/fastfetch.rb"
+    }
+  ],
+  "cask": {
+    "name": "vchewing",
+    "version": "4.8.8",
+    "sha256": "e66668f7940786436f27ffc8db08d1562fe4235643839e9a8ad5b644282d9cff",
+    "definition_url": "https://raw.githubusercontent.com/windwords/homebrew-vchewing/e63858c36b59898465801c2e93bc7e8badd92ce2/Casks/vchewing.rb",
+    "download_url": "https://github.com/vChewing/vChewing-macOS/releases/download/4.8.8/vChewing-macOS-4.8.8-signed.pkg",
+    "note": "Use the identical official GitHub old pkg only while preparing the fixture; the timed upgrade retains the tap's normal Gitee URL."
+  }
+}
