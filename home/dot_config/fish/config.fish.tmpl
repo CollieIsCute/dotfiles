@@ -17,8 +17,7 @@ set -gx HOMEBREW_NO_ENV_HINTS 1
 
 alias buu "brew update && brew upgrade -y && fisher update"
 
-fish_add_path /opt/homebrew/bin
-/opt/homebrew/bin/brew shellenv | source
+/opt/homebrew/bin/brew shellenv fish | source
 {{ end }}
 
 # 提示設定預設 shell

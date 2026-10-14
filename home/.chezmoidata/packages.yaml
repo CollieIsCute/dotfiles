@@ -23,6 +23,8 @@ packages:
       - neovim
       - net-tools
       - nethogs
+      - nodejs
+      - npm
       - openai-codex-bin
       - opencc
       - opencode-bin
