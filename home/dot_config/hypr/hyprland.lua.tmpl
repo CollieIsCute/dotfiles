@@ -203,6 +203,8 @@ hl.config({
 
 hl.config({
     input = {
+        -- Tauri resolves F13 by keysym; evdev otherwise names it XF86Tools.
+        kb_options = "fkeys:basic_13-24",
         natural_scroll = true,
         accel_profile  = "flat",
         touchpad = {
