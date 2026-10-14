@@ -19,8 +19,8 @@
   {{- $_ := set $settings "onboarding_completed" false -}}
 {{- end -}}
 {{- if eq .chezmoi.os "linux" -}}
+  {{- $_ := set $managed "keyboard_implementation" "tauri" -}}
   {{- $_ := set $managed "autostart_enabled" false -}}
-  {{- $_ := set $managed "overlay_style" "none" -}}
   {{- $_ := set $managed "typing_tool" "wtype" -}}
 {{- end -}}
 {{- $_ := set $config "settings" (mergeOverwrite (deepCopy $settings) $managed) -}}
