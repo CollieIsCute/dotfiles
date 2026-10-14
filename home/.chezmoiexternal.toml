@@ -40,33 +40,3 @@ filter.command = "powershell"
 filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -replace '\\.dark','.default'"]
 {{ end -}}
 {{ end -}}
-
-{{ if and (eq .chezmoi.os "linux") (not (includeTemplate "is_wsl" . | fromJson)) -}}
-[".local/libexec/crispasr"]
-type = "archive"
-url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-linux-x86_64-vulkan.tar.gz" | quote }}
-refreshPeriod = "168h"
-stripComponents = 1
-include = ["crispasr-linux-x86_64-vulkan/crispasr", "crispasr-linux-x86_64-vulkan/lib*"]
-{{ else if eq .chezmoi.os "darwin" -}}
-[".local/libexec/crispasr"]
-type = "archive"
-url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-macos.tar.gz" | quote }}
-refreshPeriod = "168h"
-stripComponents = 1
-include = ["crispasr-macos/crispasr", "crispasr-macos/libc2pa_c.dylib"]
-{{ else if eq .chezmoi.os "windows" -}}
-[".local/libexec/crispasr/cpu"]
-type = "archive"
-url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-windows-x86_64-cpu.zip" | quote }}
-refreshPeriod = "168h"
-stripComponents = 1
-include = ["crispasr-windows-x86_64-cpu/crispasr.exe", "crispasr-windows-x86_64-cpu/*.dll", "crispasr-windows-x86_64-cpu/LICENSE", "crispasr-windows-x86_64-cpu/THIRD_PARTY_NOTICES.txt"]
-
-[".local/libexec/crispasr/vulkan"]
-type = "archive"
-url = {{ gitHubLatestReleaseAssetURL "CrispStrobe/CrispASR" "crispasr-windows-x86_64-vulkan.zip" | quote }}
-refreshPeriod = "168h"
-stripComponents = 1
-include = ["crispasr-windows-x86_64-vulkan/crispasr.exe", "crispasr-windows-x86_64-vulkan/*.dll", "crispasr-windows-x86_64-vulkan/LICENSE", "crispasr-windows-x86_64-vulkan/THIRD_PARTY_NOTICES.txt"]
-{{ end -}}

@@ -83,19 +83,6 @@ chezmoi theme IMAGE
 
 - If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB to reach a console.
 
-## Voice dictation
-
-On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
-
-1. Launch OpenWhispr from Applications on macOS, the Start menu on Windows, or `openwhispr` on Linux.
-2. Run `asr-mode sensevoice` for CPU-only recognition or `asr-mode qwen-1.7b` for GPU-backed recognition.
-3. In OpenWhispr, set Self-Hosted to `http://127.0.0.1:8080/v1` and paste the printed `OpenWhispr Model ID`.
-4. Restart OpenWhispr after `chezmoi apply` to load its shortcuts.
-
-- **macOS:** grant Microphone and Accessibility permissions.
-- **Windows:** reopen the terminal after applying; install the [Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist), allow microphone access, and install a Vulkan GPU driver for Qwen.
-- Run `asr-mode off` before gaming to stop recognition and release GPU memory. Quit OpenWhispr separately if you also want to disable its UI and shortcut.
-
 ## AI extensions
 
 - Add plugins and marketplaces in [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml), then run `chezmoi apply` and restart the affected app.
@@ -116,8 +103,7 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 | `SUPER+C` | close window |
 | `SUPER+M` | exit Hyprland |
 | `SUPER+V` | toggle floating |
-| hold `SHIFT+F13` | OpenWhispr push-to-talk dictation |
-| `SUPER+F13` | OpenWhispr local voice agent |
+| hold `SHIFT+F13` | Handy push-to-talk dictation |
 | `SUPER+P` | pseudotile |
 | `SUPER+RETURN` | true fullscreen |
 | `SUPER+N` | toggle Noctalia notifications |
@@ -142,8 +128,7 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 
 | Bind | Action |
 |---|---|
-| hold `Shift+F13` | OpenWhispr push-to-talk dictation |
-| `Cmd+F13` | OpenWhispr local voice agent |
+| hold `Shift+F13` | Handy push-to-talk dictation |
 | `Cmd+Option+H/J/K/L` | swap workspace windows left/down/up/right, keeping workspace numbers fixed |
 | `Cmd+Option+S` | toggle the dedicated `magic` workspace |
 | `Cmd+Option+Shift+S` | move window to the `magic` workspace |

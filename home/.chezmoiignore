@@ -13,12 +13,10 @@ Library
 Library/**
 {{- end }}
 
-# Windows voice settings and commands.
+# Windows application settings.
 {{- if ne .chezmoi.os "windows" }}
 AppData
 AppData/**
-.local/bin/asr-mode.cmd
-.local/libexec/asr-mode.ps1
 {{- end }}
 
 # Linux desktop / XDG targets.
@@ -37,8 +35,8 @@ AppData/**
 .config/noctalia/**
 .local/state/noctalia
 .local/state/noctalia/**
-.config/open-whispr
-.config/open-whispr/**
+.local/share/com.pais.handy
+.local/share/com.pais.handy/**
 .local/share/applications
 .local/share/applications/**
 {{- end }}
@@ -59,8 +57,6 @@ AppData/**
 .config/kitty/**
 .config/wezterm
 .config/wezterm/**
-.config/fish/functions/asr-mode.fish
-.config/fish/completions/asr-mode.fish
 .local/bin/chezmoi-theme
 {{- end }}
 

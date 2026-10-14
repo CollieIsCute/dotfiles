@@ -54,6 +54,7 @@ packages:
       - fcitx5-skin-ori-git
       - ghostty
       - gpu-screen-recorder
+      - handy-bin
       - hyprland
       - keepassxc
       - kitty
@@ -69,7 +70,6 @@ packages:
       - noctalia
       - noctalia-greeter
       - nwg-look
-      - openwhispr-bin
       - papers
       - pavucontrol
       - pipewire-alsa
@@ -159,13 +159,13 @@ packages:
       extras:
         - alacritty
         - brave
+        - handy
         - keepassxc
         - libreoffice
         - localsend
         - mattermost
         - moonlight
         - neovide
-        - openwhispr
         - qmk-toolbox
         - signal
         - telegram

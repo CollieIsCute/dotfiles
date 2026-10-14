@@ -1,0 +1,31 @@
+{{- $input := default "{}" .chezmoi.stdin -}}
+{{- $config := fromJson $input -}}
+{{- $settings := get $config "settings" | default (dict) -}}
+{{- $managed := dict
+  "shortcut_activation" "push_to_talk"
+  "chinese_script" "traditional"
+  "bindings" (dict "transcribe" (dict
+    "id" "transcribe"
+    "name" "Transcribe"
+    "description" "Converts your speech into text."
+    "default_binding" "shift+f13"
+    "current_binding" "shift+f13"
+  ))
+-}}
+{{- if not (get $settings "selected_model") -}}
+  {{- $_ := set $settings "selected_model" "handy-computer/SenseVoiceSmall-gguf/SenseVoiceSmall-Q8_0.gguf" -}}
+{{- end -}}
+{{- if not (hasKey $settings "onboarding_completed") -}}
+  {{- $_ := set $settings "onboarding_completed" false -}}
+{{- end -}}
+{{- if eq .chezmoi.os "linux" -}}
+  {{- $_ := set $managed "keyboard_implementation" "tauri" -}}
+  {{- $_ := set $managed "autostart_enabled" false -}}
+  {{- $_ := set $managed "typing_tool" "wtype" -}}
+{{- end -}}
+{{- $_ := set $config "settings" (mergeOverwrite (deepCopy $settings) $managed) -}}
+{{- if eq (toJson (fromJson $input)) (toJson $config) -}}
+{{ $input }}
+{{- else -}}
+{{ $config | toPrettyJson }}
+{{- end -}}
