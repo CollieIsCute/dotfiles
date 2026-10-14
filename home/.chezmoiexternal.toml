@@ -1,3 +1,11 @@
+{{ if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") -}}
+[".local/bin/fastbrew"]
+type = "file"
+url = "https://github.com/tigercosmos/fastbrew/releases/download/v0.1.3/fastbrew-aarch64-apple-darwin"
+executable = true
+checksum.sha256 = "8b4a6bea152b7c8a230c8f257b56ea49470a9a7ee1c8e38829b4aabc54f2720b"
+{{ end -}}
+
 {{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "windows") -}}
 [".config/matugen/templates/matugen-themes"]
 type = "archive"

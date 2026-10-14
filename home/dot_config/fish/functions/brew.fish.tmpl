@@ -1,0 +1,9 @@
+{{ if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") -}}
+function brew --wraps brew --description 'Homebrew with fastbrew for compatible queries'
+    if command -q fastbrew; and contains -- "$argv[1]" search deps list outdated
+        command fastbrew $argv
+    else
+        command brew $argv
+    end
+end
+{{ end -}}

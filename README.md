@@ -186,3 +186,7 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 |---|---|
 | `vi` | `nvim` (when nvim is installed) |
 | `buu` | `brew update && brew upgrade -y && fisher update` (macOS only) |
+
+On Apple Silicon macOS, Fish uses the pinned fastbrew client for `brew search`,
+`deps`, `list`, and `outdated`. Installation, upgrades, services, and Bundle use
+Homebrew. `command brew` always invokes Homebrew directly.
