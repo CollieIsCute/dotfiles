@@ -9,12 +9,17 @@ on:
         description: Run complete macOS installation and buu benchmarks
         type: boolean
         default: false
+      benchmark_backend:
+        description: Backend to measure
+        type: choice
+        options: [all, homebrew, queries, native-experiment]
+        default: all
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.benchmark_brew && 'benchmark' || 'deployment' }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.benchmark_brew && 'benchmark' || 'deployment' }}-${{ inputs.benchmark_backend || 'all' }}
   cancel-in-progress: true
 
 jobs:
@@ -129,7 +134,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: [homebrew, queries, native-experiment]
+        backend: ${{ fromJSON(inputs.benchmark_backend != 'all' && format('["{0}"]', inputs.benchmark_backend) || '["homebrew", "queries", "native-experiment"]') }}
         repetition: [1, 2]
     steps:
       - uses: actions/checkout@v7

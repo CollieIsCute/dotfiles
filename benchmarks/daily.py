@@ -39,7 +39,8 @@ report = {
     'limitations': [
         'Runner has preinstalled Homebrew packages; first install means first complete dotfiles deployment, not a factory-empty Mac.',
         'Real network and upstream metadata are live; runners and transfer speeds vary.',
-        'Native experiment preinstalls core formulae with fastbrew, completes all remaining Brewfile work with Homebrew Bundle, and translates -y to fastbrew noninteractive upgrade only in this test.',
+        'Native experiment preinstalls core formulae except node with fastbrew, completes all remaining Brewfile work with Homebrew Bundle, and translates -y to fastbrew noninteractive upgrade only in this test.',
+        'Node stays with Homebrew Bundle during bootstrap because it handles the runner preinstalled node@24 link conflict. The initial experiment without this fallback failed twice.',
         'Native experiment retains Homebrew update so the Homebrew executable itself is updated.',
         'Formula/cask inventories and outdated lists must be checked for equivalent work before reporting a speedup.',
     ],
@@ -112,7 +113,7 @@ if args.backend == 'native-experiment':
     fastbrew.chmod(0o755)
     manifest = subprocess.check_output(['git', 'show', args.base_revision+':home/dot_config/brew/Brewfile'], text=True)
     # Every runner is arm64, so both arm64 conditional core formulae are included.
-    core = [name for name in re.findall(r'^brew "([^"]+)"', manifest, re.MULTILINE) if '/' not in name]
+    core = [name for name in re.findall(r'^brew "([^"]+)"', manifest, re.MULTILINE) if '/' not in name and name != 'node']
     report['native_core_formulae'] = core
     run('native-core-install', [str(fastbrew), 'install', *core])
 # Homebrew Bundle handles the same trusted taps, casks, and service declarations.
