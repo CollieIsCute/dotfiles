@@ -27,7 +27,7 @@ for path in sorted(args.artifacts.glob('**/result.json')):
 report = {
     'image_version_filter': args.image_version,
     'method': 'Medians of complete cold-cache first deployments and real buu on separate macOS CI runners. Total time saved = 100 * (1 - candidate_seconds / Homebrew_seconds).',
-    'limitations': ['Two repetitions per workflow; real network and upstream metadata are variable.', 'Runner comes with Homebrew and other packages preinstalled.', 'Query-only PR still uses Homebrew for initial install and every buu update/upgrade; observed timing variation is not a native fastbrew speedup.'],
+    'limitations': ['Two repetitions per workflow; real network and upstream metadata are variable.', 'Clean tests remove all runner formulae/casks before timing; Homebrew itself and OS/Xcode are preinstalled.', 'Query-only PR still uses Homebrew for initial install and every buu update/upgrade; observed timing variation is not a native fastbrew speedup.'],
     'backends': {},
     'comparisons': {},
 }
@@ -59,7 +59,7 @@ for backend, rows in groups.items():
         continue
     together = baseline+candidates
     checks = {
-        'all_attempts_completed': len(candidates) == len(rows),
+        'all_attempts_completed': len(candidates) == len(rows) and len(baseline) == len(groups[baseline_backend]),
         'same_runner_image': same_state(together, 'image_version'),
         'same_initial_inventory': same_state(together, 'initial_inventory'),
         'same_inventory_before_buu': same_state(together, 'before_buu_inventory'),
@@ -78,7 +78,7 @@ for backend, rows in groups.items():
         brew = report['backends'][baseline_backend][phase]['median_seconds']
         candidate = report['backends'][backend][phase]['median_seconds']
         comparison[phase] = {'eligible': bool(eligible), 'observed_percent_time_saved': 100*(1-candidate/brew), 'seconds_saved': brew-candidate}
-        if backend == 'queries':
+        if backend.startswith('queries'):
             comparison[phase]['causal_native_fastbrew_time_saved_percent'] = 0
     report['comparisons'][backend] = comparison
 args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,4636 @@
+{
+  "timestamp": "2026-10-14T13:53:21.996792+00:00",
+  "method": "Actual default prefix and unmodified buu alias. Serial, randomized paired runs. Network metadata checks, installed package scan, normal cleanup/dependency checks and real Fisher updates included. No dry run, no disabled download or cleanup.",
+  "command": "brew update && brew upgrade -y && fisher update",
+  "limitation": "A repeat with no outdated packages measures the complete no-op update workflow; it does not measure downloading and installing new package versions.",
+  "runs": [
+    {
+      "backend": "queries",
+      "repetition": 1,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 3.6318992500000005,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    },
+    {
+      "backend": "homebrew",
+      "repetition": 1,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 2.735601334,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    },
+    {
+      "backend": "queries",
+      "repetition": 2,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 2.797659542,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    },
+    {
+      "backend": "homebrew",
+      "repetition": 2,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 2.703712957999999,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    },
+    {
+      "backend": "homebrew",
+      "repetition": 3,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 2.7236125000000015,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    },
+    {
+      "backend": "queries",
+      "repetition": 3,
+      "before_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "before_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "seconds": 2.5849123749999983,
+      "returncode": 0,
+      "after_inventory": {
+        "formulae": {
+          "abseil": [
+            "20260817.0"
+          ],
+          "ada-url": [
+            "4.0.0"
+          ],
+          "bat": [
+            "0.26.1"
+          ],
+          "bear": [
+            "4.2.3"
+          ],
+          "brotli": [
+            "1.2.0"
+          ],
+          "btop": [
+            "1.4.7"
+          ],
+          "c-ares": [
+            "1.34.8"
+          ],
+          "ca-certificates": [
+            "2026-09-25"
+          ],
+          "chezmoi": [
+            "2.73.1"
+          ],
+          "clang-format": [
+            "23.1.3"
+          ],
+          "cloc": [
+            "2.10"
+          ],
+          "cmake": [
+            "4.4.4"
+          ],
+          "container": [
+            "1.5.0"
+          ],
+          "container-compose": [
+            "1.2.0"
+          ],
+          "cppcheck": [
+            "2.22.0"
+          ],
+          "curl": [
+            "8.22.0_1"
+          ],
+          "dos2unix": [
+            "7.5.7"
+          ],
+          "eza": [
+            "0.23.5"
+          ],
+          "fastfetch": [
+            "2.70.0"
+          ],
+          "fd": [
+            "10.5.0"
+          ],
+          "fish": [
+            "4.9.3"
+          ],
+          "fmt": [
+            "12.2.0"
+          ],
+          "fzf": [
+            "0.74.5"
+          ],
+          "gettext": [
+            "1.0"
+          ],
+          "gh": [
+            "2.102.0"
+          ],
+          "git": [
+            "2.56.0_1"
+          ],
+          "glab": [
+            "1.123.0"
+          ],
+          "gnu-tar": [
+            "1.35_1"
+          ],
+          "hdrhistogram_c": [
+            "0.12.0"
+          ],
+          "highway": [
+            "1.4.0"
+          ],
+          "icu4c@78": [
+            "78.3"
+          ],
+          "jemalloc": [
+            "5.4.0"
+          ],
+          "json-c": [
+            "0.19"
+          ],
+          "lazygit": [
+            "0.66.1"
+          ],
+          "ldns": [
+            "1.9.2_1"
+          ],
+          "libcbor": [
+            "0.14.0"
+          ],
+          "libevent": [
+            "2.1.13_1"
+          ],
+          "libffi": [
+            "3.8.0"
+          ],
+          "libfido2": [
+            "1.17.0_1"
+          ],
+          "libgit2": [
+            "1.9.7_2"
+          ],
+          "libidn2": [
+            "2.3.8"
+          ],
+          "libnghttp2": [
+            "1.70.0"
+          ],
+          "libnghttp3": [
+            "1.18.0"
+          ],
+          "libngtcp2": [
+            "1.25.0_1"
+          ],
+          "libpsl": [
+            "0.23.3"
+          ],
+          "libssh2": [
+            "1.11.1_7"
+          ],
+          "libunistring": [
+            "1.4.2"
+          ],
+          "libuv": [
+            "1.53.0"
+          ],
+          "libzip": [
+            "1.12_1"
+          ],
+          "llhttp": [
+            "9.4.3"
+          ],
+          "llvm": [
+            "23.1.3_1"
+          ],
+          "lpeg": [
+            "1.1.0_2"
+          ],
+          "luajit": [
+            "2.1.1791890110"
+          ],
+          "luv": [
+            "1.53.0-0"
+          ],
+          "lz4": [
+            "1.10.0"
+          ],
+          "marisa": [
+            "0.3.1"
+          ],
+          "matugen": [
+            "4.2.0"
+          ],
+          "merve": [
+            "1.2.2_3"
+          ],
+          "mold": [
+            "3.0.0"
+          ],
+          "mpdecimal": [
+            "4.0.1"
+          ],
+          "nbytes": [
+            "0.1.4"
+          ],
+          "ncurses": [
+            "6.6"
+          ],
+          "neovim": [
+            "0.12.6"
+          ],
+          "ninja": [
+            "1.13.2"
+          ],
+          "node": [
+            "26.11.1"
+          ],
+          "onefetch": [
+            "3.0.0"
+          ],
+          "oniguruma": [
+            "6.9.10"
+          ],
+          "opencc": [
+            "1.4.2"
+          ],
+          "openfortivpn": [
+            "1.24.1_1"
+          ],
+          "openssh": [
+            "10.6p1_1"
+          ],
+          "openssl@3": [
+            "3.5.9"
+          ],
+          "openssl@4": [
+            "4.0.3"
+          ],
+          "pcre2": [
+            "10.49"
+          ],
+          "pkgconf": [
+            "3.0.8"
+          ],
+          "podman": [
+            "6.1.4"
+          ],
+          "python@3.14": [
+            "3.14.8_2"
+          ],
+          "readline": [
+            "8.3.6"
+          ],
+          "ripgrep": [
+            "15.2.0"
+          ],
+          "simdjson": [
+            "5.0.4"
+          ],
+          "simdutf": [
+            "9.2.1_1"
+          ],
+          "sketchybar": [
+            "2.24.1"
+          ],
+          "sqlite": [
+            "3.54.0"
+          ],
+          "tig": [
+            "2.6.1"
+          ],
+          "tinyxml2": [
+            "11.0.0"
+          ],
+          "tldr": [
+            "1.6.1"
+          ],
+          "tmux": [
+            "3.8"
+          ],
+          "tokei": [
+            "15.0.0"
+          ],
+          "tree-sitter": [
+            "0.27.1"
+          ],
+          "typst": [
+            "0.15.1"
+          ],
+          "unibilium": [
+            "2.1.4"
+          ],
+          "utf8proc": [
+            "2.12.0"
+          ],
+          "uv": [
+            "0.13.1"
+          ],
+          "uvwasi": [
+            "0.0.23"
+          ],
+          "watch": [
+            "4.0.7"
+          ],
+          "wget": [
+            "1.25.0_2"
+          ],
+          "xz": [
+            "5.8.4"
+          ],
+          "yyjson": [
+            "0.13.0"
+          ],
+          "z3": [
+            "5.1.0"
+          ],
+          "zellij": [
+            "0.45.1"
+          ],
+          "zoxide": [
+            "0.10.0"
+          ],
+          "zstd": [
+            "1.5.7_1"
+          ]
+        },
+        "casks": {
+          "aerospace": [
+            "0.21.3-Beta"
+          ],
+          "brave-browser": [
+            "1.77.95.0"
+          ],
+          "claude-code@latest": [
+            "2.1.299"
+          ],
+          "codex": [
+            "0.162.1"
+          ],
+          "codexbar": [
+            "0.75.0"
+          ],
+          "flutter": [
+            "3.29.2"
+          ],
+          "font-jetbrains-mono": [
+            "2.304"
+          ],
+          "font-jetbrains-mono-nerd-font": [
+            "3.5.1"
+          ],
+          "ghostty": [
+            "1.3.1"
+          ],
+          "karabiner-elements": [
+            "15.3.0"
+          ],
+          "keepassxc": [
+            "2.7.12"
+          ],
+          "kitty": [
+            "0.49.2"
+          ],
+          "middleclick": [
+            "3.3.0"
+          ],
+          "moonlight": [
+            "6.2.0"
+          ],
+          "openwhispr": [
+            "1.10.3"
+          ],
+          "qmk-toolbox": [
+            "0.3.4"
+          ],
+          "signal": [
+            "8.30.0"
+          ],
+          "stats": [
+            "3.0.21"
+          ],
+          "telegram": [
+            "13.0,283301"
+          ],
+          "vchewing": [
+            "4.9.0"
+          ],
+          "vesktop": [
+            "1.6.7"
+          ],
+          "visual-studio-code": [
+            "1.141.1"
+          ]
+        }
+      },
+      "after_outdated": {
+        "formulae": [],
+        "casks": []
+      },
+      "native_fastbrew_calls_in_profile": 0,
+      "fisher_updated_plugins": [
+        "Updated 4 plugin/s"
+      ],
+      "network_errors": [],
+      "package_versions_unchanged": true
+    }
+  ],
+  "all_successful": true,
+  "median_seconds": {
+    "homebrew": 2.7236125000000015,
+    "queries": 2.797659542
+  },
+  "scenario": "complete buu with all installed packages already current",
+  "observed_percent_time_saved": -2.7187069379362327,
+  "causal_fastbrew_savings": "No native fastbrew update/install/upgrade work is routed by the query-only wrapper; paired timing variation cannot be attributed to fastbrew acceleration."
+}
