@@ -138,7 +138,11 @@ if args.clean:
     fixture = json.loads((pathlib.Path(__file__).parent/'fixtures/2026-10-14-upgrade.json').read_text())
     report['upgrade_fixture'] = fixture
     previous_auto = env.get('HOMEBREW_NO_AUTO_UPDATE')
+    previous_autoremove = env.get('HOMEBREW_NO_AUTOREMOVE')
     env['HOMEBREW_NO_AUTO_UPDATE'] = '1'
+    # Preserve the installed runtime libraries while replacing only the two
+    # CLI fixture versions; restore normal autoremove before the timed buu.
+    env['HOMEBREW_NO_AUTOREMOVE'] = '1'
     for package in fixture['formulae']:
         name, version, tag, digest = (package[k] for k in ['name', 'version', 'tag', 'sha256'])
         bottle = OUTPUT/f'{name}--{version}.{tag}.bottle.tar.gz'
@@ -182,6 +186,10 @@ if args.clean:
         env.pop('HOMEBREW_NO_AUTO_UPDATE', None)
     else:
         env['HOMEBREW_NO_AUTO_UPDATE'] = previous_auto
+    if previous_autoremove is None:
+        env.pop('HOMEBREW_NO_AUTOREMOVE', None)
+    else:
+        env['HOMEBREW_NO_AUTOREMOVE'] = previous_autoremove
     # Keep ordinary warm API metadata, but force all new bottle/pkg downloads in buu.
     downloads = cache/'downloads'
     if downloads.exists():
