@@ -34,10 +34,13 @@ report = {
 
 
 def inventory():
-    result = {}
+    result = {'formulae': {}, 'casks': {}}
     for rack in sorted((PREFIX/'Cellar').iterdir()):
         if rack.is_dir():
-            result[rack.name] = sorted(k.name for k in rack.iterdir() if (k/'INSTALL_RECEIPT.json').exists())
+            result['formulae'][rack.name] = sorted(k.name for k in rack.iterdir() if (k/'INSTALL_RECEIPT.json').exists())
+    for rack in sorted((PREFIX/'Caskroom').iterdir()):
+        if rack.is_dir():
+            result['casks'][rack.name] = sorted(k.name for k in rack.iterdir() if k.is_dir() and not k.name.startswith('.'))
     return result
 
 
