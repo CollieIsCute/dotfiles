@@ -162,6 +162,9 @@ if args.clean:
         receipt['source']['path'] = str(PREFIX/'Cellar'/name/version/'.brew'/(name+'.rb'))
         receipt.update(poured_from_bottle=True, installed_on_request=True, installed_as_dependency=False, time=int(time.time()))
         receipt_path.write_text(json.dumps(receipt, indent=2)+'\n')
+        keg_path = PREFIX/'Cellar'/name/version
+        relocation = 'require "keg"; Keg.new(Pathname.new('+json.dumps(str(keg_path))+')).replace_placeholders_with_locations(nil)'
+        run('seed-relocate-'+name, [str(PREFIX/'bin/brew'), 'ruby', '-e', relocation])
         run('seed-link-'+name, [str(PREFIX/'bin/brew'), 'link', name])
         run('seed-smoke-'+name, [str(PREFIX/'bin'/name), '--version'])
     cask = fixture['cask']
