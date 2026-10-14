@@ -2,7 +2,7 @@
 
 ## Install
 
-On macOS or Arch Linux:
+On macOS, Arch Linux, or Ubuntu:
 
 ```bash
 chezmoi init --apply collieiscute -v

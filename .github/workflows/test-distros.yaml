@@ -64,6 +64,24 @@ jobs:
           echo "dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dev
           sudo -H -u dev --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
 
+  ubuntu:
+    needs: format
+    if: needs.format.outputs.changed == 'false'
+    name: ubuntu:latest
+    runs-on: ubuntu-latest
+    # Keep this floating on purpose to catch upstream breaking changes early; do not pin it.
+    container: ubuntu:latest
+    steps:
+      - name: Install chezmoi and apply dotfiles
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          apt-get update
+          apt-get install -y sudo git curl
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+          echo "ubuntu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ubuntu
+          sudo -H -u ubuntu --preserve-env=CHEZMOI_GITHUB_ACCESS_TOKEN chezmoi init collieiscute --revision "${{ github.sha }}" --apply -v
+
   macos:
     needs: format
     if: needs.format.outputs.changed == 'false'
