@@ -4,6 +4,11 @@ on:
   push:
     branches: ["**"]
   workflow_dispatch:
+    inputs:
+      benchmark_brew:
+        description: Run complete macOS installation and buu benchmarks
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -50,7 +55,7 @@ jobs:
 
   arch:
     needs: format
-    if: needs.format.outputs.changed == 'false'
+    if: needs.format.outputs.changed == 'false' && !inputs.benchmark_brew
     name: archlinux:latest
     runs-on: ubuntu-latest
     container: archlinux:latest
@@ -66,7 +71,7 @@ jobs:
 
   ubuntu:
     needs: format
-    if: needs.format.outputs.changed == 'false'
+    if: needs.format.outputs.changed == 'false' && !inputs.benchmark_brew
     name: ubuntu:latest
     runs-on: ubuntu-latest
     # Keep this floating on purpose to catch upstream breaking changes early; do not pin it.
@@ -84,7 +89,7 @@ jobs:
 
   macos:
     needs: format
-    if: needs.format.outputs.changed == 'false'
+    if: needs.format.outputs.changed == 'false' && !inputs.benchmark_brew
     name: macos:latest
     runs-on: macos-latest
     steps:
@@ -100,7 +105,7 @@ jobs:
 
   windows:
     needs: format
-    if: needs.format.outputs.changed == 'false'
+    if: needs.format.outputs.changed == 'false' && !inputs.benchmark_brew
     name: windows:latest + Arch WSL 2
     runs-on: windows-latest
     steps:
@@ -114,3 +119,34 @@ jobs:
           $env:CHEZMOI_WSL_PASSWORD = [guid]::NewGuid().ToString('N')
           Write-Output "::add-mask::$env:CHEZMOI_WSL_PASSWORD"
           & "$env:RUNNER_TEMP/bin/chezmoi.exe" init collieiscute --revision "${{ github.sha }}" --apply -v
+
+  brew-benchmark:
+    needs: format
+    if: needs.format.outputs.changed == 'false' && inputs.benchmark_brew
+    name: brew benchmark (${{ matrix.backend }}, ${{ matrix.repetition }})
+    runs-on: macos-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [homebrew, queries, native-experiment]
+        repetition: [1, 2]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Measure first installation and complete buu
+        env:
+          CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 benchmarks/daily.py \
+            --backend '${{ matrix.backend }}' \
+            --revision '${{ github.sha }}' \
+            --base-revision "$(git merge-base HEAD origin/chore/macos-packages-system-node)" \
+            --output-dir "$RUNNER_TEMP/brew-benchmark"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: brew-benchmark-${{ matrix.backend }}-${{ matrix.repetition }}
+          path: ${{ runner.temp }}/brew-benchmark
