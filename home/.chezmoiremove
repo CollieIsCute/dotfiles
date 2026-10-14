@@ -9,13 +9,7 @@
 .cache/voxtype
 .local/libexec/voxtype
 .local/share/voxtype
-.config/fish/completions/asr-mode.fish
-.config/fish/functions/asr-mode.fish
-.local/bin/asr-mode.cmd
-.local/libexec/asr-mode.ps1
-.local/libexec/crispasr
 {{ if eq .chezmoi.os "linux" }}
-.cache/crispasr
 .config/environment.d/10-nvidia-sync.conf
 .local/share/applications/mattermost-desktop.desktop
 .config/hypr/hypridle.conf
@@ -41,8 +35,4 @@
 Library/Application Support/voxtype
 Library/Caches/voxtype
 Library/Logs/voxtype
-Library/Caches/crispasr
-{{ end }}
-{{ if eq .chezmoi.os "windows" }}
-AppData/Local/crispasr
 {{ end }}
