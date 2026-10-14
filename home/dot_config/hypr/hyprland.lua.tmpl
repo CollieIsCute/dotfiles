@@ -243,9 +243,18 @@ hl.bind(mainMod   .. " + N",      hl.dsp.exec_cmd(noctalia .. " panel-toggle con
 hl.bind(thirdMod  .. " + RETURN", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mainMod   .. " + RETURN", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
--- Hyprland consumes the shortcut; Handy uses Tauri without raw-input access.
-hl.bind("SHIFT + code:191", hl.dsp.exec_cmd("handy --toggle-transcription"))
-hl.bind("SHIFT + code:191", hl.dsp.exec_cmd("handy --toggle-transcription"), { release = true })
+-- Arm the stop only while dictating; Shift may be released before F13.
+local handyRelease
+handyRelease = hl.bind("code:191", function()
+    handyRelease:set_enabled(false)
+    hl.exec_cmd("handy --toggle-transcription")
+end, { release = true, ignore_mods = true, transparent = true })
+handyRelease:set_enabled(false)
+hl.bind("SHIFT + code:191", function()
+    if handyRelease:is_enabled() then return end
+    handyRelease:set_enabled(true)
+    hl.exec_cmd("handy --toggle-transcription")
+end)
 
 -- Screenshot
 hl.bind(secondMod .. " + P", hl.dsp.exec_cmd(noctalia .. " screenshot-region"))
