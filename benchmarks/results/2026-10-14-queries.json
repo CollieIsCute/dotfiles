@@ -1,0 +1,842 @@
+{
+  "timestamp": "2026-10-14T12:03:50.199642+00:00",
+  "platform": {
+    "macos": "27.0.1",
+    "architecture": "arm64"
+  },
+  "runs_per_successful_command": 9,
+  "warmup_runs": 2,
+  "cache_policy": "Same snapshot of the local Homebrew API cache; warmed clients; no automatic metadata update",
+  "upgrade_policy": "Dry runs measure planning only, not a completed upgrade or buu",
+  "brewfile_sha256": "ce4c63d17e08a12ba48a4bbb7ecef85300f62151c1c8feab814cbd96fd2d8d5d",
+  "versions": {
+    "brew": "Homebrew 7.0.9-94-g92b8ea8",
+    "fastbrew": "Homebrew 6.0.22\nfastbrew 0.1.3"
+  },
+  "scenarios": [
+    {
+      "id": "info-neovim",
+      "arguments": [
+        "info",
+        "neovim"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 1360.716125000181,
+          "delegated": false,
+          "stdout_sha256": "d697629e63d7ec0c1f7ba032424902f96436b7fceccaf67be17885028e335100",
+          "stderr": "",
+          "median_ms": 381.25004199901014,
+          "min_ms": 366.7539999987639,
+          "max_ms": 393.27466699978686,
+          "samples_ms": [
+            393.27466699978686,
+            373.98770800064085,
+            383.3329170010984,
+            383.5627919979743,
+            368.0234579987882,
+            387.14870900003007,
+            371.57983400175,
+            366.7539999987639,
+            381.25004199901014
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 25.720624998939456,
+          "delegated": false,
+          "stdout_sha256": "200e134a0b474a33172751eafd067d5893098c2e5ac7f8f8fea5b070d5e7d0ac",
+          "stderr": "",
+          "median_ms": 14.736707998963539,
+          "min_ms": 13.413582997600315,
+          "max_ms": 15.039874997455627,
+          "samples_ms": [
+            15.039874997455627,
+            14.640125002188142,
+            14.852582997264108,
+            14.553291999618523,
+            14.938500000425847,
+            13.413582997600315,
+            14.736707998963539,
+            14.485374998912448,
+            14.959874999476597
+          ]
+        }
+      },
+      "stdout_equal": false,
+      "assessment": "Same package version and direct runtime dependencies; Homebrew 7 displays additional aliases and recursive dependency health information.",
+      "equivalent": false,
+      "non_equivalent_timing_ratio": 25.87077399008138
+    },
+    {
+      "id": "info-node",
+      "arguments": [
+        "info",
+        "node"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 858.3462919996236,
+          "delegated": false,
+          "stdout_sha256": "4c36486db00866987fb9233466976fdd64371f32aa09bc2a769bf2d9d772bebe",
+          "stderr": "",
+          "median_ms": 418.1531249996624,
+          "min_ms": 404.82633400097257,
+          "max_ms": 441.3259159991867,
+          "samples_ms": [
+            404.82633400097257,
+            411.5365830002702,
+            421.9200420011475,
+            412.82266700000037,
+            438.8271249990794,
+            441.3259159991867,
+            418.1531249996624,
+            406.53191700039315,
+            421.2465409982542
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 24.04637500148965,
+          "delegated": false,
+          "stdout_sha256": "4fdb02fc5ee677e1328e064d88f96466f28dbfc9dd75eb3c75909e4cc0f9428f",
+          "stderr": "",
+          "median_ms": 23.02787499866099,
+          "min_ms": 21.717166997405002,
+          "max_ms": 24.162749999959487,
+          "samples_ms": [
+            21.717166997405002,
+            23.184207999292994,
+            23.365541997918626,
+            23.02787499866099,
+            23.242208000738174,
+            22.699584002111806,
+            23.01462499963236,
+            24.162749999959487,
+            22.77233399945544
+          ]
+        }
+      },
+      "stdout_equal": false,
+      "assessment": "Same package version and direct runtime dependencies; output differs from Homebrew 7.",
+      "equivalent": false,
+      "non_equivalent_timing_ratio": 18.158563264043117
+    },
+    {
+      "id": "search-ripgrep",
+      "arguments": [
+        "search",
+        "ripgrep"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 411.68829199887114,
+          "delegated": false,
+          "stdout_sha256": "d81d8b7e10833cd441a201a7f0a18696a9fc1ec5e08a1b154168376c00fc0ae0",
+          "stderr": "",
+          "median_ms": 414.4507910023094,
+          "min_ms": 402.1815839987539,
+          "max_ms": 427.98812500041095,
+          "samples_ms": [
+            414.4507910023094,
+            427.98812500041095,
+            402.1815839987539,
+            424.12241700003506,
+            405.82508300212794,
+            407.72437499981606,
+            421.05575000095996,
+            405.9879579981498,
+            421.55970800013165
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 31.81224999934784,
+          "delegated": false,
+          "stdout_sha256": "d81d8b7e10833cd441a201a7f0a18696a9fc1ec5e08a1b154168376c00fc0ae0",
+          "stderr": "",
+          "median_ms": 14.397541999642272,
+          "min_ms": 13.137750000169035,
+          "max_ms": 14.569292001397116,
+          "samples_ms": [
+            13.137750000169035,
+            14.397541999642272,
+            14.555499998095911,
+            14.497291998850415,
+            14.212292000593152,
+            14.39816600031918,
+            14.336000000184868,
+            14.569292001397116,
+            13.993166998261586
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "same_package_names": true,
+      "timing_ratio": 28.78621857901905,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "search-vpn-description",
+      "arguments": [
+        "search",
+        "--desc",
+        "vpn"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 7594.944791999296,
+          "delegated": false,
+          "stdout_sha256": "4d83a46dc40d685aa127a50206f84701371f0f6372ade98a2051fc14fec71cff",
+          "stderr": "",
+          "median_ms": 335.46087500144495,
+          "min_ms": 328.5024169999815,
+          "max_ms": 370.88304099961533,
+          "samples_ms": [
+            370.88304099961533,
+            352.7700829981768,
+            330.27395799945225,
+            343.0729589999828,
+            335.46087500144495,
+            328.5024169999815,
+            335.94149999771616,
+            332.04070800275076,
+            329.4935000012629
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 11.953541998082073,
+          "delegated": false,
+          "stdout_sha256": "4d83a46dc40d685aa127a50206f84701371f0f6372ade98a2051fc14fec71cff",
+          "stderr": "",
+          "median_ms": 9.023957998579135,
+          "min_ms": 8.04829199842061,
+          "max_ms": 9.684917000413407,
+          "samples_ms": [
+            8.89900000038324,
+            8.273457999166567,
+            9.684917000413407,
+            9.357375001854962,
+            9.09437500013155,
+            8.8534160022391,
+            9.023957998579135,
+            9.10779200057732,
+            8.04829199842061
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "timing_ratio": 37.17447211681004,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "deps-neovim-tree",
+      "arguments": [
+        "deps",
+        "--tree",
+        "neovim"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 349.26616699885926,
+          "delegated": false,
+          "stdout_sha256": "09ddf90bdd3277a767f6f83f6a10e55f35848bfe6b942954572bf06d424caa04",
+          "stderr": "",
+          "median_ms": 331.20804200007115,
+          "min_ms": 324.65687500007334,
+          "max_ms": 352.6678329981223,
+          "samples_ms": [
+            352.6678329981223,
+            333.3778749984049,
+            326.01687500209664,
+            345.8015420001175,
+            331.02929099914036,
+            331.20804200007115,
+            352.08699999930104,
+            330.999999998312,
+            324.65687500007334
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 11.025832998711849,
+          "delegated": false,
+          "stdout_sha256": "09ddf90bdd3277a767f6f83f6a10e55f35848bfe6b942954572bf06d424caa04",
+          "stderr": "",
+          "median_ms": 6.827334000263363,
+          "min_ms": 5.78858299923013,
+          "max_ms": 7.2449580002285074,
+          "samples_ms": [
+            7.023915997706354,
+            7.2449580002285074,
+            5.78858299923013,
+            6.827334000263363,
+            7.135125000786502,
+            5.790000002889428,
+            6.8977080009062774,
+            6.618084000365343,
+            5.82508400111692
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "timing_ratio": 48.51206078204096,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "uses-openssl-installed",
+      "arguments": [
+        "uses",
+        "--installed",
+        "openssl@3"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 517.0777079983964,
+          "delegated": false,
+          "stdout_sha256": "21a0485719e9c16230f6951ef8f58a975f8ab759a9bafb5cb27b857d72ac8c08",
+          "stderr": "",
+          "median_ms": 467.4408749997383,
+          "min_ms": 453.5542089979572,
+          "max_ms": 477.98333299942897,
+          "samples_ms": [
+            460.0355420006963,
+            477.58395900018513,
+            470.07770799973514,
+            477.98333299942897,
+            453.5542089979572,
+            467.4408749997383,
+            462.440916999185,
+            476.03641700334265,
+            465.78108399990015
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 15.597833000356331,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 14.823957997577963,
+          "min_ms": 13.051834001089446,
+          "max_ms": 15.146833997278009,
+          "samples_ms": [
+            14.856624999083579,
+            13.332833997992566,
+            14.589334001357201,
+            14.823957997577963,
+            13.051834001089446,
+            15.057792003062787,
+            15.146833997278009,
+            14.678583000204526,
+            14.879457998176804
+          ]
+        }
+      },
+      "stdout_equal": false,
+      "same_package_names": false,
+      "assessment": "Different results: Homebrew reports bat/eza/zellij; fastbrew reports none. Keep this command on Homebrew.",
+      "equivalent": false,
+      "non_equivalent_timing_ratio": 31.532798128280714
+    },
+    {
+      "id": "list-formula",
+      "arguments": [
+        "list",
+        "--formula"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 23.072916999808513,
+          "delegated": false,
+          "stdout_sha256": "bf7685dccd72b39cc5c6ed1c6451413cb14eaa08a47885cb200eeb8fdf892da6",
+          "stderr": "",
+          "median_ms": 20.71129099931568,
+          "min_ms": 19.94070799992187,
+          "max_ms": 23.613083001691848,
+          "samples_ms": [
+            20.640124999772524,
+            20.80954199846019,
+            20.71129099931568,
+            19.94070799992187,
+            20.34608300164109,
+            20.45779200125253,
+            21.26716600105283,
+            22.678041998005938,
+            23.613083001691848
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 7.16370900045149,
+          "delegated": false,
+          "stdout_sha256": "bf7685dccd72b39cc5c6ed1c6451413cb14eaa08a47885cb200eeb8fdf892da6",
+          "stderr": "",
+          "median_ms": 6.8239590000303,
+          "min_ms": 6.405249998351792,
+          "max_ms": 8.145167001202935,
+          "samples_ms": [
+            6.888374999107327,
+            6.762499997421401,
+            6.429334000131348,
+            6.889167001645546,
+            6.8239590000303,
+            6.405249998351792,
+            6.622541997785447,
+            8.145167001202935,
+            7.880457997089252
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "same_package_names": true,
+      "timing_ratio": 3.0350843255687376,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "list-cask",
+      "arguments": [
+        "list",
+        "--cask"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 21.88258300157031,
+          "delegated": false,
+          "stdout_sha256": "fa29894b6f1bd50232b709e06bfe63aaadd24221151258ccc2fd61478db89093",
+          "stderr": "",
+          "median_ms": 20.792041999811772,
+          "min_ms": 20.137417002842994,
+          "max_ms": 21.779667000373593,
+          "samples_ms": [
+            20.792041999811772,
+            21.035582998592872,
+            21.001207998779137,
+            21.779667000373593,
+            21.229709000181174,
+            20.4431249985646,
+            20.604207998985657,
+            20.137417002842994,
+            20.59200000076089
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 5.164458001672756,
+          "delegated": false,
+          "stdout_sha256": "fa29894b6f1bd50232b709e06bfe63aaadd24221151258ccc2fd61478db89093",
+          "stderr": "",
+          "median_ms": 5.000665998522891,
+          "min_ms": 4.689709003287135,
+          "max_ms": 5.923667002207367,
+          "samples_ms": [
+            4.88341600066633,
+            4.689709003287135,
+            4.889458003162872,
+            5.2949999990232754,
+            5.923667002207367,
+            5.147791998751927,
+            5.0847499987867195,
+            5.000665998522891,
+            4.888540999672841
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "same_package_names": true,
+      "timing_ratio": 4.1578545749612905,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "leaves",
+      "arguments": [
+        "leaves"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 432.00679199799197,
+          "delegated": false,
+          "stdout_sha256": "3729bbb5b2ee7e697d88eb16560b3e50c375df70625e14e592b2b71ee80be42f",
+          "stderr": "",
+          "median_ms": 444.20104100208846,
+          "min_ms": 426.2351249999483,
+          "max_ms": 471.1174170006416,
+          "samples_ms": [
+            438.5052090001409,
+            427.47337499895366,
+            444.761999999173,
+            426.2351249999483,
+            471.1174170006416,
+            455.3746660021716,
+            428.4871669988206,
+            452.683084000455,
+            444.20104100208846
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 28.725916999974288,
+          "delegated": false,
+          "stdout_sha256": "874504b79d14f31e4b80842e497a843de90854a8f5d61c23e00cc1c466adca20",
+          "stderr": "",
+          "median_ms": 15.117541002837243,
+          "min_ms": 13.676624999789055,
+          "max_ms": 18.210292000730988,
+          "samples_ms": [
+            14.851249998173444,
+            14.935249997506617,
+            15.21245899857604,
+            15.267999999196036,
+            13.812583001708845,
+            15.137375001359032,
+            13.676624999789055,
+            18.210292000730988,
+            15.117541002837243
+          ]
+        }
+      },
+      "stdout_equal": false,
+      "same_package_names": false,
+      "assessment": "Same short package names, but fastbrew drops tap qualification for matugen/sketchybar. Keep this command on Homebrew.",
+      "equivalent": false,
+      "non_equivalent_timing_ratio": 29.383154371383636
+    },
+    {
+      "id": "outdated",
+      "arguments": [
+        "outdated",
+        "--quiet"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 484.19662499873084,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 486.77620800299337,
+          "min_ms": 456.33045800059335,
+          "max_ms": 646.1526249986491,
+          "samples_ms": [
+            456.33045800059335,
+            470.4297919997771,
+            458.41550000113784,
+            486.77620800299337,
+            479.23412499949336,
+            501.4736670018465,
+            567.8514589999395,
+            646.1526249986491,
+            491.7533330008155
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 21.663750001607696,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 21.81833299982827,
+          "min_ms": 20.22762499836972,
+          "max_ms": 24.8268340001232,
+          "samples_ms": [
+            20.22762499836972,
+            21.46750000247266,
+            21.453041001223028,
+            22.124333001556806,
+            24.8268340001232,
+            22.354875000019092,
+            24.167333001969382,
+            21.81833299982827,
+            21.046000001661014
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "same_package_names": true,
+      "timing_ratio": 22.310421607683075,
+      "assessment": "Same command output in this local snapshot.",
+      "equivalent": true
+    },
+    {
+      "id": "upgrade-plan",
+      "arguments": [
+        "upgrade",
+        "--dry-run"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 605.886332999944,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 495.29262500072946,
+          "min_ms": 486.3138330001675,
+          "max_ms": 552.6351670014265,
+          "samples_ms": [
+            500.3974589999416,
+            517.8471250001166,
+            552.6351670014265,
+            518.176792000304,
+            489.7670829996059,
+            493.7504169975,
+            486.3138330001675,
+            495.29262500072946,
+            488.16695799905574
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 25.105542001256254,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 23.068499998771586,
+          "min_ms": 22.25962499869638,
+          "max_ms": 27.658291000989266,
+          "samples_ms": [
+            23.068499998771586,
+            22.998750002443558,
+            24.72733299873653,
+            23.969750000105705,
+            26.33162500205799,
+            27.658291000989266,
+            22.25962499869638,
+            22.649834001640556,
+            22.777207999752136
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "timing_ratio": 21.47051715660334,
+      "assessment": "Only planning was measured; no packages were upgraded.",
+      "equivalent": true
+    },
+    {
+      "id": "buu-upgrade-plan",
+      "arguments": [
+        "upgrade",
+        "-y",
+        "--dry-run"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 503.44041700009257,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "",
+          "median_ms": 493.87462500089896,
+          "min_ms": 486.2094159980188,
+          "max_ms": 522.334833000059,
+          "samples_ms": [
+            486.2094159980188,
+            503.38820799879613,
+            505.14266599930124,
+            522.334833000059,
+            488.0489999995916,
+            504.283915997803,
+            486.4127920009196,
+            491.9806249999965,
+            493.87462500089896
+          ]
+        },
+        "fastbrew": {
+          "returncode": 1,
+          "first_observation_ms": 6.602457997360034,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "Error: unexpected argument '-y' found\n"
+        }
+      },
+      "stdout_equal": true,
+      "assessment": "fastbrew 0.1.3 rejects -y. Keep upgrades on Homebrew to preserve buu.",
+      "equivalent": false
+    },
+    {
+      "id": "services-list",
+      "arguments": [
+        "services",
+        "list"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 516.9366659974912,
+          "delegated": false,
+          "stdout_sha256": "41510596222ddad09207914ef0b20598043805ad1d0b3354d09553fc8cb7ff31",
+          "stderr": "",
+          "median_ms": 482.9553749987099,
+          "min_ms": 471.0010830021929,
+          "max_ms": 501.69649999952526,
+          "samples_ms": [
+            478.24458300237893,
+            501.69649999952526,
+            482.68554099922767,
+            482.9553749987099,
+            473.9507079975738,
+            489.0224579976348,
+            471.0010830021929,
+            488.2572499991511,
+            485.18241600322654
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 29.265332999784732,
+          "delegated": false,
+          "stdout_sha256": "7f0cde73e20cf0c66e967423dc624bcd6a7227dda195b8a4c7f7db8c64d20f09",
+          "stderr": "",
+          "median_ms": 14.391457996680401,
+          "min_ms": 13.18662500125356,
+          "max_ms": 15.284999997675186,
+          "samples_ms": [
+            14.17987500099116,
+            14.601124999899184,
+            14.274875000410248,
+            14.533249999658437,
+            13.202333000663202,
+            14.660165998066077,
+            14.391457996680401,
+            13.18662500125356,
+            15.284999997675186
+          ]
+        }
+      },
+      "stdout_equal": false,
+      "assessment": "Different service status and inventory: fastbrew misses the active container registration and podman entry. Keep this command on Homebrew.",
+      "equivalent": false,
+      "non_equivalent_timing_ratio": 33.55847441656784
+    },
+    {
+      "id": "bundle-check",
+      "arguments": [
+        "bundle",
+        "check",
+        "--no-upgrade",
+        "--file",
+        "/Users/collietsai/.config/brew/Brewfile"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 899.1910000004282,
+          "delegated": false,
+          "stdout_sha256": "a518485582861c31dc5bd77e8866379ad440c3188dc42fca653ef850cb9446d8",
+          "stderr": "",
+          "median_ms": 883.8317499976256,
+          "min_ms": 860.8927080022113,
+          "max_ms": 927.2165000002133,
+          "samples_ms": [
+            870.1376249991881,
+            878.4855830017477,
+            877.2225420034374,
+            883.8317499976256,
+            860.8927080022113,
+            885.5005830009759,
+            884.748958000273,
+            927.2165000002133,
+            911.8857910034421
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 875.5096669992781,
+          "delegated": true,
+          "stdout_sha256": "a518485582861c31dc5bd77e8866379ad440c3188dc42fca653ef850cb9446d8",
+          "stderr": "fastbrew: delegating to brew (`bundle` is not implemented by fastbrew)\n",
+          "median_ms": 897.4669999988691,
+          "min_ms": 877.018750001298,
+          "max_ms": 993.5220839979593,
+          "samples_ms": [
+            993.5220839979593,
+            957.756125000742,
+            879.6895830018912,
+            877.018750001298,
+            953.5103330017591,
+            899.9882909993175,
+            886.9299170000886,
+            897.4669999988691,
+            897.1742089997861
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "timing_ratio": 0.9848069622601603,
+      "assessment": "fastbrew delegates to Homebrew; no independent speedup.",
+      "equivalent": true
+    },
+    {
+      "id": "install-node-plan",
+      "arguments": [
+        "install",
+        "--dry-run",
+        "node"
+      ],
+      "clients": {
+        "brew": {
+          "returncode": 0,
+          "first_observation_ms": 351.14941600113525,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "Warning: node 26.11.1 is already installed and up-to-date.\nTo reinstall 26.11.1, run:\n  brew reinstall node\n",
+          "median_ms": 363.1029589996615,
+          "min_ms": 349.94045900020865,
+          "max_ms": 378.71725000150036,
+          "samples_ms": [
+            349.94045900020865,
+            356.00958299983176,
+            376.04983300116146,
+            368.8053750011022,
+            374.5831250016636,
+            352.70595800102456,
+            363.1029589996615,
+            378.71725000150036,
+            351.25408400199376
+          ]
+        },
+        "fastbrew": {
+          "returncode": 0,
+          "first_observation_ms": 7.405416999972658,
+          "delegated": false,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr": "Warning: node 26.11.1 is already installed and up-to-date.\nTo reinstall 26.11.1, run:\n  brew reinstall node\n",
+          "median_ms": 6.047833001503022,
+          "min_ms": 5.188457998883678,
+          "max_ms": 6.547583001520252,
+          "samples_ms": [
+            6.074832999729551,
+            5.447166997328168,
+            6.547583001520252,
+            6.153000002086628,
+            5.500041999766836,
+            6.298708001850173,
+            6.011833000229672,
+            6.047833001503022,
+            5.188457998883678
+          ]
+        }
+      },
+      "stdout_equal": true,
+      "timing_ratio": 60.03852270878218,
+      "assessment": "Only planning was measured; Node was already installed. Not a completed install.",
+      "equivalent": true
+    }
+  ],
+  "fastbrew_binary_sha256": "8b4a6bea152b7c8a230c8f257b56ea49470a9a7ee1c8e38829b4aabc54f2720b"
+}

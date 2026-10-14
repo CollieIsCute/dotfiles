@@ -1,0 +1,97 @@
+{
+  "timestamp": "2026-10-14T12:21:57.160623+00:00",
+  "prefix": "/opt/homebrew",
+  "runs": 5,
+  "warmup_runs": 1,
+  "method": "Same-version reinstalls in the real default /opt/homebrew prefix. Shared warmed bottle cache; normal post-install and dependency checks. No automatic metadata updates or cleanup. Original kegs cloned to temporary backup before changes.",
+  "scenarios": [
+    {
+      "package": "fzf",
+      "clients": {
+        "brew": [
+          1464.7945409997192,
+          1475.17287500159,
+          1475.6859170011012,
+          1489.6176669972192,
+          1510.3815420006867
+        ],
+        "fastbrew": [
+          58.00920799811138,
+          60.76879099782673,
+          58.3575419987028,
+          59.441125002194894,
+          62.03787499907776
+        ]
+      },
+      "median_ms": {
+        "brew": 1475.6859170011012,
+        "fastbrew": 59.441125002194894
+      },
+      "timing_ratio": 24.82600921410237,
+      "verified_version": "0.74.5"
+    },
+    {
+      "package": "uv",
+      "clients": {
+        "brew": [
+          1573.0766669985314,
+          1611.9134590007889,
+          1616.9001660018694,
+          1644.6905830016476,
+          1784.5963749969087
+        ],
+        "fastbrew": [
+          186.1049590006587,
+          185.63637499755714,
+          203.36137500271434,
+          177.9982910011313,
+          189.8456669987354
+        ]
+      },
+      "median_ms": {
+        "brew": 1616.9001660018694,
+        "fastbrew": 186.1049590006587
+      },
+      "timing_ratio": 8.688108982609895,
+      "verified_version": "0.13.1"
+    },
+    {
+      "package": "tokei",
+      "clients": {
+        "brew": [
+          1533.0726249994768,
+          1519.9611669995647,
+          1645.1335829988238,
+          1576.3229580006737,
+          1575.8319589986058
+        ],
+        "fastbrew": [
+          63.12266700115288,
+          60.3144999986398,
+          64.31308299943339,
+          64.08470799942734,
+          65.2370419993531
+        ]
+      },
+      "median_ms": {
+        "brew": 1575.8319589986058,
+        "fastbrew": 64.08470799942734
+      },
+      "timing_ratio": 24.589828185105993,
+      "verified_version": "15.0.0"
+    }
+  ],
+  "platform": {
+    "macos": "27.0.1",
+    "architecture": "arm64"
+  },
+  "versions": {
+    "brew": "Homebrew 7.0.9-94-g92b8ea8",
+    "fastbrew": "Homebrew 6.0.22\nfastbrew 0.1.3"
+  },
+  "sample_order": "Final real-prefix run performed serially after the isolated install benchmark completed.",
+  "limitations": [
+    "Three standalone CLI packages; no estimate for GUI apps, Node/LLVM, full upgrades or buu.",
+    "Cached same-version reinstalls; does not predict cold downloads or newer-version upgrades."
+  ]
+}

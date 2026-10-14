@@ -1,0 +1,407 @@
+{
+  "timestamp": "2026-10-14T12:13:14.236715+00:00",
+  "packages": [
+    "fzf",
+    "uv",
+    "tokei"
+  ],
+  "cold_runs": 2,
+  "warm_runs": 5,
+  "method": "Fresh isolated prefix for every install. Cold = empty bottle cache, warm metadata. Warm = cached bottles, warm metadata. Normal post-install steps enabled. Native fastbrew only; delegation forbidden.",
+  "note": "Standalone CLI bottles only; does not estimate GUI, LLVM, Node or full-machine upgrade performance.",
+  "scenarios": [
+    {
+      "package": "fzf",
+      "clients": {
+        "brew": {
+          "cold": [
+            {
+              "duration_ms": 6593.222749997949,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest fzf (0.74.5)\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 6281.795708997379,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest fzf (0.74.5)\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 4801.511833000404,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 4959.004333002667,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 4887.902750000649,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 4824.146874998405,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 5584.295750002639,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: fzf\n\u2714\ufe0e Bottle fzf (0.74.5)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            }
+          ]
+        },
+        "fastbrew": {
+          "cold": [
+            {
+              "duration_ms": 1967.0953749991895,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 1990.556791999552,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 48.80899999989197,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 37.33120800097822,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 35.15550000156509,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 33.52291600094759,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            },
+            {
+              "duration_ms": 33.051667000108864,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "0.74.5 (Homebrew)",
+              "installed_version": "0.74.5"
+            }
+          ]
+        }
+      },
+      "cold": {
+        "median_ms": {
+          "brew": 6437.509229497664,
+          "fastbrew": 1978.8260834993707
+        },
+        "timing_ratio": 3.253196065676234
+      },
+      "warm": {
+        "median_ms": {
+          "brew": 4887.902750000649,
+          "fastbrew": 35.15550000156509
+        },
+        "timing_ratio": 139.0366443311301
+      }
+    },
+    {
+      "package": "uv",
+      "clients": {
+        "brew": {
+          "cold": [
+            {
+              "duration_ms": 19412.421625002025,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest uv (0.13.1)\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 9736.119958000927,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest uv (0.13.1)\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 4956.884750001336,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 4990.593958998943,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 4990.00900000101,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 4896.569374999672,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 4895.777625002665,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: uv\n\u2714\ufe0e Bottle uv (0.13.1)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            }
+          ]
+        },
+        "fastbrew": {
+          "cold": [
+            {
+              "duration_ms": 2206.3980829989305,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 1925.568792001286,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 152.16658399731386,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 153.07962500082795,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 154.9912080008653,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 157.705541998439,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            },
+            {
+              "duration_ms": 152.15816699856077,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "uv 0.13.1 (Homebrew 2026-10-14 aarch64-apple-darwin)",
+              "installed_version": "0.13.1"
+            }
+          ]
+        }
+      },
+      "cold": {
+        "median_ms": {
+          "brew": 14574.270791501476,
+          "fastbrew": 2065.9834375001083
+        },
+        "timing_ratio": 7.054398659234514
+      },
+      "warm": {
+        "median_ms": {
+          "brew": 4956.884750001336,
+          "fastbrew": 153.07962500082795
+        },
+        "timing_ratio": 32.38108762008351
+      }
+    },
+    {
+      "package": "tokei",
+      "clients": {
+        "brew": {
+          "cold": [
+            {
+              "duration_ms": 7718.818166998972,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest tokei (15.0.0)\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 9870.423374999518,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Downloading bottle manifests\n\u2714\ufe0e Bottle Manifest tokei (15.0.0)\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 4748.7331250013085,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 4738.555874999292,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 5021.547749998717,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 4764.629125002102,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 5718.770542000129,
+              "returncode": 0,
+              "stderr": "Warning: Your Homebrew's prefix is not /opt/homebrew.\n\nSome of Homebrew's bottles (binary packages) cannot be used with this prefix.\n\nConsider uninstalling Homebrew and reinstalling into the default prefix.\n==> Fetching downloads for: tokei\n\u2714\ufe0e Bottle tokei (15.0.0)\n\nThis is a Tier 3 configuration:\n  https://docs.brew.sh/Support-Tiers#tier-3\nYou can report issues with Tier 3 configurations to Homebrew/* repositories!\n  \nRead the above document before opening any issues or PRs.\n",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            }
+          ]
+        },
+        "fastbrew": {
+          "cold": [
+            {
+              "duration_ms": 5357.727000002342,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 1227.016332999483,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            }
+          ],
+          "warm": [
+            {
+              "duration_ms": 26.27750000101514,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 34.80366599978879,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 27.106040997750824,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 28.97845799816423,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            },
+            {
+              "duration_ms": 28.740249999827938,
+              "returncode": 0,
+              "stderr": "",
+              "runtime_version": "tokei 15.0.0 compiled with serialization support: json, cbor, yaml",
+              "installed_version": "15.0.0"
+            }
+          ]
+        }
+      },
+      "cold": {
+        "median_ms": {
+          "brew": 8794.620770999245,
+          "fastbrew": 3292.3716665009124
+        },
+        "timing_ratio": 2.671211412879776
+      },
+      "warm": {
+        "median_ms": {
+          "brew": 4764.629125002102,
+          "fastbrew": 28.740249999827938
+        },
+        "timing_ratio": 165.78245231097944
+      }
+    }
+  ],
+  "limitations": [
+    "Non-default prefixes trigger additional Homebrew Tier 3 checks; these numbers overstate gains relative to the normal /opt/homebrew prefix.",
+    "Two cold samples per tool are sensitive to network variation.",
+    "Diagnostic data only; use the separate real-prefix reinstall results for daily-use conclusions.",
+    "The real-prefix test initially overlapped this diagnostic run; its final published samples were rerun serially after this run finished."
+  ]
+}
