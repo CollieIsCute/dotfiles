@@ -12,7 +12,7 @@ on:
       benchmark_backend:
         description: Backend to measure
         type: choice
-        options: [all, homebrew, queries, native-experiment]
+        options: [all, full, homebrew, queries, native-experiment]
         default: all
 
 permissions:
@@ -134,7 +134,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: ${{ fromJSON(inputs.benchmark_backend != 'all' && format('["{0}"]', inputs.benchmark_backend) || '["homebrew", "queries", "native-experiment"]') }}
+        backend: ${{ fromJSON(inputs.benchmark_backend == 'full' && '["homebrew", "native-experiment"]' || inputs.benchmark_backend != 'all' && format('["{0}"]', inputs.benchmark_backend) || '["homebrew", "queries", "native-experiment"]') }}
         repetition: [1, 2]
     steps:
       - uses: actions/checkout@v7
@@ -145,7 +145,7 @@ jobs:
           CHEZMOI_GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 benchmarks/daily.py \
+          /usr/bin/python3 benchmarks/daily.py --clean \
             --backend '${{ matrix.backend }}' \
             --revision '${{ github.sha }}' \
             --base-revision "$(git merge-base HEAD origin/chore/macos-packages-system-node)" \

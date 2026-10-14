@@ -8,11 +8,16 @@ import statistics
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--artifacts', required=True, type=pathlib.Path)
 parser.add_argument('--output', required=True, type=pathlib.Path)
+parser.add_argument('--image-version', help='Compare only one GitHub runner image rollout.')
 args = parser.parse_args()
 groups = {}
 for path in sorted(args.artifacts.glob('**/result.json')):
     row = json.loads(path.read_text())
+    if args.image_version and row.get('image_version') != args.image_version:
+        continue
     backend = row['backend']
+    if row.get('clean_prefix'):
+        backend += '-clean'
     if backend == 'native-experiment':
         if 'native_preunlink' in row:
             backend = 'native-with-link-migration'
@@ -20,6 +25,7 @@ for path in sorted(args.artifacts.glob('**/result.json')):
             backend = 'native-direct' if 'node' in row.get('native_core_formulae', []) else 'native-with-node-fallback'
     groups.setdefault(backend, []).append(row)
 report = {
+    'image_version_filter': args.image_version,
     'method': 'Medians of complete cold-cache first deployments and real buu on separate macOS CI runners. Total time saved = 100 * (1 - candidate_seconds / Homebrew_seconds).',
     'limitations': ['Two repetitions per workflow; real network and upstream metadata are variable.', 'Runner comes with Homebrew and other packages preinstalled.', 'Query-only PR still uses Homebrew for initial install and every buu update/upgrade; observed timing variation is not a native fastbrew speedup.'],
     'backends': {},
@@ -42,9 +48,10 @@ def same_state(rows, field):
     return len(set(values)) == 1
 
 
-baseline = [r for r in groups.get('homebrew', []) if r.get('complete')]
+baseline_backend = 'homebrew-clean' if 'homebrew-clean' in groups else 'homebrew'
+baseline = [r for r in groups.get(baseline_backend, []) if r.get('complete')]
 for backend, rows in groups.items():
-    if backend == 'homebrew':
+    if backend == baseline_backend:
         continue
     candidates = [r for r in rows if r.get('complete')]
     if not baseline or not candidates:
@@ -68,7 +75,7 @@ for backend, rows in groups.items():
             eligible &= checks['same_inventory_before_buu'] and checks['same_final_inventory'] and checks['all_packages_current_after_buu']
         else:
             eligible &= checks['same_initial_inventory'] and checks['same_final_inventory'] and checks['all_packages_current_after_buu']
-        brew = report['backends']['homebrew'][phase]['median_seconds']
+        brew = report['backends'][baseline_backend][phase]['median_seconds']
         candidate = report['backends'][backend][phase]['median_seconds']
         comparison[phase] = {'eligible': bool(eligible), 'observed_percent_time_saved': 100*(1-candidate/brew), 'seconds_saved': brew-candidate}
         if backend == 'queries':
