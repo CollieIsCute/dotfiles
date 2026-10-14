@@ -146,7 +146,15 @@ if args.clean:
         if hashlib.sha256(bottle.read_bytes()).hexdigest() != digest:
             raise RuntimeError('Old bottle checksum mismatch: '+name)
         run('seed-remove-'+name, [str(PREFIX/'bin/brew'), 'uninstall', '--force', '--ignore-dependencies', name])
-        run('seed-install-'+name, [str(PREFIX/'bin/brew'), 'install', '--force-bottle', '--ignore-dependencies', str(bottle)])
+        # Homebrew 7 removed installing arbitrary local bottle paths. Untimed
+        # fixture setup pours the checksum-verified real old payload/receipt,
+        # then uses normal Homebrew linking and verifies the actual executable.
+        run('seed-pour-'+name, ['/usr/bin/tar', '-xzf', str(bottle), '-C', str(PREFIX/'Cellar')])
+        receipt_path = PREFIX/'Cellar'/name/version/'INSTALL_RECEIPT.json'
+        receipt = json.loads(receipt_path.read_text())
+        receipt.update(poured_from_bottle=True, installed_on_request=True, installed_as_dependency=False, time=int(time.time()))
+        receipt_path.write_text(json.dumps(receipt, indent=2)+'\n')
+        run('seed-link-'+name, [str(PREFIX/'bin/brew'), 'link', name])
         run('seed-smoke-'+name, [str(PREFIX/'bin'/name), '--version'])
     cask = fixture['cask']
     definition = OUTPUT/'old-vchewing.rb'
