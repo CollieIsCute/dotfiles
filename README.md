@@ -83,22 +83,6 @@ chezmoi theme IMAGE
 
 - If TTY switching does not work, boot with `systemd.unit=multi-user.target` from GRUB to reach a console.
 
-## Voice dictation
-
-Handy runs recognition inside the desktop app on Arch Linux, Ubuntu, macOS, and Windows. It is installed through paru (`handy-bin`), APT (the upstream `.deb`), Homebrew, or Scoop.
-
-1. Launch Handy from Applications on macOS, the Start menu on Windows, or `handy` on Linux.
-2. Complete onboarding, then download **SenseVoice Small** (the initial selection) and **Qwen3-ASR 1.7B** in Models. Expand the full model list if needed.
-3. Select either model and hold `Shift+F13` to dictate; release to paste the transcript. Chinese output uses Traditional Chinese.
-4. Quit Handy before `chezmoi apply`, then reopen it to load settings. Model selection and unrelated settings are preserved.
-
-- Handy manages model downloads; `chezmoi update` does not download recognition engines or models. Its GGUF exports replace the old model files.
-- **Hyprland:** Handy starts with the session. Hyprland owns the press/release shortcut and `wtype` inserts the text; the recording overlay is hidden to keep focus on the target app.
-- **macOS:** grant Microphone and Accessibility permissions.
-- **Windows/Linux:** install a Vulkan GPU driver to use GPU acceleration.
-- Set Handy's Model Unload Timeout to **Immediately**, or quit Handy before gaming, to release model memory.
-- Migration stops the old CrispASR server and removes its binaries, model caches, `asr-mode`, and OpenWhispr shortcut settings. The package installer removes OpenWhispr after installing Handy. Quit OpenWhispr before applying the migration.
-
 ## AI extensions
 
 - Add plugins and marketplaces in [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml), then run `chezmoi apply` and restart the affected app.

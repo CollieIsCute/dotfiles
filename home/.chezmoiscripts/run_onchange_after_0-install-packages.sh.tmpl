@@ -7,9 +7,6 @@ NC='\033[0m'
 {{ if eq .chezmoi.os "darwin" }}
   echo -e "${GREEN}Installing MacOS packages${NC}"
   {{- template "install-packages_darwin.tmpl" . -}}
-  if brew list --cask openwhispr >/dev/null 2>&1; then
-    brew uninstall --cask openwhispr
-  fi
 
 {{ else if eq .chezmoi.os "linux" }}
   {{- $osid := .chezmoi.osRelease.id -}}
@@ -28,9 +25,6 @@ NC='\033[0m'
     {{ end }}
     
     {{ if not $isWSL }}
-    if pacman -Qq openwhispr-bin >/dev/null 2>&1; then
-      sudo pacman -R --noconfirm openwhispr-bin
-    fi
     if command -v flatpak > /dev/null; then
       echo -e "${GREEN}Setting up Flatpak and installing applications...${NC}"
       
@@ -55,11 +49,6 @@ NC='\033[0m'
     trap 'rm -rf "$download"' EXIT HUP INT TERM
     curl --fail --location --retry 3 {{ gitHubLatestReleaseAssetURL "cjpais/Handy" "Handy_*_amd64.deb" | quote }} -o "$download/handy.deb"
     sudo apt-get install -y "$download/handy.deb"
-    for retired_package in open-whispr openwhispr; do
-      if dpkg-query -W -f='${Status}' "$retired_package" 2>/dev/null | grep -q '^install ok installed$'; then
-        sudo apt-get remove -y "$retired_package"
-      fi
-    done
     {{ end }}
   {{ else }}
     echo "Unsupported Linux distro: {{ $osid }}"

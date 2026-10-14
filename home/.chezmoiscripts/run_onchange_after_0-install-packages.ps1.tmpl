@@ -35,10 +35,6 @@ $packages = @(
 
 Invoke-Scoop install @packages
 
-if (Test-Path (Join-Path $scoopRoot "apps\openwhispr\current")) {
-    Invoke-Scoop uninstall openwhispr
-}
-
 $cargoHome = [Environment]::GetEnvironmentVariable("CARGO_HOME", "User")
 $rustupHome = [Environment]::GetEnvironmentVariable("RUSTUP_HOME", "User")
 if (!$cargoHome) { $cargoHome = Join-Path $scoopRoot "persist\rustup-msvc\.cargo" }
