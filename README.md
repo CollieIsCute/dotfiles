@@ -190,3 +190,5 @@ On Arch Linux x86_64, macOS, or Windows x64 with AVX2:
 On Apple Silicon macOS, Fish uses the pinned fastbrew client for `brew search`,
 `deps`, `list`, and `outdated`. Installation, upgrades, services, and Bundle use
 Homebrew. `command brew` always invokes Homebrew directly.
+The query wrapper does not accelerate the initial Brewfile installation or `buu`.
+Complete-workflow measurements and replay scripts are in `benchmarks/`.

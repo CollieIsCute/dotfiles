@@ -1,0 +1,69 @@
+{
+  "method": "Same-day successful macos-26-arm64 dotfiles CI runs; same Brewfile hash and 66 declarations. One sample per revision. These are observational timings: both package-install commands use Homebrew, so the difference is not a causal fastbrew speedup.",
+  "runs": [
+    {
+      "profile": "before",
+      "run_id": 38560840061,
+      "job_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38560840061/job/115841982862",
+      "image": "macos-26-arm64",
+      "image_version": "20260907.0351.1",
+      "brewfile_sha256": "1b6072336afe35fe409505fec4c629eba9e286dabfc0f0050243109d86a27620",
+      "brewfile_declarations": 66,
+      "steps": [
+        {
+          "name": "Set up job",
+          "seconds": 0.0
+        },
+        {
+          "name": "Run brew update && brew install chezmoi",
+          "seconds": 95.0
+        },
+        {
+          "name": "chezmoi init dotfiles",
+          "seconds": 635.0
+        },
+        {
+          "name": "Complete job",
+          "seconds": 4.0
+        }
+      ],
+      "bundle_install_seconds": 601.40319,
+      "job_seconds": 737.0,
+      "bootstrap_seconds": 730.0
+    },
+    {
+      "profile": "after",
+      "run_id": 38564438583,
+      "job_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38564438583/job/115853779540",
+      "image": "macos-26-arm64",
+      "image_version": "20260907.0351.1",
+      "brewfile_sha256": "1b6072336afe35fe409505fec4c629eba9e286dabfc0f0050243109d86a27620",
+      "brewfile_declarations": 66,
+      "steps": [
+        {
+          "name": "Set up job",
+          "seconds": 1.0
+        },
+        {
+          "name": "Run brew update && brew install chezmoi",
+          "seconds": 92.0
+        },
+        {
+          "name": "chezmoi init dotfiles",
+          "seconds": 580.0
+        },
+        {
+          "name": "Complete job",
+          "seconds": 3.0
+        }
+      ],
+      "bundle_install_seconds": 545.984263,
+      "job_seconds": 679.0,
+      "bootstrap_seconds": 672.0
+    }
+  ],
+  "job_seconds_observed_percent_time_saved": 7.869742198100404,
+  "bootstrap_seconds_observed_percent_time_saved": 7.9452054794520555,
+  "bundle_install_seconds_observed_percent_time_saved": 9.214937320169515,
+  "causal_fastbrew_time_saved_percent": 0
+}

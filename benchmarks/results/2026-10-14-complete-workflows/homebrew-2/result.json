@@ -1,0 +1,1656 @@
+{
+  "timestamp": "2026-10-14T15:11:58.551922+00:00",
+  "backend": "homebrew",
+  "revision": "cdbeb6f37626d86ef2c48a88296c0b7030f44dde",
+  "base_revision": "",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "runner": "GitHub Actions 1000006614",
+  "image_version": "20260907.0351.1",
+  "run_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38587017771",
+  "buu": "brew update && brew upgrade -y && fisher update",
+  "limitations": [
+    "Starts with an empty default-prefix Cellar/Caskroom. Homebrew itself and the runner OS/Xcode are preinstalled.",
+    "Real network and upstream metadata are live; runners and transfer speeds vary.",
+    "Native experiment preinstalls core formulae with fastbrew, completes all remaining Brewfile work with Homebrew Bundle, and translates -y to fastbrew noninteractive upgrade only in this test.",
+    "A timed one-time migration unlinks the runner old node@24, openssl@3 and python@3.14 commands. Homebrew Bundle normally handles these transitions automatically; native installs without this preparation failed.",
+    "Native experiment retains Homebrew update so the Homebrew executable itself is updated.",
+    "Formula/cask inventories and outdated lists must be checked for equivalent work before reporting a speedup."
+  ],
+  "steps": [
+    {
+      "name": "prepare-remove-runner-casks",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "uninstall",
+        "--cask",
+        "--force",
+        "firefox",
+        "google-chrome",
+        "microsoft-edge",
+        "session-manager-plugin"
+      ],
+      "seconds": 3.557912917,
+      "returncode": 0
+    },
+    {
+      "name": "prepare-remove-runner-formulae",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "uninstall",
+        "--formula",
+        "--force",
+        "--ignore-dependencies",
+        "ant",
+        "aria2",
+        "aws-sam-cli",
+        "azure-cli",
+        "bazelisk",
+        "bicep",
+        "brotli",
+        "c-ares",
+        "ca-certificates",
+        "cairo",
+        "carthage",
+        "certifi",
+        "cffi",
+        "cmake",
+        "cryptography",
+        "curl",
+        "fontconfig",
+        "freetype",
+        "gcc@13",
+        "gcc@14",
+        "gcc@15",
+        "gdbm",
+        "geckodriver",
+        "gettext",
+        "gh",
+        "giflib",
+        "git",
+        "git-lfs",
+        "glib",
+        "gmp",
+        "gnu-tar",
+        "gnupg",
+        "gnutls",
+        "gradle",
+        "gradle-completion",
+        "graphite2",
+        "harfbuzz",
+        "hdrhistogram_c",
+        "icu4c@78",
+        "isl",
+        "jpeg-turbo",
+        "jq",
+        "json-c",
+        "kotlin",
+        "krb5",
+        "libassuan",
+        "libgcrypt",
+        "libgpg-error",
+        "libidn2",
+        "libksba",
+        "libmpc",
+        "libnghttp2",
+        "libnghttp3",
+        "libngtcp2",
+        "libpng",
+        "libpq",
+        "libpsl",
+        "libsodium",
+        "libssh2",
+        "libtasn1",
+        "libtiff",
+        "libunistring",
+        "libusb",
+        "libuv",
+        "libx11",
+        "libxau",
+        "libxcb",
+        "libxdmcp",
+        "libxext",
+        "libxrender",
+        "libyaml",
+        "little-cms2",
+        "llvm@20",
+        "lz4",
+        "lzo",
+        "maven",
+        "mpdecimal",
+        "mpfr",
+        "nettle",
+        "ninja",
+        "node@24",
+        "npth",
+        "oniguruma",
+        "openjdk",
+        "openssl@3",
+        "p11-kit",
+        "p7zip",
+        "packer",
+        "pcre2",
+        "perl",
+        "pinentry",
+        "pipx",
+        "pixman",
+        "pkgconf",
+        "pycparser",
+        "pydantic",
+        "python@3.14",
+        "readline",
+        "rpds-py",
+        "ruby@3.4",
+        "rustup",
+        "selenium-server",
+        "simdjson",
+        "sqlite",
+        "swiftformat",
+        "tcl-tk@8",
+        "unxip",
+        "uvwasi",
+        "webp",
+        "wget",
+        "xcbeautify",
+        "xcodes",
+        "xorgproto",
+        "xz",
+        "yq",
+        "zstd"
+      ],
+      "seconds": 25.388157041,
+      "returncode": 0
+    },
+    {
+      "name": "initial-update",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "update"
+      ],
+      "seconds": 27.670309833999998,
+      "returncode": 0
+    },
+    {
+      "name": "install-chezmoi",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "install",
+        "chezmoi"
+      ],
+      "seconds": 3.143718834000005,
+      "returncode": 0
+    },
+    {
+      "name": "apply-dotfiles",
+      "command": [
+        "/opt/homebrew/bin/chezmoi",
+        "init",
+        "collieiscute",
+        "--revision",
+        "",
+        "--apply",
+        "-v"
+      ],
+      "seconds": 652.99554625,
+      "returncode": 0
+    },
+    {
+      "name": "seed-download-bear",
+      "command": [
+        "curl",
+        "-fL",
+        "--retry",
+        "2",
+        "-H",
+        "Authorization: Bearer QQ==",
+        "https://ghcr.io/v2/homebrew/core/bear/blobs/sha256:d9dc45bb5c7eff6eee31605eefee286ba5d9a1240fc758a72da81ea0e0e7170c",
+        "-o",
+        "/Users/runner/work/_temp/brew-benchmark/bear--4.2.2.arm64_tahoe.bottle.tar.gz"
+      ],
+      "seconds": 0.7430635829999801,
+      "returncode": 0
+    },
+    {
+      "name": "seed-remove-bear",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "uninstall",
+        "--force",
+        "--ignore-dependencies",
+        "bear"
+      ],
+      "seconds": 2.867390250000085,
+      "returncode": 0
+    },
+    {
+      "name": "seed-pour-bear",
+      "command": [
+        "/usr/bin/tar",
+        "-xzf",
+        "/Users/runner/work/_temp/brew-benchmark/bear--4.2.2.arm64_tahoe.bottle.tar.gz",
+        "-C",
+        "/opt/homebrew/Cellar"
+      ],
+      "seconds": 0.04271750000009433,
+      "returncode": 0
+    },
+    {
+      "name": "seed-relocate-bear",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "ruby",
+        "-e",
+        "require \"keg\"; Keg.new(Pathname.new(\"/opt/homebrew/Cellar/bear/4.2.2\")).replace_placeholders_with_locations(nil)"
+      ],
+      "seconds": 2.0255019580000635,
+      "returncode": 0
+    },
+    {
+      "name": "seed-link-bear",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "link",
+        "bear"
+      ],
+      "seconds": 0.7661305000000311,
+      "returncode": 0
+    },
+    {
+      "name": "seed-smoke-bear",
+      "command": [
+        "/opt/homebrew/bin/bear",
+        "--version"
+      ],
+      "seconds": 0.06493887499993889,
+      "returncode": 0
+    },
+    {
+      "name": "seed-download-fastfetch",
+      "command": [
+        "curl",
+        "-fL",
+        "--retry",
+        "2",
+        "-H",
+        "Authorization: Bearer QQ==",
+        "https://ghcr.io/v2/homebrew/core/fastfetch/blobs/sha256:932f519f9eae54ef60d47881e4d528b9381117299eee04d93e3bb4bf3541c3c3",
+        "-o",
+        "/Users/runner/work/_temp/brew-benchmark/fastfetch--2.69.0.arm64_tahoe.bottle.tar.gz"
+      ],
+      "seconds": 0.324594583000021,
+      "returncode": 0
+    },
+    {
+      "name": "seed-remove-fastfetch",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "uninstall",
+        "--force",
+        "--ignore-dependencies",
+        "fastfetch"
+      ],
+      "seconds": 0.8178206669999781,
+      "returncode": 0
+    },
+    {
+      "name": "seed-pour-fastfetch",
+      "command": [
+        "/usr/bin/tar",
+        "-xzf",
+        "/Users/runner/work/_temp/brew-benchmark/fastfetch--2.69.0.arm64_tahoe.bottle.tar.gz",
+        "-C",
+        "/opt/homebrew/Cellar"
+      ],
+      "seconds": 0.03833962500004873,
+      "returncode": 0
+    },
+    {
+      "name": "seed-relocate-fastfetch",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "ruby",
+        "-e",
+        "require \"keg\"; Keg.new(Pathname.new(\"/opt/homebrew/Cellar/fastfetch/2.69.0\")).replace_placeholders_with_locations(nil)"
+      ],
+      "seconds": 1.863153167000064,
+      "returncode": 0
+    },
+    {
+      "name": "seed-link-fastfetch",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "link",
+        "fastfetch"
+      ],
+      "seconds": 0.6515838750000285,
+      "returncode": 0
+    },
+    {
+      "name": "seed-smoke-fastfetch",
+      "command": [
+        "/opt/homebrew/bin/fastfetch",
+        "--version"
+      ],
+      "seconds": 0.03113391700003376,
+      "returncode": 0
+    },
+    {
+      "name": "seed-download-cask-definition",
+      "command": [
+        "curl",
+        "-fL",
+        "https://raw.githubusercontent.com/windwords/homebrew-vchewing/e63858c36b59898465801c2e93bc7e8badd92ce2/Casks/vchewing.rb",
+        "-o",
+        "/Users/runner/work/_temp/brew-benchmark/old-vchewing.rb"
+      ],
+      "seconds": 0.06520066699999916,
+      "returncode": 0
+    },
+    {
+      "name": "seed-install-vchewing",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "reinstall",
+        "--cask",
+        "--yes",
+        "windwords/vchewing/vchewing"
+      ],
+      "seconds": 13.36013608299993,
+      "returncode": 0
+    },
+    {
+      "name": "record-buu-definition",
+      "command": [
+        "/opt/homebrew/bin/fish",
+        "-c",
+        "functions buu; type brew"
+      ],
+      "seconds": 0.15710979100003897,
+      "returncode": 0
+    },
+    {
+      "name": "complete-buu",
+      "command": [
+        "/opt/homebrew/bin/fish",
+        "--profile",
+        "/Users/runner/work/_temp/brew-benchmark/buu.profile",
+        "-c",
+        "buu"
+      ],
+      "seconds": 59.265441624999994,
+      "returncode": 0
+    },
+    {
+      "name": "verify-dependencies",
+      "command": [
+        "/opt/homebrew/bin/brew",
+        "missing"
+      ],
+      "seconds": 0.81502070800002,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-fish",
+      "command": [
+        "/opt/homebrew/bin/fish",
+        "--version"
+      ],
+      "seconds": 0.02836383300007128,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-fzf",
+      "command": [
+        "/opt/homebrew/bin/fzf",
+        "--version"
+      ],
+      "seconds": 0.051382208000063656,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-node",
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--version"
+      ],
+      "seconds": 0.6661407499999541,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-nvim",
+      "command": [
+        "/opt/homebrew/bin/nvim",
+        "--version"
+      ],
+      "seconds": 0.09240375000001677,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-tokei",
+      "command": [
+        "/opt/homebrew/bin/tokei",
+        "--version"
+      ],
+      "seconds": 0.019350708000047234,
+      "returncode": 0
+    },
+    {
+      "name": "smoke-uv",
+      "command": [
+        "/opt/homebrew/bin/uv",
+        "--version"
+      ],
+      "seconds": 0.0629698750000216,
+      "returncode": 0
+    }
+  ],
+  "clean_prefix": true,
+  "runner_preinstalled_inventory": {
+    "formulae": {
+      "ant": [
+        "1.10.18"
+      ],
+      "aria2": [
+        "1.37.0_2"
+      ],
+      "aws-sam-cli": [
+        "1.166.1"
+      ],
+      "azure-cli": [
+        "2.90.0"
+      ],
+      "bazelisk": [
+        "1.29.0"
+      ],
+      "bicep": [
+        "0.46.1"
+      ],
+      "brotli": [
+        "1.2.0"
+      ],
+      "c-ares": [
+        "1.34.8"
+      ],
+      "ca-certificates": [
+        "2026-08-13"
+      ],
+      "cairo": [
+        "1.18.4"
+      ],
+      "carthage": [
+        "0.40.0"
+      ],
+      "certifi": [
+        "2026.7.22"
+      ],
+      "cffi": [
+        "2.1.1"
+      ],
+      "cmake": [
+        "4.4.3"
+      ],
+      "cryptography": [
+        "50.0.1"
+      ],
+      "curl": [
+        "8.22.0"
+      ],
+      "fontconfig": [
+        "2.18.3"
+      ],
+      "freetype": [
+        "2.14.3"
+      ],
+      "gcc@13": [
+        "13.4.0"
+      ],
+      "gcc@14": [
+        "14.4.0"
+      ],
+      "gcc@15": [
+        "15.3.0"
+      ],
+      "gdbm": [
+        "1.26"
+      ],
+      "geckodriver": [
+        "0.37.1"
+      ],
+      "gettext": [
+        "1.0"
+      ],
+      "gh": [
+        "2.100.0"
+      ],
+      "giflib": [
+        "6.1.3"
+      ],
+      "git": [
+        "2.55.0"
+      ],
+      "git-lfs": [
+        "3.8.0"
+      ],
+      "glib": [
+        "2.88.3"
+      ],
+      "gmp": [
+        "6.3.0"
+      ],
+      "gnu-tar": [
+        "1.35_1"
+      ],
+      "gnupg": [
+        "2.5.22"
+      ],
+      "gnutls": [
+        "3.8.13_2"
+      ],
+      "gradle": [
+        "9.7.1"
+      ],
+      "gradle-completion": [
+        "9.7.1"
+      ],
+      "graphite2": [
+        "1.3.15"
+      ],
+      "harfbuzz": [
+        "14.4.0"
+      ],
+      "hdrhistogram_c": [
+        "0.11.10"
+      ],
+      "icu4c@78": [
+        "78.3"
+      ],
+      "isl": [
+        "0.28"
+      ],
+      "jpeg-turbo": [
+        "3.2.0"
+      ],
+      "jq": [
+        "1.8.2"
+      ],
+      "json-c": [
+        "0.19"
+      ],
+      "kotlin": [
+        "2.4.10"
+      ],
+      "krb5": [
+        "1.22.2"
+      ],
+      "libassuan": [
+        "3.0.2"
+      ],
+      "libgcrypt": [
+        "1.12.3"
+      ],
+      "libgpg-error": [
+        "1.61"
+      ],
+      "libidn2": [
+        "2.3.8"
+      ],
+      "libksba": [
+        "1.8.1"
+      ],
+      "libmpc": [
+        "1.4.1"
+      ],
+      "libnghttp2": [
+        "1.70.0"
+      ],
+      "libnghttp3": [
+        "1.18.0"
+      ],
+      "libngtcp2": [
+        "1.25.0"
+      ],
+      "libpng": [
+        "1.6.58"
+      ],
+      "libpq": [
+        "18.6"
+      ],
+      "libpsl": [
+        "0.23.3"
+      ],
+      "libsodium": [
+        "1.0.22"
+      ],
+      "libssh2": [
+        "1.11.1_4"
+      ],
+      "libtasn1": [
+        "4.21.0"
+      ],
+      "libtiff": [
+        "4.7.2"
+      ],
+      "libunistring": [
+        "1.4.2"
+      ],
+      "libusb": [
+        "1.0.30"
+      ],
+      "libuv": [
+        "1.52.1"
+      ],
+      "libx11": [
+        "1.8.13"
+      ],
+      "libxau": [
+        "1.0.12"
+      ],
+      "libxcb": [
+        "1.17.0"
+      ],
+      "libxdmcp": [
+        "1.1.5"
+      ],
+      "libxext": [
+        "1.3.7"
+      ],
+      "libxrender": [
+        "0.9.12"
+      ],
+      "libyaml": [
+        "0.2.5"
+      ],
+      "little-cms2": [
+        "2.19.1"
+      ],
+      "llvm@20": [
+        "20.1.8"
+      ],
+      "lz4": [
+        "1.10.0"
+      ],
+      "lzo": [
+        "2.10"
+      ],
+      "maven": [
+        "3.9.16"
+      ],
+      "mpdecimal": [
+        "4.0.1"
+      ],
+      "mpfr": [
+        "4.2.2"
+      ],
+      "nettle": [
+        "4.0"
+      ],
+      "ninja": [
+        "1.13.2"
+      ],
+      "node@24": [
+        "24.20.0"
+      ],
+      "npth": [
+        "1.8"
+      ],
+      "oniguruma": [
+        "6.9.10"
+      ],
+      "openjdk": [
+        "26.0.2.1"
+      ],
+      "openssl@3": [
+        "3.6.4"
+      ],
+      "p11-kit": [
+        "0.26.5"
+      ],
+      "p7zip": [
+        "17.06"
+      ],
+      "packer": [
+        "1.16.0"
+      ],
+      "pcre2": [
+        "10.48"
+      ],
+      "perl": [
+        "5.44.0"
+      ],
+      "pinentry": [
+        "1.3.3"
+      ],
+      "pipx": [
+        "1.17.2"
+      ],
+      "pixman": [
+        "0.46.4"
+      ],
+      "pkgconf": [
+        "3.0.7"
+      ],
+      "pycparser": [
+        "3.0"
+      ],
+      "pydantic": [
+        "2.13.5"
+      ],
+      "python@3.14": [
+        "3.14.7"
+      ],
+      "readline": [
+        "8.3.3"
+      ],
+      "rpds-py": [
+        "2026.6.3"
+      ],
+      "ruby@3.4": [
+        "3.4.10"
+      ],
+      "rustup": [
+        "1.29.0"
+      ],
+      "selenium-server": [
+        "4.48.0"
+      ],
+      "simdjson": [
+        "4.6.11"
+      ],
+      "sqlite": [
+        "3.53.4"
+      ],
+      "swiftformat": [
+        "0.63.0"
+      ],
+      "tcl-tk@8": [
+        "8.6.18"
+      ],
+      "unxip": [
+        "3.3"
+      ],
+      "uvwasi": [
+        "0.0.23"
+      ],
+      "webp": [
+        "1.6.0"
+      ],
+      "wget": [
+        "1.25.0"
+      ],
+      "xcbeautify": [
+        "3.2.1"
+      ],
+      "xcodes": [
+        "2.0.3"
+      ],
+      "xorgproto": [
+        "2025.1"
+      ],
+      "xz": [
+        "5.8.3"
+      ],
+      "yq": [
+        "4.53.6"
+      ],
+      "zstd": [
+        "1.5.7_1"
+      ]
+    },
+    "casks": {
+      "firefox": [
+        "155.0.1"
+      ],
+      "google-chrome": [
+        "152.0.7977.83"
+      ],
+      "microsoft-edge": [
+        "152.0.4191.66,f3ce034a-259c-4a0e-8187-7c6cfa8f88c9"
+      ],
+      "session-manager-plugin": [
+        "1.2.835.0"
+      ]
+    }
+  },
+  "initial_inventory": {
+    "formulae": {},
+    "casks": {}
+  },
+  "initial_cache": "empty API and bottle cache",
+  "first_install_seconds": 683.9136441249999,
+  "upgrade_fixture": {
+    "method": "Real older releases matching the local outdated packages observed on 2026-10-14; seed outside timing, then clear all bottle/cask downloads before the complete buu.",
+    "formulae": [
+      {
+        "name": "bear",
+        "version": "4.2.2",
+        "tag": "arm64_tahoe",
+        "sha256": "d9dc45bb5c7eff6eee31605eefee286ba5d9a1240fc758a72da81ea0e0e7170c",
+        "source": "https://github.com/Homebrew/homebrew-core/blob/2d2111eacc33284b2af60e9d8613ebe970850f9b/Formula/b/bear.rb"
+      },
+      {
+        "name": "fastfetch",
+        "version": "2.69.0",
+        "tag": "arm64_tahoe",
+        "sha256": "932f519f9eae54ef60d47881e4d528b9381117299eee04d93e3bb4bf3541c3c3",
+        "source": "https://github.com/Homebrew/homebrew-core/blob/79061a0a6e304d41c599270198b634ea5b72921d/Formula/f/fastfetch.rb"
+      }
+    ],
+    "cask": {
+      "name": "vchewing",
+      "version": "4.8.8",
+      "sha256": "e66668f7940786436f27ffc8db08d1562fe4235643839e9a8ad5b644282d9cff",
+      "definition_url": "https://raw.githubusercontent.com/windwords/homebrew-vchewing/e63858c36b59898465801c2e93bc7e8badd92ce2/Casks/vchewing.rb",
+      "download_url": "https://github.com/vChewing/vChewing-macOS/releases/download/4.8.8/vChewing-macOS-4.8.8-signed.pkg",
+      "note": "Use the identical official GitHub old pkg only while preparing the fixture; the timed upgrade retains the tap's normal Gitee URL."
+    }
+  },
+  "buu_download_cache": "empty; metadata remains from the first installation",
+  "before_buu_inventory": {
+    "formulae": {
+      "abseil": [
+        "20260817.0"
+      ],
+      "ada-url": [
+        "4.0.0"
+      ],
+      "bat": [
+        "0.26.1"
+      ],
+      "bear": [
+        "4.2.2"
+      ],
+      "brotli": [
+        "1.2.0"
+      ],
+      "btop": [
+        "1.4.7"
+      ],
+      "c-ares": [
+        "1.34.8"
+      ],
+      "ca-certificates": [
+        "2026-09-25"
+      ],
+      "chezmoi": [
+        "2.73.1"
+      ],
+      "clang-format": [
+        "23.1.3"
+      ],
+      "cloc": [
+        "2.10"
+      ],
+      "cmake": [
+        "4.4.4"
+      ],
+      "container": [
+        "1.5.0"
+      ],
+      "container-compose": [
+        "1.2.0"
+      ],
+      "cppcheck": [
+        "2.22.0"
+      ],
+      "curl": [
+        "8.22.0_1"
+      ],
+      "dos2unix": [
+        "7.5.7"
+      ],
+      "eza": [
+        "0.23.5"
+      ],
+      "fastfetch": [
+        "2.69.0"
+      ],
+      "fd": [
+        "10.5.0"
+      ],
+      "fish": [
+        "4.9.3"
+      ],
+      "fmt": [
+        "12.2.0"
+      ],
+      "fzf": [
+        "0.74.5"
+      ],
+      "gettext": [
+        "1.0"
+      ],
+      "gh": [
+        "2.102.0"
+      ],
+      "git": [
+        "2.56.0_1"
+      ],
+      "glab": [
+        "1.123.0"
+      ],
+      "gnu-tar": [
+        "1.35_1"
+      ],
+      "hdrhistogram_c": [
+        "0.12.0"
+      ],
+      "highway": [
+        "1.4.0"
+      ],
+      "icu4c@78": [
+        "78.3"
+      ],
+      "jemalloc": [
+        "5.4.0"
+      ],
+      "json-c": [
+        "0.19"
+      ],
+      "lazygit": [
+        "0.66.1"
+      ],
+      "ldns": [
+        "1.9.2_1"
+      ],
+      "libcbor": [
+        "0.14.0"
+      ],
+      "libevent": [
+        "2.1.13_1"
+      ],
+      "libffi": [
+        "3.8.0"
+      ],
+      "libfido2": [
+        "1.17.0_1"
+      ],
+      "libgit2": [
+        "1.9.7_2"
+      ],
+      "libidn2": [
+        "2.3.8"
+      ],
+      "libnghttp2": [
+        "1.70.0"
+      ],
+      "libnghttp3": [
+        "1.18.0"
+      ],
+      "libngtcp2": [
+        "1.25.0_1"
+      ],
+      "libpsl": [
+        "0.23.3"
+      ],
+      "libssh2": [
+        "1.11.1_7"
+      ],
+      "libunistring": [
+        "1.4.2"
+      ],
+      "libuv": [
+        "1.53.0"
+      ],
+      "libzip": [
+        "1.12_1"
+      ],
+      "llhttp": [
+        "9.4.3"
+      ],
+      "llvm": [
+        "23.1.3_1"
+      ],
+      "lpeg": [
+        "1.1.0_2"
+      ],
+      "luajit": [
+        "2.1.1791890110"
+      ],
+      "luv": [
+        "1.53.0-0"
+      ],
+      "lz4": [
+        "1.10.0"
+      ],
+      "marisa": [
+        "0.3.1"
+      ],
+      "matugen": [
+        "4.2.0"
+      ],
+      "merve": [
+        "1.2.2_3"
+      ],
+      "mold": [
+        "3.0.0"
+      ],
+      "mpdecimal": [
+        "4.0.1"
+      ],
+      "nbytes": [
+        "0.1.4"
+      ],
+      "ncurses": [
+        "6.6"
+      ],
+      "neovim": [
+        "0.12.6"
+      ],
+      "ninja": [
+        "1.13.2"
+      ],
+      "node": [
+        "26.11.1"
+      ],
+      "onefetch": [
+        "3.0.0"
+      ],
+      "oniguruma": [
+        "6.9.10"
+      ],
+      "opencc": [
+        "1.4.2"
+      ],
+      "openfortivpn": [
+        "1.24.1_1"
+      ],
+      "openssh": [
+        "10.6p1_1"
+      ],
+      "openssl@4": [
+        "4.0.3"
+      ],
+      "pcre2": [
+        "10.49"
+      ],
+      "pkgconf": [
+        "3.0.8"
+      ],
+      "podman": [
+        "6.1.4"
+      ],
+      "python@3.15": [
+        "3.15.0"
+      ],
+      "readline": [
+        "8.3.6"
+      ],
+      "ripgrep": [
+        "15.2.0"
+      ],
+      "rust": [
+        "1.99.0_1"
+      ],
+      "simdjson": [
+        "5.0.4"
+      ],
+      "simdutf": [
+        "9.2.1_1"
+      ],
+      "sketchybar": [
+        "2.24.1"
+      ],
+      "sqlite": [
+        "3.54.0"
+      ],
+      "tig": [
+        "2.6.1"
+      ],
+      "tinyxml2": [
+        "11.0.0"
+      ],
+      "tldr": [
+        "1.6.1"
+      ],
+      "tmux": [
+        "3.8"
+      ],
+      "tokei": [
+        "15.0.0"
+      ],
+      "tree-sitter": [
+        "0.27.1"
+      ],
+      "typst": [
+        "0.15.1"
+      ],
+      "unibilium": [
+        "2.1.4"
+      ],
+      "utf8proc": [
+        "2.12.0"
+      ],
+      "uv": [
+        "0.13.1"
+      ],
+      "uvwasi": [
+        "0.0.23"
+      ],
+      "watch": [
+        "4.0.7"
+      ],
+      "wget": [
+        "1.25.0_2"
+      ],
+      "xz": [
+        "5.8.4"
+      ],
+      "yyjson": [
+        "0.13.0"
+      ],
+      "z3": [
+        "5.1.0"
+      ],
+      "zellij": [
+        "0.45.1"
+      ],
+      "zoxide": [
+        "0.10.0"
+      ],
+      "zstd": [
+        "1.5.7_1"
+      ]
+    },
+    "casks": {
+      "aerospace": [
+        "0.21.3-Beta"
+      ],
+      "brave-browser": [
+        "1.97.56.0"
+      ],
+      "claude-code@latest": [
+        "2.1.299"
+      ],
+      "codex": [
+        "0.162.1"
+      ],
+      "codexbar": [
+        "0.75.0"
+      ],
+      "flutter": [
+        "3.47.7"
+      ],
+      "font-jetbrains-mono-nerd-font": [
+        "3.5.1"
+      ],
+      "ghostty": [
+        "1.3.1"
+      ],
+      "karabiner-elements": [
+        "16.3.0"
+      ],
+      "keepassxc": [
+        "2.7.12"
+      ],
+      "kitty": [
+        "0.49.2"
+      ],
+      "middleclick": [
+        "3.3.0"
+      ],
+      "moonlight": [
+        "6.2.0"
+      ],
+      "openwhispr": [
+        "1.10.3"
+      ],
+      "qmk-toolbox": [
+        "0.3.4"
+      ],
+      "signal": [
+        "8.30.0"
+      ],
+      "stats": [
+        "3.0.21"
+      ],
+      "telegram": [
+        "13.0,283305"
+      ],
+      "vchewing": [
+        "4.8.8"
+      ],
+      "vesktop": [
+        "1.6.7"
+      ],
+      "visual-studio-code": [
+        "1.141.1"
+      ]
+    }
+  },
+  "before_buu_outdated": {
+    "formulae": [
+      {
+        "name": "bear",
+        "installed_versions": [
+          "4.2.2"
+        ],
+        "current_version": "4.2.3",
+        "pinned": false,
+        "pinned_version": null
+      },
+      {
+        "name": "fastfetch",
+        "installed_versions": [
+          "2.69.0"
+        ],
+        "current_version": "2.70.0",
+        "pinned": false,
+        "pinned_version": null
+      }
+    ],
+    "casks": [
+      {
+        "name": "vchewing",
+        "installed_versions": [
+          "4.8.8"
+        ],
+        "current_version": "4.9.0",
+        "pinned": false,
+        "pinned_version": null
+      }
+    ]
+  },
+  "buu_seconds": 59.265441624999994,
+  "buu_profile": [
+    {
+      "self_seconds": 0.000559,
+      "total_seconds": 59.155238,
+      "command": "> buu"
+    },
+    {
+      "self_seconds": 10.836918,
+      "total_seconds": 10.836918,
+      "command": "-> brew update"
+    },
+    {
+      "self_seconds": 47.226105,
+      "total_seconds": 47.226105,
+      "command": "-> brew upgrade -y"
+    },
+    {
+      "self_seconds": 0.000687,
+      "total_seconds": 1.091656,
+      "command": "-> fisher update $argv"
+    }
+  ],
+  "after_buu_inventory": {
+    "formulae": {
+      "abseil": [
+        "20260817.0"
+      ],
+      "ada-url": [
+        "4.0.0"
+      ],
+      "bat": [
+        "0.26.1"
+      ],
+      "bear": [
+        "4.2.2",
+        "4.2.3"
+      ],
+      "brotli": [
+        "1.2.0"
+      ],
+      "btop": [
+        "1.4.7"
+      ],
+      "c-ares": [
+        "1.34.8"
+      ],
+      "ca-certificates": [
+        "2026-09-25"
+      ],
+      "chezmoi": [
+        "2.73.1"
+      ],
+      "clang-format": [
+        "23.1.3"
+      ],
+      "cloc": [
+        "2.10"
+      ],
+      "cmake": [
+        "4.4.4"
+      ],
+      "container": [
+        "1.5.0"
+      ],
+      "container-compose": [
+        "1.2.0"
+      ],
+      "cppcheck": [
+        "2.22.0"
+      ],
+      "curl": [
+        "8.22.0_1"
+      ],
+      "dos2unix": [
+        "7.5.7"
+      ],
+      "eza": [
+        "0.23.5"
+      ],
+      "fastfetch": [
+        "2.69.0",
+        "2.70.0"
+      ],
+      "fd": [
+        "10.5.0"
+      ],
+      "fish": [
+        "4.9.3"
+      ],
+      "fmt": [
+        "12.2.0"
+      ],
+      "fzf": [
+        "0.74.5"
+      ],
+      "gettext": [
+        "1.0"
+      ],
+      "gh": [
+        "2.102.0"
+      ],
+      "git": [
+        "2.56.0_1"
+      ],
+      "glab": [
+        "1.123.0"
+      ],
+      "gnu-tar": [
+        "1.35_1"
+      ],
+      "hdrhistogram_c": [
+        "0.12.0"
+      ],
+      "highway": [
+        "1.4.0"
+      ],
+      "icu4c@78": [
+        "78.3"
+      ],
+      "jemalloc": [
+        "5.4.0"
+      ],
+      "json-c": [
+        "0.19"
+      ],
+      "lazygit": [
+        "0.66.1"
+      ],
+      "ldns": [
+        "1.9.2_1"
+      ],
+      "libcbor": [
+        "0.14.0"
+      ],
+      "libevent": [
+        "2.1.13_1"
+      ],
+      "libffi": [
+        "3.8.0"
+      ],
+      "libfido2": [
+        "1.17.0_1"
+      ],
+      "libgit2": [
+        "1.9.7_2"
+      ],
+      "libidn2": [
+        "2.3.8"
+      ],
+      "libnghttp2": [
+        "1.70.0"
+      ],
+      "libnghttp3": [
+        "1.18.0"
+      ],
+      "libngtcp2": [
+        "1.25.0_1"
+      ],
+      "libpsl": [
+        "0.23.3"
+      ],
+      "libssh2": [
+        "1.11.1_7"
+      ],
+      "libunistring": [
+        "1.4.2"
+      ],
+      "libuv": [
+        "1.53.0"
+      ],
+      "libzip": [
+        "1.12_1"
+      ],
+      "llhttp": [
+        "9.4.3"
+      ],
+      "llvm": [
+        "23.1.3_1"
+      ],
+      "lpeg": [
+        "1.1.0_2"
+      ],
+      "luajit": [
+        "2.1.1791890110"
+      ],
+      "luv": [
+        "1.53.0-0"
+      ],
+      "lz4": [
+        "1.10.0"
+      ],
+      "marisa": [
+        "0.3.1"
+      ],
+      "matugen": [
+        "4.2.0"
+      ],
+      "merve": [
+        "1.2.2_3"
+      ],
+      "mold": [
+        "3.0.0"
+      ],
+      "mpdecimal": [
+        "4.0.1"
+      ],
+      "nbytes": [
+        "0.1.4"
+      ],
+      "ncurses": [
+        "6.6"
+      ],
+      "neovim": [
+        "0.12.6"
+      ],
+      "ninja": [
+        "1.13.2"
+      ],
+      "node": [
+        "26.11.1"
+      ],
+      "onefetch": [
+        "3.0.0"
+      ],
+      "oniguruma": [
+        "6.9.10"
+      ],
+      "opencc": [
+        "1.4.2"
+      ],
+      "openfortivpn": [
+        "1.24.1_1"
+      ],
+      "openssh": [
+        "10.6p1_1"
+      ],
+      "openssl@4": [
+        "4.0.3"
+      ],
+      "pcre2": [
+        "10.49"
+      ],
+      "pkgconf": [
+        "3.0.8"
+      ],
+      "podman": [
+        "6.1.4"
+      ],
+      "python@3.15": [
+        "3.15.0"
+      ],
+      "readline": [
+        "8.3.6"
+      ],
+      "ripgrep": [
+        "15.2.0"
+      ],
+      "rust": [
+        "1.99.0_1"
+      ],
+      "simdjson": [
+        "5.0.4"
+      ],
+      "simdutf": [
+        "9.2.1_1"
+      ],
+      "sketchybar": [
+        "2.24.1"
+      ],
+      "sqlite": [
+        "3.54.0"
+      ],
+      "tig": [
+        "2.6.1"
+      ],
+      "tinyxml2": [
+        "11.0.0"
+      ],
+      "tldr": [
+        "1.6.1"
+      ],
+      "tmux": [
+        "3.8"
+      ],
+      "tokei": [
+        "15.0.0"
+      ],
+      "tree-sitter": [
+        "0.27.1"
+      ],
+      "typst": [
+        "0.15.1"
+      ],
+      "unibilium": [
+        "2.1.4"
+      ],
+      "utf8proc": [
+        "2.12.0"
+      ],
+      "uv": [
+        "0.13.1"
+      ],
+      "uvwasi": [
+        "0.0.23"
+      ],
+      "watch": [
+        "4.0.7"
+      ],
+      "wget": [
+        "1.25.0_2"
+      ],
+      "xz": [
+        "5.8.4"
+      ],
+      "yyjson": [
+        "0.13.0"
+      ],
+      "z3": [
+        "5.1.0"
+      ],
+      "zellij": [
+        "0.45.1"
+      ],
+      "zoxide": [
+        "0.10.0"
+      ],
+      "zstd": [
+        "1.5.7_1"
+      ]
+    },
+    "casks": {
+      "aerospace": [
+        "0.21.3-Beta"
+      ],
+      "brave-browser": [
+        "1.97.56.0"
+      ],
+      "claude-code@latest": [
+        "2.1.299"
+      ],
+      "codex": [
+        "0.162.1"
+      ],
+      "codexbar": [
+        "0.75.0"
+      ],
+      "flutter": [
+        "3.47.7"
+      ],
+      "font-jetbrains-mono-nerd-font": [
+        "3.5.1"
+      ],
+      "ghostty": [
+        "1.3.1"
+      ],
+      "karabiner-elements": [
+        "16.3.0"
+      ],
+      "keepassxc": [
+        "2.7.12"
+      ],
+      "kitty": [
+        "0.49.2"
+      ],
+      "middleclick": [
+        "3.3.0"
+      ],
+      "moonlight": [
+        "6.2.0"
+      ],
+      "openwhispr": [
+        "1.10.3"
+      ],
+      "qmk-toolbox": [
+        "0.3.4"
+      ],
+      "signal": [
+        "8.30.0"
+      ],
+      "stats": [
+        "3.0.21"
+      ],
+      "telegram": [
+        "13.0,283305"
+      ],
+      "vchewing": [
+        "4.9.0"
+      ],
+      "vesktop": [
+        "1.6.7"
+      ],
+      "visual-studio-code": [
+        "1.141.1"
+      ]
+    }
+  },
+  "after_buu_outdated": {
+    "formulae": [],
+    "casks": []
+  },
+  "complete": true,
+  "original_artifact_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38587017771/artifacts/11907555065",
+  "profile_scope": "Only top-level package-manager/Fisher timings retained here; complete original profile, result and logs are in the linked artifact."
+}

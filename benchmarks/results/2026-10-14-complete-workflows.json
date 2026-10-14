@@ -1,0 +1,155 @@
+{
+  "image_version_filter": null,
+  "method": "Medians of complete cold-cache first deployments and real buu on separate macOS CI runners. Total time saved = 100 * (1 - candidate_seconds / Homebrew_seconds).",
+  "limitations": [
+    "Two repetitions per workflow; real network and upstream metadata are variable.",
+    "Clean tests remove all runner formulae/casks before timing; Homebrew itself and OS/Xcode are preinstalled.",
+    "Query-only PR still uses Homebrew for initial install and every buu update/upgrade; observed timing variation is not a native fastbrew speedup."
+  ],
+  "backends": {
+    "homebrew-clean": {
+      "attempts": 2,
+      "completed": 2,
+      "failures": [],
+      "first_install": {
+        "median_seconds": 544.9059239794999,
+        "samples_seconds": [
+          405.898203834,
+          683.9136441249999
+        ],
+        "min_seconds": 405.898203834,
+        "max_seconds": 683.9136441249999
+      },
+      "buu": {
+        "median_seconds": 50.98850116649999,
+        "samples_seconds": [
+          42.71156070799998,
+          59.265441624999994
+        ],
+        "min_seconds": 42.71156070799998,
+        "max_seconds": 59.265441624999994
+      },
+      "combined": {
+        "median_seconds": 595.894425146,
+        "samples_seconds": [
+          448.609764542,
+          743.1790857499999
+        ],
+        "min_seconds": 448.609764542,
+        "max_seconds": 743.1790857499999
+      },
+      "outdated_before_buu": [
+        {
+          "formulae": 2,
+          "casks": 1
+        },
+        {
+          "formulae": 2,
+          "casks": 1
+        }
+      ],
+      "outdated_after_buu": [
+        {
+          "formulae": 0,
+          "casks": 0
+        },
+        {
+          "formulae": 0,
+          "casks": 0
+        }
+      ]
+    },
+    "native-experiment-clean": {
+      "attempts": 2,
+      "completed": 1,
+      "failures": [
+        {
+          "stage": "apply-dotfiles",
+          "run_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38587017771",
+          "elapsed_seconds": 476.76552958400003
+        }
+      ],
+      "first_install": {
+        "median_seconds": 554.4157922090001,
+        "samples_seconds": [
+          554.4157922090001
+        ],
+        "min_seconds": 554.4157922090001,
+        "max_seconds": 554.4157922090001
+      },
+      "buu": {
+        "median_seconds": 81.853785625,
+        "samples_seconds": [
+          81.853785625
+        ],
+        "min_seconds": 81.853785625,
+        "max_seconds": 81.853785625
+      },
+      "combined": {
+        "median_seconds": 636.2695778340001,
+        "samples_seconds": [
+          636.2695778340001
+        ],
+        "min_seconds": 636.2695778340001,
+        "max_seconds": 636.2695778340001
+      },
+      "outdated_before_buu": [
+        {
+          "formulae": 2,
+          "casks": 1
+        }
+      ],
+      "outdated_after_buu": [
+        {
+          "formulae": 0,
+          "casks": 0
+        }
+      ]
+    }
+  },
+  "comparisons": {
+    "native-experiment-clean": {
+      "checks": {
+        "all_attempts_completed": false,
+        "same_runner_image": true,
+        "same_initial_inventory": true,
+        "same_inventory_before_buu": true,
+        "same_final_inventory": true,
+        "all_packages_current_after_buu": true
+      },
+      "first_install": {
+        "eligible": false,
+        "observed_percent_time_saved": -1.7452312061591702,
+        "seconds_saved": -9.50986822950017
+      },
+      "buu": {
+        "eligible": false,
+        "observed_percent_time_saved": -60.53381400192806,
+        "seconds_saved": -30.865284458500014
+      },
+      "combined": {
+        "eligible": false,
+        "observed_percent_time_saved": -6.775554692948793,
+        "seconds_saved": -40.37515268800007
+      }
+    }
+  },
+  "conclusion": "No attributable positive total-workflow speedup established. Current query-only MR does not accelerate initial installation or buu; causal savings for those workflows are zero. Native experiment has only one complete sample plus an unrelated upstream HTTP 500 failure, so observed percentages are not reliable backend performance estimates.",
+  "timed_workload": {
+    "first_install": "Empty default /opt/homebrew Cellar/Caskroom and empty API/bottle cache; full 66-declaration Brewfile plus dependencies, trusted taps/casks, dotfiles and Fisher bootstrap. Homebrew and OS already exist.",
+    "buu": "Actual literal alias, including Homebrew self/API/tap update, inventory/dependency checks, downloads, checksums, install/upgrade/cleanup, and real Fisher update. Identical old bear 4.2.2, fastfetch 2.69.0, vchewing 4.8.8; all other Brewfile packages present/current; new bottle/pkg cache empty.",
+    "native_experiment": "Native core formula bootstrap plus Homebrew Bundle for remaining declarations; real Homebrew update and a benchmark-only translation of -y to native noninteractive unrestricted upgrade. No delegation in the successful matched buu."
+  },
+  "native_successful_buu_breakdown": {
+    "total_seconds": 81.853785625,
+    "brew_update_seconds": 12.655,
+    "upgrade_seconds": 67.549,
+    "fisher_update_seconds": 1.546,
+    "vchewing_download_seconds": 56.846486,
+    "vchewing_download_percent_of_total": 69.44881726110148,
+    "two_formula_upgrade_span_seconds": 0.818297,
+    "note": "Download span from timestamped CI output; not isolated CPU time. This is one sample, not a steady-state network estimate."
+  },
+  "ci_run_url": "https://github.com/CollieIsCute/dotfiles/actions/runs/38587017771",
+  "same_image_previous_observations": "The earlier query-only control also appeared 30\u201336% faster while executing the same Homebrew commands; that variation cannot be attributed to fastbrew."
+}
