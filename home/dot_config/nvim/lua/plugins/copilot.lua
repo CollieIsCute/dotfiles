@@ -3,7 +3,7 @@ return {
     "zbirenbaum/copilot.lua",
     opts = {
       suggestion = {
-        keymap = { accept = false, next = "<M-]>", prev = "<M-[>" },
+        keymap = { accept = false },
       },
       panel = { enabled = false },
       filetypes = { markdown = true, help = true },
