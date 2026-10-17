@@ -1,3 +1,7 @@
+.config/nvim/lua/config/lazy.lua
+.config/nvim/lua/config/options.lua
+.config/nvim/lua/config/keymaps.lua
+.config/nvim/lazyvim.json
 .config/hypr/hyprland.conf
 .config/cursor-flags.conf
 .config/alacritty/catppuccin-mocha.toml
