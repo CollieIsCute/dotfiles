@@ -3,10 +3,6 @@ require("lazy").setup({
     "AstroNvim/AstroNvim",
     version = "^6",
     import = "astronvim.plugins",
-    opts = {
-      mapleader = " ",
-      maplocalleader = ",",
-    },
   },
   { import = "community" },
   { import = "plugins" },

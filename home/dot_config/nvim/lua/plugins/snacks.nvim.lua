@@ -17,7 +17,5 @@ return {
         ]],
       },
     },
-    -- Image viewer (requires kitty, wezterm, or ghostty terminal)
-    image = { enabled = true },
   },
 }
