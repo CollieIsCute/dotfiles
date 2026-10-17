@@ -1,5 +1,5 @@
 return {
-  "snacks.nvim",
+  "folke/snacks.nvim",
   opts = {
     dashboard = {
       preset = {
@@ -17,7 +17,5 @@ return {
         ]],
       },
     },
-    -- Image viewer (requires kitty, wezterm, or ghostty terminal)
-    image = { enabled = true },
   },
 }
