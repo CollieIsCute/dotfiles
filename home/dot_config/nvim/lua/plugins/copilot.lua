@@ -5,7 +5,6 @@ return {
       suggestion = {
         keymap = { accept = false },
       },
-      panel = { enabled = false },
       filetypes = { markdown = true, help = true },
     },
   },
