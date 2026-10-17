@@ -39,15 +39,6 @@ To apply only inside WSL:
 chezmoi --source /mnt/c/Users/<user>/.local/share/chezmoi apply
 ```
 
-## Neovim
-
-- Requires Neovim 0.11+; AstroNvim v6 and its language packs are installed on first launch. After switching from LazyVim, run `:Lazy sync` and restart Neovim.
-- Language packs cover C/C++, Python, JavaScript/TypeScript, HTML/CSS, Typst, Rust, and Markdown. Assembly uses `asm-lsp`; select x86-64, ARM64, or RISC-V and the assembler in each project's `.asm-lsp.toml`.
-- AI completion uses Copilot only. Sign in with `:Copilot auth`; `Tab` accepts a suggestion after snippet navigation, and `Alt+[` / `Alt+]` cycle suggestions.
-- Formatting uses AstroNvim's default AstroLSP/none-ls integration and the language packs' tools. The existing `~/.clang-format` still applies. Typst follows the installed Tinymist version's default; older versions may leave formatting disabled.
-- Rust requires a toolchain on `PATH`, with the `rust-analyzer`, `rustfmt`, `clippy`, and `rust-src` components installed. Cargo is also required for Mason to install `asm-lsp`.
-- Matugen colors, chezmoi template highlighting, tmux navigation/resizing, Markdown previews, and the custom dashboard/cursor settings are preserved. Typst preview remains on `Space c p`.
-
 ## Theme
 
 Change the wallpaper and colors on Linux / macOS, or generate colors on Windows:
