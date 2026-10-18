@@ -10,3 +10,7 @@ theme = noctalia
 # SSH terminfo auto-installation
 # See: https://ghostty.org/docs/help/terminfo#ssh
 shell-integration-features = ssh-terminfo,ssh-env
+
+{{ if eq .chezmoi.os "darwin" -}}
+macos-option-as-alt = true
+{{ end -}}
