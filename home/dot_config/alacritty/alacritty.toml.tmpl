@@ -6,6 +6,9 @@ import = [
 [window]
 dimensions = { columns = 100, lines = 30 }
 opacity = 0.75
+{{ if eq .chezmoi.os "darwin" -}}
+option_as_alt = "Both"
+{{ end -}}
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }

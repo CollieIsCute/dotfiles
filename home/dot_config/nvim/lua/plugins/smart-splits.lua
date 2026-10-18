@@ -9,9 +9,9 @@ return {
       "AstroNvim/astrocore",
       opts = function(_, opts)
         local maps = opts.mappings.n
-        for arrow, key in pairs({ Left = "H", Down = "J", Up = "K", Right = "L" }) do
-          maps["<M-" .. arrow .. ">"] = maps["<C-" .. arrow .. ">"]
-          maps["<C-" .. arrow .. ">"] = maps["<C-" .. key .. ">"]
+        for arrow, key in pairs({ Left = "h", Down = "j", Up = "k", Right = "l" }) do
+          maps["<M-" .. key .. ">"] = maps["<C-" .. arrow .. ">"]
+          maps["<C-" .. arrow .. ">"] = false
         end
       end,
     },

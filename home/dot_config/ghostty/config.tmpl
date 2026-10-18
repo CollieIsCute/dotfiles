@@ -12,7 +12,5 @@ theme = noctalia
 shell-integration-features = ssh-terminfo,ssh-env
 
 {{ if eq .chezmoi.os "darwin" -}}
-# Let tmux receive Alt+Left/Right instead of Ghostty's word-navigation shortcuts.
-keybind = alt+left=unbind
-keybind = alt+right=unbind
+macos-option-as-alt = true
 {{ end -}}
