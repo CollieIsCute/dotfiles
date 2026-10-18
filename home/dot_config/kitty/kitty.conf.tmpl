@@ -75,6 +75,8 @@ shell_integration enabled
 # ── Keyboard shortcuts ─────────────────────────────────────────────
 # Philosophy: avoid Cmd+H/J/K/L and Cmd+1-9 (used by AeroSpace)
 # Use Cmd+Shift or Ctrl+Shift for Kitty-internal actions.
+#
+# NOTE: Alt/Option keybindings avoided (macOS 26 Tahoe intercepts them)
 
 # Clear all default shortcuts first, then define explicitly
 # clear_all_shortcuts yes   # Uncomment to start from scratch
@@ -92,16 +94,6 @@ map cmd+d         new_window
 map cmd+shift+d   close_window
 map ctrl+shift+]  next_window
 map ctrl+shift+[  previous_window
-
-# Pass pane navigation/resizing to tmux and Neovim.
-map ctrl+left  send_text all \x1b[1;5D
-map ctrl+down  send_text all \x1b[1;5B
-map ctrl+up    send_text all \x1b[1;5A
-map ctrl+right send_text all \x1b[1;5C
-map alt+left   send_text all \x1b[1;3D
-map alt+down   send_text all \x1b[1;3B
-map alt+up     send_text all \x1b[1;3A
-map alt+right  send_text all \x1b[1;3C
 
 # ── Scrollback ─────────────────────────────────────────────────────
 map cmd+shift+k   scroll_line_up
