@@ -15,4 +15,16 @@ config.color_scheme = 'Catppuccin Mocha'
 config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
 config.font_size = 12.0
 
+-- Pass pane navigation/resizing to tmux and Neovim.
+config.keys = {
+  { key = 'LeftArrow', mods = 'CTRL', action = wezterm.action.SendString '\x1b[1;5D' },
+  { key = 'DownArrow', mods = 'CTRL', action = wezterm.action.SendString '\x1b[1;5B' },
+  { key = 'UpArrow', mods = 'CTRL', action = wezterm.action.SendString '\x1b[1;5A' },
+  { key = 'RightArrow', mods = 'CTRL', action = wezterm.action.SendString '\x1b[1;5C' },
+  { key = 'LeftArrow', mods = 'ALT', action = wezterm.action.SendString '\x1b[1;3D' },
+  { key = 'DownArrow', mods = 'ALT', action = wezterm.action.SendString '\x1b[1;3B' },
+  { key = 'UpArrow', mods = 'ALT', action = wezterm.action.SendString '\x1b[1;3A' },
+  { key = 'RightArrow', mods = 'ALT', action = wezterm.action.SendString '\x1b[1;3C' },
+}
+
 return config

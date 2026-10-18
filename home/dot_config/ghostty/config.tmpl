@@ -10,3 +10,13 @@ theme = noctalia
 # SSH terminfo auto-installation
 # See: https://ghostty.org/docs/help/terminfo#ssh
 shell-integration-features = ssh-terminfo,ssh-env
+
+# Pass pane navigation/resizing to tmux and Neovim.
+keybind = ctrl+left=csi:1;5D
+keybind = ctrl+down=csi:1;5B
+keybind = ctrl+up=csi:1;5A
+keybind = ctrl+right=csi:1;5C
+keybind = alt+left=csi:1;3D
+keybind = alt+down=csi:1;3B
+keybind = alt+up=csi:1;3A
+keybind = alt+right=csi:1;3C

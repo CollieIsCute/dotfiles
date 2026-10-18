@@ -14,6 +14,19 @@ size = 12.0
 [scrolling]
 history = 100000
 
+# Pass pane navigation/resizing to tmux and Neovim.
+[keyboard]
+bindings = [
+    { key = "Left", mods = "Control", chars = "\u001b[1;5D" },
+    { key = "Down", mods = "Control", chars = "\u001b[1;5B" },
+    { key = "Up", mods = "Control", chars = "\u001b[1;5A" },
+    { key = "Right", mods = "Control", chars = "\u001b[1;5C" },
+    { key = "Left", mods = "Alt", chars = "\u001b[1;3D" },
+    { key = "Down", mods = "Alt", chars = "\u001b[1;3B" },
+    { key = "Up", mods = "Alt", chars = "\u001b[1;3A" },
+    { key = "Right", mods = "Alt", chars = "\u001b[1;3C" },
+]
+
 {{ if eq .chezmoi.os "windows" -}}
 [terminal.shell]
 program = "wsl.exe"
