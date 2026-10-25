@@ -32,8 +32,8 @@ packages:
       - podman
       - redmine-cli-bin
       - ripgrep
+      - tealdeer
       - tig
-      - tldr
       - tmux
       - tokei
       - typst
@@ -113,6 +113,7 @@ packages:
       - podman
       - ripgrep
       - ssh
+      - tealdeer
       - tig
       - tmux
       - tokei
@@ -156,6 +157,7 @@ packages:
         - openssh
         - ripgrep
         - rustup-msvc
+        - tealdeer
       extras:
         - alacritty
         - brave
