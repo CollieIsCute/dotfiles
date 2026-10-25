@@ -3,7 +3,6 @@ brew "bear"
 brew "btop"
 brew "chezmoi"
 brew "clang-format"
-brew "cloc"
 brew "cmake"
 brew "container", restart_service: (ENV["CI"] ? false : :changed) if Hardware::CPU.arm?
 brew "container-compose" if Hardware::CPU.arm?
