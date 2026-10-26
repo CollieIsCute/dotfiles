@@ -94,7 +94,6 @@ packages:
       - build-essential
       - clang
       - clang-format
-      - cloc
       - cmake
       - curl
       - eza
