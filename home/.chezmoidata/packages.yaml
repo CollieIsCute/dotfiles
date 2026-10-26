@@ -32,6 +32,7 @@ packages:
       - podman
       - redmine-cli-bin
       - ripgrep
+      - syncthing
       - tealdeer
       - tig
       - tmux
@@ -113,6 +114,7 @@ packages:
       - podman
       - ripgrep
       - ssh
+      - syncthing
       - tealdeer
       - tig
       - tmux
@@ -157,6 +159,7 @@ packages:
         - openssh
         - ripgrep
         - rustup-msvc
+        - syncthing
         - tealdeer
       extras:
         - alacritty
