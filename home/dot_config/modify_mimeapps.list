@@ -1,0 +1,24 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* 保留未列管關聯的分號清單與註解。 */ -}}
+{{- $in := .chezmoi.stdin -}}
+{{- $newline := ternary "\r\n" "\n" (contains "\r\n" $in) -}}
+{{- $managed := printf "inode/directory=org.gnome.Nautilus.desktop;%sx-scheme-handler/discord=vesktop.desktop;" $newline -}}
+{{- $lines := list -}}
+{{- $defaults := false -}}
+{{- $found := false -}}
+{{- range $line := splitList "\n" (replace "\r\n" "\n" $in) -}}
+  {{- if regexMatch `^[ \t]*\[` $line -}}
+    {{- $defaults = eq (trim $line) "[Default Applications]" -}}
+    {{- if $defaults -}}
+      {{- $found = true -}}
+      {{- $line = printf "%s%s%s" $line $newline $managed -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not (and $defaults (regexMatch `^[ \t]*(inode/directory|x-scheme-handler/discord)[ \t]*=` $line)) -}}
+    {{- $lines = append $lines $line -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $found -}}
+  {{- $lines = prepend $lines (printf "[Default Applications]%s%s" $newline $managed) -}}
+{{- end -}}
+{{- join $newline $lines -}}
