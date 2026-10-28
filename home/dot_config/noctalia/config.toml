@@ -147,7 +147,7 @@ widget_spacing = 3
 scale = 1.1
 shadow = false
 capsule = true
-capsule_fill = "surface_variant"
+capsule_fill = "surface_container"
 capsule_opacity = 0.3
 color = "on_surface"
 start = ["tray", "w-engine", "codexbar-meter", "media"]
@@ -157,14 +157,14 @@ end = ["volume", "bluetooth", "group:net-status", "group:sys-status", "notificat
 [[bar.main.capsule_group]]
 id = "net-status"
 members = ["net-down", "net-up"]
-fill = "surface_variant"
+fill = "surface_container"
 padding = 6.0
 opacity = 0.3
 
 [[bar.main.capsule_group]]
 id = "sys-status"
 members = ["cpu", "ram", "gpu", "vram", "temp", "battery"]
-fill = "surface_variant"
+fill = "surface_container"
 padding = 3.0
 opacity = 0.3
 
