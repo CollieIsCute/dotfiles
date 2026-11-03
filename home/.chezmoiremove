@@ -14,6 +14,7 @@
 .local/libexec/voxtype
 .local/share/voxtype
 {{ if eq .chezmoi.os "linux" }}
+.config/code-flags.conf
 .config/environment.d/10-nvidia-sync.conf
 .local/share/applications/mattermost-desktop.desktop
 .config/hypr/hypridle.conf

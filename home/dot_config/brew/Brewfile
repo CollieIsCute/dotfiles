@@ -63,5 +63,4 @@ cask "signal"
 cask "stats"
 cask "telegram"
 cask "vesktop"
-cask "visual-studio-code"
 cask "windwords/vchewing/vchewing", trusted: true
