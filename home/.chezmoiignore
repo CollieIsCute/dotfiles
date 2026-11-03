@@ -24,7 +24,6 @@ AppData/**
 .config/BraveSoftware
 .config/BraveSoftware/**
 .config/brave-origin-flags.conf
-.config/code-flags.conf
 .config/electron-flags.conf
 .config/environment.d
 .config/environment.d/**
