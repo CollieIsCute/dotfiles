@@ -12,6 +12,10 @@
     "current_binding" "shift+f13"
   ))
 -}}
+{{- /* Handy 0.10 writes traditional_tw; older versions only accept traditional. */ -}}
+{{- if eq (get $settings "chinese_script") "traditional_tw" -}}
+  {{- $_ := set $managed "chinese_script" "traditional_tw" -}}
+{{- end -}}
 {{- if not (get $settings "selected_model") -}}
   {{- $_ := set $settings "selected_model" "handy-computer/SenseVoiceSmall-gguf/SenseVoiceSmall-Q8_0.gguf" -}}
 {{- end -}}
