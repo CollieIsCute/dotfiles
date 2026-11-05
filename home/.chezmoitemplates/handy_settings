@@ -3,7 +3,7 @@
 {{- $settings := get $config "settings" | default (dict) -}}
 {{- $managed := dict
   "shortcut_activation" "push_to_talk"
-  "chinese_script" "traditional"
+  "chinese_script" "traditional_tw"
   "bindings" (dict "transcribe" (dict
     "id" "transcribe"
     "name" "Transcribe"
