@@ -88,7 +88,6 @@ chezmoi theme IMAGE
 - Add plugins and marketplaces in [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml), then run `chezmoi apply` and restart the affected app.
 - Place shared user skills in `~/.agents/skills`.
 - Review and trust new Codex hooks manually with `/hooks`.
-- For OpenCode's zh-TW linting, install [zhtw-mcp](https://github.com/sysprog21/zhtw-mcp) from source with `make install`; its binary must be at `~/.local/bin/zhtw-mcp`.
 
 ## Keymappings
 

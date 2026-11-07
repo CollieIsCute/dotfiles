@@ -7,7 +7,7 @@ stripComponents = 2
 {{ if eq .chezmoi.os "darwin" -}}
 include = ["*/templates/btop.theme", "*/templates/ghostty", "*/templates/kitty-colors.conf", "*/templates/midnight-discord.css"]
 {{ else -}}
-include = ["*/templates/alacritty.toml", "*/templates/btop.theme", "*/templates/midnight-discord.css", "*/templates/opencode-colors.json"]
+include = ["*/templates/alacritty.toml", "*/templates/btop.theme", "*/templates/midnight-discord.css"]
 {{ end -}}
 checksum.sha256 = "65284a68c482fa5226cb937bb7e9fc094e14eb66f2688fc8a646503300a464e3"
 
