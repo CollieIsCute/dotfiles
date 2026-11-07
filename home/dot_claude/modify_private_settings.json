@@ -16,12 +16,13 @@
   "env" (dict "CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE" "1")
   "enabledPlugins" .ai.claude.plugins
   "extraKnownMarketplaces" .ai.claude.marketplaces
+  "attribution" false
   "theme" "auto"
   "verbose" true
   "skipAutoPermissionPrompt" true
 -}}
 {{- /* 整個取代，否則從 ai.yaml 移除的 plugin 會被深層合併留下 */ -}}
-{{- $base := omit (deepCopy $current) "enabledPlugins" "extraKnownMarketplaces" -}}
+{{- $base := omit (deepCopy $current) "enabledPlugins" "extraKnownMarketplaces" "includeCoAuthoredBy" -}}
 {{- $patched := mergeOverwrite $base $managed -}}
 {{- if eq (toJson $current) (toJson $patched) -}}
 {{ $in }}

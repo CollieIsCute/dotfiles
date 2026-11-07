@@ -46,6 +46,7 @@
     }
   },
   "instructions": [
-    {{ printf "%s/.config/opencode/instructions/zh-tw.md" .chezmoi.homeDir | toJson }}
+    {{ printf "%s/.config/opencode/instructions/zh-tw.md" .chezmoi.homeDir | toJson }},
+    {{ printf "%s/.config/opencode/instructions/git-attribution.md" .chezmoi.homeDir | toJson }}
   ]
 }
