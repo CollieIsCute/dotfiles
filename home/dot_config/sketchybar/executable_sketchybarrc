@@ -11,12 +11,13 @@ PRIMARY=0xffd0bcff
 ON_PRIMARY=0xff381e72
 test -r "$CONFIG_DIR/colors.sh" && . "$CONFIG_DIR/colors.sh"
 
+# Receive mouse events above MenuBarAgent's transparent reveal shield.
 sketchybar --bar \
   position=top \
   height=36 \
   notch_width=200 \
   y_offset=0 \
-  topmost=off \
+  topmost=on \
   color="$TRANSPARENT" \
   shadow=off \
   corner_radius=0 \
@@ -153,7 +154,7 @@ if test -x "$menu_helper" && test -n "$bar_pid"; then
   mkdir -p "$HOME/.cache/sketchybar"
   lockf -kst 0 "$HOME/.cache/sketchybar/menu-events.lock" /bin/sh -c '
         "$1" watch "$2" "$3"
-        "$2" --bar hidden=off
+        "$2" --bar hidden=off topmost=on
     ' sh "$menu_helper" "$(command -v sketchybar)" "$bar_pid" &
   "$menu_helper" sync "$(command -v sketchybar)" "$bar_pid"
 else

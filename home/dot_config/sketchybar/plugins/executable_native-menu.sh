@@ -1,19 +1,19 @@
 #!/bin/sh
 
 case "${NAME:-}" in
-meter.codex | meter.claude) popup=codexbar ;;
+meter.codex | meter.claude) ;;
 *) exit 0 ;;
 esac
 
 # Forced/routine updates do nothing; menus only open on an actual click.
-case "${SENDER:-}:$popup:${BUTTON:-left}" in
-mouse.entered:*) sketchybar --set "$popup" popup.drawing=on ;;
-mouse.exited:*) sketchybar --set "$popup" popup.drawing=off ;;
-mouse.clicked:codexbar:left)
+case "${SENDER:-}:${BUTTON:-left}" in
+mouse.entered:*) sketchybar --set codexbar popup.drawing=on ;;
+mouse.exited:*) sketchybar --set codexbar popup.drawing=off ;;
+mouse.clicked:left)
   sketchybar --set codexbar popup.drawing=off
-  exec "$HOME/.local/bin/sb-status-items" click com.steipete.codexbar "CodexBar.StatusItem.${NAME#meter.}"
+  exec "$HOME/.local/bin/sb-status-items" click "${NAME#meter.}"
   ;;
-mouse.clicked:codexbar:right)
+mouse.clicked:right)
   exec "${CONFIG_DIR:-$HOME/.config/sketchybar}/plugins/codexbar.sh"
   ;;
 esac
