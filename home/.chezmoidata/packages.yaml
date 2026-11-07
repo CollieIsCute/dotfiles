@@ -28,7 +28,6 @@ packages:
       - npm
       - openai-codex-bin
       - opencc
-      - opencode-bin
       - openssh
       - podman
       - redmine-cli-bin

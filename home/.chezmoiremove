@@ -4,6 +4,7 @@
 .config/nvim/lazyvim.json
 .config/hypr/hyprland.conf
 .config/cursor-flags.conf
+.config/opencode
 .config/alacritty/catppuccin-mocha.toml
 .config/kitty/themes/catppuccin-macchiato.conf
 .config/fish/completions/voxtype-mode.fish
