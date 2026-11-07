@@ -85,6 +85,7 @@ chezmoi theme IMAGE
 
 ## AI extensions
 
+- Edit shared working agreements in [`home/.chezmoitemplates/AGENTS.md`](home/.chezmoitemplates/AGENTS.md). Run `chezmoi apply` to update both `~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`.
 - Add plugins and marketplaces in [`home/.chezmoidata/ai.yaml`](home/.chezmoidata/ai.yaml), then run `chezmoi apply` and restart the affected app.
 - Place shared user skills in `~/.agents/skills`.
 - Review and trust new Codex hooks manually with `/hooks`.
