@@ -28,6 +28,11 @@ func setHidden(_ hidden: Bool) {
     let command = Process()
     command.executableURL = executable
     command.arguments = ["--bar", "hidden=\(hidden ? "on" : "off")"]
+    if !hidden {
+        // MenuBarAgent raises its transparent reveal shield when a native menu closes.
+        // Rebuild our windows above it so hover and clicks continue to reach the bar.
+        command.arguments?.append("topmost=on")
+    }
     do {
         try command.run()
         command.waitUntilExit()
