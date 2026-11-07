@@ -1,0 +1,11 @@
+gui:
+  nerdFontsVersion: "3"
+git:
+{{- /* Ubuntu's packaged lazygit still uses the pagers configuration. */ -}}
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") }}
+  pagers:
+    - pager: delta --paging=never
+{{- else }}
+  diffRenderers:
+    - command: delta --paging=never
+{{- end }}
