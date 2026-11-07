@@ -15,6 +15,7 @@ packages:
       - fzf
       - gef
       - git
+      - git-delta
       - github-cli
       - glab
       - go
@@ -34,7 +35,6 @@ packages:
       - ripgrep
       - syncthing
       - tealdeer
-      - tig
       - tmux
       - tokei
       - typst
@@ -103,6 +103,7 @@ packages:
       - fzf
       - gh
       - git
+      - git-delta
       - glab
       - golang-go
       - gping
@@ -115,7 +116,6 @@ packages:
       - ssh
       - syncthing
       - tealdeer
-      - tig
       - tmux
       - tokei
       - unzip
@@ -152,6 +152,7 @@ packages:
     scoop:
       main:
         - chezmoi
+        - delta
         - gcc
         - git
         - neovim
