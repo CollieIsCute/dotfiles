@@ -128,6 +128,14 @@ chezmoi theme IMAGE
 
 ### Tmux (prefix = `C-z`)
 
+Reattach from a fresh desktop terminal after restarting Hyprland. Tmux refreshes
+the desktop environment, and Fish imports it before each command in existing panes.
+For panes that were already open when this configuration was installed, run once:
+
+```fish
+source ~/.config/fish/conf.d/tmux-environment.fish
+```
+
 | Bind | Action |
 |---|---|
 | `prefix \|` | split horizontal (keep cwd) |
