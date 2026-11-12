@@ -53,7 +53,11 @@ wallpaper_scheme = "faithful"
 enable_builtin_templates = true
 enable_community_templates = true
 builtin_ids = ["alacritty", "btop", "ghostty", "gtk3", "gtk4", "hyprland", "kitty", "qt", "wezterm"]
-community_ids = ["claude-code", "codex", "brave", "brave-origin", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "fcitx5", "bat", "fzf", "herdr", "lazygit", "tmux"]
+community_ids = ["claude-code", "codex", "brave", "brave-origin", "discord", "telegram", "neovim", "steam", "fastfetch", "zellij", "fcitx5", "bat", "fzf", "herdr", "tmux"]
+
+[theme.templates.user.lazygit]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/lazygit.yml"
+output_path = "$XDG_CONFIG_HOME/lazygit/config.yml"
 
 [notification]
 enable_daemon = true

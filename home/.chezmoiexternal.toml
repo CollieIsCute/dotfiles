@@ -40,3 +40,10 @@ filter.command = "powershell"
 filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -replace '\\.dark','.default'"]
 {{ end -}}
 {{ end -}}
+
+{{ if and (eq .chezmoi.os "linux") (not (includeTemplate "is_wsl" . | fromJson)) -}}
+[".config/noctalia/templates/lazygit.yml"]
+type = "file"
+url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/main/lazygit/lazygit.yml"
+refreshPeriod = "24h"
+{{ end -}}
