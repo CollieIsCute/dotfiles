@@ -69,6 +69,7 @@ chezmoi theme IMAGE
 ## Noctalia (Linux)
 
 - Run `chezmoi apply` after changing the monitor layout.
+- Lazygit colors come directly from Noctalia. After updating an existing desktop, run `noctalia msg templates-apply` to regenerate its config.
 - If widget edits in Noctalia's GUI override your dotfiles, remove `[desktop_widgets]` and `[lockscreen_widgets]` from `~/.local/state/noctalia/settings.toml`, or copy those choices into your template before applying.
 - Enable live wallpapers through Noctalia's **W Engine** bar widget.
 
