@@ -1,7 +1,6 @@
 home/dot_config/tmux/plugins/
 tmux-client-*.log
 .claude/
-/sketchybar-plan.html
 /plan.html
 /test/
 /tests/

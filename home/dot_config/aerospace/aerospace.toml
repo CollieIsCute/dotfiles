@@ -20,12 +20,8 @@ auto-reload-config = true
 after-startup-command = [
     'exec-and-forget open -gja CodexBar',
     'exec-and-forget open -gja Stats',
-    # --reload returns success even without a running bar; check the process first.
-    'exec-and-forget /bin/sh -c "if pgrep -x sketchybar >/dev/null; then sketchybar --reload; else sketchybar; fi"',
-]
-
-exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+    'exec-and-forget open -gja Thaw',
+    'exec-and-forget open -gj "$HOME/Applications/Workspace Status.app"',
 ]
 
 # Neutralize macOS "Hide Application" (Cmd+H) since we use Cmd+H for focus
@@ -52,7 +48,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     inner.vertical =   0
     outer.left =       0
     outer.bottom =     0
-    outer.top =        [{ monitor.'built-in' = 0 }, 36] # macOS already reserves the notch.
+    outer.top =        0
     outer.right =      0
 
 # ────────────────────────────────────────
