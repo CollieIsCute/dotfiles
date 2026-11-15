@@ -1,10 +1,12 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 set -eu
-# Keep one native menu bar item per provider.
-# CodexBar reads this setting on launch; no account preferences are changed.
+# Apply native menu bar preferences before starting the apps.
 defaults write com.steipete.codexbar mergeIcons -bool false
 defaults write com.stonerl.Thaw EnableNativeAppHiding -bool true
+defaults write local.WorkspaceStatus compactViewEnabled -bool true
+defaults write local.WorkspaceStatus dockBadgesEnabled -bool false
+defaults write local.WorkspaceStatus menuBarPosition -string system
 defaults write -g _HIHideMenuBar -bool false
 defaults write com.apple.controlcenter AutoHideMenuBarOption -int 3
 {{- end }}
