@@ -535,12 +535,13 @@
         "eu.exelban.Stats:Item-3",
         "eu.exelban.Stats:Item-2",
         "eu.exelban.Stats:Item-1",
-        "com.steipete.codexbar:CodexBar.StatusItem.codex",
         "bobko.aerospace:Item",
         "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
+        "com.steipete.codexbar:CodexBar.StatusItem.codex",
+        "com.steipete.codexbar:CodexBar.StatusItem.claude",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
         "com.apple.MenuBarAgent:com.apple.menuextra.wifi",
@@ -562,7 +563,8 @@
       "com.apple.TextInputMenuAgent:Item-0": "visible",
       "com.apple.campo:Spotlight": "visible",
       "com.apple.systemuiserver:Siri": "visible",
-      "com.steipete.codexbar:CodexBar.StatusItem.codex": "hidden",
+      "com.steipete.codexbar:CodexBar.StatusItem.claude": "visible",
+      "com.steipete.codexbar:CodexBar.StatusItem.codex": "visible",
       "com.stonerl.Thaw:Thaw.ControlItem.Visible": "visible",
       "eu.exelban.Stats:Item-1": "hidden",
       "eu.exelban.Stats:Item-2": "hidden",
@@ -581,12 +583,13 @@
         "eu.exelban.Stats:Item-3",
         "eu.exelban.Stats:Item-2",
         "eu.exelban.Stats:Item-1",
-        "com.steipete.codexbar:CodexBar.StatusItem.codex",
         "bobko.aerospace:Item",
         "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
+        "com.steipete.codexbar:CodexBar.StatusItem.codex",
+        "com.steipete.codexbar:CodexBar.StatusItem.claude",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
         "com.apple.MenuBarAgent:com.apple.menuextra.wifi",
@@ -598,7 +601,7 @@
       ]
     }
   },
-  "modifiedAt": "2026-11-15T21:30:06Z",
+  "modifiedAt": "2026-11-15T22:16:37Z",
   "name": "Native Menu Bar",
   "spacingApplyMode": "relaunchApps",
   "unconfirmedSpacingProfileScope": "activeProfile"
