@@ -47,20 +47,6 @@ Change the wallpaper and colors on Linux / macOS, or generate colors on Windows:
 chezmoi theme IMAGE
 ```
 
-## SketchyBar (macOS)
-
-1. In **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. Quit SketchyBar, then reopen AeroSpace.
-2. Open CodexBar and sign in to the providers you use. Keep Stats installed for CPU temperature.
-3. Set **System Settings → Menu Bar → Automatically hide and show the menu bar → Always**.
-
-- **Workspaces:** click a number to switch.
-- **GPT / Claude:** hover for detailed usage, left-click for that provider's details, or right-click to refresh.
-- **System monitor / Network:** click to open Activity Monitor.
-- **Input source:** click to open the input-method menu.
-- **Volume:** click for the slider; drag or scroll to adjust. Click the popup's speaker to mute; move away to close.
-- **Control Center:** press `Fn+C`.
-- **App menus:** move the pointer to the top edge or press `Fn+Control+F2`. Move the pointer away after dismissing the menu to restore SketchyBar.
-
 ## Dropbox (Linux)
 
 - On a new machine with `dropbox-cli` installed, run `env -u DISPLAY -u WAYLAND_DISPLAY dropbox-cli start` and open the printed URL.

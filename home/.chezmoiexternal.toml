@@ -40,3 +40,11 @@ filter.command = "powershell"
 filter.args = ["-NoProfile", "-Command", "$input -replace 'matugen','noctalia' -replace '\\.dark','.default'"]
 {{ end -}}
 {{ end -}}
+{{ if eq .chezmoi.os "darwin" -}}
+["Applications/Workspace Status.app"]
+type = "archive"
+url = "https://github.com/Li-RC/workspace-status/releases/download/v1.2.1/WorkspaceStatus-1.2.1-macOS-arm64.zip"
+stripComponents = 1
+exact = true
+checksum.sha256 = "542d485753ada900fbafb261758800a5d6e71db8d10be0335a1cc67474e9270e"
+{{ end -}}

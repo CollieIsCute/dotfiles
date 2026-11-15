@@ -85,8 +85,8 @@ jobs:
   macos:
     needs: format
     if: needs.format.outputs.changed == 'false'
-    name: macos:latest
-    runs-on: macos-latest
+    name: macos:27
+    runs-on: xcode-27
     steps:
       - run: brew update && brew install chezmoi
         env:
