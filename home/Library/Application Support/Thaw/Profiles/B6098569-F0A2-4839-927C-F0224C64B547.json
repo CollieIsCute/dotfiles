@@ -481,17 +481,7 @@
   },
   "confirmSpacingRelaunch": true,
   "createdAt": "2026-11-15T21:10:23Z",
-  "displayConfigurations": {
-    "37D8832A-2D66-02CA-B9F7-8F30A301B230": {
-      "alwaysShowHiddenItems": false,
-      "gridColumns": 4,
-      "iceBarLayout": 0,
-      "iceBarLocation": 0,
-      "itemSpacingOffset": 0,
-      "thawBarItemScale": 1,
-      "useIceBar": false
-    }
-  },
+  "displayConfigurations": {},
   "generalSettings": {
     "autoRehide": true,
     "customIceIconIsTemplate": false,
@@ -542,21 +532,22 @@
     "itemOrder": {
       "hidden": [
         "art.ginzburg.MiddleClick:Item-0",
+        "eu.exelban.Stats:Item-3",
         "eu.exelban.Stats:Item-2",
         "eu.exelban.Stats:Item-1",
         "com.steipete.codexbar:CodexBar.StatusItem.codex",
-        "bobko.aerospace:Item"
+        "bobko.aerospace:Item",
+        "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
+        "local.WorkspaceStatus:Workspace Status",
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
-        "eu.exelban.Stats:Item-0",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
         "com.apple.MenuBarAgent:com.apple.menuextra.wifi",
         "com.apple.campo:Spotlight",
         "com.apple.systemuiserver:Siri",
         "com.apple.MenuBarAgent:com.apple.menuextra.controlcenter",
-        "local.WorkspaceStatus:Workspace Status",
         "com.apple.MenuBarAgent:com.apple.menuextra.clock"
       ]
     },
@@ -566,15 +557,16 @@
       "com.apple.MenuBarAgent:com.apple.menuextra.battery": "visible",
       "com.apple.MenuBarAgent:com.apple.menuextra.clock": "visible",
       "com.apple.MenuBarAgent:com.apple.menuextra.controlcenter": "visible",
+      "com.apple.MenuBarAgent:com.apple.menuextra.focusmode": "hidden",
       "com.apple.MenuBarAgent:com.apple.menuextra.wifi": "visible",
       "com.apple.TextInputMenuAgent:Item-0": "visible",
       "com.apple.campo:Spotlight": "visible",
       "com.apple.systemuiserver:Siri": "visible",
       "com.steipete.codexbar:CodexBar.StatusItem.codex": "hidden",
       "com.stonerl.Thaw:Thaw.ControlItem.Visible": "visible",
-      "eu.exelban.Stats:Item-0": "visible",
       "eu.exelban.Stats:Item-1": "hidden",
       "eu.exelban.Stats:Item-2": "hidden",
+      "eu.exelban.Stats:Item-3": "hidden",
       "local.WorkspaceStatus:Workspace Status": "visible"
     },
     "newItemsPlacement": {
@@ -586,26 +578,27 @@
     "savedSectionOrder": {
       "hidden": [
         "art.ginzburg.MiddleClick:Item-0",
+        "eu.exelban.Stats:Item-3",
         "eu.exelban.Stats:Item-2",
         "eu.exelban.Stats:Item-1",
         "com.steipete.codexbar:CodexBar.StatusItem.codex",
-        "bobko.aerospace:Item"
+        "bobko.aerospace:Item",
+        "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
+        "local.WorkspaceStatus:Workspace Status",
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
-        "eu.exelban.Stats:Item-0",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
         "com.apple.MenuBarAgent:com.apple.menuextra.wifi",
         "com.apple.campo:Spotlight",
         "com.apple.systemuiserver:Siri",
         "com.apple.MenuBarAgent:com.apple.menuextra.controlcenter",
-        "local.WorkspaceStatus:Workspace Status",
         "com.apple.MenuBarAgent:com.apple.menuextra.clock"
       ]
     }
   },
-  "modifiedAt": "2026-11-15T21:10:23Z",
+  "modifiedAt": "2026-11-15T21:30:06Z",
   "name": "Native Menu Bar",
   "spacingApplyMode": "relaunchApps",
   "unconfirmedSpacingProfileScope": "activeProfile"
