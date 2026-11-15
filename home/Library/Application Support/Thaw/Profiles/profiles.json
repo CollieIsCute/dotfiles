@@ -4,6 +4,9 @@
     "id": "B6098569-F0A2-4839-927C-F0224C64B547",
     "modifiedAt": "2026-11-15T21:30:06Z",
     "name": "Native Menu Bar",
-    "reappliesAtLaunchSetting": true
+    "reappliesAtLaunchSetting": true,
+    "keepsLayoutChangesSetting": false,
+    "associatedDisplayUUID": "37D8832A-2D66-02CA-B9F7-8F30A301B230",
+    "associatedDisplayName": "Built-in Retina Display"
   }
 ]

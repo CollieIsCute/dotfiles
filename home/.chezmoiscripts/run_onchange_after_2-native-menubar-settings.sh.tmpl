@@ -5,4 +5,6 @@ set -eu
 # CodexBar reads this setting on launch; no account preferences are changed.
 defaults write com.steipete.codexbar mergeIcons -bool false
 defaults write com.stonerl.Thaw EnableNativeAppHiding -bool true
+defaults write -g _HIHideMenuBar -bool false
+defaults write com.apple.controlcenter AutoHideMenuBarOption -int 3
 {{- end }}

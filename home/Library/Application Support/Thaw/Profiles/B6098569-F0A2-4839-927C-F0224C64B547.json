@@ -540,7 +540,6 @@
         "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
-        "local.WorkspaceStatus:Workspace Status",
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
@@ -548,6 +547,7 @@
         "com.apple.campo:Spotlight",
         "com.apple.systemuiserver:Siri",
         "com.apple.MenuBarAgent:com.apple.menuextra.controlcenter",
+        "local.WorkspaceStatus:Workspace Status",
         "com.apple.MenuBarAgent:com.apple.menuextra.clock"
       ]
     },
@@ -586,7 +586,6 @@
         "com.apple.MenuBarAgent:com.apple.menuextra.focusmode"
       ],
       "visible": [
-        "local.WorkspaceStatus:Workspace Status",
         "com.stonerl.Thaw:Thaw.ControlItem.Visible",
         "com.apple.TextInputMenuAgent:Item-0",
         "com.apple.MenuBarAgent:com.apple.menuextra.battery",
@@ -594,6 +593,7 @@
         "com.apple.campo:Spotlight",
         "com.apple.systemuiserver:Siri",
         "com.apple.MenuBarAgent:com.apple.menuextra.controlcenter",
+        "local.WorkspaceStatus:Workspace Status",
         "com.apple.MenuBarAgent:com.apple.menuextra.clock"
       ]
     }
