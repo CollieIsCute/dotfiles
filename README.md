@@ -47,6 +47,9 @@ Change the wallpaper and colors on Linux / macOS, or generate colors on Windows:
 chezmoi theme IMAGE
 ```
 
+On macOS, Matugen updates kitty, tmux, and Codex from the same wallpaper.
+kitty and tmux reload automatically. Start a new Codex session to load its theme.
+
 ## SketchyBar (macOS)
 
 1. In **System Settings → Privacy & Security**, allow AeroSpace in **Accessibility** and **Screen & System Audio Recording**. Quit SketchyBar, then reopen AeroSpace.
