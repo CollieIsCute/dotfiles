@@ -5,13 +5,30 @@ url = "https://github.com/InioX/matugen-themes/archive/6722a8df27e179ae14ce52b8d
 exact = true
 stripComponents = 2
 {{ if eq .chezmoi.os "darwin" -}}
-include = ["*/templates/btop.theme", "*/templates/ghostty", "*/templates/kitty-colors.conf", "*/templates/midnight-discord.css"]
+include = ["*/templates/btop.theme", "*/templates/ghostty", "*/templates/midnight-discord.css"]
 {{ else -}}
 include = ["*/templates/alacritty.toml", "*/templates/btop.theme", "*/templates/midnight-discord.css"]
 {{ end -}}
 checksum.sha256 = "65284a68c482fa5226cb937bb7e9fc094e14eb66f2688fc8a646503300a464e3"
 
 {{ if eq .chezmoi.os "darwin" -}}
+[".config/matugen/templates/kitty-colors.conf"]
+type = "file"
+url = "https://raw.githubusercontent.com/InioX/matugen-themes/6722a8df27e179ae14ce52b8d76b6396512cd707/templates/kitty-colors.conf"
+checksum.sha256 = "6c1fe4c5b178ef390dbdf9d9b6f9324d58ba00bc913a431200f73336fa821cb7"
+# Keep ANSI text readable in light mode; container colors are backgrounds.
+filter.command = "sed"
+filter.args = [
+  "-e", "/^color0 /s/colors.surface/colors.on_surface/",
+  "-e", "/^color5 /s/tertiary_fixed_dim/tertiary/",
+  "-e", "/^color6 /s/secondary_fixed_dim/secondary/",
+  "-e", "/^color8 /s/surface_variant/on_surface_variant/",
+  "-e", "/^color9 /s/error_container/error/",
+  "-e", "/^color10 /s/tertiary_container/tertiary/",
+  "-e", "/^color11 /s/secondary_container/secondary/",
+  "-e", "/^color12 /s/primary_container/primary/",
+]
+
 [".config/matugen/templates/tmux/tmux.conf"]
 type = "file"
 url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/main/tmux/tmux.conf"
@@ -21,6 +38,26 @@ refreshPeriod = "24h"
 type = "file"
 url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/main/tmux/apply.sh"
 refreshPeriod = "24h"
+{{ end -}}
+
+[".config/matugen/templates/codex.tmTheme"]
+type = "file"
+url = "https://raw.githubusercontent.com/noctalia-dev/community-templates/9ec7a4348946c557b26e68d57f40199d452a6e40/codex/codex.tmTheme"
+checksum.sha256 = "4ab0ceda3682cf9a78f6b3a3227f575c3cbf56c096348b29eb8cc99580697c59"
+# Use foreground roles for text and mode-aware backgrounds for diffs.
+{{ if eq .chezmoi.os "darwin" -}}
+filter.command = "sed"
+filter.args = [
+  "-e", "s/secondary_fixed_dim/secondary/g",
+  "-e", "s/primary_fixed_dim/primary/g",
+  "-e", "s/tertiary_fixed_dim/tertiary/g",
+  "-e", "s/colors.outline.default/colors.on_surface_variant.default/g",
+  "-e", "s/#022800/{{ `{{colors.secondary_container.default.hex}}` }}/g",
+  "-e", "s/#3d0100/{{ `{{colors.error_container.default.hex}}` }}/g",
+]
+{{ else -}}
+filter.command = "powershell"
+filter.args = ["-NoProfile", "-Command", "$input -replace 'secondary_fixed_dim','secondary' -replace 'primary_fixed_dim','primary' -replace 'tertiary_fixed_dim','tertiary' -replace 'colors\\.outline\\.default','colors.on_surface_variant.default' -replace '#022800','{{ `{{colors.secondary_container.default.hex}}` }}' -replace '#3d0100','{{ `{{colors.error_container.default.hex}}` }}'"]
 {{ end -}}
 
 [".config/matugen/templates/neovim.lua"]

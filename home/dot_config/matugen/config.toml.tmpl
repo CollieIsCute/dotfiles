@@ -8,8 +8,9 @@ set = true
 
 {{ if eq .chezmoi.os "darwin" -}}
 [templates.kitty]
-input_path = "~/.config/matugen/templates/matugen-themes/kitty-colors.conf"
+input_path = "~/.config/matugen/templates/kitty-colors.conf"
 output_path = "~/.config/kitty/themes/noctalia.conf"
+post_hook = "sh -c 'pkill -USR1 -u \"$(id -u)\" -x kitty || test \"$?\" -eq 1'"
 
 [templates.ghostty]
 input_path = "~/.config/matugen/templates/matugen-themes/ghostty"
@@ -29,6 +30,10 @@ post_hook = 'command -v sketchybar >/dev/null 2>&1 && sketchybar --reload || tru
 input_path = "~/.config/matugen/templates/matugen-themes/alacritty.toml"
 output_path = "~/.config/alacritty/themes/noctalia.toml"
 {{ end }}
+
+[templates.codex]
+input_path = "~/.config/matugen/templates/codex.tmTheme"
+output_path = "~/.codex/themes/noctalia.tmTheme"
 
 [templates.btop]
 input_path = "~/.config/matugen/templates/matugen-themes/btop.theme"
