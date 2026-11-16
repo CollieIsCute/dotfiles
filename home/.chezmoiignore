@@ -48,7 +48,6 @@ AppData/**
 # WSL reuses the Unix CLI setup; the Windows host owns desktop and voice apps.
 {{- if $isWSL }}
 .chezmoiscripts/4-configure-greetd-noctalia.sh
-.codex/config.toml
 .config/alacritty
 .config/alacritty/**
 .config/ghostty
